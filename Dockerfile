@@ -10,16 +10,25 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # RUN apt-get update && apt-get install -y --no-install-recommends gcc libpq-dev \
 #     && rm -rf /var/lib/apt/lists/*
 
-# Copy backend first so requirements.txt is in context
-COPY backend ./backend
+# Copy application source (works whether context is repo root or backend/)
+COPY . /app
 
-# Install Python dependencies
-RUN pip install -r ./backend/requirements.txt
+# Install Python dependencies (supports root or backend context)
+RUN if [ -f ./backend/requirements.txt ]; then \
+        pip install -r ./backend/requirements.txt; \
+    elif [ -f ./requirements.txt ]; then \
+        pip install -r ./requirements.txt; \
+    else \
+        echo "No requirements.txt found"; \
+    fi
 # Create railway startup script directly in the image
 RUN echo '#!/bin/bash' > /app/railway_start.sh && \
     echo '' >> /app/railway_start.sh && \
     echo '# Railway startup script with better error handling' >> /app/railway_start.sh && \
     echo 'set -e' >> /app/railway_start.sh && \
+    echo '' >> /app/railway_start.sh && \
+    echo '# Enter backend dir if present' >> /app/railway_start.sh && \
+    echo 'cd /app; if [ -f backend/manage.py ]; then cd backend; fi' >> /app/railway_start.sh && \
     echo '' >> /app/railway_start.sh && \
     echo 'echo "🚀 Starting Railway deployment..."' >> /app/railway_start.sh && \
     echo 'echo "Time: $(date)"' >> /app/railway_start.sh && \
@@ -77,8 +86,8 @@ RUN echo '#!/bin/bash' > /app/railway_start.sh && \
     echo '    --error-logfile - \' >> /app/railway_start.sh && \
     echo '    --preload' >> /app/railway_start.sh
 
-# Set working directory to backend
-WORKDIR /app/backend
+# Set working directory to /app (script will cd into backend if present)
+WORKDIR /app
 
 # Create staticfiles directory
 RUN mkdir -p staticfiles
@@ -86,8 +95,9 @@ RUN mkdir -p staticfiles
 # Make startup script executable
 RUN chmod +x /app/railway_start.sh
 
-# Collect static files (with error handling)
-RUN python -m pip show Django >/dev/null 2>&1 && python manage.py collectstatic --noinput || true
+# Collect static files (with error handling), supports root or backend context
+RUN sh -c 'cd /app; if [ -f backend/manage.py ]; then cd backend; fi; \
+    python -m pip show Django >/dev/null 2>&1 && python manage.py collectstatic --noinput || true'
 
 # Expose port
 EXPOSE 8000
