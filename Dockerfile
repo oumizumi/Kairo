@@ -17,8 +17,6 @@ RUN pip install -r requirements.txt
 # Copy only what we need for backend image to reduce build context
 COPY backend ./backend
 COPY scrapers ./scrapers
-# Ensure by-term course data is available to the backend in production
-COPY frontend/public/api/data/all_courses_by_term.json ./backend/api/data/all_courses_by_term.json
 # Create railway startup script directly in the image
 RUN echo '#!/bin/bash' > /app/railway_start.sh && \
     echo '' >> /app/railway_start.sh && \
