@@ -193,6 +193,10 @@ configured, force CORS_ALLOW_ALL_ORIGINS to False so the list applies.
 CORS_ALLOWED_ORIGINS = get_env_var_as_list('DJANGO_CORS_ALLOWED_ORIGINS')
 CORS_ALLOW_ALL_ORIGINS = get_env_var_as_boolean('DJANGO_CORS_ALLOW_ALL_ORIGINS', 'True')
 
+# Temporary fix: Allow all origins for debugging
+if not DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+
 if DEBUG:
     if not CORS_ALLOWED_ORIGINS:
         CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
