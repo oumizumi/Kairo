@@ -149,4 +149,8 @@ NEXT_PUBLIC_API_URL=https://your-backend-domain.vercel.app
 
 ## 📝 License
 
-Private project - All rights reserved. 
+Private project - All rights reserved.
+
+---
+
+Note: Production API base currently used: `https://kairo-production-6c0a.up.railway.app`. Ensure `NEXT_PUBLIC_API_URL` matches this in Vercel env.
