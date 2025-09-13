@@ -48,8 +48,12 @@ router.register(r'shared-schedules', SharedScheduleViewSet, basename='shared-sch
 urlpatterns = [
     path('auth/register/', UserRegistrationView.as_view(), name='user-register'),
     path('auth/login/', UserLoginView.as_view(), name='user-login'), # Custom login view
+    # Slashless aliases to avoid 405 when client omits trailing slash
+    path('auth/login', UserLoginView.as_view(), name='user-login-no-slash'),
     path('auth/guest-login/', GuestLoginView.as_view(), name='guest-login'), # Guest login
+    path('auth/guest-login', GuestLoginView.as_view(), name='guest-login-no-slash'),
     path('health/', HealthCheckView.as_view(), name='health-check'), # Health check
+    path('health', HealthCheckView.as_view(), name='health-check-no-slash'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
     path('profile/', UserProfileView.as_view(), name='profile'),
     path('auth/profile/update/', UserProfileUpdateView.as_view(), name='profile-update'),
@@ -64,7 +68,8 @@ urlpatterns = [
     path('ai/classify/', AIClassificationView.as_view(), name='ai-classify'),
     # Schedule Generation URL
     path('schedule/generate/', ScheduleGenerationView.as_view(), name='schedule-generate'),
-    path('health-check/', HealthCheckView.as_view(), name='health-check'), # Add this line
+    path('health-check/', HealthCheckView.as_view(), name='health-check-dup'), # Add this line
+    path('health-check', HealthCheckView.as_view(), name='health-check-no-slash'),
     # Calendar Events URL
     path('calendar/events/', CalendarEventListCreateView.as_view(), name='calendar-events'),
     path('calendar/events/<int:pk>/', CalendarEventRetrieveUpdateDestroyView.as_view(), name='calendar-event-detail'),
