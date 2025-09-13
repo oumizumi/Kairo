@@ -21,7 +21,7 @@ COPY scrapers ./scrapers
 COPY frontend/public/api/data/all_courses_by_term.json ./backend/api/data/all_courses_by_term.json
 # Copy runtime scripts into image root for compatibility
 COPY scripts/backend/railway_start.sh ./railway_start.sh
-COPY scripts/backend/railway_db_fix.sh ./railway_db_fix.sh
+# Note: railway_db_fix.sh is optional and not needed for production deployment
 
 # Set working directory to backend
 WORKDIR /app/backend
