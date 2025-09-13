@@ -13,13 +13,13 @@ A private, AI-powered assistant to help you stay organized and ahead at universi
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd kairo_public
+   git clone https://github.com/oumizumi/Kairo.git
+   cd Kairo
    ```
 
 2. **Set up the backend**
    ```bash
-   cd kario/backend
+   cd backend
    pip install -r requirements.txt
    cp env.example .env
    # Edit .env with your configuration
@@ -29,7 +29,7 @@ A private, AI-powered assistant to help you stay organized and ahead at universi
 
 3. **Set up the frontend**
    ```bash
-   cd kario/frontend
+   cd frontend
    npm install
    cp env.example .env.local
    # Edit .env.local with your backend URL
@@ -42,7 +42,7 @@ A private, AI-powered assistant to help you stay organized and ahead at universi
 
 1. **Create a new Vercel project for the backend**
    ```bash
-   cd kario/backend
+   cd backend
    vercel
    ```
 
@@ -63,7 +63,7 @@ A private, AI-powered assistant to help you stay organized and ahead at universi
 
 1. **Create a new Vercel project for the frontend**
    ```bash
-   cd kario/frontend
+   cd frontend
    vercel
    ```
 
@@ -78,7 +78,7 @@ A private, AI-powered assistant to help you stay organized and ahead at universi
 ## 📁 Project Structure
 
 ```
-kairo_public/
+Kairo/
 ├── backend/                 # Django REST API
 │   ├── api/                 # API endpoints & services
 │   ├── kairo/               # Django settings
