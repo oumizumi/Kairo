@@ -1,0 +1,125 @@
+{
+    "program": "BASc in Electrical Engineering",
+    "academicYear": "2025-2026",
+    "totalUnits": 123,
+    "notes": [
+      "4th year students must select one of the 5 compulsory options: Communications [T], Systems [S], Electronics [E], Microwave and Photonic [M], or Power and Sustainable Energy [P].",
+      "Technical electives (1) include: CEG3185, CEG4158, CEG4188, CEG4316, ELG4117, ELG4121, ELG4125, ELG4139, ELG4156, ELG4176, ELG4179.",
+      "Technical electives (2) include: CEG3185, CEG4187, CEG4190, CEG4396, ELG4115, ELG4118, ELG4122, ELG4126, ELG4137, ELG4157, ELG4159, ELG4177, ELG4178.",
+      "Some electives are option-specific: [S] Systems, [T] Communications, [E] Electronics, [M] Microwave/Photonics, [P] Power."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHM1311 | Principles of Chemistry",
+              "ENG1112 | Technical Report Writing",
+              "GNG1105 | Engineering Mechanics",
+              "GNG1106 | Fundamentals of Engineering Computation",
+              "MAT1320 | Calculus I"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "GNG1103 | Introduction to Engineering Design",
+              "ITI1100 | Digital Systems I",
+              "MAT1322 | Calculus II",
+              "MAT1341 | Introduction to Linear Algebra",
+              "PHY1124 | Fundamentals of Physics for Engineers"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG2136 | Computer Architecture I",
+              "ELG2138 | Circuit Theory I",
+              "GNG2101 | Introduction to Product Development for Engineers and Computer Scientists",
+              "MAT2322 | Calculus III for Engineers",
+              "MAT2384 | Ordinary Differential Equations and Numerical Methods",
+              "Either | HIS2129 or PHI2394"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ELG2911 | Professional Practice in IT and Engineering",
+              "ELG2136 | Electronics I",
+              "ELG2137 | Circuit Theory II",
+              "PHY2323 | Electricity and Magnetism",
+              "Either | HIS2129 or PHI2394",
+              "Elective | Complementary"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG3136 | Computer Architecture II",
+              "ELG3106 | Electromagnetic Engineering",
+              "ELG3125 | Signal and System Analysis",
+              "ELG3136 | Electronics II",
+              "Elective | Complementary"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ELG3126 | Random Signals and Systems",
+              "ELG3137 | Fundamentals of Semiconductor Devices",
+              "ELG3155 | Introduction to Control Systems",
+              "ELG3175 | Introduction to Communication",
+              "ELG3316 | Electric Machines and Power Systems Systems"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG4158 | Computer Control in Robotics",
+              "ELG4117 | Optoelectronics and Optical Components",
+              "ELG4125 | Electric Power Transmission, Distribution & Utilization",
+              "ELG4139 | Electronics III",
+              "ELG4156 | Linear Systems",
+              "ELG4176 | Communication Systems",
+              "ELG4179 | Wireless Communication Fundamentals",
+              "ELG4912 | Electrical Engineering Design Project: Part I",
+              "Elective | Technical (1)"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ELG4115 | Microwave Circuits",
+              "ELG4118 | Wave Propagation and Antennas",
+              "ELG4126 | Sustainable Electrical Power Systems",
+              "ELG4137 | Principles and Applications of VLSI Design",
+              "ELG4157 | Modern Control Engineering",
+              "ELG4159 | Integrated Control Systems",
+              "ELG4177 | Digital Signal Processing",
+              "ELG4178 | Optical Communications and Networking",
+              "ELG4913 | Electrical Engineering Design Project: Part II",
+              "Elective | Technical (2)"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

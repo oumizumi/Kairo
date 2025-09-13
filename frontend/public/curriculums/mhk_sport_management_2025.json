@@ -1,0 +1,32 @@
+{
+    "program": "Master of Human Kinetics (MHK)",
+    "option": "Concentration in Sport Management",
+    "coop": false,
+    "academicYear": "2025-2026",
+    "totalUnits": null,
+    "notes": [
+        "APA5916 could potentially be taken during the winter term with the approval of the internship coordinator.",
+        "Optional courses may be taken in any term, if offered, and with the approval of the graduate program director.",
+        "Recommended optional APA courses: APA5104, APA5112, APA5305, APA5306, APA5307, APA5997, APA6302, APA6110."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "APA5105 | Organizational Theory in Sport and Physical Activity",
+                "APA5303 | Marketing and Sponsorship of Sport and Physical Activity",
+                "1 optional APA course"
+            ],
+            "Winter": [
+                "APA5111 | Sport Event Management",
+                "APA5308 | Organizational Behaviour in Sport and Physical Activity",
+                "APA5318 | Financial Management of Sport and Physical Activity",
+                "1 optional APA course"
+            ],
+            "Spring-Summer": [
+                "APA5916 | Internship in Administration of Sport and Physical Activity",
+                "APA5921 | Critical Analysis and Reflection on Theory and Practice in Sport Management"
+            ]
+        }
+    ]
+}

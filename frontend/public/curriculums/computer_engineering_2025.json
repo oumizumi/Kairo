@@ -1,0 +1,120 @@
+{
+    "program": "BASc in Computer Engineering",
+    "academicYear": "2025-2026",
+    "totalUnits": 129,
+    "notes": [
+      "Please note:",
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHM1311 | Principles of Chemistry",
+              "GNG1105 | Engineering Mechanics",
+              "GNG1106 | Fundamentals of Engineering Computation",
+              "MAT1320 | Calculus I",
+              "MAT1341 | Introduction to Linear Algebra"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ITI1100 | Digital Systems I",
+              "ITI1121 | Introduction to Computing II",
+              "MAT1322 | Calculus II",
+              "MAT1348 | Discrete Mathematics for Computing",
+              "PHY1124 | Fundamentals of Physics for Engineers"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG2136 | Computer Architecture I",
+              "CSI2110 | Data Structures and Algorithms",
+              "ELG2138 | Circuit Theory I",
+              "MAT2322 | Calculus III for Engineers",
+              "ENG1112 | Technical Report Writing",
+              "SEG2105 | Introduction to Software Engineering"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ELG2136 | Electronics I",
+              "ELG2911 | Professional Practice in Information Technology and Engineering",
+              "MAT2377 | Probability and Statistics for Engineers",
+              "PHY2323 | Electricity and Magnetism",
+              "SEG2106 | Software Construction",
+              "Elective | Complementary elective"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG3136 | Computer Architecture II",
+              "CEG3155 | Digital Systems II",
+              "ELG3125 | Signal and System Analysis",
+              "GNG2101 | Introduction to Product Development and Management for Engineers and Computer Scientists",
+              "Elective | HIS2129 or PHI2394",
+              "MAT2384 | Ordinary Differential Equations and Numerical Methods"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CEG3156 | Computer Systems Design",
+              "CEG3185 | Introduction to Data Communications and Networking",
+              "CSI3131 | Operating Systems",
+              "ELG3155 | Introduction to Control Systems",
+              "Elective | HIS2129 or PHI2394",
+              "Elective | Complementary elective"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG4136 | Computer Architecture III",
+              "CEG4912 | Computer Engineering Design: Project I",
+              "Elective | Science elective",
+              "Elective | Technical elective",
+              "Elective | Technical elective"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CEG4166 | Real-Time Systems Design",
+              "CEG4913 | Computer Engineering Design: Project II",
+              "Elective | Complementary elective",
+              "Elective | Technical elective",
+              "Elective | Technical elective"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

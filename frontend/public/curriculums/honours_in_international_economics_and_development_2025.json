@@ -1,0 +1,72 @@
+{
+  "program": "Honours in International Economics and Development",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Students who intend to pursue graduate studies in economics should select MAT 1300 or the sequence MAT 1320 and MAT 1322.",
+    "A strong background in mathematics helps students succeed in advanced courses and graduate studies in economics.",
+    "Students who intend to participate in the CO-OP program should take ECO 2150 and ECO 2151 in their second year.",
+    "ECO 3145, ECO 3152 and ECO 3153 are strongly recommended for studies in the Master's in Economics."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "DVM1100 | Introduction to International Development and Globalization",
+        "ECO1104 | Introduction to Macroeconomics",
+        "MAT1300 or MAT1308 | Mathematics requirement",
+        "1 elective course"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "ECO1102 | Introduction to Microeconomics",
+        "MAT1302 | Calculus for Social Sciences",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "DVM2105 | Research Methods in International Development and Globalization",
+        "ECO2117 | Intermediate Microeconomics I",
+        "ECO2142 | Statistics for Economics",
+        "ECO2144 | Mathematical Economics I",
+        "ECO2150 | Intermediate Microeconomics II"
+      ],
+      "Winter": [
+        "DVM2106 | Quantitative Methods in International Development and Globalization",
+        "ECO2121 | Intermediate Macroeconomics I",
+        "ECO2143 | Econometrics I",
+        "ECO2145 | Mathematical Economics II",
+        "ECO2151 | Intermediate Macroeconomics II"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "6 optional ECO course units",
+        "1 from: ECO3123, ECO4111, ECO4117",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "DVM3350 | Practicum in International Development and Globalization",
+        "1 optional ECO course",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "2 optional courses from the list of optional courses",
+        "1 DVM 4000-level course",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "2 optional courses from the list of optional courses",
+        "1 DVM 4000-level course",
+        "3 elective courses"
+      ]
+    }
+  ]
+}

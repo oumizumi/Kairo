@@ -1,0 +1,77 @@
+{
+  "program": "Honours in International Studies and Modern Languages",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "In order to obtain a degree in International Studies and Modern Languages, students must successfully complete 24 course credits in their second language (FLS). A student may be exempted from this requirement if they successfully complete the Second Language Certification test (FLS 3500) with a minimum of two scores of at least 3 and no score below 2.",
+    "In order to obtain a degree in International Studies and Modern Languages, students must have reached advanced level II in one of the following languages and taken at least three course credits in a non-language course (culture and civilization): Arabic, Chinese, German, Italian, Japanese, Portuguese, Russian or Spanish."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "HIS1110 | Foundations of Western Civilization",
+        "1 from: POL1101 or POL1102",
+        "1 FLS course (second language)",
+        "1 third language course"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "HIS1111 | The West and the World",
+        "ECO1102 | Introduction to Microeconomics",
+        "1 FLS course (second language)",
+        "1 third language course"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "POL2103 | Comparative Politics",
+        "POL2107 | Political Theory",
+        "POL2156 | Research Methods in Political Science",
+        "1 FLS course (second language)",
+        "1 third language course"
+      ],
+      "Winter": [
+        "POL2104 | International Relations",
+        "POL2108 | Public Policy",
+        "1 FLS course (second language)",
+        "1 third language course",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "GEG2108 | Introduction to Geographic Information Systems",
+        "POL3102 | Advanced Research Methods in Political Science",
+        "1 optional POL course",
+        "1 FLS course (second language)",
+        "1 third language course"
+      ],
+      "Winter": [
+        "1 from: POL3110 or POL3182",
+        "1 optional POL course",
+        "1 optional course",
+        "1 FLS course (second language)",
+        "1 third language course"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 POL 4000-level optional course",
+        "POL4930 | Honours Seminar",
+        "1 FLS course (second language)",
+        "1 culture and civilization course in third language",
+        "1 elective course"
+      ],
+      "Winter": [
+        "2 POL 4000-level optional courses",
+        "1 FLS course (second language)",
+        "2 elective courses"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+    "program": "MHSc_Audiology_2025",
+    "academicYear": "Fall 2024 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "You must enroll in this activity each term until completed.",
+        "Consult the program requirements",
+        "Consult the course description (in French)"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "ORA5511 | Sciences de l'ouïe",
+                        "ORA5519 | Stage I",
+                        "REA5703 | Pratiques professionnelles en réadaptation",
+                        "ORA6520 | Évaluation audiologique I",
+                        "ORA6521 | Aides auditives I",
+                        "ORA6522 | Instrumentation en audiologie"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "ORA5529 | Stage II A-Domaine d'étude",
+                        "ORA5551 | Psychoacoustique de l'oreille endommagée et pharmacologie",
+                        "ORA5539 | Stage II B Domaine d'étude connexe",
+                        "ORA6510 | Concepts d'orthophonie pertinents à l'audiologie",
+                        "ORA6523 | Évaluation audiologique II",
+                        "ORA6541 | Évaluations électrophysiologiques",
+                        "ORA6542 | Aides auditives II"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "ORA5520 | Fondements scientifiques de la recherche en audiologie et en orthophonie",
+                        "ORA5515 | Pédoaudiologie I",
+                        "ORA5545 | Projet de recherche (CTN)",
+                        "REA6503 | Pratique factuelle en réadaptation"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "ORA5521 | Réadaptation audiologique auprès de l'adulte",
+                        "ORA5541 | Pratique audiologique auprès des populations particulières I",
+                        "ORA5545 | Projet de recherche (CTN)",
+                        "ORA5549 | Stage III",
+                        "ORA6515 | Pédoaudiologie II"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "ORA5542 | Pratique audiologique auprès des populations particulières II",
+                        "ORA5545 | Projet de recherche (CTN)",
+                        "ORA5559 | Stage IV",
+                        "ORA6544 | Aides auditives III",
+                        "ORA6550 | Le bruit et l'audiologie"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "ORA5545 | Projet de recherche",
+                        "ORA5660 | Stage V"
+                    ]
+                }
+            ]
+        }
+    ]
+}

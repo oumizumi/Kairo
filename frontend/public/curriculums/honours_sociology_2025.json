@@ -1,0 +1,67 @@
+{
+  "program": "Honours in Sociology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "It is possible to add a minor to this program of studies: in that case, 30 elective course units are replaced with the requirements of the chosen minor."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "SOC1104 | Introduction to Sociology",
+        "SOC1301 | Social Problems",
+        "2 elective courses (or 3 if SOC1104 or SOC1301 is deferred to Winter)"
+      ],
+      "Winter": [
+        "ENG1120 or ENG1121",
+        "4 elective courses (or 3 if SOC1104 or SOC1301 is taken this term)"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "SOC2117 | Classical Sociological Theory",
+        "SOC2315 | Research Methods in Sociology",
+        "SOC2316 | Statistics for Social Research",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "SOC2118 | Contemporary Sociological Theory",
+        "2 SOC courses from: 2101, 2103, 2104, 2107, 2113, 2151, 2306, 2309, 2312 (or 2708 – French only)",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "SOC3120",
+        "SOC3121",
+        "1 optional SOC course at 3000 level",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "SOC3122",
+        "SOC3315 | Qualitative Research Methods",
+        "SOC3316 | Advanced Statistics for Social Research",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "SOC4315",
+        "SOC4316",
+        "1 optional SOC course",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "1 optional SOC course",
+        "1 optional SOC course from: 4103, 4104, 4121, 4127, 4135, 4144, 4303",
+        "1 optional SOC course at 4000 level",
+        "2 elective courses"
+      ]
+    }
+  ]
+}

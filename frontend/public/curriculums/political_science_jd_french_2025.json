@@ -1,0 +1,103 @@
+{
+  "program": "Honours in Political Science and Juris Doctor (JD)",
+  "language": "French only",
+  "academicYear": "2025-2026",
+  "totalUnits": 183,
+  "notes": [
+    "A cumulative grade point average of 8.3 after the 2nd year of the program (between 60 and 66 course units) is required to remain in the integrated program.",
+    "All CML courses, compulsory POL courses, and specified optional POL courses from a list must be completed in French.",
+    "It is strongly recommended for students registered with the French Immersion Stream to complete FLS3500 at the end of their fourth term.",
+    "Academic regulations relative to the Common Law (en français) apply to this integrated program.",
+    "Students must satisfy the defence requirement during the 4th, 5th, or 6th year by completing an approved course (in French).",
+    "Students must satisfy the research dissertation requirement during the 4th, 5th, or 6th year.",
+    "Students in the French Immersion Stream must complete 42 course units in French within the 183 course units, and complete FLS3500."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "FRA1710 | Analyse, écriture et argumentation I",
+        "POL1501 | Introduction à la science politique",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "FRA1720 | Analyse, écriture et argumentation II",
+        "4 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "POL2504 | Relations internationales",
+        "POL2507 | Théorie politique",
+        "POL2556 | Méthodes de recherche en science politique",
+        "1 optional POL course",
+        "1 elective course"
+      ],
+      "Winter": [
+        "POL2501 | Gouvernement et politique du Canada",
+        "POL2503 | Politique comparée",
+        "POL2508 | Politiques publiques",
+        "2 optional POL courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Full Year": [
+        "CML16021 | Compulsory annual course",
+        "CML16071 | Compulsory annual course",
+        "CML16111 | Compulsory annual course"
+      ],
+      "Fall": [
+        "CML1704 | Legal French III",
+        "POL3502 | Méthodes de recherche avancées en science politique",
+        "CML1506 | Intensive compulsory course (3 weeks)"
+      ],
+      "Winter": [
+        "CML1508 | Legal French I",
+        "CML16022 | Legal French IV",
+        "CML1613 | Legal French II"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "PAP4315 | Strategic Management in the Public Sector",
+        "1 from: POL4310, POL4320, POL4330, POL4350, POL4930 (in French)",
+        "1 optional PAP course at 4000-level",
+        "1 optional POL course at 4000-level",
+        "1 elective course"
+      ],
+      "Winter": [
+        "CML2712 | Legal French V",
+        "CML3776 | Legal French VI",
+        "1 optional CML course (in French)",
+        "2 optional POL courses"
+      ]
+    },
+    {
+      "year": "5th Year",
+      "Fall": [
+        "1 from: POL3559, POL3571, POL3572, POL3574, POL4534, POL4550, POL4554, POL4562, POL4565, POL4566 (in French)",
+        "4 optional CML courses (in French)"
+      ],
+      "Winter": [
+        "1 from: POL3514, POL3515, POL3544, POL3545, POL3562, POL3564, POL3580, POL4541, POL4584, POL4778 (in French)",
+        "4 optional CML courses (in French)"
+      ]
+    },
+    {
+      "year": "6th Year",
+      "Fall": [
+        "3 optional CML courses (in French)",
+        "1 from: POL4710, POL4720, POL4730, POL4750, POL4930 (in French)",
+        "1 optional POL course at 4000-level"
+      ],
+      "Winter": [
+        "3 optional CML courses (in French)",
+        "1 from: POL3513, POL3523, POL3524, POL3576, POL3577, POL3579, POL4526, POL4527, POL4573, POL4588 (in French)",
+        "1 optional POL course"
+      ]
+    }
+  ]
+}

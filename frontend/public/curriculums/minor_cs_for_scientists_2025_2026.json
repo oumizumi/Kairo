@@ -1,0 +1,26 @@
+{
+    "program": "Minor in Computer Science for Scientists",
+    "academicYear": "2025-2026",
+    "totalUnits": 30,
+    "notes": [
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled.",
+      "This program is designed to be combined with a major or honours specialization in the field of science."
+    ],
+    "structure": {
+      "courses": [
+        "ITI1120 | Introduction to Computing I",
+        "CSI2101 | Discrete Structures",
+        "CSI2110 | Data Structures and Algorithms",
+        "CSI3105 | Design and Analysis of Algorithms I",
+        "Either | MAT1320 or MAT1330",
+        "MAT1341 | Introduction to Linear Algebra",
+        "MAT1348 | Discrete Mathematics for Computing",
+        "Elective | 3 units from CSI or SEG at 2000, 3000, or 4000 level"
+      ]
+    }
+  }
+  

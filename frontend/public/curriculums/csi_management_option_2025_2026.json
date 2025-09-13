@@ -1,0 +1,117 @@
+{
+    "program": "Honours BSc in Computer Science, Management and Entrepreneurship Option",
+    "academicYear": "2025-2026",
+    "totalUnits": 120,
+    "notes": [
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled.",
+      "This program cannot be combined with a minor in mathematics or statistics.",
+      "Students must complete 4 courses (12 units) outside of computing (CEG, CSI, SEG, GNG 1106) and mathematics (MAT). It is recommended to choose humanities and social sciences courses."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "ADM1100 | Introduction to Business Management",
+              "ITI1120 | Introduction to Computing I",
+              "MAT1320 | Calculus I",
+              "MAT1341 | Introduction to Linear Algebra",
+              "Elective"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ITI1100 | Digital Systems I",
+              "ITI1121 | Introduction to Computing II",
+              "MAT1322 | Calculus II",
+              "MAT1348 | Discrete Mathematics for Computing",
+              "Elective | Free"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG2136 | Computer Architecture I",
+              "CSI2110 | Data Structures and Algorithms",
+              "ENG1112 | Technical Report Writing",
+              "SEG2105 | Introduction to Software Engineering",
+              "Elective | Free"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ADM2320 | Marketing",
+              "CSI2101 | Discrete Structures",
+              "CSI2120 | Programming Paradigms",
+              "CSI2132 | Databases I",
+              "CSI2911 | Professional Practice in Computing"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "ADM1340 | Financial Accounting",
+              "CSI3105 | Design and Analysis of Algorithms I",
+              "CSI3120 | Programming Language Concepts",
+              "Elective",
+              "Elective | Free"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ADM3313 | New Venture Creation",
+              "CSI3104 | Introduction to Formal Languages",
+              "CSI3131 | Operating Systems",
+              "MAT2377 | Probability and Statistics for Engineers",
+              "Elective | Free"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "Elective | CEG/ELG/SEG 3000 level",
+              "CSI2372 | Advanced Programming Concepts with C++",
+              "Elective",
+              "Elective | Free",
+              "Elective | CSI 4000 level"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "Elective | CSI 4000 level",
+              "CSI4900 | Honours Project",
+              "Elective | CSI 4000 level",
+              "Elective",
+              "Elective | Choose from: ADM1101, ADM2336, ADM3318, ADM3319, ADM3326, GNG4120, GNG4170, PHI2397"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

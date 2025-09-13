@@ -1,0 +1,62 @@
+{
+    "program": "MScN_Clinical_Full_Time_2025",
+    "academicYear": "Fall 2023 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "117 hours of clinical setting",
+        "NSG 5140 and/or NSG 5192 can be taken during the winter or spring summer term.",
+        "Subject to approval from the program director, appropriate electives may be chosen from other graduate programs offered at the University of Ottawa or at other universities.",
+        "The three elective courses NSG (9 units) can be completed at any term (1st or 2nd year).",
+        "Students must enroll in each term until they complete their program.",
+        "Minimum Standards: The passing grade in all courses in the program is B (70%). Students who fail two courses or six units must withdraw.",
+        "Consult the program requirements",
+        "Consult the course description"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "NSG5130 | Development of knowledge and theory in nursing as a discipline",
+                        "NSG5215 | Advanced Nursing Practice in Health Care",
+                        "NSG5192 | Statistical analysis in nursing",
+                        "NSG5140 | Research methods in nursing"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "NSG5216 | Practicum: Advanced Nursing Practice in Health Care",
+                        "Elective | Three elective courses in NSG (9 units)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "Elective | Elective courses"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "NSG6401 | Clinical project in advanced nursing practice"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "NSG6401 | Clinical project in advanced nursing practice"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,123 @@
+{
+    "program": "Honours Bachelor of Science in Nutrition and Dietetics",
+    "academicYear": "2024 or later",
+    "totalUnits": 120,
+    "notes": [
+        "Vous devez vous limiter à un maximum de 48 crédits de niveau 1000.",
+        "Pour trouver un cours au choix, consultez l'horaire des cours.",
+        "Consulter la liste des cours optionnels en nutrition (NUT), voir l'annuaire.",
+        "NUT 2733 et BCH2733 ne peuvent être combinés pour l'obtention de crédits.",
+        "Veuillez-vous inscrire à vos activités cliniques à l'intérieur des dates limites.",
+        "Pour en savoir plus sur les exigences additionnelles de votre programme, visitez le Bureau de la gestion du risque.",
+        "Les stages, soit NUT 4531, NUT 4535 et NUT 4633, peuvent se prolonger jusqu'au mois d'août.",
+        "La note de passage de certains cours NUT est de C+.",
+        "Pour satisfaire aux exigences de votre programme d'études en quatre ans, il est important de respecter cette séquence de cours. Tout échec, abandon ou modification d'un cours faisant partie de cette séquence pourrait occasionner un retard dans votre cheminement scolaire.",
+        "Les étudiantes et étudiants admis avec des équivalences devront communiquer avec le Bureau des études pour revoir leur séquence de cours."
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "ANP1511 | Principes d'anatomie et de physiologie humaines I",
+                        "CHM1711 | Principes de chimie",
+                        "NUT1504 | Sciences des aliments I",
+                        "NUT1704 | Introduction à la nutrition",
+                        "FRA1710 | Analyse, écriture et argumentation I"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "ANP1515 | Principes d'anatomie et de physiologie humaines II",
+                        "BIO1540 | Introduction à la biologie cellulaire et moléculaire",
+                        "CHM1721 | Chimie organique I",
+                        "NUT1524 | Sciences des aliments II",
+                        "PSY1502 | Introduction à la psychologie : application"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "CHM2520 | Chimie organique II",
+                        "HSS2502 | Communication et santé",
+                        "NUT2503 | Techniques de laboratoire en sciences des aliments",
+                        "NUT2510 | Principes de gestions en nutrition",
+                        "NUT2733 | Biochimie nutritionnelle"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "NUT2525 | Gestion des services alimentaires",
+                        "NUT2701 | Nutrition à travers le cycle de la vie",
+                        "NUT2704 | Introduction aux méthodes de recherche sur les aliments et la nutrition",
+                        "NUT2721 | Nutrition et métabolisme",
+                        "Elective | Cours au choix"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 3,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "NUT3501 | Nutrition publique et santé des populations I",
+                        "NUT3502 | Nutrition clinique I",
+                        "NUT3506 | Alimentation des collectivités",
+                        "NUT3507 | Microbiologie alimentaire",
+                        "NUT3702 | Évaluation nutritionnelle"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "NUT3503 | Nutrition publique et santé des populations II",
+                        "NUT3508 | Nutrition, gériatrie et santé",
+                        "NUT3509 | Méthodes de recherche appliquées en nutrition",
+                        "NUT3522 | Nutrition clinique II",
+                        "Optional | Cours optionnel de NUT"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "NUT3511 | Stage en gestions des services alimentaires"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 4,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "NUT4502 | Nutrition clinique III",
+                        "NUT4503 | Nutrition pédiatrique",
+                        "NUT4507 | Aliments, santé et nutraceutiques",
+                        "NUT4711 | Initiation aux milieux cliniques",
+                        "Optional | Cours optionnel de NUT"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "NUT4531 | Stage en nutrition publique et en santé des populations",
+                        "NUT4535 | Stage en milieux variés",
+                        "NUT4633 | Stage en nutrition clinique"
+                    ]
+                }
+            ]
+        }
+    ]
+}

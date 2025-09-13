@@ -1,0 +1,44 @@
+{
+  "name": "kairo-scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "dev": "nodemon --watch src --exec npx ts-node src/index.ts",
+    "scrape:catalogue": "npx ts-node src/scrape_catalogue.ts",
+    "scrape:terms": "npx ts-node src/scrape.ts",
+    "scrape:dates": "npx ts-node src/scrape_academic_dates.ts",
+    "scrape:dates-improved": "npx ts-node src/scrape_academic_dates_improved.ts",
+    "scrape:courses": "npx ts-node src/scrape_course_sequences.ts",
+    "scrape:engineering-comprehensive": "npx ts-node src/scrape_course_sequences.ts",
+    "scrape:class-search": "npx ts-node src/scrape_class_search.ts",
+    "scrape:all-terms-subjects": "npx ts-node src/scrape_all_terms_subjects.ts",
+    "test:spring": "npx ts-node src/test_spring_only.ts",
+    "scrape:uottawa": "npx ts-node src/scrape_uottawa_courses.ts",
+    "scrape:all-terms": "npx ts-node src/scrape_uottawa_courses.ts",
+    "update:frontend": "node update_frontend_data.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/p-limit": "^2.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "fs-extra": "^11.3.0",
+    "p-limit": "^6.2.0",
+    "playwright": "^1.52.0",
+    "puppeteer": "^23.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.18",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.15.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

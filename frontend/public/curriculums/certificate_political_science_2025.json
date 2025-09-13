@@ -1,0 +1,30 @@
+{
+  "program": "Certificate in Political Science",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [],
+  "requirements": [
+    {
+      "type": "Compulsory Courses",
+      "courses": [
+        "POL1101 | Introduction to Political Science | 3 Units",
+        "POL2107 | Introduction to Political Thought | 3 Units"
+      ]
+    },
+    {
+      "type": "Select 1 from the following (3 Units)",
+      "courses": [
+        "POL2101 | Introduction to Canadian Politics",
+        "POL2103 | Introduction to International Relations and Global Politics",
+        "POL2104 | Introduction to Comparative Politics"
+      ]
+    },
+    {
+      "type": "Optional Courses",
+      "courses": [
+        "15 optional course units in political science (POL)",
+        "6 optional course units in political science (POL) at the 3000 or 4000 level"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "program": "Microprogram in Environmental Economics and Public Policy",
+  "academicYear": "2025-2026",
+  "totalUnits": 15,
+  "notes": [
+    "Refer to the Academic Regulations for policies related to adding a microprogram to your degree."
+  ],
+  "requirements": [
+    {
+      "type": "Required",
+      "courses": [
+        "ECO1104 | Introduction to Microeconomics",
+        "ECO2118 | Introduction to Environmental and Natural Resources Economics",
+        "ECO2144 | Microeconomic Theory I"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "3 course units from the following math options",
+      "courses": [
+        "ADM1305 | Mathematics for Business",
+        "MAT1300 | Mathematical Methods I",
+        "MAT1308 | Introduction to Calculus",
+        "MAT1320 | Calculus I",
+        "MAT1321 | Foundations of Calculus I",
+        "MAT1327 | Foundations of Calculus for the Life Sciences I",
+        "MAT1329 | Foundations of Mathematical Methods I",
+        "MAT1330 | Calculus for the Life Sciences I"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "3 course units from the following economics options",
+      "courses": [
+        "ECO2110 | Microeconomic Analysis of the Public Sector",
+        "ECO3149 | Cost-Benefit Analysis"
+      ]
+    }
+  ]
+}

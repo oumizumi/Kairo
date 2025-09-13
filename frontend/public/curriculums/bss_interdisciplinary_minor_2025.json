@@ -1,0 +1,52 @@
+{
+  "program": "Bachelor of Social Sciences in Interdisciplinary Studies",
+  "option": "With Minor from Faculty of Social Sciences",
+  "academicYear": "2025-2026",
+  "totalUnits": 90,
+  "notes": [
+    "Minors offered by the Faculty of Social Sciences: Anthropology (ANT), Criminology (CRM), Conflicts Studies and Human Rights (ECH), Economics (ECO), Feminist and Gender Studies (FEM), Public Administration (PAP), Political Science (POL), Psychology (PSY), Sociology (SOC), Social Work (SVS – only offered in French).",
+    "Please verify the course requirements of the selected minor.",
+    "A second minor may be added to this program. The 30 course units from the second minor would replace 30 units from the 42 elective course units."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "SCS1150",
+        "3 compulsory 1000 level courses from selected minor",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "SCS2160",
+        "3 compulsory and/or optional 1000 level courses from selected minor",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "SCS2150",
+        "2 compulsory courses from selected minor",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "3 compulsory and/or optional courses from selected minor",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "1 course from: SCS3130 or SCS3340",
+        "1 compulsory and/or optional course from selected minor",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "2 compulsory and/or optional courses from selected minor",
+        "3 elective courses"
+      ]
+    }
+  ]
+}

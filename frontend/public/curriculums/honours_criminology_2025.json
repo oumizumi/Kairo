@@ -1,0 +1,101 @@
+{
+  "program": "Honours in Criminology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Adjustments to the course sequence might be required due to course offerings or if course equivalencies were granted.",
+    "The minimum CGPA of 5.0 is required to register for 4th year optional CRM lecture courses. No exceptions will be granted.",
+    "If a student's CGPA drops below 5.0, they must raise it to regain eligibility for 4th year CRM optional courses.",
+    "Refer to the full CRM course list for available optional courses at the 3000 and 4000 levels."
+  ],
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ENG1100 | Workshop in Essay Writing",
+            "CRM1300 | Introduction to Criminology",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ENG1120 | Literature and Composition II",
+            "CRM1301 | Foundations of Criminal Justice",
+            "Elective | 9 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "CRM2300 | Theories of Crime",
+            "CRM2301 | Research Methods in Criminology",
+            "CRM2303 | Quantitative Data Analysis in Criminology",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "CRM2302 | Qualitative Research in Criminology",
+            "CRM2310 | Criminal Law and the Administration of Justice",
+            "CRM2315 | Punishment and Social Control",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "CRM3301 | Criminological Thought",
+            "CRM3335 | Social Inequality and Crime",
+            "Optional | 3 units in CRM",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "CRM3334 | Criminal Justice Policy",
+            "Optional | 3 units in CRM",
+            "Optional | 3 units in 3000-level CRM",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "CRM4302 | Advanced Topics in Criminology",
+            "Optional | 6 units in 4000-level CRM",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "Optional | 3 units in 3000-level CRM",
+            "Optional | 6 units in 4000-level CRM",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    }
+  ]
+}

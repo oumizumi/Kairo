@@ -1,0 +1,67 @@
+{
+  "program": "Bachelor of Social Sciences with Major",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Majors offered by the Faculty of Social Sciences: Anthropology (ANT), Criminology (CRM), Economics (ECO), Feminist and Gender Studies (FEM), Public Administration (PAP), Political Science (POL), Psychology (PSY), Sociology (SOC).",
+    "Please verify the course requirements of the selected major.",
+    "Disciplines offered by the Faculty of Social Sciences: Anthropology (ANT), Criminology (CRM), International Development and Globalization (DVM), Conflicts Studies and Human Rights (ECH), Economics (ECO), Feminist and Gender Studies (FEM), Public Administration (PAP), Political Science (POL), Psychology (PSY), Sociology (SOC), Social Work (SVS – only offered in French).",
+    "The chosen disciplines must be different from those chosen for the major."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "SCS1150",
+        "3 compulsory courses of selected major",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "SCS2160",
+        "3 compulsory and/or optional courses of selected major",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "SCS2150 or methodology course of selected major",
+        "2 compulsory courses of selected major",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "3 compulsory and/or optional courses of selected major",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "1 course from: SCS3130 or SCS3340",
+        "1 compulsory and/or optional course of selected major",
+        "1 course from Faculty of Social Sciences",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "2 compulsory and/or optional courses of selected major",
+        "1 course from Faculty of Social Sciences",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "2 compulsory and/or optional courses of selected major",
+        "1 course from Faculty of Social Sciences",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "2 compulsory and/or optional courses of selected major",
+        "1 course from Faculty of Social Sciences",
+        "2 elective courses"
+      ]
+    }
+  ]
+}

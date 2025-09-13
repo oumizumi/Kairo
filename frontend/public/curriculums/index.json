@@ -1,0 +1,1124 @@
+{
+    "university": "University of Ottawa",
+    "academicYear": "2025-2026",
+    "lastUpdated": "2025-01-03",
+    "totalPrograms": 122,
+    "programs": [
+        {
+            "id": "csi-honours-bsc",
+            "name": "Honours BSc in Computer Science",
+            "code": "CSI",
+            "faculty": "Engineering",
+            "degree": "BSc",
+            "file": "csi_honours_bsc_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "software-engineering-coop",
+            "name": "Software Engineering Co-op",
+            "code": "SEG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "software_engineering_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "software-eng-coop-mgmt",
+            "name": "Software Engineering Co-op with Management and Entrepreneurship",
+            "code": "SEG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "software_eng_coop_mgmt_entrepreneurship_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "mechanical-engineering",
+            "name": "Mechanical Engineering",
+            "code": "MCG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "mechanical_engineering_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "mechanical-eng-mgmt",
+            "name": "Mechanical Engineering with Management and Entrepreneurship",
+            "code": "MCG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "mechanical_eng_mgmt_entrepreneurship_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "mechanical-eng-computing",
+            "name": "Mechanical Engineering with Computing Technology",
+            "code": "MCG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "mechanical_eng_computing_tech_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "mech-eng-computing-mgmt",
+            "name": "Mechanical Engineering with Computing Technology, Management and Entrepreneurship",
+            "code": "MCG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "mech_eng_computing_mgmt_entrepreneurship_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "data-science",
+            "name": "Data Science",
+            "code": "DSI",
+            "faculty": "Engineering",
+            "degree": "BSc",
+            "file": "data_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "computer-engineering",
+            "name": "Computer Engineering",
+            "code": "CEG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "computer_engineering_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "computer-eng-mgmt",
+            "name": "Computer Engineering with Management and Entrepreneurship",
+            "code": "CEG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "computer_eng_mgmt_entrepreneurship_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "chemical-engineering",
+            "name": "Chemical Engineering",
+            "code": "CHG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "chemical_engineering_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "chemical-eng-mgmt",
+            "name": "Chemical Engineering with Management and Entrepreneurship",
+            "code": "CHG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "chemical_engineering_mgmt_entrepreneurship_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "chemical-env-eng",
+            "name": "Chemical and Environmental Engineering",
+            "code": "CHG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "chemical_env_eng_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "chemical-eng-computing",
+            "name": "Chemical Engineering with Computing Technology",
+            "code": "CHG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "chemical_eng_computing_tech_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "electrical-engineering",
+            "name": "Electrical Engineering",
+            "code": "ELG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_electrical_engineering_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "electrical-eng-mgmt",
+            "name": "Electrical Engineering with Management Option",
+            "code": "ELG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_electrical_eng_management_option_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "electrical-eng-computing",
+            "name": "Electrical Engineering with Computing Technology",
+            "code": "ELG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_electrical_eng_bsc_computing_tech_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "electrical-computing-mgmt",
+            "name": "Electrical Engineering with Computing and Management",
+            "code": "ELG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_electrical_computing_management_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "civil-engineering",
+            "name": "Civil Engineering",
+            "code": "CVG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_civil_engineering_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "civil-eng-mgmt",
+            "name": "Civil Engineering with Management and Entrepreneurship",
+            "code": "CVG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_civil_engineering_mgmt_entre_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "civil-eng-env",
+            "name": "Civil Engineering - Environmental and Water Option",
+            "code": "CVG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_civil_engineering_env_water_option_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "civil-eng-structural",
+            "name": "Civil Engineering - Structural and Geotechnical Option",
+            "code": "CVG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_civil_engineering_structural_geotechnical_option_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "civil-eng-computing",
+            "name": "Civil Engineering with Computing Technology",
+            "code": "CVG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_civil_engineering_bsc_computing_technology_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "biomedical-mechanical",
+            "name": "Biomedical and Mechanical Engineering",
+            "code": "BMG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_biomedical_mechanical_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "biomedical-mechanical-computing",
+            "name": "Biomedical and Mechanical Engineering with Computing",
+            "code": "BMG",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "basc_biomedical_mechanical_bsc_computing_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "multidisciplinary-design",
+            "name": "Bachelor of Applied Science in Multidisciplinary Design",
+            "code": "MDD",
+            "faculty": "Engineering",
+            "degree": "BASc",
+            "file": "bachelor_multidisciplinary_design_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "major-cs",
+            "name": "Major in Computer Science",
+            "code": "CSI",
+            "faculty": "Engineering",
+            "degree": "BSc",
+            "file": "major_cs_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-cs-math",
+            "name": "Joint Honours in Computer Science and Mathematics",
+            "code": "CSI",
+            "faculty": "Engineering",
+            "degree": "BSc",
+            "file": "joint_cs_math_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "csi-data-science-option",
+            "name": "Computer Science with Data Science Option",
+            "code": "CSI",
+            "faculty": "Engineering",
+            "degree": "BSc",
+            "file": "csi_data_science_option_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-anthropology-sociology",
+            "name": "Joint Honours in Anthropology and Sociology",
+            "code": "ANT+SOC",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_honours_anthropology_sociology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-economics-political-science",
+            "name": "Joint Honours in Economics and Political Science",
+            "code": "ECO+POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_honours_economics_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-mathematics-economics",
+            "name": "Joint Honours in Mathematics and Economics",
+            "code": "MAT+ECO",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_honours_mathematics_economics_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-criminology-feminist-gender-research",
+            "name": "Joint Honours in Criminology and Feminist and Gender Studies - Research Focus",
+            "code": "CRM+FEM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_honours_criminology_feminist_gender_research_focus_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-criminology-feminist-gender-field",
+            "name": "Joint Honours in Criminology and Feminist and Gender Studies - Field Placement",
+            "code": "CRM+FEM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_honours_criminology_feminist_gender_field_placement_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-criminology-feminist-gender-course",
+            "name": "Joint Honours in Criminology and Feminist and Gender Studies - Course Stream",
+            "code": "CRM+FEM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_honours_criminology_feminist_gender_course_stream_option2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-feminist-gender-political-science",
+            "name": "Joint Honours in Feminist and Gender Studies and Political Science",
+            "code": "FEM+POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_feminist_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-feminist-gender-sociology",
+            "name": "Joint Honours in Feminist and Gender Studies and Sociology",
+            "code": "FEM+SOC",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_feminist_sociology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "csi-management-option",
+            "name": "Computer Science with Management Option",
+            "code": "CSI",
+            "faculty": "Engineering",
+            "degree": "BSc",
+            "file": "csi_management_option_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-cs",
+            "name": "Minor in Computer Science",
+            "code": "CSI",
+            "faculty": "Engineering",
+            "degree": "Minor",
+            "file": "minor_cs_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-cs-for-scientists",
+            "name": "Minor in Computer Science for Scientists",
+            "code": "CSI",
+            "faculty": "Engineering",
+            "degree": "Minor",
+            "file": "minor_cs_for_scientists_2025_2026.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-economics",
+            "name": "Honours in Economics",
+            "code": "ECO",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_economics_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "major-economics",
+            "name": "Major in Economics",
+            "code": "ECO",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "major_economics_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-economics",
+            "name": "Minor in Economics",
+            "code": "ECO",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_economics_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-economics-public-policy",
+            "name": "Honours in Economics and Public Policy",
+            "code": "ECO",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_economics_public_policy_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-environmental-economics-public-policy",
+            "name": "Honours in Environmental Economics and Public Policy",
+            "code": "ECO",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_environmental_economics_public_policy_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-international-economics-development",
+            "name": "Honours in International Economics and Development",
+            "code": "ECO",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_in_international_economics_and_development_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "microprogram-environmental-economics",
+            "name": "Microprogram in Environmental Economics and Public Policy",
+            "code": "ECO",
+            "faculty": "Social Sciences",
+            "degree": "Microprogram",
+            "file": "microprogram_environmental_economics_public_policy_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-criminology",
+            "name": "Honours in Criminology",
+            "code": "CRM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_criminology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-criminology-field-placement",
+            "name": "Honours in Criminology - Field Placement",
+            "code": "CRM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_criminology_field_placement_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-criminology-research",
+            "name": "Honours in Criminology - Research Option",
+            "code": "CRM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_criminology_research_option_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "major-criminology",
+            "name": "Major in Criminology",
+            "code": "CRM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "major_criminology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-criminology",
+            "name": "Minor in Criminology",
+            "code": "CRM",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_criminology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-anthropology",
+            "name": "Honours in Anthropology",
+            "code": "ANT",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_anthropology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "major-anthropology",
+            "name": "Major in Anthropology",
+            "code": "ANT",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "major_anthropology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-anthropology",
+            "name": "Minor in Anthropology",
+            "code": "ANT",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_anthropology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-conflict-studies-human-rights",
+            "name": "Honours in Conflict Studies and Human Rights",
+            "code": "CSH",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_conflict_studies_human_rights_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "african-studies-option",
+            "name": "African Studies Option",
+            "code": "AFS",
+            "faculty": "Social Sciences",
+            "degree": "Option",
+            "file": "african_studies_option_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-african-studies",
+            "name": "Minor in African Studies",
+            "code": "AFS",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_african_studies_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-political-science",
+            "name": "Honours in Political Science",
+            "code": "POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "major-political-science",
+            "name": "Major in Political Science",
+            "code": "POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "major_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-political-science",
+            "name": "Minor in Political Science",
+            "code": "POL",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "certificate-political-science",
+            "name": "Certificate in Political Science",
+            "code": "POL",
+            "faculty": "Social Sciences",
+            "degree": "Certificate",
+            "file": "certificate_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "political-science-jd-french",
+            "name": "Political Science - JD French",
+            "code": "POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "political_science_jd_french_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-history-political-science",
+            "name": "Joint Honours in History and Political Science",
+            "code": "HIS+POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_honours_history_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-communication-political-science",
+            "name": "Joint Honours in Communication and Political Science",
+            "code": "COM+POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_communication_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-philosophy-political-science",
+            "name": "Joint Honours in Philosophy and Political Science",
+            "code": "PHI+POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_philosophy_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-public-admin-political-science",
+            "name": "Joint Honours in Public Administration and Political Science",
+            "code": "ADM+POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_public_admin_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-public-admin",
+            "name": "Honours in Public Administration",
+            "code": "ADM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_public_admin_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "major-public-admin",
+            "name": "Major in Public Administration",
+            "code": "ADM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "major_public_admin_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-public-admin",
+            "name": "Minor in Public Administration",
+            "code": "ADM",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_public_admin_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bsc-psychology",
+            "name": "Honours BSc in Psychology",
+            "code": "PSY",
+            "faculty": "Social Sciences",
+            "degree": "BSc",
+            "file": "honours_bsc_psychology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-ba-psychology",
+            "name": "Honours BA in Psychology",
+            "code": "PSY",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_ba_psychology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-psychology",
+            "name": "Minor in Psychology",
+            "code": "PSY",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_psychology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-psychology-linguistics",
+            "name": "Joint Honours in Psychology and Linguistics",
+            "code": "PSY+LIN",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_psychology_linguistics.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-sociology",
+            "name": "Honours in Sociology",
+            "code": "SOC",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_sociology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "major-sociology",
+            "name": "Major in Sociology",
+            "code": "SOC",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "major_sociology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-sociology",
+            "name": "Minor in Sociology",
+            "code": "SOC",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_sociology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-honours-communication-sociology",
+            "name": "Joint Honours in Communication and Sociology",
+            "code": "COM+SOC",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_honours_communication_sociology_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-social-work-fr",
+            "name": "Honours in Social Work (French)",
+            "code": "SVS",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "honours_social_work_fr_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-social-work-fr",
+            "name": "Minor in Social Work (French)",
+            "code": "SVS",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_social_work_fr_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bss-major",
+            "name": "Bachelor of Social Sciences - Major",
+            "code": "BSS",
+            "faculty": "Social Sciences",
+            "degree": "BSS",
+            "file": "bss_major_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bss-interdisciplinary-no-minor",
+            "name": "Bachelor of Social Sciences - Interdisciplinary (No Minor)",
+            "code": "BSS",
+            "faculty": "Social Sciences",
+            "degree": "BSS",
+            "file": "bss_interdisciplinary_no_minor_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bss-interdisciplinary-minor",
+            "name": "Bachelor of Social Sciences - Interdisciplinary with Minor",
+            "code": "BSS",
+            "faculty": "Social Sciences",
+            "degree": "BSS",
+            "file": "bss_interdisciplinary_minor_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "feminist-gender-studies-major",
+            "name": "Major in Feminist and Gender Studies",
+            "code": "FEM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "feminist_gender_studies_major.json",
+            "hasContent": true
+        },
+        {
+            "id": "feminist-gender-studies-core-courses",
+            "name": "Feminist and Gender Studies Core Courses",
+            "code": "FEM",
+            "faculty": "Social Sciences",
+            "degree": "Core",
+            "file": "feminist_gender_studies_core_courses.json",
+            "hasContent": true
+        },
+        {
+            "id": "international-studies-modern-languages",
+            "name": "International Studies and Modern Languages",
+            "code": "ISM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "international_studies_modern_languages_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "international-development-globalization",
+            "name": "International Development and Globalization",
+            "code": "IDG",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "international_development_globalization_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bsc-nursing",
+            "name": "Honours Bachelor of Science in Nursing",
+            "code": "NSG",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "bsc_nursing_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bsc-nursing-algonquin",
+            "name": "Honours Bachelor of Science in Nursing (Algonquin)",
+            "code": "NSG",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "bsc_nursing_algonquin_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bsc-nursing-bridging-pathway",
+            "name": "Honours Bachelor of Science in Nursing (Bridging Pathway)",
+            "code": "NSG",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "bsc_nursing_bridging_pathway_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bsc-nursing-bridging-pembroke",
+            "name": "Honours Bachelor of Science in Nursing (Bridging Pembroke)",
+            "code": "NSG",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "bsc_nursing_bridging_pembroke_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bsc-nursing-french-immersion",
+            "name": "Honours Bachelor of Science in Nursing (French Immersion)",
+            "code": "NSG",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "bsc_nursing_french_immersion_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bsc-nursing-pembroke",
+            "name": "Honours Bachelor of Science in Nursing (Pembroke)",
+            "code": "NSG",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "bsc_nursing_pembroke_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bsc-nursing-rpn-pathway",
+            "name": "Honours Bachelor of Science in Nursing (RPN Pathway)",
+            "code": "NSG",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "bsc_nursing_rpn_pathway_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhk",
+            "name": "Honours Bachelor of Human Kinetics",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "honours_bhk_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhk-coop",
+            "name": "Honours Bachelor of Human Kinetics (Co-op)",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "honours_bhk_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhk-education-coaching",
+            "name": "Honours Bachelor of Human Kinetics - Education and Coaching",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "honours_bhk_education_coaching_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhk-recreation-sport-mgmt",
+            "name": "Honours Bachelor of Human Kinetics - Recreation and Sport Management",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "honours_bhk_recreation_sport_mgmt_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhk-social-issues",
+            "name": "Honours Bachelor of Human Kinetics - Social Issues",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "honours_bhk_social_issues_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bhk-education-coop",
+            "name": "Bachelor of Human Kinetics - Education (Co-op)",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "bhk_education_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "bhk-recreation-sport-management-coop",
+            "name": "Bachelor of Human Kinetics - Recreation and Sport Management (Co-op)",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "bhk_recreation_sport_management_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "human-kinetics-education-coaching-fr",
+            "name": "Human Kinetics - Education and Coaching (French)",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "human_kinetics_education_coaching_fr_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhsc",
+            "name": "Honours Bachelor of Health Sciences",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "BHSc",
+            "file": "honours_bhsc_no_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhsc-coop",
+            "name": "Honours Bachelor of Health Sciences (Co-op)",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "BHSc",
+            "file": "honours_bhsc_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhsc-integrative-biosciences",
+            "name": "Honours Bachelor of Health Sciences - Integrative Biosciences",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "BHSc",
+            "file": "honours_bhsc_integrative_biosciences_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhsc-integrative-biosciences-coop",
+            "name": "Honours Bachelor of Health Sciences - Integrative Biosciences (Co-op)",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "BHSc",
+            "file": "honours_bhsc_integrative_biosciences_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhsc-population-health",
+            "name": "Honours Bachelor of Health Sciences - Population Health",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "BHSc",
+            "file": "honours_bhsc_population_health_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhsc-population-health-coop",
+            "name": "Honours Bachelor of Health Sciences - Population Health (Co-op)",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "BHSc",
+            "file": "honours_bhsc_population_health_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhsc-tech-innovation",
+            "name": "Honours Bachelor of Health Sciences - Technology Innovation",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "BHSc",
+            "file": "honours_bhsc_tech_innovation_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bhsc-tech-innovation-coop",
+            "name": "Honours Bachelor of Health Sciences - Technology Innovation (Co-op)",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "BHSc",
+            "file": "honours_bhsc_tech_innovation_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bsc-hk-applied-kinesiology",
+            "name": "Honours Bachelor of Science in Human Kinetics - Applied Kinesiology",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "honours_bsc_hk_applied_kinesiology_no_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bsc-hk-applied-kinesiology-coop",
+            "name": "Honours Bachelor of Science in Human Kinetics - Applied Kinesiology (Co-op)",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "honours_bsc_hk_applied_kinesiology_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bsc-hk-general",
+            "name": "Honours Bachelor of Science in Human Kinetics - General",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "honours_bsc_hk_general_no_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "honours-bsc-hk-general-coop",
+            "name": "Honours Bachelor of Science in Human Kinetics - General (Co-op)",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BSc",
+            "file": "honours_bsc_hk_general_coop_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "mahk",
+            "name": "Master of Arts in Human Kinetics",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "MA",
+            "file": "mahk_2025.json",
+            "hasContent": false
+        },
+        {
+            "id": "mschk",
+            "name": "Master of Science in Human Kinetics",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "MSc",
+            "file": "mschk_2025.json",
+            "hasContent": false
+        },
+        {
+            "id": "mhk-mental-performance-consulting",
+            "name": "Master of Human Kinetics - Mental Performance Consulting",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "MHK",
+            "file": "mhk_mental_performance_consulting_2024.json",
+            "hasContent": false
+        },
+        {
+            "id": "mhk-sport-management",
+            "name": "Master of Human Kinetics - Sport Management",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "MHK",
+            "file": "mhk_sport_management_2025.json",
+            "hasContent": false
+        },
+        {
+            "id": "msc-interdisciplinary-health",
+            "name": "Master of Science in Interdisciplinary Health",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "MSc",
+            "file": "msc_interdisciplinary_health_2025.json",
+            "hasContent": false
+        },
+        {
+            "id": "phd-population-health",
+            "name": "Doctor of Philosophy in Population Health",
+            "code": "HSS",
+            "faculty": "Health Sciences",
+            "degree": "PhD",
+            "file": "phd_population_health_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "major-public-admin-2025",
+            "name": "Major in Public Administration (2025)",
+            "code": "ADM",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "major_public_admin_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "minor-public-admin-2025",
+            "name": "Minor in Public Administration (2025)",
+            "code": "ADM",
+            "faculty": "Social Sciences",
+            "degree": "Minor",
+            "file": "minor_public_admin_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "joint-history-political-science-old",
+            "name": "Joint Honours in History and Political Science (Legacy)",
+            "code": "HIS+POL",
+            "faculty": "Social Sciences",
+            "degree": "BA",
+            "file": "joint_history_political_science_2025.json",
+            "hasContent": true
+        },
+        {
+            "id": "human-kinetics-education-coaching-fr-alt",
+            "name": "Human Kinetics - Education and Coaching (French - Alternative)",
+            "code": "APA",
+            "faculty": "Health Sciences",
+            "degree": "BHK",
+            "file": "human_kinetics_education_coaching_fr2025.json",
+            "hasContent": true
+        }
+    ]
+}

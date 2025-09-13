@@ -1,0 +1,81 @@
+{
+    "program": "Honours Bachelor of Science in Nursing",
+    "option": "Bridging Pathway – Algonquin College, Pembroke Campus",
+    "coop": false,
+    "academicYear": "2025-2026",
+    "totalUnits": 78,
+    "notes": [
+        "You can take up to 48 units at the 1000 level.",
+        "Courses with clinical component.",
+        "Please enroll for clinical placements by the clinical enrolment dates.",
+        "Clinical placements may occur during the day, the evening, on weekends and some may extend until the months of May and June.",
+        "Registration requirements for clinical placements. For more information on the additional program requirements, contact a Faculty of Health Sciences clinical placement risk management adviser.",
+        "All NSG courses require a passing mark of C+.",
+        "Students admitted with transfer credits at admission are requested to contact the Academic Office to review their course sequence.",
+        "If you want to complete your program requirements in four years, it’s important to follow this course sequence. If you fail, withdraw from or change a course in this sequence, it could lead to a delay in completing your program requirements.",
+        "All courses for this program are to be completed at Pembroke campus (except the HSS2382 which will be offered online by the uOttawa main campus)."
+    ],
+    "requirements": [
+        {
+            "year": "Transfer Credits",
+            "Fall-Winter": [
+                "ANP1105 | Human Anatomy and Physiology I",
+                "ANP1106 | Human Anatomy and Physiology II",
+                "ANP1107 | Human Anatomy and Physiology III",
+                "ENG1100 | Workshop in Essay Writing",
+                "HSS1101 | Determinants of Health",
+                "PSY1101 | Introduction to Psychology: Foundations",
+                "NSG2113 | Introduction to Nursing Science",
+                "NSG2313 | Introduction to Nursing Practice",
+                "NSG2317 | Health Assessment",
+                "PSY2114 | Lifespan Psychology",
+                "PHS3300 | Pathophysiology",
+                "3 electives"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "HSS1100 | Microbiology and Immunology",
+                "HSS2381 or HSS2382 | Quantitative Methods in Health Sciences",
+                "PHA3112 | Clinical Pharmacology",
+                "PHI1370 or PHI2396 | Philosophical Issues in Health Care or Bioethics",
+                "NSG3301 | Research in Nursing"
+            ],
+            "Winter": [
+                "NSG2105 | Transition to the Role of Registered Nurse"
+            ]
+        },
+        {
+            "year": "3rd Year",
+            "Fall": [
+                "NSG3107 | Family-Centered Care of Children with Acute and Chronic Illness",
+                "NSG3111 | Care of the Childbearing Family",
+                "NSG3127 | Nursing Professionalism and Ethics",
+                "NSG3307 | Practicum: Family-Centered Care of Children",
+                "NSG3311 | Practicum: Childbearing Family"
+            ],
+            "Winter": [
+                "NSG3103 | Theory in Nursing",
+                "NSG3105 | Care of Adults Experiencing Illness",
+                "NSG3137 | Practicum: Mental Health",
+                "NSG3305 | Practicum: Care of Adults Experiencing Illness",
+                "NSG3320 | Mental Health Nursing"
+            ]
+        },
+        {
+            "year": "4th Year",
+            "Fall": [
+                "NSG3123 | Community Health Nursing",
+                "NSG3323 | Practicum: Community Health Nursing",
+                "NSG4330 | Complex Nursing Care",
+                "NSG4430 | Practicum: Complex Nursing Care (6 units)"
+            ],
+            "Winter": [
+                "NSG4134 | Political and Economic Contexts of Health Care",
+                "NSG4245 | Practicum: Consolidation (9 units)",
+                "SAI4120 | Interprofessional Health Care Practice"
+            ]
+        }
+    ]
+}

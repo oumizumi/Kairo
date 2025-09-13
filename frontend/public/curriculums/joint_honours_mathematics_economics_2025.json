@@ -1,0 +1,108 @@
+{
+  "program": "Joint Honours in Mathematics and Economics",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Adjustments may be required due to course offerings or granted equivalencies.",
+    "Students interested in graduate studies in mathematics should choose MAT2141.",
+    "MAT2362 is strongly recommended and required for further study of logic.",
+    "MAT3153 cannot be counted for units if MAT4153 has already been passed; however, students may take MAT3153 first and then MAT4153 and count both for credit.",
+    "Students planning to go to graduate school in Mathematics and Statistics should consult the Department of Mathematics and Statistics."
+  ],
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ENG1100 | Workshop in Essay Writing",
+            "ECO1104 | Economic Issues and Policies",
+            "MAT1320 | Calculus I",
+            "MAT1341 | Introduction to Linear Algebra",
+            "MAT1362 | Introduction to Proofs"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ENG1120 | Literature and Composition II",
+            "ECO1102 | Introduction to Macroeconomics",
+            "MAT1322 | Calculus II",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ECO2142 | Intermediate Microeconomics I",
+            "ECO2144 | Introduction to Econometrics",
+            "MAT2122 | Multivariable Calculus",
+            "Optional | 3 units from MAT2141 or MAT2342",
+            "MAT2371 | Introduction to Real Analysis"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ECO2143 | Intermediate Microeconomics II",
+            "ECO2145 | Intermediate Macroeconomics",
+            "MAT2125 | Applied Linear Algebra",
+            "MAT2375 | Introduction to Abstract Algebra",
+            "Optional | 3 units from MAT2143, MAT2324, MAT2348, MAT2355, MAT2362"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ECO3152 | Applied Econometrics",
+            "Optional | 3 units from MAT2143, MAT2324, MAT2348, MAT2355, MAT2362",
+            "Optional | 6 units in 3000 or 4000-level ECO",
+            "Optional | 3 units in 3000 or 4000-level MAT"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ECO2151 | Quantitative Methods in Economics II",
+            "ECO3153 | Advanced Microeconomics",
+            "Optional | 3 units in 3000 or 4000-level ECO",
+            "Optional | 6 units in 3000 or 4000-level MAT"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "Optional | 3 units in 4000-level ECO",
+            "Optional | 3 units in 4000-level MAT",
+            "Optional | 3 units in 3000 or 4000-level MAT",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "Optional | 3 units in 4000-level ECO",
+            "Optional | 3 units in 4000-level MAT",
+            "Elective | 9 units"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "program": "Minor in Anthropology",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [
+    "Refer to the Academic Regulations for details on how to include a minor in your degree.",
+    "Students must complete at least 6 units at the 3000 or 4000 level in anthropology.",
+    "Optional 3rd year courses may include: ANT 3307, ANT 3340, ANT 3341, ANT 3342, ANT 3344, ANT 3345."
+  ],
+  "requirements": [
+    {
+      "type": "Required",
+      "courses": [
+        "ANT1101 | Social and Cultural Anthropology",
+        "ANT2121 | Classical Theories in Anthropology"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "3 units from the following",
+      "courses": [
+        "ANT3307 | Contemporary Japanese Society",
+        "ANT3340 | Anthropology of Latin America and the Caribbean",
+        "ANT3341 | Anthropology of Oceania",
+        "ANT3342 | Anthropology of Africa",
+        "ANT3344 | Anthropology of South Asia",
+        "ANT3345 | Anthropology of the Maghreb and the Middle East"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "15 optional course units in anthropology (ANT)",
+      "courses": [
+        "Elective | 15 units in any ANT courses"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "6 optional course units in anthropology (ANT) at the 3000 or 4000 level",
+      "courses": [
+        "Elective | 6 units in 3000 or 4000-level ANT courses"
+      ]
+    }
+  ]
+}

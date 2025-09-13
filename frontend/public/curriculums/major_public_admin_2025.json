@@ -1,0 +1,65 @@
+{
+  "program": "Major in Public Administration",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "4000 level optional courses in public administration (PAP) and political science (POL) are limited to students in the 4th year of the program of studies.",
+    "If enrolled in an Honours degree, students must add a second study module to this program. It can be a second major or a minor, and can be a discipline offered by another faculty. The course units of the second study module will replace the same number of elective course units."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "PAP1301 | Introduction to Public Administration",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "1 optional course (recommended: POL1101)",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "PAP2300 | Public Administration Theory",
+        "POL2101 | Canadian Government and Politics",
+        "SCS2150 or equivalent (ANT2111, CMN2101, CRM2303, FEM2103, POL2156) | Methodology course",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "PAP2320 | Public Policy Analysis",
+        "1 optional course",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "PAP3350 | Human Resources in the Public Sector",
+        "PAP3355 | Public Sector Ethics",
+        "1 optional PAP course (3000 or 4000 level)",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "PAP3310 | Public Financial Management",
+        "PAP3370 | Program Evaluation",
+        "1 optional course",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 optional PAP course (4000 level)",
+        "1 optional course",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "1 optional PAP course (4000 level)",
+        "4 elective courses"
+      ]
+    }
+  ]
+}

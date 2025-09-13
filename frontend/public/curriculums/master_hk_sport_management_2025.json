@@ -1,0 +1,51 @@
+{
+    "program": "Master of Human Kinetics - Sport Management",
+    "academicYear": "Fall 2025",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "APA 5916 could potentially be taken during the winter term with the approval of the internship coordinator.",
+        "Optional courses may be taken in any term, if offered, and with the approval of the graduate program director. The optional courses listed below are recommended:",
+        "APA 5104 Sport and Physical Activity in Canadian Life",
+        "APA 5112 International Sport Management",
+        "APA 5305 Policy Analysis of Sport and Physical Activity in Canada",
+        "APA 5306 Ethics and Values in Sport and Physical Activity",
+        "APA 5307 Legal Issues and Risk Management in Sport",
+        "APA 5997 Directed Studies in Sport, Physical Activity and Health",
+        "APA 6302 Qualitative Research Methods in Sport, Physical Activity and Health",
+        "APA 6110 Selected Topics in Sport, Physical Activity and Health: Management",
+        "Consult the program requirements",
+        "Consult the course description"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "APA5105 | Organizational Theory in Sport and Physical Activity",
+                        "APA5303 | Marketing and Sponsorship of Sport and Physical Activity",
+                        "Optional | Optional APA course"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "APA5111 | Sport Event Management",
+                        "APA5308 | Organizational Behaviour in Sport and Physical Activity",
+                        "APA5318 | Financial Management of Sport and Physical Activity",
+                        "Optional | Optional APA course"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "APA5916 | Internship in Administration of Sport and Physical Activity",
+                        "APA5921 | Critical Analysis and Reflection on Theory and Practice in Sport Management"
+                    ]
+                }
+            ]
+        }
+    ]
+}

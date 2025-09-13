@@ -1,0 +1,41 @@
+{
+  "program": "Minor in African Studies",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [
+    "Students must complete 3 units in experiential learning from an approved list.",
+    "Students must also complete 15 optional units from the African Studies optional course list."
+  ],
+  "requirements": [
+    {
+      "type": "Required",
+      "courses": [
+        "AFR1100 | Introduction to African Studies",
+        "AFR3102 | Economic Structures and Systems in Africa",
+        "HIS2376 | The African Past",
+        "SOC2306 | Social Reconfigurations in Africa"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "3 optional course units in experiential learning from the following",
+      "courses": [
+        "AFR3103 | Special Topic in African Studies",
+        "AFR4103 | Special Topic in African Studies",
+        "AHL3300 | Creativity and Innovation",
+        "AHL4310 | Entrepreneurship and Social Innovation Lab",
+        "DVM3180 | Global Experiential Learning",
+        "FSS4150 | Directed Research in Social Sciences",
+        "SCS3130 | Social Innovation and Community Engagement",
+        "SCS3340 | Social Innovation and Social Justice - Practicum"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "15 optional course units from the African Studies optional list",
+      "courses": [
+        "Elective | 15 units from approved African Studies optional courses"
+      ]
+    }
+  ]
+}

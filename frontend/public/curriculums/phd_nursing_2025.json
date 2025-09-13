@@ -1,0 +1,119 @@
+{
+    "program": "PhD_Nursing_2025",
+    "academicYear": "Fall 2024 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "Students are required to choose 6 course units from:",
+        "EDU 7395 Methods of Quantitative Analysis",
+        "EDU 8190 Perspectives and Paradigms in Qualitative Research",
+        "EPI 6188 Systematic Review and Meta-Analysis",
+        "NSG 6140* Qualitative Research in Nursing and Health Sciences",
+        "NSG 7303* Knowledge Synthesis in Nursing and Health Sciences",
+        "NSG 7304* Quantitative Research in Nursing and Health Sciences",
+        "PSY 7101 Causal Modeling in Psychological Research",
+        "These courses must be related to the student's research.",
+        "To register for the methods elective and the elective course, you must obtain the following approvals (except for *NSG 6140; NSG 7303; NSG 7304): the course professor, your thesis supervisor, and the graduate program assistant director and submit them by email to healthsc@uottawa.ca.",
+        "These courses may be taken at any term.",
+        "You must enroll in this activity each term until completed.",
+        "Consult the program requirements",
+        "Consult the course description"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "NSG7100 | Theoretical and Philosophical Perspectives in Nursing",
+                        "NSG71101 | Doctoral Seminar Research methods",
+                        "Methods Elective | One methods elective"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "Methods Elective | One methods elective",
+                        "NSG71102 | Doctoral Seminar"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "Elective | One elective"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "NSG9997 | Thesis Proposal (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "NSG9997 | Thesis Proposal"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 3,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 4,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis"
+                    ]
+                }
+            ]
+        }
+    ]
+}

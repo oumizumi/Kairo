@@ -1,0 +1,80 @@
+{
+    "program": "Honours Bachelor of Human Kinetics",
+    "option": "General Stream (without co-op)",
+    "coop": false,
+    "academicYear": "2025-2026",
+    "totalUnits": 120,
+    "notes": [
+        "You can take up to 48 units at the 1000 level.",
+        "To find an elective, see the course timetable.",
+        "To find APA optional courses (3000/4000) or APA 2000 electives, see the list of APA courses.",
+        "Optional course: Choose 3 units from PHI1101, PHI1370, PSY1101, PSY1102, SOC1101, or SOC1106.",
+        "APA4200 or APA4211 is offered year-round and counts as 3 units per term. Enrolment deadline for APA4211 is June 30.",
+        "For clinical placement registration, contact the Faculty of Health Sciences risk management adviser.",
+        "Students admitted to co-op may replace 6 units with 6 optional APA courses at the 3000 or 4000 level.",
+        "You may add a 30-unit minor which replaces your 30 units of electives.",
+        "Following this sequence is important to graduate in 4 years. Any deviation may delay graduation.",
+        "Advanced standing students should contact the Academic Office to adjust their sequence."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "APA1313 | Musculoskeletal Anatomy",
+                "ENG1100 | Workshop in Essay Writing",
+                "LSR1100 | Introduction to Leisure Studies",
+                "PSY1101 or PSY1102 | Psychology: Foundations or Applications",
+                "1 elective"
+            ],
+            "Winter": [
+                "APA1122 | Physical Activity in a Global Health Perspective",
+                "APA1302 | Sociology of Sport and Physical Activity in Canada",
+                "ENG1112 or ENG1120 | Technical Report Writing or Topics in Literature and Composition",
+                "SOC1101 or SOC1106 | Principles of Sociology or Exploring Diversity in Canada",
+                "1 optional course"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "APA2111 | Intervention Theories",
+                "APA2120 | Motor Control and Learning",
+                "APA2140 | Sport and Exercise Psychology",
+                "APA2302 | History of Sport in Canada",
+                "APA2315 | Intro to Applied Biomechanics"
+            ],
+            "Winter": [
+                "APA2180 | Research Methods in Human Kinetics",
+                "APA2312 | Physiology of Physical Activity",
+                "3 electives"
+            ]
+        },
+        {
+            "year": "3rd Year",
+            "Fall": [
+                "APA2134 | Admin of Leisure, Sport, and PA Services",
+                "APA3118 | Recreation, Sport, and Community Development",
+                "APA3381 | Measurement & Data in HK",
+                "2 optional APA courses (3000/4000)"
+            ],
+            "Winter": [
+                "APA3301 | Ethics in Sport and Health in Canada",
+                "2 optional APA courses (3000/4000)",
+                "2 electives"
+            ]
+        },
+        {
+            "year": "4th Year",
+            "Fall": [
+                "APA4200 or APA42111 | Research Project or Internship (Part 1)",
+                "2 optional APA courses (3000/4000)",
+                "2 electives"
+            ],
+            "Winter": [
+                "APA4200 or APA42112 | Research Project or Internship (Part 2)",
+                "2 optional APA courses (3000/4000)",
+                "2 electives"
+            ]
+        }
+    ]
+}

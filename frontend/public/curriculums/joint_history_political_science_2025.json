@@ -1,0 +1,72 @@
+{
+  "program": "Joint Honours in History and Political Science",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Registration to 4000-level courses in political science (POL) is limited to 4th year political science students."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "POL1101 | Introduction to Political Science",
+        "1 optional HIS course",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "POL1102 | Recommended optional POL course",
+        "1 optional HIS course",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "HIS2100 | The Historian's Craft",
+        "POL2103 | Comparative Politics",
+        "POL2107 | Political Theory",
+        "POL2156 | Research Methods in Political Science",
+        "1 optional HIS course at 2000-, 3000-, or 4000-level"
+      ],
+      "Winter": [
+        "POL2101 | Canadian Government and Politics",
+        "POL2104 | International Relations",
+        "POL2108 | Public Policy",
+        "2 optional HIS courses at 2000-, 3000-, or 4000-level"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "POL3102 | Advanced Research Methods in Political Science",
+        "1 from: POL3370 or POL3371",
+        "1 optional HIS course at 2000-, 3000-, or 4000-level",
+        "1 optional HIS course at 3000-level",
+        "1 elective course"
+      ],
+      "Winter": [
+        "1 optional HIS course",
+        "3 optional HIS courses at 3000-level",
+        "1 Comparative Politics course from: POL3114, POL3115, POL3144, POL3145, POL3162, POL3164, POL3180, POL4141, POL4184, POL4378"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 from: POL4310, POL4320, POL4330, POL4350, POL4930",
+        "1 Canadian Politics course from: POL3159, POL3171, POL3172, POL3174, POL4134, POL4150, POL4154, POL4162, POL4165, POL4166",
+        "2 optional HIS courses at 4000-level",
+        "1 optional POL course at 4000-level"
+      ],
+      "Winter": [
+        "1 International Relations course from: POL3113, POL3123, POL3124, POL3176, POL3177, POL3179, POL4126, POL4127, POL4173, POL4188",
+        "1 HIS seminar course at 4000-level",
+        "1 optional HIS course at 4000-level",
+        "1 optional POL course at 4000-level",
+        "1 elective course"
+      ]
+    }
+  ]
+}

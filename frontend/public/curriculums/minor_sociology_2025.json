@@ -1,0 +1,27 @@
+{
+  "program": "Minor in Sociology",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [
+    "The table includes only discipline-specific courses. Please refer to the Academic Regulations for information on including a minor to your degree.",
+    "Requirements for this program have been modified. Please consult the 2021-2022 calendars for the previous requirements."
+  ],
+  "requirements": [
+    {
+      "type": "Compulsory",
+      "courses": [
+        "SOC1104 | Sociology: Big Questions | 3 Units",
+        "SOC2117 | Sociological Theory: From 19th Century to First World War | 3 Units",
+        "SOC2118 | Sociological Theory: Mid-20th Century | 3 Units"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "Optional SOC courses",
+      "courses": [
+        "15 optional course units in sociology (SOC)",
+        "6 optional course units in sociology (SOC) at the 3000 or 4000 level"
+      ]
+    }
+  ]
+}

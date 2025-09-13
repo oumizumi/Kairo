@@ -1,0 +1,67 @@
+{
+  "program": "Honours in Public Administration",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "4000-level optional courses in public administration (PAP) and political science (POL) are limited to students in the 4th year of the program of studies.",
+    "It is possible to add a minor to this program of studies. In that case, 30 elective course units are replaced with the requirements of the chosen minor. See 'Make changes to your undergraduate program' for more information."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "PAP1301 | Introduction to Public Administration",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "1 optional course (recommended: POL1101)",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "PAP2300 | Public Administration Theory",
+        "POL2101 | Canadian Government and Politics",
+        "SCS2150 or equivalent (ANT2111, CMN2101, CRM2303, FEM2103, POL2156) | Methodology course",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "PAP2320 | Public Policy Analysis",
+        "1 optional course",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "PAP3350 | Human Resources in the Public Sector",
+        "PAP3355 | Public Sector Ethics",
+        "2 optional PAP courses",
+        "1 elective course"
+      ],
+      "Winter": [
+        "PAP3310 | Public Financial Management",
+        "PAP3370 | Program Evaluation",
+        "2 optional PAP courses",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "PAP4315 | Strategic Management in the Public Sector",
+        "1 optional PAP course at 4000 level",
+        "1 optional course",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "PAP4365 | Honours Seminar in Public Administration",
+        "1 from: POL4134 or POL4154",
+        "3 elective courses"
+      ]
+    }
+  ]
+}

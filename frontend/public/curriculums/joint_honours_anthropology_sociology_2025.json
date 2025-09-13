@@ -1,0 +1,112 @@
+{
+  "program": "Joint Honours in Anthropology and Sociology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Adjustments to the course sequence might be required due to course offerings or if course equivalencies were granted.",
+    "Optional SOC courses in 2nd year may be chosen from: SOC 2101, SOC 2103, SOC 2104, SOC 2107, SOC 2113, SOC 2151, SOC 2306, SOC 2308, SOC 2309, SOC 2312.",
+    "Optional ANT courses in 2nd year may be chosen from: ANT 2103, ANT 2113, ANT 2129, ANT 2130, ANT 2131.",
+    "Optional ANT courses in 3rd year may be chosen from: ANT 3307, ANT 3340, ANT 3341, ANT 3342, ANT 3344, ANT 3345.",
+    "Either ANT 3144 or SOC 2315 is required in 3rd year.",
+    "Either ANT 4301 or SOC 4117 is required in 4th year."
+  ],
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ENG1100 | Workshop in Essay Writing",
+            "ANT1101 | Introduction to Anthropology",
+            "SOC1104 | Introduction to Sociology",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ENG1120 | Literature and Composition II",
+            "SOC1301 | Sociological Analysis",
+            "Elective | 9 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ANT2121 | Biological Anthropology",
+            "SOC2117 | Classical Sociological Theories",
+            "SOC2316 | Statistics in Sociology",
+            "Optional | 3 units from SOC optional list",
+            "Elective | 3 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ANT2126 | Archaeology",
+            "ANT2128 | Linguistic Anthropology",
+            "SOC2118 | Contemporary Sociological Theories",
+            "Optional | 3 units from ANT optional list",
+            "Elective | 3 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "Required | ANT3144 or SOC2315",
+            "Optional | 3 units from ANT 3307/3340/3341/3342/3344/3345",
+            "SOC3120 | Quantitative Research Methods",
+            "SOC3121 | Qualitative Research Methods",
+            "SOC3122 | Applied Research Methods",
+            "Elective | 3 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "Optional | 6 units in 3000-level ANT",
+            "SOC3315 | Topics in Sociology I",
+            "SOC3316 | Topics in Sociology II",
+            "Elective | 3 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ANT4123 | Advanced Topics in Anthropology",
+            "SOC4315 | Seminar in Sociology",
+            "Optional | 3 units in 4000-level ANT",
+            "Optional | 3 units in SOC",
+            "Elective | 3 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "SOC4119 | Sociological Analysis Capstone",
+            "Required | ANT4301 or SOC4117",
+            "Optional | 3 units in 3000-level ANT",
+            "Optional | 3 units in 4000-level ANT",
+            "Elective | 3 units"
+          ]
+        }
+      ]
+    }
+  ]
+}

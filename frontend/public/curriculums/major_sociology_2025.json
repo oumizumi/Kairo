@@ -1,0 +1,63 @@
+{
+  "program": "Major in Sociology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "This program has undergone a major reform effective as of May 1st, 2022.",
+    "Students admitted prior to Spring/Summer 2022 should be cautious with fall 2022 and winter 2023 course enrolments, as some compulsory courses were previously coded differently.",
+    "If enrolled in an Honours degree, students must add a second study module (second major or a minor), possibly from another faculty. The second module will replace an equivalent number of elective course units."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "SOC1104 | Introduction to Sociology",
+        "SOC1301 | Social Problems",
+        "2 elective courses (or 3 if SOC1104 or SOC1301 is deferred to Winter)"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "4 elective courses (or 3 if SOC1104 or SOC1301 is completed this term)"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "SOC2117 | Classical Sociological Theory",
+        "SOC2315 | Research Methods in Sociology",
+        "1 optional SOC course from: SOC2101, SOC2103, SOC2104, SOC2107, SOC2113, SOC2151, SOC2306, SOC2309, SOC2312, SOC2708 (French only)",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "SOC2118 | Contemporary Sociological Theory",
+        "SOC2316 | Statistics for Social Research",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "2 courses from: SOC3120, SOC3121, SOC3122",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "SOC3315 | Qualitative Research Methods",
+        "SOC3316 | Advanced Statistics for Social Research",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 optional SOC course from: SOC4103, SOC4104, SOC4121, SOC4127, SOC4135, SOC4144, SOC4303",
+        "1 course from: SOC4315 or SOC4316",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "SOC4119 | Honours Seminar in Sociology",
+        "4 elective courses"
+      ]
+    }
+  ]
+}

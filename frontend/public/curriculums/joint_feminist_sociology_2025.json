@@ -1,0 +1,69 @@
+{
+  "program": "Joint Honours in Feminist and Gender Studies and Sociology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "FEM1100 | Introduction to Feminist and Gender Studies",
+        "SOC1104 | Introduction to Sociology",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "1 from: SOC1301 or FEM2103",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "SOC2117 | Classical Sociological Theory",
+        "SOC2315 | Research Methods in Sociology",
+        "SOC2316 | Statistics for Social Research",
+        "1 from: FEM2104, FEM2107, FEM2109, FEM2110, FEM2111",
+        "1 from: SOC2101, SOC2103, SOC2104, SOC2107, SOC2113, SOC2151, SOC2306, SOC2309, SOC2312, SOC2708"
+      ],
+      "Winter": [
+        "SOC2118 | Contemporary Sociological Theory",
+        "1 from: FEM2104, FEM2107, FEM2109, FEM2110, FEM2111",
+        "1 from: SOC2101, SOC2103, SOC2104, SOC2107, SOC2113, SOC2151, SOC2306, SOC2309, SOC2312, SOC2708",
+        "1 optional course from list of optional courses",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "FEM3105",
+        "2 from: SOC3120, SOC3121, SOC3122",
+        "1 optional course from list of optional courses",
+        "1 elective course"
+      ],
+      "Winter": [
+        "SOC3315 | Qualitative Research Methods",
+        "SOC3316 | Advanced Statistics for Social Research",
+        "1 optional course from list of optional courses",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 from: FEM4310, FEM4320, FEM4330",
+        "SOC4315",
+        "SOC4316",
+        "1 from: SOC4103, SOC4104, SOC4121, SOC4127, SOC4135, SOC4144, SOC4303",
+        "1 optional course at 4000-level from list of optional courses"
+      ],
+      "Winter": [
+        "SOC4119 | Honours Seminar in Sociology",
+        "3 optional courses at 3000- or 4000-level from list of optional courses",
+        "1 elective course"
+      ]
+    }
+  ]
+}

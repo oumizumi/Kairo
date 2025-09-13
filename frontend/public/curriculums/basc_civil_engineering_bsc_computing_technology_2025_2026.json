@@ -1,0 +1,142 @@
+{
+    "program": "BASc in Civil Engineering and BSc in Computing Technology",
+    "academicYear": "2025-2026",
+    "totalUnits": 162,
+    "notes": [
+      "Technical electives: Choose 3 units from structural or geotechnical engineering and 3 units from water resources or environmental engineering.",
+      "Computing electives: Choose from CSI, SEG, or GEO 4301."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHM1311 | Principles of Chemistry",
+              "ENG1112 | Technical Report Writing",
+              "GNG1105 | Engineering Mechanics",
+              "ITI1120 | Introduction to Computing I",
+              "MAT1320 | Calculus I"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG1107 | Civil Engineering Graphics and Seminars",
+              "ITI1121 | Introduction to Computing II",
+              "MAT1322 | Calculus II",
+              "MAT1341 | Introduction to Linear Algebra",
+              "PHY1122 | Fundamentals of Physics II"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CVG2132 | Fundamentals of Environmental Engineering",
+              "CVG2141 | Civil Engineering Materials",
+              "CVG2149 | Civil Engineering Mechanics",
+              "MAT2322 | Calculus III for Engineers",
+              "MAT2384 | Ordinary Differential Equations and Numerical Methods",
+              "SEG2105 | Introduction to Software Engineering"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG2107 | Geotechnical Materials and Processes",
+              "CVG2116 | Introduction to Fluid Mechanics",
+              "CVG2140 | Mechanics of Materials I",
+              "CVG2171 | Surveying and Measurements",
+              "CVG2181 | Numerical Modelling in Civil Engineering",
+              "GNG1103 | Introduction to Engineering Design"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CVG3109 | Soil Mechanics I",
+              "CVG3116 | Hydraulics",
+              "CVG3140 | Theory of Structures I",
+              "MAT2377 | Probability and Statistics for Engineers",
+              "Either | HIS2129 or PHI2394"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG3106 | Soil Mechanics II",
+              "CVG3132 | Physical / Chemical Unit Operations of Water and Wastewater Treatment",
+              "CVG3147 | Structural Steel Design I",
+              "CVG3148 | Reinforced Concrete Design I",
+              "ITI1100 | Digital Systems I",
+              "MAT1348 | Discrete Mathematics for Computing"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CSI2110 | Data Structures and Algorithms",
+              "CVG3120 | Hydrology",
+              "CVG4150 | Highway and Transportation Engineering",
+              "Either | ECO1192 or GNG2101",
+              "Elective | Technical",
+              "Elective | Complementary"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CSI2120 | Programming Paradigms",
+              "Either | ECO1192 (Fall) or GNG2101 (Fall)",
+              "Elective | Technical",
+              "Elective | Technical",
+              "Elective | Computing",
+              "Elective | Science"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 5,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CVG4001 | Introduction to Civil Engineering Project",
+              "CVG4175 | Field Investigations",
+              "Elective | Computing",
+              "Elective | Computing",
+              "Elective | Technical"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG4907 | Engineering Design Project",
+              "GNG4170 | Engineering Law",
+              "Elective | Computing",
+              "Elective | Technical",
+              "Elective | Technical"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

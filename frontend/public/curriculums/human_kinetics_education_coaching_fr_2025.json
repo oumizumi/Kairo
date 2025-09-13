@@ -1,0 +1,79 @@
+{
+    "program": "Honours Bachelor of Human Kinetics (BHK), Education and Coaching and Formation à l'enseignement (B.Éd)",
+    "option": "Cycle primaire-moyen (PM) ou moyen-intermédiaire (MI)",
+    "coop": false,
+    "academicYear": "2025-2026",
+    "totalUnits": 150,
+    "notes": [
+        "Un maximum de 48 crédits de niveau 1000 est permis.",
+        "Cours optionnel : choisir 3 crédits parmi la liste suivante : PHI 1501, PHI 1770, PSY 1501, PSY 1502, SOC 1501, SOC 1506.",
+        "Veuillez consulter les liens pour obtenir une liste complète des cours optionnels de niveau 3000 et 4000.",
+        "Pour savoir quand les cours optionnels en sciences de l’activité physique seront offerts, consultez la planification de l’offre de cours.",
+        "L’offre des cours APA 3511, APA 3519 et LSR 2518 alterne entre français et anglais d’une année à l’autre, donc la séquence de cours pourrait varier selon la disponibilité de ces cours.",
+        "Pour satisfaire aux exigences de votre programme d’études en cinq ans, il est important de respecter cette séquence de cours. Tout échec, abandon ou modification d’un cours faisant partie de cette séquence pourrait occasionner un retard dans votre cheminement scolaire.",
+        "Vous pouvez interchanger des cours pour répondre à vos besoins dans le délai de cinq ans. Il est essentiel de consulter le catalogue des cours pour connaître les cours préalables associés aux cours échangés.",
+        "Les étudiantes et étudiants admis avec des équivalences devront communiquer avec le Bureau des études pour revoir leur séquence de cours.",
+        "Pour la séquence des cours en Formation en enseignement, veuillez consulter le site web de la Faculté d’éducation."
+    ],
+    "requirements": [
+        {
+            "year": "1re année",
+            "Fall": [
+                "APA1713 | Anatomie du système locomoteur",
+                "FRA1710 | Analyse, écriture et argumentation I",
+                "LSR1500 | Introduction à l'étude du loisir",
+                "PSY1501 ou PSY1502 | Introduction à la psychologie",
+                "APA2511 | Théories de l'intervention"
+            ],
+            "Winter": [
+                "APA1522 | L'activité physique dans une perspective de santé mondiale",
+                "APA1702 | Sociologie du sport et de l'activité physique au Canada",
+                "FRA1720 | Analyse, écriture et argumentation II",
+                "SOC1501 ou SOC1506 | Éléments de sociologie",
+                "1 cours optionnel parmi PHI, SOC ou PSY"
+            ]
+        },
+        {
+            "year": "2e année",
+            "Fall": [
+                "APA2540 | Introduction au sport et à la psychologie de l'exercice",
+                "APA2516 | Principes de coaching",
+                "APA2580 | Méthodes de recherche en sciences de l'activité physique",
+                "6 crédits parmi : APA2520, APA2712, APA2715",
+                "1 cours optionnel de niveau 3000 ou 4000"
+            ],
+            "Winter": [
+                "APA2580 | Méthodes de recherche en sciences de l'activité physique",
+                "3 cours optionnels de niveau 3000 ou 4000",
+                "APA3519 ou APA3725 | Méthodes d'entraînement ou Principes d'amélioration"
+            ]
+        },
+        {
+            "year": "3e année",
+            "Fall": [
+                "APA3511 | Observation et expérimentation en intervention",
+                "APA3518 | Loisir, sport et développement communautaire",
+                "APA3781 | Mesure et analyse des données quantitatives",
+                "APA4523 | Counseling en matière d’activité physique",
+                "1 cours optionnel de niveau 3000 ou 4000"
+            ],
+            "Winter": [
+                "APA3701 | Questions d'éthique en activité sportive, physique et santé",
+                "LSR2518 | Développement et évaluation de programmes récréatifs",
+                "3 cours optionnels de niveau 3000 ou 4000"
+            ]
+        },
+        {
+            "year": "4e année",
+            "Fall-Winter": [
+                "Pour la séquence des cours en Formation en enseignement, veuillez consulter le site web de la Faculté d’éducation."
+            ]
+        },
+        {
+            "year": "5e année",
+            "Fall-Winter": [
+                "Pour la séquence des cours en Formation en enseignement, veuillez consulter le site web de la Faculté d’éducation."
+            ]
+        }
+    ]
+}

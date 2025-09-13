@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: kairo
+      POSTGRES_USER: kairo_user
+      POSTGRES_PASSWORD: kairo_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Django Backend
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      - ./scrapers:/app/scrapers
+    environment:
+      DJANGO_DEBUG: 'True'
+      DJANGO_SECRET_KEY: 'dev-secret-key-change-in-production'
+      DATABASE_URL: postgresql://kairo_user:kairo_password@db:5432/kairo
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+      DJANGO_CORS_ALLOWED_ORIGINS: http://localhost:3000
+    depends_on:
+      - db
+    command: >
+      sh -c "
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+
+  # Next.js Frontend
+  frontend:
+    image: node:18
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    command: >
+      sh -c "
+        npm install &&
+        npm run dev
+      "
+
+volumes:
+  postgres_data:

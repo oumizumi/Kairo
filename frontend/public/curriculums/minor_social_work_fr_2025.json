@@ -1,0 +1,37 @@
+{
+  "program": "Minor in Social Work",
+  "language": "French only",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [
+    "The table includes only discipline-specific courses. Please refer to the Academic Regulations for information on including a minor to your degree.",
+    "This program is offered in French only.",
+    "This program can be chosen only as a second study module as part of a 120-unit bachelor’s degree that allows a minor.",
+    "Requirements for this program have been modified. Please consult the 2023-2024 calendars for the previous requirements."
+  ],
+  "requirements": [
+    {
+      "type": "Compulsory",
+      "level": "1000",
+      "courses": [
+        "TSO1500 | Introduction au travail social | 3 Units",
+        "TSO1501 | Diversité et travail social | 3 Units"
+      ]
+    },
+    {
+      "type": "Compulsory",
+      "level": "2000",
+      "courses": [
+        "TSO2520 | État-providence, politiques sociales et travail social | 3 Units"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "Optional TSO courses",
+      "courses": [
+        "9 optional course units in social work (TSO)",
+        "12 optional course units in social work (TSO) at the 3000 or 4000 level"
+      ]
+    }
+  ]
+}

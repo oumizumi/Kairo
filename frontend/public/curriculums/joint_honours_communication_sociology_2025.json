@@ -1,0 +1,74 @@
+{
+  "program": "Joint Honours in Communication and Sociology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "4000-level optional courses in sociology (SOC) and communication (CMN) can be limited to students in the 4th year of the program of studies."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Compulsory",
+        "CMN1148 | Compulsory",
+        "SOC1104 | Compulsory",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | Compulsory",
+        "CMN1160 | Compulsory",
+        "1 course from: CMN2101 or SOC1301",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "CMN2148 | Compulsory",
+        "SOC2117 | Compulsory",
+        "1 course from: CMN3102 or SOC2316",
+        "1 optional course from: SOC2101, SOC2103, SOC2104, SOC2107, SOC2113, SOC2151, SOC2306, SOC2308, SOC2309, SOC2312",
+        "1 elective course"
+      ],
+      "Winter": [
+        "CMN2160 | Compulsory",
+        "SOC2118 | Compulsory",
+        "1 course from: CMN3103 or SOC2315",
+        "1 optional course from: SOC2101, SOC2103, SOC2104, SOC2107, SOC2113, SOC2151, SOC2306, SOC2308, SOC2309, SOC2312",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "CMN3105 | Compulsory",
+        "CMN3130 | Compulsory",
+        "1 course from: SOC3120, SOC3121, SOC3122",
+        "1 optional CMN course",
+        "1 elective course"
+      ],
+      "Winter": [
+        "CMN3109 | Compulsory",
+        "SOC3315 | Compulsory",
+        "SOC3316 | Compulsory",
+        "1 course from: SOC3120, SOC3121, SOC3122",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "SOC4315 | Compulsory",
+        "SOC4316 | Compulsory",
+        "1 course from: CMN4105, CMN4148, CMN4168, CMN4185",
+        "1 course from: SOC4103, SOC4104, SOC4121, SOC4127, SOC4135, SOC4144, SOC4303",
+        "1 optional CMN course"
+      ],
+      "Winter": [
+        "SOC4119 | Compulsory",
+        "3 optional CMN courses at 4000-level",
+        "1 elective course"
+      ]
+    }
+  ]
+}

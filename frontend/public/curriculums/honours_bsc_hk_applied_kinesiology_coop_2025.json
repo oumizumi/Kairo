@@ -1,0 +1,102 @@
+{
+    "program": "Honours Bachelor of Science in Human Kinetics (BScHK)",
+    "option": "Applied Studies in Kinesiology with CO-OP",
+    "coop": true,
+    "academicYear": "2025-2026",
+    "totalUnits": 129,
+    "notes": [
+        "You can take up to 48 units at the 1000 level.",
+        "To find an elective, see the course timetable.",
+        "Science optional course: Choose 3 units from ANP1107, BIO2110, BIO2133, or CHM2120.",
+        "Optional APA courses: Choose 6 units from APA1122, APA1302, APA2134, APA2302, or LSR1100.",
+        "If you haven’t completed Chemistry 4U or the equivalent, you must enrol in CHM1301.",
+        "If you haven’t completed Physics 4U or the equivalent, you must enrol in PHY1331.",
+        "To enrol in MAT1330, you must have completed MAT4U or MAT1339. Note that the units for this course are in addition to program requirements.",
+        "APA4211 is offered year-round and counts as 3 units per term. Enrol before the clinical deadline.",
+        "For APA4211 clinical registration, contact a Faculty of Health Sciences placement adviser.",
+        "Changes to the course sequence may delay graduation. Consult prerequisites if interchanging courses.",
+        "Students admitted with advanced standing must contact the Academic Office to confirm their course path."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "APA1313 | Musculoskeletal Anatomy",
+                "BIO1130 | Introduction to Organismal Biology",
+                "CHM1311 | Principles of Chemistry",
+                "ENG1100 or ENG1112 | Workshop in Essay Writing or Technical Report Writing",
+                "NUT1304 | Introduction to Nutrition"
+            ],
+            "Winter": [
+                "ANP1105 | Human Anatomy and Physiology I",
+                "BIO1140 | Introduction to Cell and Molecular Biology",
+                "CHM1321 | Organic Chemistry I",
+                "Optional APA course (1000/2000)",
+                "1 elective"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "APA2111 | Intervention Theories",
+                "APA2120 | Motor Control and Learning",
+                "APA2140 | Introduction to Sport and Exercise Psychology",
+                "MAT1330 | Calculus for the Life Sciences I",
+                "PHY1321 | Principles of Physics I"
+            ],
+            "Winter": [
+                "APA2114 | Biomechanical Analysis of Human Movement",
+                "APA2180 | Research Methods in Human Kinetics",
+                "APA2301 | Exercise Physiology I",
+                "APA2314 | Lab Techniques in Exercise Physiology and Biomechanics",
+                "Optional APA course (1000/2000)"
+            ],
+            "Summer": [
+                "SSP3901 | Co-op Work Term"
+            ]
+        },
+        {
+            "year": "3rd Year",
+            "Fall": [
+                "APA3114 | Exercise Physiology II",
+                "APA3150 | Neural Control of Human Movement",
+                "APA3311 | Musculoskeletal Biomechanics",
+                "APA3325 | Fitness Training Principles",
+                "APA3381 | Measurement and Data Analysis in Human Kinetics"
+            ],
+            "Winter": [
+                "APA3120 | Psychomotor Behaviour Laboratory",
+                "APA3125 | Prevention and Care of Athletic Injuries",
+                "APA4118 | Biomechanical Basis of Injury",
+                "Optional science course",
+                "1 elective"
+            ],
+            "Summer": [
+                "SSP4901 | Co-op Work Term"
+            ]
+        },
+        {
+            "year": "4th Year",
+            "Fall": [
+                "SSP4902 | Co-op Work Term"
+            ],
+            "Winter": [
+                "APA3121 | Human Motor Skill Development",
+                "APA4123 | Physical Activity Counseling",
+                "APA4124 | Interdisciplinary Cases and Professional Practice in Kinesiology",
+                "APA4211 | Internship / Clinical Experience",
+                "APA4313 | Exercise and Disease Prevention"
+            ]
+        },
+        {
+            "year": "5th Year",
+            "Fall": [
+                "APA3122 | Physical Activity and Health",
+                "APA3131 | Physical Ergonomics",
+                "APA4160 | Fitness Testing and Exercise Prescription",
+                "APA4211 | Internship / Clinical Experience",
+                "APA3130 or APA4120 | Motor Performance and Aging or Sport and Physical Activity in Aging Populations"
+            ]
+        }
+    ]
+}

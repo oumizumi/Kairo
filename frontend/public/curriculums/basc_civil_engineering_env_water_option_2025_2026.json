@@ -1,0 +1,116 @@
+{
+    "program": "BASc in Civil Engineering, Environmental and Water Resources Option",
+    "academicYear": "2025-2026",
+    "totalUnits": 132,
+    "notes": [
+      "Choose three technical electives (9 units) from water resources or environmental engineering."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHM1311 | Principles of Chemistry",
+              "ENG1112 | Technical Report Writing",
+              "GNG1105 | Engineering Mechanics",
+              "GNG1106 | Fundamentals of Engineering Computation",
+              "MAT1320 | Calculus I"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG1107 | Civil Engineering Graphics and Seminars",
+              "MAT1322 | Calculus II",
+              "MAT1341 | Introduction to Linear Algebra",
+              "PHY1122 | Fundamentals of Physics II",
+              "GNG1103 | Introduction to Engineering Design"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CVG2132 | Fundamentals of Environmental Engineering",
+              "CVG2141 | Civil Engineering Materials",
+              "CVG2149 | Civil Engineering Mechanics",
+              "MAT2322 | Calculus III for Engineers",
+              "MAT2384 | Ordinary Differential Equations and Numerical Methods",
+              "Either | ECO1192 or GNG2101"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG2107 | Geotechnical Materials and Processes",
+              "CVG2116 | Introduction to Fluid Mechanics",
+              "CVG2140 | Mechanics of Materials I",
+              "CVG2171 | Surveying and Measurements",
+              "CVG2181 | Numerical Modelling in Civil Engineering",
+              "MAT2377 | Probability and Statistics for Engineers"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CVG3109 | Soil Mechanics I",
+              "CVG3116 | Hydraulics",
+              "CVG3120 | Hydrology",
+              "CVG3140 | Theory of Structures I",
+              "CVG4150 | Highway and Transportation Engineering",
+              "Either | HIS2129 or PHI2394"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG3106 | Soil Mechanics II",
+              "CVG3132 | Physical / Chemical Unit Operations of Water and Wastewater Treatment",
+              "CVG3147 | Structural Steel Design I",
+              "CVG3148 | Reinforced Concrete Design I",
+              "Either | HIS2129 (Fall) or PHI2394 (Fall)",
+              "Elective | Science"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CVG4001 | Introduction to Civil Engineering Project",
+              "CVG4133 | Solid Waste Management",
+              "CVG4175 | Field Investigations",
+              "Elective | Complementary",
+              "Elective | Technical",
+              "Elective | Technical"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG4113 | Hydraulics of Water Supply and Sewer Systems",
+              "CVG4130 | Advanced Environmental Engineering",
+              "CVG4907 | Engineering Design Project",
+              "GNG4170 | Engineering Law",
+              "Elective | Technical"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

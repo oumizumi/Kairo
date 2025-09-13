@@ -1,0 +1,73 @@
+{
+  "program": "Joint Honours in Feminist and Gender Studies and Political Science",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Enrolment in 4000-level courses in political science (POL) is limited to 4th year political science students."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "FEM1100 | Introduction to Feminist and Gender Studies",
+        "POL1101 | Introduction to Political Science",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "POL1102 | Recommended course (optional POL course)",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "POL2101 | Canadian Government and Politics",
+        "POL2103 | Comparative Politics",
+        "1 from: FEM2103 or POL2156",
+        "POL2107 | Political Theory",
+        "1 elective course"
+      ],
+      "Winter": [
+        "POL2104 | International Relations",
+        "POL2108 | Public Policy",
+        "2 from: FEM2104, FEM2107, FEM2109, FEM2110, FEM2111",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "FEM3105",
+        "1 from: POL3370 or POL3371",
+        "1 Canadian Politics course from: POL3159, POL3171, POL3172, POL3174, POL4134, POL4150, POL4154, POL4162, POL4165, POL4166",
+        "1 optional FEM course from list of optional courses",
+        "1 elective course"
+      ],
+      "Winter": [
+        "POL3102 | Advanced Research Methods in Political Science",
+        "1 Comparative Politics course from: POL3114, POL3115, POL3144, POL3145, POL3162, POL3164, POL3180, POL4141, POL4184, POL4378",
+        "1 International Relations course from: POL3113, POL3123, POL3124, POL3176, POL3177, POL3179, POL4126, POL4127, POL4173, POL4188",
+        "1 optional FEM course from list of optional courses",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 from: FEM4310, FEM4320, FEM4330",
+        "1 optional POL course at 4000-level",
+        "1 from: POL4310, POL4320, POL4330, POL4350, POL4930",
+        "2 optional courses at 3000- or 4000-level from list of optional courses"
+      ],
+      "Winter": [
+        "1 optional POL course at 4000-level",
+        "1 optional course at 3000- or 4000-level from list of optional courses",
+        "1 optional course at 4000-level from list of optional courses",
+        "1 optional FEM course from list of optional courses",
+        "1 elective course"
+      ]
+    }
+  ]
+}

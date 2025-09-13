@@ -1,0 +1,62 @@
+{
+  "program": "Major in Political Science",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Registration to 4000-level courses in political science (POL) is limited to 4th year political science students.",
+    "The addition of a minor or a 2nd major is required in the fall session of the 2nd year."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "POL1101 | Introduction to Political Science",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "POL1102 | Recommended optional POL course",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "POL2101 | Canadian Government and Politics",
+        "POL2103 | Comparative Politics",
+        "POL2107 | Political Theory",
+        "POL2156 | Research Methods in Political Science",
+        "1 elective course"
+      ],
+      "Winter": [
+        "POL2104 | International Relations",
+        "POL2108 | Public Policy",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "POL3102 | Advanced Research Methods in Political Science",
+        "1 from: POL3370 or POL3371",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "3 optional POL courses",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 optional POL course at 4000-level",
+        "4 elective courses"
+      ],
+      "Winter": [
+        "1 optional POL course at 4000-level",
+        "4 elective courses"
+      ]
+    }
+  ]
+}

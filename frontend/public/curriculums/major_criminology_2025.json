@@ -1,0 +1,95 @@
+{
+  "program": "Major in Criminology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Adjustments may be required due to course offerings or granted equivalencies.",
+    "CRM2315 and CRM3334 are strongly recommended for students intending to pursue graduate studies in criminology.",
+    "4000-level CRM optional courses require 4th-year standing and a minimum CGPA of 5.0.",
+    "If enrolled in an Honours degree, students must add a second study module such as a second major or minor. Elective units will be adjusted accordingly."
+  ],
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ENG1100 | Workshop in Essay Writing",
+            "CRM1300 | Introduction to Criminology",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ENG1120 | Literature and Composition II",
+            "CRM1301 | Foundations of Criminal Justice",
+            "Elective | 9 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "CRM2300 | Theories of Crime",
+            "CRM2301 | Research Methods in Criminology",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "CRM2302 | Qualitative Research in Criminology",
+            "CRM2303 | Quantitative Data Analysis in Criminology",
+            "Elective | 9 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "CRM3301 | Criminological Thought",
+            "CRM3335 | Social Inequality and Crime",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "Optional | 6 units in CRM",
+            "Elective | 9 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "CRM4302 | Advanced Topics in Criminology",
+            "Optional | 3 units in 3000 or 4000-level CRM",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "Optional | 6 units in 3000 or 4000-level CRM",
+            "Elective | 9 units"
+          ]
+        }
+      ]
+    }
+  ]
+}

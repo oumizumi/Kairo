@@ -1,0 +1,117 @@
+{
+    "program": "BASc in Chemical Engineering, Environmental Engineering Option",
+    "academicYear": "2025-2026",
+    "totalUnits": 132,
+    "notes": [
+      "Complementary and technical electives must align with the environmental engineering focus.",
+      "ENV/PHI/ECO/GNG courses may be taken in either Fall or Winter depending on availability.",
+      "Two technical electives in 4th year must be from the environmental engineering field."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG1125 | Chemical Engineering Fundamentals",
+              "CHM1311 | Principles of Chemistry",
+              "ENG1112 | Technical Report Writing",
+              "GNG1105 | Engineering Mechanics",
+              "MAT1320 | Calculus I"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CHG1371 | Numerical Methods and Engineering Computation in Chemical Engineering",
+              "CHM1321 | Organic Chemistry I",
+              "MAT1322 | Calculus II",
+              "MAT1341 | Introduction to Linear Algebra",
+              "PHY1122 | Fundamentals of Physics II"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG2312 | Fluid Flow",
+              "CHG2317 | Introduction to Chemical Process Analysis and Design",
+              "CHM2120 | Organic Chemistry II",
+              "CVG2132 | Fundamentals of Environmental Engineering",
+              "MAT2322 | Calculus III for Engineers",
+              "MAT2384 | Ordinary Differential Equations and Numerical Methods"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CHG2314 | Heat Transfer Operations",
+              "CHG2324 | Chemical Engineering Thermodynamics",
+              "CHM2330 | Physical Chemistry",
+              "GNG1103 | Engineering Design",
+              "ITI1120 | Introduction to Computing I",
+              "Elective | Complementary elective"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG3127 | Chemical Reaction Engineering",
+              "CHG3305 | Advanced Materials in Chemical Engineering",
+              "CHG3316 | Transport Phenomena",
+              "CHG3335 | Process Control",
+              "CHG3337 | Data Collection and Interpretation",
+              "Elective | Technical elective (Environmental Engineering)",
+              "Elective | ENV1101 or ENV2110 or ENV2301 or PHI2398"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CHG3111 | Unit Operations",
+              "CHG3112 | Process Synthesis, Design and Economics",
+              "CHG3122 | Chemical Engineering Practice",
+              "CHG3326 | Phase Equilibria and Chemical Reaction Equilibria",
+              "Elective | ENV1101 or ENV2110 or ENV2301 or PHI2398",
+              "Elective | ECO1192 or GNG2101"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG4116 | Chemical Engineering Laboratory",
+              "CHG4343 | Computer-Aided Design in Chemical Engineering",
+              "CHG4381 | Biochemical Engineering",
+              "Elective | Technical elective (Environmental Engineering)",
+              "Elective | HIS2129 or PHI2394"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CHG4250 | Plant Design Project",
+              "CHG4307 | Process Risk Management and Sustainability",
+              "Elective | Technical elective (Environmental Engineering)",
+              "Elective | HIS2129 or PHI2394"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,71 @@
+{
+    "program": "Master of Science in Interdisciplinary Health Sciences",
+    "academicYear": "Fall 2023 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "You must enroll in this activity each term until completed.",
+        "HSS 5995- Directed Studies in Interdisciplinary Health Sciences or the elective course can be taken in the fall or winter term of the first year.",
+        "Students who register in HSS 5995 must also complete and sign the Abstract of Directed Study Form, obtain the necessary approvals and submit it by service request or by email to healthsc@uottawa.ca.",
+        "Students can replace the HSS 5995 course with an elective from the list of approved courses or another graduate-level course. This option requires approval from the course professor, with confirmation that the prerequisites (if applicable) are met, as well as approval from the thesis supervisor. Approval from the Associate Director of Graduate Studies is required, except for courses chosen from the approved list. The approvals must be sent by service request or by email to healthsc@uottawa.ca.",
+        "Consult the program requirements",
+        "Consult the course description (in French)"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "HSS59011 | Interdisciplinary Perspectives in Health Sciences",
+                        "HSS59021 | Interdisciplinary Research Methods and Statistics in Health Sciences",
+                        "HSS59031 | Master's seminar I",
+                        "HSS6997 | Thesis proposal (CTN)",
+                        "HSS5995 | Directed Studies in Interdisciplinary Health Sciences OR Elective | Elective course"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "HSS59012 | Interdisciplinary Perspectives in Health Sciences",
+                        "HSS59022 | Interdisciplinary Research Methods and Statistics in Health Sciences",
+                        "HSS59032 | Master's seminar I",
+                        "THM7999 | Master's Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THM7999 | Thesis (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "HSS59041 | Master's seminar II",
+                        "THM7999 | Master's Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "HSS59042 | Master's seminar II",
+                        "THM7999 | Master's Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THM7999 | Master's Thesis"
+                    ]
+                }
+            ]
+        }
+    ]
+}

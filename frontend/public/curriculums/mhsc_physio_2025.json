@@ -1,0 +1,82 @@
+{
+    "program": "MHSc_Physio_2025",
+    "academicYear": "Fall 2025 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "This program is governed by the academic regulations for graduate studies. In the event of a conflict, these regulations take precedence over this proposed sequence.",
+        "You must enroll in this activity each term until completed.",
+        "Consult the program requirements",
+        "Consult the course description (in French)"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "REA5703 | Pratiques professionnelles en réadaptation",
+                        "PHT5512 | Anatomie fonctionnelle du système musculo-squelettique",
+                        "PHT5513 | Biomécanique clinique",
+                        "PHT5614 | Évaluations et interventions de base en musculo-squelettique",
+                        "PHT59011 | Stage I",
+                        "PHT6753 | Séminaire de recherche (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "PHT5621 | Douleur, agents physiques et modalités thérapeutiques",
+                        "PHT5622 | Fondements de la pratique au niveau du système musculo-squelettique",
+                        "PHT5623 | Évaluation, diagnostic et intervention au niveau du système musculo-squelettique",
+                        "PHT59012 | Stage I",
+                        "PHT6753 | Séminaire de recherche (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "PHT5631 | Fondements et pratiques au niveau du système cardiorespiratoire",
+                        "REA6503 | Pratique factuelle en réadaptation",
+                        "PHT5902 | Stage II",
+                        "PHT6753 | Séminaire de recherche (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "PHT6511 | Évaluation et intervention auprès de personnes ayant des affections multiples I",
+                        "PHT6612 | Fondements neurobiologiques du mouvement humain",
+                        "PHT6613 | Évaluation, diagnostic et intervention au niveau du système neurologique",
+                        "PHT6753 | Séminaire de recherche (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "PHT6903 | Stage III",
+                        "PHT6904 | Stage IV",
+                        "PHT6905 | Stage V",
+                        "PHT6753 | Séminaire de recherche (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "PHT6531 | Évaluation et intervention auprès de personnes ayant des affections multiples II",
+                        "PHT6532 | Pratique clinique et enjeux professionnels",
+                        "PHT6533 | Outils diagnostiques spécialisés en physiothérapie",
+                        "PHT6753 | Séminaire de recherche",
+                        "PHT6906 | Stage VI"
+                    ]
+                }
+            ]
+        }
+    ]
+}

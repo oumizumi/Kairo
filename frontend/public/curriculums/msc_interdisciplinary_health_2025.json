@@ -1,0 +1,48 @@
+{
+    "program": "Master of Science in Interdisciplinary Health Sciences",
+    "option": null,
+    "coop": false,
+    "academicYear": "2025-2026",
+    "totalUnits": null,
+    "notes": [
+        "You must enroll in THM7999 (Master’s Thesis) each term until completed.",
+        "HSS5995 (Directed Studies) or the elective course can be taken in the Fall or Winter term of the first year.",
+        "Students who register in HSS5995 must complete and sign the Abstract of Directed Study Form, obtain necessary approvals, and submit it via service request or email to healthsc@uottawa.ca.",
+        "Students may replace HSS5995 with an approved elective or another graduate-level course with approval from the course professor, thesis supervisor, and the Associate Director of Graduate Studies (unless chosen from the approved list)."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "HSS59011 | Interdisciplinary Perspectives in Health Sciences",
+                "HSS59021 | Interdisciplinary Research Methods and Statistics in Health Sciences",
+                "HSS59031 | Master's Seminar I",
+                "HSS6997 | Thesis Proposal (CTN)",
+                "HSS5995 or Elective | Directed Studies or approved elective"
+            ],
+            "Winter": [
+                "HSS59012 | Interdisciplinary Perspectives in Health Sciences",
+                "HSS59022 | Interdisciplinary Research Methods and Statistics in Health Sciences",
+                "HSS59032 | Master's Seminar I",
+                "THM7999 | Master's Thesis (CTN)"
+            ],
+            "Spring-Summer": [
+                "THM7999 | Thesis (CTN)"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "HSS59041 | Master's Seminar II",
+                "THM7999 | Master’s Thesis (CTN)"
+            ],
+            "Winter": [
+                "HSS59042 | Master's Seminar II",
+                "THM7999 | Master’s Thesis (CTN)"
+            ],
+            "Spring-Summer": [
+                "THM7999 | Master’s Thesis (CTN)"
+            ]
+        }
+    ]
+}

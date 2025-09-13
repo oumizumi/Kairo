@@ -1,0 +1,96 @@
+{
+  "program": "Major in Anthropology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Adjustments to the course sequence might be required due to course offerings or if course equivalencies were granted.",
+    "Optional ANT courses in 3rd year may be chosen from: ANT 3307, ANT 3340, ANT 3341, ANT 3342, ANT 3344, ANT 3345.",
+    "Students must take optional anthropology (ANT) courses at the 3000 and 4000 levels as indicated.",
+    "If enrolled in an Honours degree, students must add a second study module to this program. It can be a second major or a minor, and can be from another faculty. Elective units will be adjusted accordingly."
+  ],
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ENG1100 | Workshop in Essay Writing",
+            "ANT1101 | Introduction to Anthropology",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ENG1120 | Literature and Composition II",
+            "Elective | 12 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ANT2121 | Biological Anthropology",
+            "SOC2111 | Sociocultural Anthropology",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ANT2126 | Archaeology",
+            "ANT2128 | Linguistic Anthropology",
+            "Elective | 9 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ANT3144 | Anthropological Theory",
+            "Optional | 3 units from ANT 3307/3340/3341/3342/3344/3345",
+            "Optional | 3 units in 3000-level ANT",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ANT3142 | Research Methods in Anthropology",
+            "Optional | 6 units in 3000-level ANT",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ANT4123 | Advanced Topics in Anthropology",
+            "Optional | 3 units in 4000-level ANT",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "Optional | 3 units in 4000-level ANT",
+            "Elective | 12 units"
+          ]
+        }
+      ]
+    }
+  ]
+}

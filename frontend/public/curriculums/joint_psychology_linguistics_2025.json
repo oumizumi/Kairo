@@ -1,0 +1,78 @@
+{
+  "program": "Joint Honours BA in Psychology and Linguistics",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "This course has variable topics. Students may take this course twice.",
+    "It is recommended but not mandatory that the 12 optional course units in linguistics (LIN) be chosen from list A, B and/or C.",
+    "3 course units at the 1000-level in anatomy and physiology (ANP) and/or 3 course units at the 1000-level in physics (PHY) may be substituted for no more than 3 optional course units in linguistics (LIN) and no more than 3 optional course units in psychology (PSY). See your Department to register in those courses.",
+    "NOTE: Enrollment in the Joint Honours program does not guarantee access to anatomy and physiology (ANP) or physics (PHY) courses.",
+    "PSY3105 and PSY3128 are strongly recommended to students who plan to seek admission to graduate programs leading to the Master's in Speech-Language Pathology.",
+    "The electives may be replaced by a combination of Option(s) and/or elective units."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100",
+        "1 from: PHI1101 or PHI1301",
+        "LIN1315",
+        "PSY1101",
+        "1 required or elective course from second discipline"
+      ],
+      "Winter": [
+        "1 from: AHL1100, AHL1900, ENG1120",
+        "1 from: AHL1100, AHL1900, PHI1102, PHI1103, PHI1104, PHI1302",
+        "LIN2310",
+        "LIN2320",
+        "PSY1102"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "PSY2105",
+        "PSY2106",
+        "LIN3350",
+        "2 optional LIN courses from List A"
+      ],
+      "Winter": [
+        "PSY2116",
+        "PSY2174",
+        "PSY2301",
+        "2 optional LIN courses from List B"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "PSY3301",
+        "PSY3307",
+        "1 optional LIN course from List B",
+        "1 optional LIN course from List C",
+        "1 optional LIN course"
+      ],
+      "Winter": [
+        "PSY3108",
+        "PSY3377",
+        "1 optional LIN course from List B",
+        "2 optional LIN courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 optional LIN course at 3000 or 4000 level",
+        "1 optional PSY course",
+        "1 optional PSY course at 4000 level",
+        "2 required or elective courses from second discipline"
+      ],
+      "Winter": [
+        "1 optional LIN course at 3000 or 4000 level",
+        "2 optional PSY courses",
+        "1 optional PSY course at 4000 level",
+        "1 required or elective course from second discipline"
+      ]
+    }
+  ]
+}

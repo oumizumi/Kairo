@@ -1,0 +1,104 @@
+{
+  "program": "Honours in Conflict Studies and Human Rights",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Adjustments to the course sequence might be required due to course offerings or if course equivalencies were granted.",
+    "A maximum of 6 optional course units in history (HIS) is permitted.",
+    "Students may add a minor starting in second year.",
+    "Optional courses can be selected from the official list provided by the department."
+  ],
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ENG1100 | Workshop in Essay Writing",
+            "ECH1100 | Introduction to Conflict Studies and Human Rights",
+            "ECO1104 | Economic Issues and Policies",
+            "Optional | 3 units from ANT1101/DVM1100/FEM1100/SCS1150/SCS1160",
+            "Elective | 3 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ENG1120 | Literature and Composition II",
+            "POL1102 | Political Regimes",
+            "SOC1101 | Introduction to Sociology",
+            "ECO1102 | Introduction to Macroeconomics",
+            "Elective | 3 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ECH2300 | Conflict Resolution: Approaches and Processes",
+            "ECH2310 | Peace and Conflict in World Politics",
+            "ECH2320 | Human Rights Institutions and Practices",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ECH2330 | Critical Approaches to Human Rights",
+            "Optional | 3 units from ECH optional course list",
+            "Optional | 3 units from POL2103 or POL2104",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ECH3310 | Advanced Conflict Resolution",
+            "ECH3360 | Conflict and Development",
+            "Optional | 3 units from ECH optional course list",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ECH3320 | Conflict Transformation",
+            "Optional | 6 units from ECH optional course list",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "Optional | 6 units from: DVM4117, DVM4108, ECH4010, ECH4210, ECH4310, ECH4320, ECH4325, ECH4330, ECH4335, ECH4350, ECH4355",
+            "Optional | 6 units from ECH optional course list",
+            "Elective | 3 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "Optional | 6 units from: DVM4117, DVM4108, ECH4010, ECH4210, ECH4310, ECH4320, ECH4325, ECH4330, ECH4335, ECH4350, ECH4355",
+            "Optional | 3 units from ECH optional course list",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    }
+  ]
+}

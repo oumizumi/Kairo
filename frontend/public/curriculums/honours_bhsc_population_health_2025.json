@@ -1,0 +1,82 @@
+{
+    "program": "Honours Bachelor of Health Sciences (BHSc)",
+    "option": "Population and Public Health",
+    "academicYear": "2025-2026",
+    "totalUnits": 120,
+    "notes": [
+        "You can take up to 48 units at the 1000 level.",
+        "To find an elective, see the course timetable.",
+        "If you haven’t completed Chemistry 4U or the equivalent, you must enroll in CHM1301.",
+        "You can take HSS1100 and HSS1101 in either the Fall or Winter semester.",
+        "3 optional course units in Health Sciences from the list of optional courses.",
+        "Only courses recognized as science courses by the Faculty of Science can count toward science requirements. See course catalogue for details.",
+        "You can add a 30-unit minor, which replaces the 30 units of electives.",
+        "Following the course sequence is important for on-time graduation. Any failure, withdrawal, or change may delay progress."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "ANP1105 | Human Anatomy and Physiology I",
+                "CHM1311 | Principles of Chemistry",
+                "ENG1100 | Workshop in Essay Writing",
+                "BIO1140 | Introduction to Cell and Molecular Biology",
+                "PSY1101 | Introduction to Psychology: Foundations"
+            ],
+            "Winter": [
+                "ANP1106 | Human Anatomy and Physiology II",
+                "HSS1100 | Microbiology and Immunology",
+                "HSS1101 | Determinants of Health",
+                "SOC1101 | Principles of Sociology",
+                "1 elective"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "HSS2102 | Communication and Health",
+                "HSS2305 | Molecular Mechanisms of Disease",
+                "HSS2381 | Quantitative Methods in Health Sciences: Continuous Variables",
+                "PHI2396 | Bioethics",
+                "1 science course"
+            ],
+            "Winter": [
+                "HSS2321 | Sociopolitical and Economic Perspectives in Health",
+                "HSS2382 | Quantitative Methods in Health Sciences: Categorical Variables",
+                "1 optional HSS course",
+                "1 science course",
+                "1 elective"
+            ]
+        },
+        {
+            "year": "3rd Year",
+            "Fall": [
+                "HSS3101 | Health Research: Quantitative and Qualitative Approaches",
+                "HSS3108 | Disease Prevention and Health Promotion",
+                "HSS3305 | Pathophysiology of Health Problems",
+                "1 elective",
+                "1 elective"
+            ],
+            "Winter": [
+                "HSS3103 | Experience of Illness, Impairment and Disability",
+                "HSS3105 | Global Citizenship and Health",
+                "HSS3106 | Pharmacology: Mechanisms and Compliance",
+                "HSS3110 | Epidemiology",
+                "HSS3303 | Environment and Health"
+            ]
+        },
+        {
+            "year": "4th Year",
+            "Fall": [
+                "HSS4102 | Developmental Origins of Health and Disease",
+                "HSS4331 | International Health",
+                "3 electives"
+            ],
+            "Winter": [
+                "HSS4101 | Development and Evaluation of Health Programs",
+                "HSS4110 | Population and Public Health",
+                "3 electives"
+            ]
+        }
+    ]
+}

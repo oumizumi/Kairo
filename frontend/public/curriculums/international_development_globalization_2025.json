@@ -1,0 +1,72 @@
+{
+  "program": "Honours in International Development and Globalization",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "A maximum of 3 optional course units in history (HIS) is permitted.",
+    "The addition of a minor is possible in second year."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "DVM1100 | Introduction to International Development and Globalization",
+        "ECO1104 | Introduction to Macroeconomics",
+        "1 from: ANT1101 or SOC1101",
+        "1 elective course (recommended: SCS1150)"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "ECO1102 | Introduction to Microeconomics",
+        "1 from: HIS1111 or POL1102",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "DVM2105 | Research Methods in International Development and Globalization",
+        "SCS2150",
+        "1 from: POL2103 or POL2104",
+        "1 optional course from list of optional courses",
+        "1 elective course"
+      ],
+      "Winter": [
+        "DVM2106 | Quantitative Methods in International Development and Globalization",
+        "1 from: ECO2117, ECO2121, or DVM3140",
+        "1 optional course from list of optional courses",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "DVM3150",
+        "DVM3160",
+        "1 optional course from list of optional courses",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "DVM3170",
+        "DVM3350 | Practicum in International Development and Globalization",
+        "1 from: ECO2117, ECO2121, or DVM3140",
+        "1 from: POL3115 or SOC3331",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "2 DVM4000-level optional courses from list of optional courses",
+        "2 optional courses at 3000- or 4000-level from list of optional courses",
+        "1 elective course"
+      ],
+      "Winter": [
+        "2 DVM4000-level optional courses from list of optional courses",
+        "1 optional course at 3000- or 4000-level from list of optional courses",
+        "2 elective courses"
+      ]
+    }
+  ]
+}

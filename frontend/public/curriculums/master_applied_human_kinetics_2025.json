@@ -1,0 +1,38 @@
+{
+    "program": "Master of Arts in Human Kinetics (MAHK)",
+    "option": null,
+    "coop": false,
+    "academicYear": "2025-2026",
+    "totalUnits": null,
+    "notes": [
+        "You must enroll in THM7999 and APA6997 each term until completed."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "APA6302 or APA6303 | Qualitative or Quantitative Research Methods in Sport, Physical Activity and Health",
+                "APA6104 or APA6105 or APA6110 or APA6111 | Selected Topics in Sport, Physical Activity and Health: Sociocultural Studies / Psychology and Pedagogy / Management / Leisure Studies"
+            ],
+            "Winter": [
+                "APA6100 or APA6101 | Qualitative or Quantitative Data Analysis in Sport, Physical Activity and Health",
+                "APA6997 | Master's Thesis Proposal"
+            ],
+            "Spring-Summer": [
+                "THM7999 | Master's Thesis"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "THM7999 | Master's Thesis"
+            ],
+            "Winter": [
+                "THM7999 | Master's Thesis"
+            ],
+            "Spring-Summer": [
+                "THM7999 | Master's Thesis"
+            ]
+        }
+    ]
+}

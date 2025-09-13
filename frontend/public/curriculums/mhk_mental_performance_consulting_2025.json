@@ -1,0 +1,41 @@
+{
+    "program": "Master of Human Kinetics (MHK)",
+    "option": "Concentration in Mental Performance Consulting",
+    "coop": false,
+    "academicYear": "2024-2025",
+    "totalUnits": null,
+    "notes": [
+        "Courses with ongoing activities (APA5936, APA5941) span multiple terms and must be registered each term until completed.",
+        "The internship (APA5936) starts in the summer only after APA5320 is completed."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "APA5107 | Counselling Theories and Skills",
+                "APA5115 | Applied Research Methods for Practitioners",
+                "APA6105 | Selected Topics in Sport, Physical Activity and Health: Psychology and Pedagogy"
+            ],
+            "Winter": [
+                "APA5110 | Mental Skills Training Programs and Tools",
+                "APA5306 | Ethics and Values in Sport, Performance, and Physical Activity Contexts",
+                "APA5319 | Essential Competencies for Mental Performance Consultants"
+            ],
+            "Spring-Summer": [
+                "APA5320 | Diversity, Equity and Inclusion Principles and Competencies for Practitioners",
+                "APA5936 | Internship: Mental Performance Consulting"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "APA5321 | Analysis and Enhancement of Consulting Interventions and Supervision",
+                "APA5936 | Internship: Mental Performance Consulting"
+            ],
+            "Winter": [
+                "APA5936 | Internship: Mental Performance Consulting",
+                "APA5941 | Internship Analysis and Integration: Mental Performance Consulting"
+            ]
+        }
+    ]
+}

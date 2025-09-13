@@ -1,0 +1,141 @@
+{
+    "program": "BASc in Chemical Engineering and BSc in Computing Technology",
+    "academicYear": "2025-2026",
+    "totalUnits": 162,
+    "notes": [
+      "Some electives can be taken in Fall or Winter depending on availability.",
+      "Students must ensure technical and computing electives align with program guidelines.",
+      "Please note:",
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG1125 | Chemical Engineering Fundamentals",
+              "CHM1311 | Principles of Chemistry",
+              "GNG1105 | Engineering Mechanics",
+              "ITI1120 | Introduction to Computing I",
+              "MAT1320 | Calculus I"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CHG1371 | Numerical Methods and Engineering Computation in Chemical Engineering",
+              "CHM1321 | Organic Chemistry I",
+              "ITI1121 | Introduction to Computing II",
+              "MAT1322 | Calculus II",
+              "MAT1341 | Introduction to Linear Algebra",
+              "PHY1122 | Fundamentals of Physics II"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG2312 | Fluid Flow",
+              "CHG2317 | Introduction to Chemical Process Analysis and Design",
+              "CHM2120 | Organic Chemistry II",
+              "ENG1112 | Technical Report Writing",
+              "MAT2322 | Calculus III for Engineers",
+              "MAT2384 | Ordinary Differential Equations and Numerical Methods"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CHG2314 | Heat Transfer Operations",
+              "CHG2324 | Fundamentals and Applications of Chemical Engineering Thermodynamics",
+              "CHM2330 | Physical Chemistry: Introduction to the Molecular Properties of Matter",
+              "GNG1103 | Engineering Design",
+              "ITI1100 | Digital Systems I",
+              "MAT1348 | Discrete Mathematics for Computing"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG2136 | Computer Architecture I",
+              "CHG3127 | Chemical Reaction Engineering",
+              "CHG3305 | Advanced Materials in Chemical Engineering",
+              "CHG3316 | Transport Phenomena",
+              "CHG3335 | Process Control"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "Elective | 3 units from: ECO1192, GNG2101, CHG3111, CHG3112, CHG3122, CHG3326, Complementary elective",
+              "Elective | 3 units from: ECO1192, GNG2101"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG3337 | Data Collection and Interpretation",
+              "CHG4116 | Chemical Engineering Laboratory",
+              "CSI2110 | Data Structures and Algorithms",
+              "Elective | 3 units from: HIS2129, PHI2394",
+              "Elective | Technical Elective"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CSI2120 | Programming Paradigms",
+              "ELG2336 | Electric Circuits and Machines for Mechanical Engineering",
+              "Elective | 3 units from: HIS2129, PHI2394",
+              "Computing Elective 2000 | 3 units from: CEG, CSI, ELG, SEG at 2000+ level",
+              "Computing Elective 3000 | 6 units from: CSI, ELG, SEG at 3000+ level"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 5,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "ADM1100 | Introduction to Business Management",
+              "CHG4343 | Computer-Aided Design in Chemical Engineering",
+              "CHG4381 | Biochemical Engineering",
+              "Elective | Technical Elective",
+              "Elective | Technical Elective"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CHG4250 | Plant Design Project",
+              "CHG4307 | Process Risk Management and Sustainability",
+              "GNG4170 | Engineering Law"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

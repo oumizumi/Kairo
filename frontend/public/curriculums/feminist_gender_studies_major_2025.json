@@ -1,0 +1,63 @@
+{
+  "program": "Major in Feminist and Gender Studies",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "The compulsory addition of a 2nd major or the addition of a minor is required in 2nd year. This addition will impact the number of elective course units. Please consult the Office of Undergraduate Studies."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "FEM1100 | Introduction to Feminist and Gender Studies",
+        "1 from: PHI1101 or PHI1301",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "1 from: PHI1102, PHI1103, PHI1104, or PHI1302",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "FEM2103",
+        "FEM2109",
+        "1 optional course from list of optional courses",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "1 from: FEM2104 or FEM2110",
+        "1 from: FEM2107 or FEM2111",
+        "1 optional FEM course from list of optional courses",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "FEM3105",
+        "2 optional courses at 3000-level from list of optional courses",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "1 optional course at 3000-level from list of optional courses",
+        "1 optional FEM course from list of optional courses",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "1 from: FEM4310, FEM4320, or FEM4330",
+        "4 elective courses"
+      ],
+      "Winter": [
+        "1 optional course at 4000-level from list of optional courses",
+        "4 elective courses"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+    "program": "MHSc_OT_2025",
+    "academicYear": "Fall 2024 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "Please note that this program is governed by the academic regulations in effect for graduate studies and that the regulations have priorities over this proposed sequence.",
+        "You must enroll in this activity each term until completed.",
+        "Consult the program requirements",
+        "Consult the course description (in French)"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "ERG5512 | Anatomie et éléments du mouvement pour la participation occupationnelle",
+                        "ERG5525 | Exploration de la participation occupationnelle",
+                        "ERG5714 | Principes généraux du processus de pratique ergothérapique",
+                        "ERG5754 | La recherche en ergothérapie",
+                        "REA5703 | Pratiques professionnelles en réadaptation",
+                        "ERG5901 | Formation clinique en ergothérapie I"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "ERG5526 | Analyse de la participation occupationnelle",
+                        "ERG5527 | Participation occupationnelle de l'enfant et l'adolescent",
+                        "ERG5722 | Perspectives théoriques et modèles en ergothérapie",
+                        "ERG5742 | Atteintes à la santé physique des adultes et approches",
+                        "ERG6742 | Intervention de l'ergothérapeute auprès des adultes (santé physique)",
+                        "ERG6755 | Séminaire de recherche (CTN)",
+                        "ERG5902 | Formation clinique en ergothérapie II"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "ERG5743 | Atteintes à la santé mentale des adultes et approches d'intervention",
+                        "ERG6743 | Intervention de l'ergothérapeute auprès des adultes (santé mentale)",
+                        "ERG6755 | Séminaire de recherche (CTN)",
+                        "REA6503 | Pratique factuelle en réadaptation"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "ERG5528 | Aspects sociopolitiques de la participation occupationnelle",
+                        "ERG5741 | Atteintes à la santé des enfants et approches d'intervention",
+                        "ERG6741 | Intervention de l'ergothérapeute auprès des enfants",
+                        "ERG6755 | Séminaire de recherche (CTN)",
+                        "ERG6903 | Formation clinique en ergothérapie III"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "ERG5744 | Atteintes à la santé des personnes âgées et approches d'intervention",
+                        "ERG6744 | Intervention de l'ergothérapeute auprès des personnes âgées",
+                        "ERG6755 | Séminaire de recherche (CTN)",
+                        "ERG6904 | Formation clinique en ergothérapie IV"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "ERG6715 | Pratiques professionnelles avancées en ergothérapie",
+                        "ERG6755 | Séminaire de recherche",
+                        "ERG6761 | Séminaire d'intégration des acquis en ergothérapie",
+                        "ERG6905 | Formation clinique en ergothérapie V"
+                    ]
+                }
+            ]
+        }
+    ]
+}

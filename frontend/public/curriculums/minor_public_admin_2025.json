@@ -1,0 +1,34 @@
+{
+  "program": "Minor in Public Administration",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [
+    "The table includes only discipline-specific courses. Please refer to the Academic Regulations for information on including a minor to your degree.",
+    "Requirements for this program have been modified. Please consult the 2023-2024 calendars for the previous requirements."
+  ],
+  "requirements": [
+    {
+      "type": "Compulsory",
+      "level": "1000",
+      "courses": [
+        "PAP1301 | Introduction to Public Administration | 3 Units"
+      ]
+    },
+    {
+      "type": "Compulsory",
+      "level": "2000",
+      "courses": [
+        "PAP2300 | Introduction to Public Policy Analysis | 3 Units",
+        "PAP2320 | Introduction to Public Management | 3 Units"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "From the list of optional courses",
+      "courses": [
+        "15 optional course units | Any level",
+        "6 optional course units in public administration (PAP) at the 3000 or 4000 level"
+      ]
+    }
+  ]
+}

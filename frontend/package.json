@@ -1,0 +1,39 @@
+{
+  "name": "kairo-ui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "node scripts/fix-permissions.js"
+  },
+  "dependencies": {
+    "@azure/msal-browser": "^4.22.1",
+    "@azure/msal-react": "^3.0.19",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.17",
+    "axios": "^1.9.0",
+    "cssnano": "^6.1.2",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.12.1",
+    "lucide-react": "^0.510.0",
+    "next": "14.1.0",
+    "postcss": "^8.4.33",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-scrollbar": "^3.0.5",
+    "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.1.0",
+    "typescript": "^5.3.3"
+  }
+}

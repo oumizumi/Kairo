@@ -1,0 +1,47 @@
+{
+    "program": "Minor in Computer Science",
+    "academicYear": "2025-2026",
+    "totalUnits": 30,
+    "notes": [
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled.",
+      "This program is designed to be combined with a major or honours specialization in a discipline other than science.",
+      "Some optional courses require prerequisites not included in the program."
+    ],
+    "structure": {
+      "mandatoryCourses": [
+        "ITI1100 | Digital Systems I",
+        "ITI1120 | Introduction to Computing I",
+        "ITI1121 | Introduction to Computing II",
+        "CSI2110 | Data Structures and Algorithms",
+        "CSI2120 | Programming Paradigms",
+        "MAT1348 | Discrete Mathematics for Computing",
+        "Elective | 6 units from optional courses",
+        "Elective | 6 units in CSI or SEG 3000 level optional courses"
+      ],
+      "optionalCourses": {
+        "Developing software for the visual arts": [
+          "MAT1341 | Introduction to Linear Algebra",
+          "CSI2101 | Discrete Structures",
+          "CSI3105 | Design and Analysis of Algorithms I",
+          "CSI4130 | Computer Graphics"
+        ],
+        "Analysis and design in information systems": [
+          "CSI2132 | Databases I",
+          "CSI3130 | Databases II",
+          "SEG2105 | Introduction to Software Engineering",
+          "SEG3101 | Software Requirements Analysis"
+        ],
+        "Web-based systems and Web design": [
+          "CSI2132 | Databases I",
+          "CSI3130 | Databases II",
+          "SEG2105 | Introduction to Software Engineering",
+          "SEG3125 | Analysis and Design of User Interfaces"
+        ]
+      }
+    }
+  }
+  

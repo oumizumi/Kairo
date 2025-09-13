@@ -1,0 +1,111 @@
+{
+    "program": "Doctorate in Philosophy, Population Health (PhD)",
+    "academicYear": "Fall 2023 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "To register in elective courses, you must obtain the following approvals: the course professor, your thesis supervisor and the graduate program assistant director and submit them by email to healthsc@uottawa.ca",
+        "The course POP 8900: Directed Studies in Population Health can only be taken once to replace an elective graduate-level course.",
+        "You must enroll in this activity each term until completed.",
+        "Consult the program requirements",
+        "Consult the course description"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "POP8910 | Scientific Paradigms in Population Health",
+                        "POP8920 | Investigative Methods in Population Health",
+                        "Elective | Elective"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "POP8930 | Population Health Interventions",
+                        "Elective | Elective",
+                        "Elective | Elective"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "POP9998 | Comprehensive Examination (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "POP9998 | Comprehensive Examination"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "POP9997 | Thesis Proposal (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 3,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 4,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THD9999 | Doctoral Thesis"
+                    ]
+                }
+            ]
+        }
+    ]
+}

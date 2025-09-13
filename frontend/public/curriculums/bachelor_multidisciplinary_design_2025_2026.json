@@ -1,0 +1,92 @@
+{
+    "program": "Bachelor of Multidisciplinary Design - Experiential Learning",
+    "academicYear": "2025-2026",
+    "totalUnits": 90,
+    "notes": [
+      "Engineering elective: Any Faculty of Engineering course except CSI 2911, CVG 1107, ELG 2911, GNG 1106, GNG 4120, GNG 4170, ITI 1100, ITI 1120, ITI 1121, SEG 2911, theses, projects, seminars, or CO-OP placements.",
+      "uOttawa elective: Any course offered at uOttawa for which prerequisites are met.",
+      "MAT/SCIENCE: Any Faculty of Engineering science elective or MAT 1320, MAT 1322, MAT 1341, MAT 1348, MAT 2322, MAT 2377, MAT 2384.",
+      "Internship I (SED 2917) is done after 1st year, Internship II (SED 3917) after 2nd year, and SED 3901 (Community Engagement) is required."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "GNG1103 | Introduction to Engineering Design",
+              "SED1111 | Personal Development and Communication Skills",
+              "SED1113 | Introduction to Engineering and its Impact on Society",
+              "SED1115 | Embedded Programming and Scripting",
+              "Elective | MAT/SCIENCE"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "SED1112 | Teamwork and Communication Skills",
+              "SED1114 | Introduction to Sustainability",
+              "SED1116 | Data Visualization and Analytics",
+              "Elective | MAT/SCIENCE",
+              "Elective | uOttawa"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "SED2113 | Leadership and Communication",
+              "SED2115 | Web and Mobile Applications",
+              "Elective | MAT/SCIENCE",
+              "Elective | Engineering",
+              "Elective | uOttawa"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "GNG2101 | Introduction to Product Development",
+              "SED2116 | Ethics and Technology",
+              "Elective | uOttawa",
+              "Elective | uOttawa"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "SED3111 | Multidisciplinary Design I",
+              "Elective | uOttawa",
+              "Elective | uOttawa",
+              "Elective | uOttawa",
+              "Elective | Engineering"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "SED3112 | Multidisciplinary Design II",
+              "Elective | Engineering",
+              "Elective | Engineering",
+              "Elective | uOttawa"
+            ]
+          }
+        ]
+      }
+    ],
+    "internships": [
+      "SED2917 | Internship I (3 units)",
+      "SED3917 | Internship II (3 units)",
+      "SED3901 | Community Engagement (0 unit, S/NS)"
+    ]
+  }
+  

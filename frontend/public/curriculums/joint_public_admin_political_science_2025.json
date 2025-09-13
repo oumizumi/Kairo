@@ -1,0 +1,75 @@
+{
+  "program": "Joint Honours in Public Administration and Political Science",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "4000-level optional courses in public administration (PAP) and political science (POL) are limited to students in the 4th year of the program of studies."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "PAP1301 | Introduction to Public Administration",
+        "POL1101 | Introduction to Political Science",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "1 optional POL course (recommended: POL1102)",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "PAP2300 | Public Administration Theory",
+        "POL2101 | Canadian Government and Politics",
+        "POL2103 | Comparative Politics",
+        "POL2107 | Political Theory",
+        "POL2156 | Research Methods in Political Science"
+      ],
+      "Winter": [
+        "PAP2320 | Public Policy Analysis",
+        "POL2104 | International Relations",
+        "POL2108 | Public Policy",
+        "1 optional PAP course",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "PAP3350 | Human Resources in the Public Sector",
+        "POL3102 | Advanced Research Methods in Political Science",
+        "1 from: PAP3310, POL3370, or POL3371",
+        "1 Canadian Politics course from: POL3159, POL3171, POL3172, POL3174, POL4134, POL4150, POL4154, POL4162, POL4165, or POL4166",
+        "1 elective course"
+      ],
+      "Winter": [
+        "PAP3355 | Public Sector Ethics",
+        "PAP3370 | Program Evaluation",
+        "1 optional PAP course at 3000 or 4000 level",
+        "1 Comparative Politics course from: POL3114, POL3115, POL3144, POL3145, POL3162, POL3164, POL3180, POL4141, POL4184, or POL4378",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "PAP4315 | Strategic Management in the Public Sector",
+        "1 from: POL4310, POL4320, POL4330, POL4350, or POL4930",
+        "1 optional PAP course at 4000 level",
+        "1 optional POL course at 4000 level",
+        "1 elective course"
+      ],
+      "Winter": [
+        "PAP4365 | Honours Seminar in Public Administration",
+        "1 International Relations course from: POL3113, POL3123, POL3124, POL3176, POL3177, POL3179, POL4126, POL4127, POL4173, or POL4188",
+        "1 optional PAP course at 4000 level",
+        "1 optional POL course at 4000 level",
+        "1 elective course"
+      ]
+    }
+  ]
+}

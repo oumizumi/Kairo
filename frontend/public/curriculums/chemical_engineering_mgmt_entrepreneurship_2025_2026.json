@@ -1,0 +1,116 @@
+{
+    "program": "BASc in Chemical Engineering, Engineering Management and Entrepreneurship Option",
+    "academicYear": "2025-2026",
+    "totalUnits": 132,
+    "notes": [
+      "Students choose between HIS 2129 and PHI 2394 depending on availability.",
+      "ECO 1192 and GNG 2101 are mutually exclusive depending on availability.",
+      "One technical elective must be taken in either Fall or Winter of 4th year."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG1125 | Chemical Engineering Fundamentals",
+              "CHM1311 | Principles of Chemistry",
+              "ENG1112 | Technical Report Writing",
+              "GNG1105 | Engineering Mechanics",
+              "MAT1320 | Calculus I"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CHG1371 | Numerical Methods and Engineering Computation in Chemical Engineering",
+              "CHM1321 | Organic Chemistry I",
+              "MAT1322 | Calculus II",
+              "MAT1341 | Introduction to Linear Algebra",
+              "PHY1122 | Fundamentals of Physics II"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "ADM1100 | Introduction to Business Management",
+              "CHG2312 | Fluid Flow",
+              "CHG2317 | Introduction to Chemical Process Analysis and Design",
+              "CHM2120 | Organic Chemistry II",
+              "MAT2322 | Calculus III for Engineers",
+              "MAT2384 | Ordinary Differential Equations and Numerical Methods"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ADM1340 | Financial Accounting",
+              "CHG2314 | Heat Transfer Operations",
+              "CHG2324 | Fundamentals and Applications of Chemical Engineering Thermodynamics",
+              "CHM2330 | Physical Chemistry: Introduction to the Molecular Properties of Matter",
+              "GNG1103 | Engineering Design",
+              "ITI1120 | Introduction to Computing I"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG3127 | Chemical Reaction Engineering",
+              "CHG3305 | Advanced Materials in Chemical Engineering",
+              "CHG3316 | Transport Phenomena",
+              "CHG3335 | Process Control",
+              "CHG3337 | Data Collection and Interpretation",
+              "Elective | ECO1192 or GNG2101"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ADM2320 | Marketing",
+              "CHG3111 | Unit Operations",
+              "CHG3112 | Process Synthesis, Design and Economics",
+              "CHG3122 | Chemical Engineering Practice",
+              "CHG3326 | Principles of Phase Equilibria and Chemical Reaction Equilibria",
+              "GNG4170 | Engineering Law"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHG4116 | Chemical Engineering Laboratory",
+              "CHG4343 | Computer-Aided Design in Chemical Engineering",
+              "CHG4381 | Biochemical Engineering",
+              "Elective | Technical",
+              "Elective | HIS2129 or PHI2394"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ADM3313 | Entrepreneurial Mind: New Venture Creation",
+              "CHG4250 | Plant Design Project",
+              "CHG4307 | Process Risk Management and Sustainability",
+              "Elective | HIS2129 or PHI2394"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

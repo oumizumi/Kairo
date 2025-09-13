@@ -1,0 +1,117 @@
+{
+    "program": "Major in Computer Science",
+    "academicYear": "2025-2026",
+    "totalUnits": 120,
+    "notes": [
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled.",
+      "The following courses cannot be combined for units: MAT 2377, MAT 1371, MAT 1372, MAT 2371, MAT 2375, MAT 2378, MAT 2379, ADM 2303, ECO 3150, HSS 2381, PSY 2106."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "ITI1120 | Introduction to Computing I",
+              "MAT1341 | Introduction to Linear Algebra",
+              "Either | MAT1320 or MAT1330",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ITI1100 | Digital Systems I",
+              "ITI1121 | Introduction to Computing II",
+              "MAT1348 | Discrete Mathematics for Computing",
+              "Either | MAT1322 or MAT1332",
+              "Elective | Opt 1/Opt 2"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CSI2110 | Data Structures and Algorithms",
+              "SEG2105 | Introduction to Software Engineering",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2",
+              "One of | MAT2377, MAT3172, MAT3375, MAT3377"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CSI2101 | Discrete Structures",
+              "CSI2120 | Programming Paradigms",
+              "CSI2132 | Databases I",
+              "One of | MAT2377, MAT3172, MAT3375, MAT3377",
+              "CSI2911 | Professional Practice in Computing"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CSI3105 | Design and Analysis of Algorithms I",
+              "Elective | 6 units from CSI3120, CSI3130, CSI3131, CSI3140",
+              "Elective | 9 units from CEG/CSI/SEG (3000+)",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "Elective | 6 units from CSI3120, CSI3130, CSI3131, CSI3140",
+              "Elective | 9 units from CEG/CSI/SEG (3000+)",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "Elective | 9 units from CEG/CSI/SEG (3000+)",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2",
+              "Elective | Opt 1/Opt 2 (Complete with Minor or Second Major from another Faculty)"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,115 @@
+{
+    "program": "Joint BSc in Computer Science and Mathematics",
+    "academicYear": "2025-2026",
+    "totalUnits": 120,
+    "notes": [
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "ITI1120 | Introduction to Computing I",
+              "MAT1320 | Calculus I",
+              "MAT1341 | Introduction to Linear Algebra",
+              "ENG1112 | Technical Report Writing",
+              "Elective | Free"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ITI1100 | Digital Systems I",
+              "ITI1121 | Introduction to Computing II",
+              "MAT1322 | Calculus II",
+              "MAT1348 | Discrete Mathematics for Computing",
+              "Elective | Free"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CEG2136 | Computer Architecture I",
+              "CSI2110 | Data Structures and Algorithms",
+              "MAT2122 | Multivariable Calculus",
+              "MAT2141 | Linear Algebra I",
+              "MAT2371 | Introduction to Probability"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CSI2101 | Discrete Structures",
+              "CSI2120 | Programming Paradigms",
+              "CSI2132 | Databases I",
+              "CSI2911 | Professional Practice in Computing",
+              "MAT2125 | Elementary Real Analysis",
+              "MAT2143 | Algebraic Structures"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CSI3105 | Design and Analysis of Algorithms I",
+              "SEG2105 | Introduction to Software Engineering",
+              "Elective | MAT 2000 (choose from MAT2324, MAT2355, MAT2362)",
+              "Elective | MAT 3000",
+              "Elective | Free"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CSI3104 | Introduction to Formal Languages",
+              "CSI3131 | Operating Systems",
+              "MAT2375 | Introduction to Statistics",
+              "Elective | CSI or SEG 3000/4000"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "Elective | CSI or SEG 3000 (choose from CSI3130, CSI3140, CEG3185)",
+              "Elective | CSI 4000",
+              "Elective | MAT 3000",
+              "Elective | MAT 4000",
+              "Elective | Free"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "Elective | CSI 4000",
+              "Elective | MAT 3000",
+              "Elective | MAT 3000",
+              "Elective | MAT 4000",
+              "Elective | Free"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,43 @@
+{
+    "program": "Graduate_Diploma_Primary_Health_Care_NP_2025",
+    "academicYear": "Fall 2023 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "Each student is assigned a clinic placement in Eastern Ontario (Ottawa and surrounding regions). Graduate students must arrange their own transportation to their placements.",
+        "Minimum Standards: The passing grade in all courses in the program is B (70%). Students who fail two courses or six units must withdraw.",
+        "Consult the program requirements",
+        "Consult the course description"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "NSG53501 | Pathophysiology for the Nurse Practitioner",
+                        "NSG53601 | Roles and Responsibilities of the Nurse Practitioner",
+                        "NSG5370 | Advanced Health Assessment and Diagnosis I",
+                        "NSG5380 | Therapeutics in Primary Health Care I"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "NSG53502 | Pathophysiology for the Nurse Practitioner",
+                        "NSG53602 | Roles and Responsibilities of the Nurse Practitioner",
+                        "NSG5375 | Advanced Health Assessment and Diagnosis II",
+                        "NSG5385 | Therapeutics in Primary Health Care II"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "NSG5401 | Integrative Practicum"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,87 @@
+{
+    "program": "Honours Bachelor of Science in Human Kinetics (BScHK)",
+    "option": "General (no CO-OP)",
+    "coop": false,
+    "academicYear": "2025-2026",
+    "totalUnits": 120,
+    "notes": [
+        "You can take up to 48 units at the 1000 level.",
+        "To find an elective, see the course timetable.",
+        "Optional science course: choose 3 units from ANP1107, BIO2110, BIO2133, or CHM2120.",
+        "Optional APA (1000/2000) courses: choose from APA1122, APA1302, APA2134, APA2302, or LSR1100.",
+        "Optional APA (3000/4000) courses: see list of APA courses.",
+        "If you haven’t completed Chemistry 4U or equivalent, enrol in CHM1301.",
+        "If you haven’t completed Physics 4U or equivalent, enrol in PHY1331.",
+        "To enrol in MAT1330, you must have completed MAT4U or MAT1339. The units for this course are in addition to program requirements.",
+        "APA4200 or APA4211 is offered year-round and counts as 3 units per term. Enrol in APA4211 by the clinical enrolment deadline.",
+        "For clinical registration in APA4211, contact a Faculty of Health Sciences placement adviser.",
+        "Following the course sequence is essential to graduate in four years. Course changes may result in delays.",
+        "Students admitted with advanced standing must contact the Academic Office to confirm their personalized course sequence."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "APA1313 | Musculoskeletal Anatomy",
+                "BIO1130 | Introduction to Organismal Biology",
+                "CHM1311 | Principles of Chemistry",
+                "ENG1100 or ENG1112 | Workshop in Essay Writing or Technical Report Writing",
+                "1 elective"
+            ],
+            "Winter": [
+                "ANP1105 | Human Anatomy and Physiology I",
+                "BIO1140 | Introduction to Cell and Molecular Biology",
+                "CHM1321 | Organic Chemistry I",
+                "Optional APA course (1000/2000)",
+                "1 elective"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "APA2120 | Motor Control and Learning",
+                "APA2140 | Introduction to Sport and Exercise Psychology",
+                "MAT1330 | Calculus for the Life Sciences I",
+                "PHY1321 | Principles of Physics I",
+                "1 elective"
+            ],
+            "Winter": [
+                "APA2114 | Biomechanical Analysis of Human Movement",
+                "APA2180 | Research Methods in Human Kinetics",
+                "APA2301 | Exercise Physiology I",
+                "APA2314 | Laboratory Techniques in Exercise Physiology and Biomechanics",
+                "Optional APA course (1000/2000)"
+            ]
+        },
+        {
+            "year": "3rd Year",
+            "Fall": [
+                "APA3381 | Measurement and Data Analysis in Human Kinetics",
+                "Optional APA course (3000/4000)",
+                "Optional APA course (3000/4000)",
+                "Optional science course",
+                "1 elective"
+            ],
+            "Winter": [
+                "APA3120 | Psychomotor Behaviour Laboratory",
+                "Optional APA course (3000/4000)",
+                "Optional APA course (3000/4000)",
+                "2 electives"
+            ]
+        },
+        {
+            "year": "4th Year",
+            "Fall": [
+                "APA4200 or APA4211 | Research Project or Internship / Clinical Experience",
+                "Optional APA course (3000/4000)",
+                "Optional APA course (3000/4000)",
+                "2 electives"
+            ],
+            "Winter": [
+                "APA4200 or APA4211 | Research Project or Internship / Clinical Experience",
+                "Optional APA course (3000/4000)",
+                "3 electives"
+            ]
+        }
+    ]
+}

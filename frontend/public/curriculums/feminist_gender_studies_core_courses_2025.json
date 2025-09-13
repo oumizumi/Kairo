@@ -1,0 +1,37 @@
+{
+  "program": "Discipline-Specific Requirements for Feminist and Gender Studies",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [
+    "The table below includes only discipline-specific courses. Please refer to the Academic Regulations for information on including a minor to your degree.",
+    "Requirements for this program have been modified. Please consult the 2023-2024 calendars for the previous requirements."
+  ],
+  "requirements": [
+    {
+      "type": "Compulsory Courses",
+      "courses": [
+        "FEM1100 | Women, Gender, Feminism: An Introduction | 3 Units",
+        "FEM2103 | Methodology in Feminist Studies | 3 Units",
+        "FEM3105 | Feminist Theories | 3 Units"
+      ]
+    },
+    {
+      "type": "Choose 2 from the following (6 Units)",
+      "courses": [
+        "FEM2104 | Gender, (Dis)Ability and Health",
+        "FEM2107 | Diversities of Women: Gender, Race, Class and (Dis)ability",
+        "FEM2109 | Gender and Globalization in a Transnational World",
+        "FEM2110 | Sexuality, Gender and Popular Culture",
+        "FEM2111 | Class, Work, Gender and (Re)Production"
+      ]
+    },
+    {
+      "type": "Optional Courses",
+      "courses": [
+        "6 optional course units from the list of optional courses",
+        "3 optional course units at the 3000 or 4000 level from the list of optional courses",
+        "6 optional course units in Feminist and Gender Studies (FEM) from the list of optional courses"
+      ]
+    }
+  ]
+}

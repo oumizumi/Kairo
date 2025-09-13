@@ -1,0 +1,74 @@
+{
+  "program": "Honours BSc in Psychology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "The recommended course sequence is offered as a general guideline. Adjustments may be required due to course offerings or advanced standing.",
+    "Registration to the Honours Thesis requires the following prerequisites: PSY2106, PSY2116, PSY2174, PSY3307, the successful completion of all science courses, and a CGPA of at least 8.0. No exceptions will be approved.",
+    "The optional addition of a minor is possible during the fall session of the 2nd year."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "PHI1101 | Reasoning and Critical Thinking",
+        "PSY1101 | Introduction to Psychology: Foundations",
+        "BIO1130 | Introduction to Organisms",
+        "CHM1311 | Principles of Chemistry"
+      ],
+      "Winter": [
+        "ENG1120 | University Writing",
+        "1 from: PHI1102, PHI1103, or PHI1104",
+        "PSY1102 | Introduction to Psychology: Applications",
+        "BIO1140 | Introduction to Cell Biology",
+        "CHM1321 | General Chemistry II"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "CHM2120 | Organic Chemistry I",
+        "CHM2123 | Organic Chemistry II",
+        "1 from: MAT1300 or MAT1308",
+        "PSY2105 | Statistics in Psychology I",
+        "PSY2106 | Statistics in Psychology II"
+      ],
+      "Winter": [
+        "BCH2333 | Introduction to Biochemistry",
+        "PSY2110 | Research Methods in Psychology I",
+        "PSY2116 | Research Methods in Psychology II",
+        "PSY2174 | Developmental Psychology",
+        "PSY2301 | Personality Theories"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "PSY3103 | Abnormal Psychology",
+        "PSY3307 | Advanced Research Methods and Data Analysis",
+        "PSY3377 | Health Psychology",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "PSY3108 | Cognitive Psychology",
+        "PSY3301",
+        "1 from: PSY3109 or PSY4302",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "PSY42761 | Honours Thesis or 1 optional PSY course at 4000-level",
+        "1 optional PSY course at 3000- or 4000-level",
+        "3 elective courses"
+      ],
+      "Winter": [
+        "PSY42762 | Honours Thesis or 1 optional PSY course at 4000-level",
+        "PSY4130 | History and Systems of Psychology",
+        "3 elective courses"
+      ]
+    }
+  ]
+}

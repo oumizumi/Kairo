@@ -1,0 +1,107 @@
+{
+  "program": "Honours in Environmental Economics and Public Policy",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Adjustments may be required due to course offerings or granted equivalencies.",
+    "Students intending to pursue graduate studies in economics should select MAT1300 or the MAT1320 + MAT1322 sequence.",
+    "A strong mathematics background supports success in advanced and graduate-level economics.",
+    "Students planning to participate in CO-OP should complete ECO2150 and ECO2151 in second year.",
+    "ECO3145, ECO3152, and ECO3153 are strongly recommended for students pursuing a Master's in Economics."
+  ],
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ENG1100 | Workshop in Essay Writing",
+            "ECO1104 | Economic Issues and Policies",
+            "PAP1301 | Foundations of Public Policy",
+            "Optional | 3 units from ENV1101 or EVS1101",
+            "Optional | 3 units from MAT1300 or MAT1308"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ENG1120 | Literature and Composition II",
+            "ECO1102 | Introduction to Macroeconomics",
+            "Optional | 3 units from MAT1302 or MAT1341",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "DVM2105 | Introduction to International Development",
+            "ECO2142 | Intermediate Microeconomics I",
+            "ECO2144 | Introduction to Econometrics",
+            "ECO2150 | Quantitative Methods in Economics I",
+            "PAP2300 | Canadian Public Administration"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "DVM2106 | Globalization and Development",
+            "ECO2143 | Intermediate Microeconomics II",
+            "ECO2145 | Intermediate Macroeconomics",
+            "ECO2151 | Quantitative Methods in Economics II",
+            "Optional | 3 units from POL2103 or POL2104"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "PAP3350 | Public Policy Analysis",
+            "Optional | 3 units from ECO2110, ECO3149, ECO4121",
+            "Optional | 3 units from DCC3107, DVM3125, ENV1101, ENV3101, EVS1101, PHI2398, POL3175, POL4173, POL4190, SOC3105, SOC4310",
+            "Elective | 6 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ECO2118 | Environmental Economics",
+            "Optional | 3 units from ECO2110, ECO3149, ECO4121",
+            "Optional | 3 units from ECO2110, ECO2117, ECO3130, ECO3149, ECO3153, ECO4121, ECO4136, ECO4150, ECO4190, ECO4192, ECO4193",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "Optional | 3 units from ECO4136 or ECO4192",
+            "Optional | 3 units from ECO3130, ECO3149, ECO3153, ECO4121, ECO4136, ECO4150, ECO4190, ECO4192, ECO4193",
+            "Elective | 9 units"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "Optional | 3 units from PAP4310, PAP4315, PAP4350",
+            "Optional | 6 units from DCC3107, DVM3125, ENV3101, POL3175, POL4173, POL4190, SOC3105, SOC4310",
+            "Elective | 6 units"
+          ]
+        }
+      ]
+    }
+  ]
+}

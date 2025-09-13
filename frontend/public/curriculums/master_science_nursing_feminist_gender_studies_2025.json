@@ -1,0 +1,68 @@
+{
+    "program": "MScN_Feminist_Gender_Studies_2025",
+    "academicYear": "Fall 2023 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "Students must complete the two FEM compulsory courses before their first enrollment in the thesis.",
+        "The courses NSG 5140 and NSG 5192 can be taken during the winter or spring/summer term.",
+        "117 hours of clinical setting",
+        "You must enroll in this activity each term until it is completed.",
+        "Minimum standards: The passing grade in all courses in the program is B.",
+        "Consult the program requirements",
+        "Consult the course description"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "FEM5300 | Feminist Theories",
+                        "NSG5130 | Development of knowledge and theory in nursing as a discipline",
+                        "NSG5215 | Advanced Nursing Practice in Health Care"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "FEM5103 | Feminist Methodologies",
+                        "NSG5140 | Research methods in nursing",
+                        "NSG5216 | Practicum: Advanced Nursing Practice in Health Care"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "NSG5192 | Statistical analysis in nursing",
+                        "THM7999 | Master's thesis (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "THM7999 | Master's thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "THM7999 | Master's thesis (CTN)"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "THM7999 | Master's thesis"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,94 @@
+{
+    "program": "Honours Bachelor of Human Kinetics",
+    "option": "Education and Coaching",
+    "coop": true,
+    "academicYear": "2025-2026",
+    "totalUnits": 120,
+    "notes": [
+        "You can take up to 48 units at the 1000 level.",
+        "To find an elective, see the course timetable.",
+        "Optional course: Choose 3 units from PHI 1101, PHI 1370, PSY 1101, PSY 1102, SOC 1101, or SOC 1106.",
+        "APA4200 or APA4211 is offered year-round and counts as 3 units per term. Deadline to enroll in APA4211 is June 30.",
+        "Contact Faculty of Health Sciences for clinical placement requirements.",
+        "Students in co-op may replace the 6-unit project with 6 optional APA courses at the 3000/4000 level.",
+        "You may add a 30-unit minor which replaces your 30 units of electives.",
+        "Follow this sequence to graduate on time. Deviating may delay graduation.",
+        "Advanced standing students should contact the Academic Office to review their sequence."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "ENG1100 | Workshop in Essay Writing",
+                "PSY1101 or PSY1102 | Introduction to Psychology",
+                "APA1313 | Musculoskeletal Anatomy",
+                "LSR1100 | Introduction to Leisure Studies",
+                "1 elective"
+            ],
+            "Winter": [
+                "APA1122 | Physical Activity in a Global Health Perspective",
+                "APA1302 | Sociology of Sport and Physical Activity in Canada",
+                "ENG1112 or ENG1120 | Technical or Literary Composition",
+                "SOC1101 or SOC1106 | Sociology or Diversity in Canada",
+                "1 optional course"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "APA2111 | Intervention Theories",
+                "APA2116 | Principles of Coaching",
+                "APA2140 | Sport and Exercise Psychology",
+                "LSR2118 | Recreation Program Development and Evaluation",
+                "APA2120 or APA2312 or APA2315 | Motor Control, Physiology, or Biomechanics"
+            ],
+            "Winter": [
+                "APA2180 | Research Methods in Human Kinetics",
+                "APA2120 or APA2312 or APA2315 | Motor Control, Physiology, or Biomechanics",
+                "3 electives"
+            ]
+        },
+        {
+            "year": "3rd Year",
+            "Fall": [
+                "APA3381 | Measurement and Data Analysis in Human Kinetics",
+                "APA3118 | Recreation, Sport and Community Development",
+                "2 optional courses (3000/4000 level)",
+                "1 elective"
+            ],
+            "Winter": [
+                "APA3301 | Ethics in Sport, Physical Activity and Health in Canada",
+                "APA3119 or APA3325 | Coaching Methods or Fitness Training",
+                "APA3111 | Intervention, Observation and Experimentation",
+                "1 optional course (3000/4000 level)",
+                "1 elective"
+            ],
+            "Spring-Summer": [
+                "SSP3901 | Co-op Work Term"
+            ]
+        },
+        {
+            "year": "4th Year",
+            "Spring-Summer": [
+                "SSP4901 | Co-op Work Term"
+            ],
+            "Fall-Winter": [
+                "SSP4902 | Co-op Work Term"
+            ]
+        },
+        {
+            "year": "5th Year",
+            "Fall": [
+                "APA4200 or APA4211 or Optional APA (3000/4000) | Research Project, Internship, or Elective",
+                "APA4123 | Physical Activity Counselling",
+                "1 optional APA course (3000/4000 level)",
+                "2 electives"
+            ],
+            "Winter": [
+                "APA4200 or APA4211 or Optional APA (3000/4000) | Research Project, Internship, or Elective",
+                "1 optional APA course (3000/4000 level)",
+                "3 electives"
+            ]
+        }
+    ]
+}

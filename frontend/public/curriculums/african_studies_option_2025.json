@@ -1,0 +1,44 @@
+{
+  "program": "African Studies Option",
+  "academicYear": "2025-2026",
+  "totalUnits": 12,
+  "notes": [
+    "Students registered in the course FSS3210 in Africa (Maghreb or Sub-Saharan Africa) will be exempted from SOC4103 (COIL version).",
+    "Refer to the Academic Regulations for valid combinations within the Faculty of Social Sciences."
+  ],
+  "requirements": [
+    {
+      "type": "Required",
+      "courses": [
+        "SOC2306 | Social Reconfigurations in Africa",
+        "SOC4103 | Sociology of Populations"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "3 course units from the following",
+      "courses": [
+        "ANT3342 | Anthropology of Africa",
+        "ANT3345 | Anthropology of the Maghreb and the Middle East"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "3 course units from the following",
+      "courses": [
+        "ANT2128 | Anthropology for the 21st Century",
+        "ANT3142 | Ethnographer's Magic: Reading and Writing Anthropology",
+        "DVM3106 | Women, Gender and Development",
+        "DVM4120 | International Development Issues in Africa",
+        "ECH3370 | African Great Lakes",
+        "FEM2109 | Gender and Globalization in a Transnational World",
+        "FEM4320 | Anti-Colonial and Anti-Racist Feminisms",
+        "HIS2376 | The African Past",
+        "POL3144 | Comparative Politics: Africa",
+        "FSS3210 | Selected Topics: International Social Sciences Field Research I",
+        "SOC3331 | Sociology and Anthropology of Development",
+        "SOC4314 | Gender Relations, Development and Globalization"
+      ]
+    }
+  ]
+}

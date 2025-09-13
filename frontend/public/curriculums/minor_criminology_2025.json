@@ -1,0 +1,33 @@
+{
+  "program": "Minor in Criminology",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [
+    "This table includes only discipline-specific courses.",
+    "Refer to the Academic Regulations for guidance on adding a minor to your degree.",
+    "Students must complete at least 6 units at the 3000 level in criminology."
+  ],
+  "requirements": [
+    {
+      "type": "Required",
+      "courses": [
+        "CRM1300 | Introduction to Criminology",
+        "CRM1301 | History of Criminological Thought"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "18 optional course units in criminology (CRM)",
+      "courses": [
+        "Elective | 18 units in any CRM courses"
+      ]
+    },
+    {
+      "type": "Optional",
+      "description": "6 optional course units in criminology (CRM) at the 3000 level",
+      "courses": [
+        "Elective | 6 units in 3000-level CRM courses"
+      ]
+    }
+  ]
+}

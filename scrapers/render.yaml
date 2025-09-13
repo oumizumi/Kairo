@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: kairo-scrapers
+    env: node
+    plan: starter
+    buildCommand: npm ci && npx playwright install chromium && npx playwright install-deps chromium && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /
+    scaling:
+      minInstances: 1
+      maxInstances: 3
+    region: oregon
+    autoDeploy: true

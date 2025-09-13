@@ -1,0 +1,147 @@
+{
+  "program": "Honours Bachelor of Science in Food Sciences (Technology Option) Co-op",
+  "academicYear": "2024 or later",
+  "totalUnits": "129 to 132",
+  "notes": [
+    "You can take up to 48 units at the 1000 level.",
+    "To find an elective, see the course timetable.",
+    "Please consult the program calendar for the list of optional courses.",
+    "NUT2333 and BCH2333 cannot be combined for credits.",
+    "The passing grade for some NUT courses is C+.",
+    "You can add a 30-unit minor. It replaces your 30 units of electives.",
+    "French immersion is available with this program. We invite you to learn more about the French Immersion Stream.",
+    "If you want to complete your program requirements in five years, it's important to follow this course sequence. If you fail, withdraw from or change a course in this sequence, it could lead to a delay in completing your program requirements.",
+    "Students admitted with advanced standing are requested to contact the Academic Office to review their course sequence."
+  ],
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "ANP1111 | Essentials of Human Anatomy and Physiology I",
+            "CHM1311 | Principles of Chemistry",
+            "NUT1104 | Food Sciences I",
+            "NUT1304 | Introduction to Nutrition",
+            "Elective | Elective"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "ANP1115 | Essentials of Human Anatomy and Physiology II",
+            "BIO1140 | Introduction to Cell and Molecular Biology",
+            "CHM1321 | Organic Chemistry I",
+            "NUT1124 | Food Sciences II",
+            "Elective | Elective"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "NUT2103 | Laboratory Techniques in Food Sciences",
+            "NUT2110 | Principles of Management in Nutrition",
+            "NUT2333 | Nutritional Biochemistry",
+            "HSS2381 | Quantitative Methods in Health Sciences: Continuous Variables",
+            "Elective | Elective"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "NUT2304 | Introduction to Research Methods in Food and Nutrition",
+            "NUT1150 | Food Psychology",
+            "NUT2331 | Food Carbohydrates",
+            "NUT2125 | Management of Food Services",
+            "Elective | Elective"
+          ]
+        },
+        {
+          "term": "Spring-Summer",
+          "courses": [
+            "SSP2901 | Stage"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "NUT3107 | Food Microbiology",
+            "NUT3130 | Micronutrients and Phytochemicals",
+            "NUT3132 | Food Proteins",
+            "NUT3110 | Selected Topics in Food Sciences OR NUT4107 | Functional Foods and Nutraceuticals",
+            "Elective | Elective"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "SSP3901 | Stage"
+          ]
+        },
+        {
+          "term": "Spring-Summer",
+          "courses": [
+            "SSP3902 | Stage"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "SSP4901 | Stage"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "NUT3140 | Food Analysis",
+            "NUT3131 | Food Lipids",
+            "NUT3141 | Food Transformation",
+            "Optional | Optional course",
+            "Elective | Elective"
+          ]
+        }
+      ]
+    },
+    {
+      "year": 5,
+      "terms": [
+        {
+          "term": "Fall",
+          "courses": [
+            "NUT4183 | Food Safety and Regulatory Affairs",
+            "NUT4185 | Food Toxicology",
+            "Optional | Optional course",
+            "Elective | Elective",
+            "Elective | Elective"
+          ]
+        },
+        {
+          "term": "Winter",
+          "courses": [
+            "NUT4141 | Food Biophysics",
+            "NUT4184 | Global food systems, Security and Sustainability",
+            "Optional | Optional course",
+            "Elective | Elective",
+            "Elective | Elective"
+          ]
+        }
+      ]
+    }
+  ]
+}

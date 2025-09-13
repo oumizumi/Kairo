@@ -1,0 +1,63 @@
+{
+    "program": "MHK Mental Performance Consulting 2025",
+    "academicYear": "2024 or after",
+    "totalUnits": "N/A",
+    "notes": [
+        "Disclaimer: In the event of a discrepancy between this course sequence and the official calendars, the calendars take precedence and are considered the authoritative source.",
+        "Courses with ongoing activities are courses offered during several consecutive terms. Therefore, you must register for the following courses every term if you have not completed all the requirements of your course:",
+        "APA 5936 Internship: Mental Performance Consulting",
+        "APA 5941 Internship Analysis and Integration: Mental Performance Consulting",
+        "The internship starts in the summer only after the spring course APA 5320 has been completed.",
+        "Consult the program requirements",
+        "Consult the course description"
+    ],
+    "years": [
+        {
+            "year": 1,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "APA5107 | Counselling Theories and Skills",
+                        "APA5115 | Applied Research Methods for Practitioners",
+                        "APA6105 | Selected Topics in Sport, Physical Activity and Health: Psychology and Pedagogy"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "APA5110 | Mental Skills Training Programs and Tools",
+                        "APA5306 | Ethics and Values in Sport, Performance, and Physical Activity Contexts",
+                        "APA5319 | Essential Competencies for Mental Performance Consultants"
+                    ]
+                },
+                {
+                    "term": "Spring-Summer",
+                    "courses": [
+                        "APA5320 | Diversity, Equity and Inclusion Principles and Competencies for Practitioners",
+                        "APA5936 | Internship: Mental Performance Consulting (CTN)"
+                    ]
+                }
+            ]
+        },
+        {
+            "year": 2,
+            "terms": [
+                {
+                    "term": "Fall",
+                    "courses": [
+                        "APA5321 | Analysis and Enhancement of Consulting Interventions and Supervision",
+                        "APA5936 | Internship: Mental Performance Consulting (CTN)"
+                    ]
+                },
+                {
+                    "term": "Winter",
+                    "courses": [
+                        "APA5936 | Internship: Mental Performance Consulting",
+                        "APA5941 | Internship Analysis and Integration: Mental Performance Consulting"
+                    ]
+                }
+            ]
+        }
+    ]
+}

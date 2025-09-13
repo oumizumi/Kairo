@@ -1,0 +1,65 @@
+{
+    "program": "Doctorate in Philosophy, Population Health (PhD)",
+    "option": null,
+    "coop": false,
+    "academicYear": "2025-2026",
+    "totalUnits": null,
+    "notes": [
+        "To register in elective courses, you must obtain approvals from the course professor, your thesis supervisor, and the graduate program assistant director, and submit them by email to healthsc@uottawa.ca.",
+        "The course POP8900 (Directed Studies in Population Health) can only be taken once to replace an elective graduate-level course.",
+        "You must enroll in activities such as the comprehensive exam, thesis proposal, and thesis each term until completed."
+    ],
+    "requirements": [
+        {
+            "year": "1st Year",
+            "Fall": [
+                "POP8910 | Scientific Paradigms in Population Health",
+                "POP8920 | Investigative Methods in Population Health",
+                "1 elective"
+            ],
+            "Winter": [
+                "POP8930 | Population Health Interventions",
+                "2 electives"
+            ],
+            "Spring-Summer": [
+                "POP9998 | Comprehensive Examination (CTN)"
+            ]
+        },
+        {
+            "year": "2nd Year",
+            "Fall": [
+                "POP9998 | Comprehensive Examination"
+            ],
+            "Winter": [
+                "POP9997 | Thesis Proposal (CTN)"
+            ],
+            "Spring-Summer": [
+                "THD9999 | Doctoral Thesis (CTN)"
+            ]
+        },
+        {
+            "year": "3rd Year",
+            "Fall": [
+                "THD9999 | Doctoral Thesis (CTN)"
+            ],
+            "Winter": [
+                "THD9999 | Doctoral Thesis (CTN)"
+            ],
+            "Spring-Summer": [
+                "THD9999 | Doctoral Thesis (CTN)"
+            ]
+        },
+        {
+            "year": "4th Year",
+            "Fall": [
+                "THD9999 | Doctoral Thesis (CTN)"
+            ],
+            "Winter": [
+                "THD9999 | Doctoral Thesis (CTN)"
+            ],
+            "Spring-Summer": [
+                "THD9999 | Doctoral Thesis"
+            ]
+        }
+    ]
+}

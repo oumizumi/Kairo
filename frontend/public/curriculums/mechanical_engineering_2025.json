@@ -1,0 +1,122 @@
+{
+    "program": "BASc in Mechanical Engineering",
+    "academicYear": "2025-2026",
+    "totalUnits": 132,
+    "notes": [
+      "Please note:",
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "GNG1103 | Introduction to Engineering Design",
+              "CHM1311 | Principles of Chemistry",
+              "GNG1105 | Engineering Mechanics",
+              "GNG1106 | Fundamentals of Engineering Computation",
+              "MAT1320 | Calculus I"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ENG1112 | Technical Report Writing",
+              "MAT1322 | Calculus II",
+              "MAT1341 | Introduction to Linear Algebra",
+              "MCG1101 | Fundamentals of Mechanical Engineering",
+              "MCG1102 | Mechanical Drafting",
+              "PHY1122 | Fundamentals of Physics II"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "GNG2101 | Introduction to Product Development for Engineers and Computer Scientists",
+              "MAT2322 | Calculus III for Engineers",
+              "MAT2384 | Ordinary Differential Equations and Numerical Methods",
+              "MCG2108 | Dynamics",
+              "MCG2130 | Thermodynamics I",
+              "MCG2360 | Engineering Materials I"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CVG2140 | Mechanics of Materials",
+              "ELG2336 | Electric Circuits and Machines for Mechanical Engineering",
+              "MAT2377 | Probability and Statistics for Engineers",
+              "MCG2101 | Introduction to the Design of Mechanical Systems",
+              "MCG2131 | Thermodynamics II",
+              "MCG2361 | Engineering Materials II"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "ELG3336 | Electronics for Mechanical Engineers",
+              "MAT3320 | Mathematics for Engineers",
+              "MCG3145 | Advanced Strength of Materials",
+              "MCG3306 | System Dynamics",
+              "MCG3340 | Fluid Mechanics I",
+              "GNG4170 | Engineering Law"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "MCG3110 | Heat Transfer",
+              "MCG3130 | Dynamics of Machinery",
+              "MCG3131 | Machine Design",
+              "MCG3307 | Control Systems",
+              "MCG3341 | Fluid Mechanics II"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "MCG43221 | Computer-Aided Design",
+              "MCG4328 | Manufacturing",
+              "Elective | Technical elective",
+              "Elective | Technical elective",
+              "Elective | 3 units from: GNG4120, GNG4930, HIS2129, PHI2394",
+              "Elective | Complementary elective"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "MCG43222 | Computer-Aided Design",
+              "MCG4308 | Mechanical Vibration Analysis",
+              "MCG4340 | Mechanical Engineering Laboratory",
+              "Elective | 3 units from: GNG4120, GNG4930, HIS2129, PHI2394",
+              "Elective | Technical elective",
+              "Elective | Science elective"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

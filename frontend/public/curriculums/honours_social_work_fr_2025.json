@@ -1,0 +1,68 @@
+{
+  "program": "Honours in Social Work",
+  "language": "French only",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Students admitted prior to Fall 2025 are not registered in the In-depth Learning Stream (IELS), and must register for four-digit course codes instead of five-digit ones (e.g., TSO 2515 not TSO 25153).",
+    "The addition of a minor is possible in second year.",
+    "Optional TSO (IELS) courses include: TSO35453 Le travail social en milieu francophone minoritaire, TSO35653 Intervention de groupe en travail social, TSO35803 Intervention communautaire et développement social."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "FRA1710 | Analyse, écriture et argumentation I",
+        "TSO1500 | Introduction au travail social",
+        "FSS1700 | Compulsory IELS course",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "FRA1720 | Analyse, écriture et argumentation II",
+        "TSO1501 | Développement de la personne et environnement social",
+        "3 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "TSO25153 | Compulsory + IELS",
+        "TSO25203 | Compulsory + IELS",
+        "SCS2550 | Statistiques en sciences sociales",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "TSO2530 | Intervention sociale auprès des individus",
+        "4 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "TSO3505 | Intervention sociale auprès des groupes",
+        "TSO3515 | Intervention sociale auprès des collectivités",
+        "2 optional TSO courses (3000 level, IELS)",
+        "1 elective course"
+      ],
+      "Winter": [
+        "TSO3525 | Stage en travail social I",
+        "TSO35553 | Compulsory + IELS",
+        "TSO3620 | Stage d'intervention I",
+        "1 elective course"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "TSO45103 | Compulsory + IELS",
+        "TSO46203 | Stage d'intervention II + IELS",
+        "1 elective course"
+      ],
+      "Winter": [
+        "TSO4505 | Stage en travail social II",
+        "2 optional TSO courses (3000 or 4000 level)",
+        "2 elective courses"
+      ]
+    }
+  ]
+}

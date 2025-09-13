@@ -1,0 +1,156 @@
+{
+    "program": "BASc in Software Engineering (CO-OP)",
+    "academicYear": "2025-2026",
+    "totalUnits": 120,
+    "notes": [
+      "Please note:",
+      "Some courses are not offered every term.",
+      "Courses at levels 1000 and 2000 are offered in French and in English.",
+      "Some courses at levels 3000 and 4000 are not offered in French.",
+      "For the French course codes, refer to the French course sequence.",
+      "Courses with fewer than 10 registrants may be cancelled.",
+      "Students who have not taken Physics 4U must take PHY1331 instead of PHY1321.",
+      "Students who have not taken Chemistry 4U must take CHM1301 instead of CHM1311.",
+      "Technical elective: 6 units from SEG, CSI, CEG, ELG (3000/4000 level) or CSI2120, CSI2372.",
+      "Free elective: Suggested: ADM2372, ADM3378, ENG3170, GEG2320, GNG4120, GNG4170, GNG4171, HIS2129."
+    ],
+    "years": [
+      {
+        "year": 1,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "PHY1321 | Principle of Physics I",
+              "ENG1112 | Technical Report Writing",
+              "ITI1120 | Introduction to Computing I",
+              "MAT1320 | Calculus I",
+              "SEG2900 | Professional Communication and Responsibility"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "ITI1100 | Digital Systems I",
+              "ITI1121 | Introduction to Computing II",
+              "MAT1322 | Calculus II",
+              "MAT1348 | Discrete Mathematics for Computing",
+              "PHY1322 | Principle of Physics II"
+            ]
+          },
+          {
+            "term": "Summer",
+            "courses": [
+              "SEG2901 | CO-OP Work Term I"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CHM1311 | Principles of Chemistry",
+              "GNG2101 | Introduction to Product Development for Engineers and Computer Scientists",
+              "CEG2136 | Computer Architecture I",
+              "CSI2110 | Data Structures and Algorithms",
+              "SEG2105 | Introduction to Software Engineering"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "SEG3901 | CO-OP Work Term II"
+            ]
+          },
+          {
+            "term": "Summer",
+            "courses": [
+              "CSI3131 | Operating Systems",
+              "SEG3103 | Software Quality Assurance",
+              "SEG3125 | Analysis and Design of User Interfaces",
+              "GNG1105 | Engineering Mechanics",
+              "MAT1341 | Introduction to Linear Algebra"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 3,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "SEG3902 | CO-OP Work Term III"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CSI2101 | Discrete Structures",
+              "CSI2132 | Databases I",
+              "SEG2106 | Software Construction",
+              "SEG2911 | Professional Software Engineering Practice",
+              "MAT2377 | Probability and Statistics for Engineers"
+            ]
+          },
+          {
+            "term": "Summer",
+            "courses": [
+              "SEG4901 | CO-OP Work Term IV"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 4,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "CSI3105 | Design and Analysis of Algorithms I",
+              "SEG3101 | Software Requirements Analysis",
+              "SEG3102 | Software Design and Architecture",
+              "PHY2390 | Astronomy",
+              "Elective | Technical elective",
+              "Elective | Complementary studies elective"
+            ]
+          },
+          {
+            "term": "Winter",
+            "courses": [
+              "CEG3185 | Introduction to Data Communications and Networking",
+              "EVS1101 | Introduction to Environmental Science",
+              "SEG4145 | Real Time and Embedded Software Design",
+              "SEG4910 | Engineering Capstone Project - Part 1",
+              "Elective | Free elective"
+            ]
+          },
+          {
+            "term": "Summer",
+            "courses": [
+              "SEG4902 | CO-OP Work Term V"
+            ]
+          }
+        ]
+      },
+      {
+        "year": 5,
+        "terms": [
+          {
+            "term": "Fall",
+            "courses": [
+              "SEG4105 | Software Project Management",
+              "SEG4911 | Engineering Capstone Project - Part 2",
+              "Elective | Technical elective",
+              "Elective | Free elective",
+              "Elective | Free elective"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

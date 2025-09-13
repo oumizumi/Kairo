@@ -1,0 +1,24 @@
+{
+  "program": "Minor in Psychology",
+  "academicYear": "2025-2026",
+  "totalUnits": 30,
+  "notes": [
+    "The table below includes only discipline-specific courses. Please refer to the Academic Regulations for information on including a minor to your degree."
+  ],
+  "requirements": [
+    {
+      "type": "Compulsory Courses",
+      "courses": [
+        "PSY1101 | Introduction to Psychology: Foundations | 3 Units",
+        "PSY1102 | Introduction to Psychology: Applications | 3 Units"
+      ]
+    },
+    {
+      "type": "Optional Courses",
+      "courses": [
+        "12 optional course units in psychology (PSY)",
+        "12 optional course units in psychology (PSY) at the 3000 or 4000 level"
+      ]
+    }
+  ]
+}

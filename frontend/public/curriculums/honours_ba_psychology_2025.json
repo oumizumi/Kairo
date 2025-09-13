@@ -1,0 +1,68 @@
+{
+  "program": "Honours BA in Psychology",
+  "academicYear": "2025-2026",
+  "totalUnits": 120,
+  "notes": [
+    "Adjustments to this recommended course sequence might be required based on course scheduling or if you have been admitted with advanced standing.",
+    "Registration to the Honours Thesis in Psychology requires the following prerequisites: 81 university units including PSY1101, PSY1102, PSY2106, PSY2116, PSY2174, PSY3307. PSY3307 can be a corequisite to PSY42761 and PSY42762. A CGPA of at least 8.0 is required and no exceptions will be approved."
+  ],
+  "requirements": [
+    {
+      "year": "1st Year",
+      "Fall": [
+        "ENG1100 | Workshop in Essay Writing",
+        "PSY1101 | Introduction to Psychology: Foundations",
+        "PHI1101",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "PSY1102 | Introduction to Psychology: Applications",
+        "ENG1120 | University Writing",
+        "1 from: PHI1102, PHI1103, or PHI1104",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "2nd Year",
+      "Fall": [
+        "PSY2105 | Statistics in Psychology I",
+        "PSY2106 | Statistics in Psychology II",
+        "PSY2174 | Developmental Psychology",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "PSY2110 | Research Methods in Psychology I",
+        "PSY2116 | Research Methods in Psychology II",
+        "PSY2301 | Personality Theories",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "3rd Year",
+      "Fall": [
+        "PSY3307 | Advanced Research Methods and Data Analysis",
+        "2 optional PSY courses at 3000- or 4000-level",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "1 from: PSY3103, PSY3108, or PSY3377",
+        "2 optional PSY courses at 3000- or 4000-level",
+        "2 elective courses"
+      ]
+    },
+    {
+      "year": "4th Year",
+      "Fall": [
+        "PSY42761 | Honours Thesis or 1 optional PSY course at 4000-level",
+        "2 optional PSY courses at 3000- or 4000-level",
+        "2 elective courses"
+      ],
+      "Winter": [
+        "PSY42762 | Honours Thesis or 1 optional PSY course at 4000-level",
+        "PSY4130 | History and Systems of Psychology",
+        "1 optional PSY course at 3000- or 4000-level",
+        "2 elective courses"
+      ]
+    }
+  ]
+}
