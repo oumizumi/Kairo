@@ -16,7 +16,6 @@ RUN pip install -r requirements.txt
 
 # Copy only what we need for backend image to reduce build context
 COPY backend ./backend
-COPY scrapers ./scrapers
 # Create railway startup script directly in the image
 RUN echo '#!/bin/bash' > /app/railway_start.sh && \
     echo '' >> /app/railway_start.sh && \
