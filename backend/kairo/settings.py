@@ -50,11 +50,21 @@ DEBUG = get_env_var_as_boolean('DJANGO_DEBUG', 'True')
 # ALLOWED_HOSTS
 # DJANGO_ALLOWED_HOSTS should be a comma-separated string of allowed hostnames/IPs.
 # e.g., "yourdomain.com,www.yourdomain.com"
-# Default is restrictive; override in production.
+# Provide sensible defaults: localhost in dev; known deployment domains in prod.
 ALLOWED_HOSTS_DEFAULT = ['localhost', '127.0.0.1'] if DEBUG else []
 ALLOWED_HOSTS = get_env_var_as_list('DJANGO_ALLOWED_HOSTS', default=','.join(ALLOWED_HOSTS_DEFAULT))
-if not ALLOWED_HOSTS and not DEBUG:
-    print("WARNING: DJANGO_ALLOWED_HOSTS is not set and DEBUG is False. This will likely cause issues.")
+
+# If not provided via env, fall back to safe defaults per environment
+if not ALLOWED_HOSTS:
+    if DEBUG:
+        ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    else:
+        # Known production hosts (Railway and Vercel frontends hitting the backend)
+        ALLOWED_HOSTS = [
+            'kairo-production-6c0a.up.railway.app',
+            '.railway.app',
+            '.vercel.app',
+        ]
 
 
 # Application definition
