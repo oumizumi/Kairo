@@ -206,7 +206,9 @@ else:
             'https://kairo.vercel.app',
             'https://kairo-frontend.vercel.app',
             'https://kairo-public-git-master-oumer-projects.vercel.app',
-            'https://kairo-public-git-main-oumer-projects.vercel.app'
+            'https://kairo-public-git-main-oumer-projects.vercel.app',
+            'https://kairo-gilt.vercel.app',
+            'https://kairo-git-main-oumizumis-projects.vercel.app'
         ]
         for origin in production_origins:
             if origin not in CORS_ALLOWED_ORIGINS:
