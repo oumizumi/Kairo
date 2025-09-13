@@ -1,15 +1,13 @@
 import axios from 'axios';
 
-// Create axios instance with base URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ||
-    (typeof window !== 'undefined' && window.location.hostname === 'localhost'
-        ? 'http://localhost:8000'
-        : 'https://kairopublic-production.up.railway.app');
-
-if (!API_BASE_URL) {
-    // Intentionally throw to surface critical misconfig instead of logging
+// Create axios instance with base URL (require explicit env var; no fallback to avoid wrong host)
+declare const process: any;
+const RAW_API_BASE_URL = process?.env?.NEXT_PUBLIC_API_URL as string | undefined;
+if (!RAW_API_BASE_URL) {
     throw new Error('NEXT_PUBLIC_API_URL not set');
 }
+// Normalize by removing any trailing slash to avoid double slashes in requests
+const API_BASE_URL = RAW_API_BASE_URL.replace(/\/+$/, '');
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -172,24 +170,24 @@ export const initializeAuth = (): void => {
 
 // Add request interceptor to ensure token is set for all requests
 api.interceptors.request.use(
-    (config) => {
+    (config: any) => {
         const token = getToken();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     },
-    (error) => {
+    (error: any) => {
         return Promise.reject(error);
     }
 );
 
 // Add response interceptor to handle token expiration
 api.interceptors.response.use(
-    (response) => {
+    (response: any) => {
         return response;
     },
-    async (error) => {
+    async (error: any) => {
         const originalRequest = error.config;
 
         if (error.response?.status === 401 && !originalRequest._retry) {
