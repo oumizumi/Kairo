@@ -27,6 +27,13 @@ RUN echo '#!/bin/bash' > /app/railway_start.sh && \
     echo '# Railway startup script with better error handling' >> /app/railway_start.sh && \
     echo 'set -e' >> /app/railway_start.sh && \
     echo '' >> /app/railway_start.sh && \
+    echo '# Check for DATABASE_URL' >> /app/railway_start.sh && \
+    echo 'if [ -z "$DATABASE_URL" ]; then' >> /app/railway_start.sh && \
+    echo '  echo "⚠️ DATABASE_URL not set. Using SQLite fallback (not recommended in prod)."' >> /app/railway_start.sh && \
+    echo 'else' >> /app/railway_start.sh && \
+    echo '  echo "✅ DATABASE_URL detected"' >> /app/railway_start.sh && \
+    echo 'fi' >> /app/railway_start.sh && \
+    echo '' >> /app/railway_start.sh && \
     echo '# Enter backend dir if present' >> /app/railway_start.sh && \
     echo 'cd /app; if [ -f backend/manage.py ]; then cd backend; fi' >> /app/railway_start.sh && \
     echo '' >> /app/railway_start.sh && \
@@ -71,6 +78,10 @@ RUN echo '#!/bin/bash' > /app/railway_start.sh && \
     echo '        echo "⚠️ Manual migration also failed"' >> /app/railway_start.sh && \
     echo '    }' >> /app/railway_start.sh && \
     echo '}' >> /app/railway_start.sh && \
+    echo '' >> /app/railway_start.sh && \
+    echo '# Always run migrations (idempotent)' >> /app/railway_start.sh && \
+    echo 'echo "Ensuring migrations are applied..."' >> /app/railway_start.sh && \
+    echo 'python manage.py migrate --noinput || true' >> /app/railway_start.sh && \
     echo '' >> /app/railway_start.sh && \
     echo '# Collect static files' >> /app/railway_start.sh && \
     echo 'echo "Collecting static files..."' >> /app/railway_start.sh && \
