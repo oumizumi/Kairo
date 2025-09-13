@@ -1,13 +1,20 @@
 import axios from 'axios';
 
-// Create axios instance with base URL (require explicit env var; no fallback to avoid wrong host)
+// Create axios instance with base URL
+// Prefer env value, but fix known misconfigured domains automatically
 declare const process: any;
-const RAW_API_BASE_URL = process?.env?.NEXT_PUBLIC_API_URL as string | undefined;
-if (!RAW_API_BASE_URL) {
+const BAD_TO_GOOD_HOST_MAP: Record<string, string> = {
+    'https://kairopublic-production.up.railway.app': 'https://kairo-production-6c0a.up.railway.app',
+};
+
+const RAW_ENV_BASE = process?.env?.NEXT_PUBLIC_API_URL as string | undefined;
+if (!RAW_ENV_BASE) {
     throw new Error('NEXT_PUBLIC_API_URL not set');
 }
+const NORMALIZED_ENV_BASE = RAW_ENV_BASE.replace(/\/+$/, '');
+const FIXED_BASE = BAD_TO_GOOD_HOST_MAP[NORMALIZED_ENV_BASE] || NORMALIZED_ENV_BASE;
 // Normalize by removing any trailing slash to avoid double slashes in requests
-const API_BASE_URL = RAW_API_BASE_URL.replace(/\/+$/, '');
+const API_BASE_URL = FIXED_BASE.replace(/\/+$/, '');
 
 const api = axios.create({
     baseURL: API_BASE_URL,
