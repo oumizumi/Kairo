@@ -10,12 +10,11 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # RUN apt-get update && apt-get install -y --no-install-recommends gcc libpq-dev \
 #     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
-COPY backend/requirements.txt ./requirements.txt
-RUN pip install -r requirements.txt
-
-# Copy only what we need for backend image to reduce build context
+# Copy backend first so requirements.txt is in context
 COPY backend ./backend
+
+# Install Python dependencies
+RUN pip install -r ./backend/requirements.txt
 # Create railway startup script directly in the image
 RUN echo '#!/bin/bash' > /app/railway_start.sh && \
     echo '' >> /app/railway_start.sh && \
