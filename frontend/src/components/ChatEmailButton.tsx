@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Mail, X } from 'lucide-react';
+import { Mail, X, Info } from 'lucide-react';
 import api from '@/lib/api';
 
 
@@ -17,6 +17,7 @@ function isValidEmail(value: string): boolean {
 }
 
 const STORAGE_KEY = 'chat_email_recipients';
+const PROFESSORS_KEY = 'chat_email_professors';
 const UOTTAWA_DOMAIN = '@uottawa.ca';
 
 const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => {
@@ -41,6 +42,17 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) setRecipients(parsed.filter((e) => typeof e === 'string'));
       }
+      const savedProfs = typeof window !== 'undefined' ? localStorage.getItem(PROFESSORS_KEY) : null;
+      if (savedProfs) {
+        const parsedProfs = JSON.parse(savedProfs);
+        if (Array.isArray(parsedProfs)) {
+          setProfessors(
+            parsedProfs
+              .filter((p: any) => p && typeof p.email === 'string')
+              .map((p: any) => ({ name: String(p.name || ''), email: String(p.email) }))
+          );
+        }
+      }
     } catch {}
   }, []);
 
@@ -55,6 +67,13 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     setRecipients(next);
     try {
       if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch {}
+  };
+
+  const saveProfessors = (next: Array<{ name: string; email: string }>) => {
+    setProfessors(next);
+    try {
+      if (typeof window !== 'undefined') localStorage.setItem(PROFESSORS_KEY, JSON.stringify(next));
     } catch {}
   };
 
@@ -227,6 +246,18 @@ User prompt: ${userPrompt || '[no additional details provided]'}
     saveRecipients([...recipients, p.email]);
   };
 
+  const toggleProfessor = (p: { name: string; email: string }) => {
+    if (!p?.email) return;
+    if (!p.email.toLowerCase().endsWith(UOTTAWA_DOMAIN)) return;
+    if (recipients.includes(p.email)) {
+      // unselect
+      saveRecipients(recipients.filter((e) => e !== p.email));
+    } else {
+      // select
+      saveRecipients([...recipients, p.email]);
+    }
+  };
+
   return (
     <div className="relative inline-flex">
       <button
@@ -373,7 +404,7 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                         ) : (
                           <button
                             type="button"
-                            onClick={() => addProfessor(p)}
+                            onClick={() => toggleProfessor(p)}
                             className="flex-1 text-left"
                           >
                             <div className="min-w-0 pr-2">
@@ -416,7 +447,7 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                                     const ok = window.confirm('Delete this professor entry?');
                                     if (!ok) return;
                                   }
-                                  setProfessors(professors.filter((_, i) => i !== idx));
+                                  saveProfessors(professors.filter((_, i) => i !== idx));
                                 }}
                                 className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
                               >
@@ -435,18 +466,27 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                 <div className="mt-3">
                   <div className="text-[11px] font-medium mb-1 text-gray-700 dark:text-gray-300">Selected professors</div>
                   <div className="max-h-24 overflow-auto space-y-1">
-                    {recipients.map((email) => (
-                      <div key={email} className="flex items-center justify-between text-xs">
-                        <span className="text-gray-700 dark:text-gray-200 truncate pr-2">{email}</span>
-                        <button
-                          type="button"
-                          onClick={() => removeRecipient(email)}
-                          className="p-1 rounded hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500"
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </div>
-                    ))}
+                    {recipients.map((email) => {
+                      const p = professors.find((x) => x.email === email);
+                      return (
+                        <div key={email} className="flex items-center justify-between text-xs">
+                          <div className="min-w-0 pr-2">
+                            <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p?.name || 'Professor'}</div>
+                            <div className="text-[10px] text-gray-500 truncate">{email}</div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => removeRecipient(email)}
+                              className="p-1 rounded border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300"
+                              title="Unselect"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -459,8 +499,9 @@ User prompt: ${userPrompt || '[no additional details provided]'}
               >
                 {isDrafting ? 'Drafting with AI…' : 'Draft with AI (polish)'}
               </button>
-              <div className="mt-2 text-[10px] text-gray-600 dark:text-gray-400">
-                i: Please review the draft before sending. AI may make mistakes.
+              <div className="mt-2 text-[10px] text-red-600 dark:text-red-400 flex items-center gap-1">
+                <Info className="h-3.5 w-3.5" aria-hidden="true" />
+                <span>Please review the draft before sending. AI may make mistakes.</span>
               </div>
               <a
                 href="https://outlook.office.com/mail/"
