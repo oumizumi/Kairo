@@ -2340,19 +2340,19 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
             {/* Input Form with Simple Animation */}
             <div className="w-full">
                 <form onSubmit={sendMessage} className="w-full">
-                    <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-xl p-4 flex items-center gap-3 relative overflow-hidden transition-colors duration-300 hover:bg-gray-100 dark:hover:bg-white/5">
-                        <div className="flex-1 relative flex items-center">
+                    <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl p-3 sm:p-4 flex flex-col gap-2 relative overflow-hidden transition-colors duration-300 hover:bg-gray-100 dark:hover:bg-white/5">
+                        <div className="relative flex items-center">
                             <input
                                 type="text"
                                 value={inputMessage}
                                 onChange={(e) => setInputMessage(e.target.value)}
                                 // allow typing while generating
-                                className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 h-7 leading-7 pr-2"
+                                className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 h-10 leading-10 pr-2"
                             />
                             {!inputMessage && (
                                 <div className="absolute inset-0 flex items-center overflow-hidden">
                                     <div
-                                        className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible
+                                        className={`text-gray-500 dark:text-neutral-500 italic transition-all duration-500 ${isVisible
                                             ? 'opacity-100'
                                             : 'opacity-0'
                                             }`}
@@ -2362,14 +2362,19 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 </div>
                             )}
                         </div>
-                        <ChatEmailButton currentMessage={inputMessage} />
-                        <button
-                            type="submit"
-                            disabled={!inputMessage.trim() || isLoading}
-                            className="p-2.5 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white shadow-sm transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
-                            <ArrowRight className="w-4.5 h-4.5" />
-                        </button>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <ChatEmailButton currentMessage={inputMessage} />
+                                <span className="text-[11px] text-gray-500 dark:text-neutral-400">Email</span>
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={!inputMessage.trim() || isLoading}
+                                className="p-2.5 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white shadow-sm transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                            >
+                                <ArrowRight className="w-4.5 h-4.5" />
+                            </button>
+                        </div>
                     </div>
                 </form>
 

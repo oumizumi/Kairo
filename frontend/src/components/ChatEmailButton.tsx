@@ -101,9 +101,24 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
 
   const buildEmailBody = (message: string, professorName: string, studentName: string): string => {
     const greeting = professorName ? `Dear Professor ${professorName},` : 'Dear Professor,';
-    const content = message.trim().length > 0 ? message.trim() : 'I hope you are well.';
+    const openers = [
+      'I hope this message finds you well.',
+      'I hope you are doing well.',
+      'I hope everything is going well.',
+    ];
+    const courtesyClosers = [
+      'I appreciate your time and help.',
+      'I appreciate your assistance.',
+      'I’d be grateful for your clarification.',
+    ];
+    const thanksVariants = ['Thank you!', 'Thanks!'];
+    const intro = openers[Math.floor(Math.random() * openers.length)];
+    const ask = (message || '').trim();
+    const maybeCourtesy = Math.random() < 0.5 ? `\n\n${courtesyClosers[Math.floor(Math.random() * courtesyClosers.length)]}` : '';
+    const maybeThanks = Math.random() < 0.8 ? `\n\n${thanksVariants[Math.floor(Math.random() * thanksVariants.length)]}` : '';
     const closing = 'Best regards,\n' + studentName;
-    return `${greeting}\n\n${content}\n\n${closing}`;
+    const core = ask ? `${intro}\n\n${ask}${maybeCourtesy}${maybeThanks}` : `${intro}${maybeCourtesy}${maybeThanks}`;
+    return `${greeting}\n\n${core}\n\n${closing}`.replace(/\n{3,}/g, '\n\n').trim();
   };
 
   const getGreetingProfessorName = (): string => {
@@ -180,18 +195,20 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const draftWithAIThenCompose = async () => {
     if (!hasRecipients || !userFullName.trim()) return;
     setIsDrafting(true);
+    const manualPrompt = body.trim();
+    const chatPrompt = currentMessage.trim();
+    const userPrompt = manualPrompt || chatPrompt;
     try {
       const professorName = getGreetingProfessorName();
-      const userPrompt = currentMessage.trim();
       const instruction = `You draft short, professional emails for University of Ottawa students.
 Return STRICT JSON: {"subject": string, "body": string}. No code fences.
 Constraints:
-- Subject: short (<= 60 chars), directly reflects the user's ask, no extra details.
-- Body: 2–4 sentences, polite and concise, ONLY address the user's request; no assumptions, no extra offers, no placeholders.
+- Subject: short (<= 60 chars), directly reflects the user's ask; no extra details.
+- Body: 2–4 sentences, polite, clear, and focused on the user's request. Do not add offers, assumptions, or extra steps the user didn’t mention.
 - Greeting must be exactly: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
 - Closing must be exactly: "Best regards,\\n${userFullName.trim()}"
-- Vary wording to avoid repetitive templates.
-- If the prompt is minimal/empty, infer a simple, appropriate subject and a brief body.
+- Use natural, varied phrasing. Avoid rigid templates; vary sentence structure and connectors.
+- If the prompt is minimal/empty, infer a simple, appropriate subject and brief body.
 User prompt: ${userPrompt || '[no additional details provided]'}
 `;
 
@@ -222,8 +239,9 @@ User prompt: ${userPrompt || '[no additional details provided]'}
     } catch (e) {
       // Fallback to local template
       const professorName = getGreetingProfessorName();
-      const fbSubject = generateSubject(currentMessage, professorName);
-      const fbBody = buildEmailBody(currentMessage, professorName, userFullName);
+      const fallbackPrompt = userPrompt;
+      const fbSubject = generateSubject(fallbackPrompt, professorName);
+      const fbBody = buildEmailBody(fallbackPrompt, professorName, userFullName);
       setSubject(fbSubject);
       setBody(fbBody);
       await handleEmailChat({ subject: fbSubject, body: fbBody });
@@ -405,16 +423,19 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                             />
                           </div>
                         ) : (
-                          <button
-                            type="button"
-                            onClick={() => toggleProfessor(p)}
-                            className="flex-1 text-left"
-                          >
+                          <div className="flex-1 flex items-start gap-2">
+                            <input
+                              type="checkbox"
+                              checked={recipients.includes(p.email)}
+                              onChange={() => toggleProfessor(p)}
+                              className="mt-0.5 h-3.5 w-3.5 accent-blue-600"
+                              aria-label={`Select ${p.name}`}
+                            />
                             <div className="min-w-0 pr-2">
                               <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p.name}</div>
                               <div className="text-[10px] text-gray-500 truncate">{p.email}</div>
                             </div>
-                          </button>
+                          </div>
                         )}
                         <div className="flex items-center gap-2 ml-2">
                           {editingIndex === idx ? (
@@ -487,9 +508,18 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                               />
                             </div>
                           ) : (
-                            <div className="min-w-0 pr-2 flex-1">
-                              <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p?.name || 'Professor'}</div>
-                              <div className="text-[10px] text-gray-500 truncate">{email}</div>
+                            <div className="min-w-0 pr-2 flex-1 flex items-start gap-2">
+                              <input
+                                type="checkbox"
+                                checked={true}
+                                onChange={() => removeRecipient(email)}
+                                className="mt-0.5 h-3.5 w-3.5 accent-blue-600"
+                                aria-label={`Unselect ${p?.name || 'Professor'}`}
+                              />
+                              <div>
+                                <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p?.name || 'Professor'}</div>
+                                <div className="text-[10px] text-gray-500 truncate">{email}</div>
+                              </div>
                             </div>
                           )}
                           <div className="flex items-center gap-2">
