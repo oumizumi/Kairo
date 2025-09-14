@@ -164,9 +164,9 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
       const instruction = `Draft a professional email for a University of Ottawa student to a professor.
 Return STRICT JSON with keys: subject (string), body (string). Do not include code fences.
 Constraints:
-- Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
-- Closing: "Best regards,\\n${userFullName.trim()}"
-- Tone: concise, polite, clear.
+- Greeting must be exactly: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
+- Closing must be exactly: "Best regards,\\n${userFullName.trim()}"
+- Tone: concise, polite, clear. Vary word choice and sentence structure from common templates.
 - If the user's prompt is minimal or empty, infer a generic but appropriate subject and body.
 Input prompt from user: ${userPrompt || '[no additional details provided]'}
 `;
@@ -253,7 +253,7 @@ Input prompt from user: ${userPrompt || '[no additional details provided]'}
             <div className="p-4">
               <div className="grid grid-cols-1 gap-3 mb-3">
                 <div>
-                  <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Your full name</label>
+                  <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Your full name <span className="text-red-500">*</span></label>
                   <input
                     value={userFullName}
                     onChange={(e) => setUserFullName(e.target.value)}
@@ -298,15 +298,6 @@ Input prompt from user: ${userPrompt || '[no additional details provided]'}
                 >
                   Write it myself
                 </button>
-                {recipients.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => handleComposeBlank(toParam)}
-                    className="px-3 py-2 rounded border border-gray-300 dark:border-white/10 text-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-50 dark:hover:bg.white/5"
-                  >
-                    Compose Blank Email
-                  </button>
-                )}
               </div>
 
               <div className="grid grid-cols-1 gap-2">
@@ -464,6 +455,9 @@ Input prompt from user: ${userPrompt || '[no additional details provided]'}
               >
                 {isDrafting ? 'Drafting with AI…' : 'Draft with AI (polish)'}
               </button>
+              <div className="mt-2 text-[10px] text-gray-600 dark:text-gray-400">
+                i: Please review the draft before sending. AI may make mistakes.
+              </div>
               <a
                 href="https://outlook.office.com/mail/"
                 target="_blank"
