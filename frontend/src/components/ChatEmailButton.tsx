@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Mail, X } from 'lucide-react';
+import api from '@/lib/api';
 
 
 interface ChatEmailButtonProps {
@@ -30,6 +31,8 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const [body, setBody] = useState('');
   const bodyRef = useRef<HTMLTextAreaElement | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [justGenerated, setJustGenerated] = useState(false);
+  const [isDrafting, setIsDrafting] = useState(false);
 
   useEffect(() => {
     try {
@@ -43,7 +46,8 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
 
   const hasMessage = (subject.trim().length > 0 || currentMessage.trim().length > 0) && body.trim().length > 0;
   const hasRecipients = recipients.length > 0;
-  const canSend = hasMessage && hasRecipients && !isLoading;
+  const hasName = userFullName.trim().length > 0;
+  const canSend = hasMessage && hasRecipients && hasName && !isLoading;
 
   const toParam = useMemo(() => recipients.join(','), [recipients]);
 
@@ -76,7 +80,7 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const buildEmailBody = (message: string, professorName: string, studentName: string): string => {
     const greeting = professorName ? `Dear Professor ${professorName},` : 'Dear Professor,';
     const content = message.trim().length > 0 ? message.trim() : 'I hope you are well.';
-    const closing = 'Best regards,\n' + (studentName || 'A uOttawa student');
+    const closing = 'Best regards,\n' + studentName;
     return `${greeting}\n\n${content}\n\n${closing}`;
   };
 
@@ -102,6 +106,10 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   // Recipients are added from the professors list only
 
   const removeRecipient = (email: string) => {
+    if (typeof window !== 'undefined') {
+      const ok = window.confirm('Remove this selected professor from recipients?');
+      if (!ok) return;
+    }
     saveRecipients(recipients.filter((e) => e !== email));
   };
 
@@ -144,6 +152,57 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     const win = window.open(outlookUrl, '_blank', 'noopener,noreferrer');
     if (!win) {
       window.location.href = outlookUrl;
+    }
+  };
+
+  const draftWithAIThenCompose = async () => {
+    if (!hasRecipients || !userFullName.trim()) return;
+    setIsDrafting(true);
+    try {
+      const professorName = getGreetingProfessorName();
+      const userPrompt = currentMessage.trim();
+      const instruction = `Draft a professional email for a University of Ottawa student to a professor.
+Return STRICT JSON with keys: subject (string), body (string). Do not include code fences.
+Constraints:
+- Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
+- Closing: "Best regards,\\n${userFullName.trim()}"
+- Tone: concise, polite, clear.
+- If the user's prompt is minimal or empty, infer a generic but appropriate subject and body.
+Input prompt from user: ${userPrompt || '[no additional details provided]'}
+`;
+
+      const response = await api.post('/api/ai/chat/', { message: instruction });
+      let content: string = (response.data && (response.data.content || response.data.message)) || '';
+
+      // Try to extract JSON from content
+      let jsonText = content;
+      const codeBlockMatch = content.match(/\{[\s\S]*\}/);
+      if (codeBlockMatch) jsonText = codeBlockMatch[0];
+
+      let parsed: any = null;
+      try { parsed = JSON.parse(jsonText); } catch {}
+
+      const draftedSubject: string = (parsed && typeof parsed.subject === 'string' && parsed.subject.trim())
+        ? parsed.subject.trim()
+        : generateSubject(userPrompt, professorName);
+      const draftedBody: string = (parsed && typeof parsed.body === 'string' && parsed.body.trim())
+        ? parsed.body.trim()
+        : buildEmailBody(userPrompt, professorName, userFullName);
+
+      setSubject(draftedSubject);
+      setBody(draftedBody);
+      setJustGenerated(true);
+
+      // Compose after drafting
+      await handleEmailChat();
+    } catch (e) {
+      // Fallback to local template
+      const professorName = getGreetingProfessorName();
+      setSubject(generateSubject(currentMessage, professorName));
+      setBody(buildEmailBody(currentMessage, professorName, userFullName));
+      await handleEmailChat();
+    } finally {
+      setIsDrafting(false);
     }
   };
 
@@ -210,7 +269,7 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                   <input
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    placeholder={generateSubject(currentMessage, '')}
+                    placeholder="e.g., Request to discuss assignment extension"
                     className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
                   />
                 </div>
@@ -219,7 +278,7 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                   <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
-                    placeholder={buildEmailBody(currentMessage, getGreetingProfessorName(), userFullName)}
+                    placeholder={`Dear Professor [Name],\n\n[Write your request clearly here]\n\nBest regards,\n[Your Full Name]`}
                     rows={6}
                     ref={bodyRef}
                     className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
@@ -296,19 +355,21 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                         {editingIndex === idx ? (
                           <div className="flex-1 grid grid-cols-5 gap-2 items-center">
                             <input
-                              value={p.name}
-                              onChange={(e) => {
+                              defaultValue={p.name}
+                              onBlur={(e) => {
                                 const next = [...professors];
-                                next[idx] = { ...p, name: e.target.value };
+                                next[idx] = { ...next[idx], name: e.target.value };
                                 setProfessors(next);
                               }}
                               className="col-span-2 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
                             />
                             <input
-                              value={p.email}
-                              onChange={(e) => {
+                              defaultValue={p.email}
+                              onBlur={(e) => {
+                                const normalized = normalizeToUOttawa(e.target.value || '');
+                                if (!normalized) return;
                                 const next = [...professors];
-                                next[idx] = { ...p, email: e.target.value };
+                                next[idx] = { ...next[idx], email: normalized };
                                 setProfessors(next);
                               }}
                               className="col-span-3 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
@@ -355,7 +416,13 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                               </button>
                               <button
                                 type="button"
-                                onClick={() => setProfessors(professors.filter((_, i) => i !== idx))}
+                                onClick={() => {
+                                  if (typeof window !== 'undefined') {
+                                    const ok = window.confirm('Delete this professor entry?');
+                                    if (!ok) return;
+                                  }
+                                  setProfessors(professors.filter((_, i) => i !== idx));
+                                }}
                                 className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
                               >
                                 Delete
@@ -391,11 +458,11 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
 
               <button
                 type="button"
-                onClick={handleEmailChat}
-                disabled={!canSend}
+                onClick={draftWithAIThenCompose}
+                disabled={!hasRecipients || !hasName || isDrafting}
                 className="mt-4 w-full rounded bg-blue-600 disabled:bg-blue-600/50 text-white text-xs font-semibold py-2 hover:bg-blue-700"
               >
-                {isLoading ? 'Preparing…' : 'Write a prompt for your email'}
+                {isDrafting ? 'Drafting with AI…' : 'Draft with AI (polish)'}
               </button>
               <a
                 href="https://outlook.office.com/mail/"
@@ -408,6 +475,9 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
               <div className="mt-2 text-[10px] text-gray-500">Only emails ending with <span className="font-semibold">{UOTTAWA_DOMAIN}</span> are allowed.</div>
               {!hasRecipients && (
                 <div className="mt-1 text-[10px] text-gray-500">Add at least one recipient to enable sending.</div>
+              )}
+              {!hasName && (
+                <div className="mt-1 text-[10px] text-red-500">Enter your full name to include in the closing.</div>
               )}
               {!hasMessage && (
                 <div className="mt-1 text-[10px] text-gray-500">Write a message to enable sending.</div>
