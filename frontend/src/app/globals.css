@@ -45,6 +45,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
@@ -52,12 +53,24 @@
     background: linear-gradient(135deg, 
       rgba(255, 255, 255, 1) 0%, 
       rgba(248, 250, 252, 1) 100%);
+    overflow-x: hidden;
   }
 
   .dark body {
     /* Minimal dark base */
     background: rgb(var(--background-rgb));
   }
+}
+
+/* Ensure media scales in narrow viewports */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent horizontal scroll on common layout wrappers */
+.container, .component-container, main, header, footer, section {
+  overflow-x: hidden;
 }
 
 @layer components {

@@ -4,10 +4,12 @@ services:
   # PostgreSQL Database
   db:
     image: postgres:15
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: kairo
-      POSTGRES_USER: kairo_user
-      POSTGRES_PASSWORD: kairo_password
+      POSTGRES_DB: ${POSTGRES_DB:-kairo}
+      POSTGRES_USER: ${POSTGRES_USER:-kairo_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -21,12 +23,14 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./scrapers:/app/scrapers
+    env_file:
+      - .env
     environment:
-      DJANGO_DEBUG: 'True'
-      DJANGO_SECRET_KEY: 'dev-secret-key-change-in-production'
-      DATABASE_URL: postgresql://kairo_user:kairo_password@db:5432/kairo
-      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
-      DJANGO_CORS_ALLOWED_ORIGINS: http://localhost:3000
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-True}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      DJANGO_CORS_ALLOWED_ORIGINS: ${DJANGO_CORS_ALLOWED_ORIGINS:-http://localhost:3000}
     depends_on:
       - db
     command: >
