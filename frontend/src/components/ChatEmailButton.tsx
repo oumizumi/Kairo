@@ -34,6 +34,9 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [justGenerated, setJustGenerated] = useState(false);
   const [isDrafting, setIsDrafting] = useState(false);
+  const [selectedEditingEmail, setSelectedEditingEmail] = useState<string | null>(null);
+  const [selectedEditName, setSelectedEditName] = useState('');
+  const [selectedEditEmail, setSelectedEditEmail] = useState('');
 
   useEffect(() => {
     try {
@@ -469,20 +472,95 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                     {recipients.map((email) => {
                       const p = professors.find((x) => x.email === email);
                       return (
-                        <div key={email} className="flex items-center justify-between text-xs">
-                          <div className="min-w-0 pr-2">
-                            <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p?.name || 'Professor'}</div>
-                            <div className="text-[10px] text-gray-500 truncate">{email}</div>
-                          </div>
+                        <div key={email} className="flex items-center justify-between text-xs gap-2">
+                          {selectedEditingEmail === email ? (
+                            <div className="flex-1 grid grid-cols-5 gap-2 items-center">
+                              <input
+                                value={selectedEditName}
+                                onChange={(e) => setSelectedEditName(e.target.value)}
+                                className="col-span-2 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
+                              />
+                              <input
+                                value={selectedEditEmail}
+                                onChange={(e) => setSelectedEditEmail(e.target.value)}
+                                className="col-span-3 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
+                              />
+                            </div>
+                          ) : (
+                            <div className="min-w-0 pr-2 flex-1">
+                              <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p?.name || 'Professor'}</div>
+                              <div className="text-[10px] text-gray-500 truncate">{email}</div>
+                            </div>
+                          )}
                           <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={() => removeRecipient(email)}
-                              className="p-1 rounded border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300"
-                              title="Unselect"
-                            >
-                              <X className="h-3 w-3" />
-                            </button>
+                            {selectedEditingEmail === email ? (
+                              <>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const normalized = normalizeToUOttawa(selectedEditEmail || '');
+                                    if (!normalized) return;
+                                    // Update professors list
+                                    const nextProfs = professors.map((prof) =>
+                                      prof.email === email ? { name: selectedEditName.trim(), email: normalized } : prof
+                                    );
+                                    saveProfessors(nextProfs);
+                                    // Update recipients if email changed
+                                    if (normalized !== email) {
+                                      const nextRecipients = recipients.map((r) => (r === email ? normalized : r));
+                                      saveRecipients(Array.from(new Set(nextRecipients)));
+                                    }
+                                    setSelectedEditingEmail(null);
+                                  }}
+                                  className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    if (typeof window !== 'undefined') {
+                                      const ok = window.confirm('Delete this professor entry?');
+                                      if (!ok) return;
+                                    }
+                                    saveProfessors(professors.filter((prof) => prof.email !== email));
+                                    saveRecipients(recipients.filter((r) => r !== email));
+                                    setSelectedEditingEmail(null);
+                                  }}
+                                  className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
+                                >
+                                  Delete
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setSelectedEditingEmail(email);
+                                    setSelectedEditName(p?.name || '');
+                                    setSelectedEditEmail(email);
+                                  }}
+                                  className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    if (typeof window !== 'undefined') {
+                                      const ok = window.confirm('Delete this professor entry?');
+                                      if (!ok) return;
+                                    }
+                                    saveProfessors(professors.filter((prof) => prof.email !== email));
+                                    saveRecipients(recipients.filter((r) => r !== email));
+                                  }}
+                                  className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
+                                >
+                                  Delete
+                                </button>
+                              </>
+                            )}
                           </div>
                         </div>
                       );

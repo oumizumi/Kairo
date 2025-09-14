@@ -2142,7 +2142,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                         value={inputMessage}
                                         onChange={(e) => setInputMessage(e.target.value)}
                                         // allow typing while generating
-                                        className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 h-6 leading-6"
+                                        className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 h-7 leading-7 pr-2"
                                     />
                                     {!inputMessage && (
                                         <div className="absolute inset-0 flex items-center overflow-hidden">
@@ -2161,9 +2161,9 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 <button
                                     type="submit"
                                     disabled={!inputMessage.trim() || isLoading}
-                                    className="p-2 rounded-full bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/15 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="p-2.5 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white shadow-sm transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                                 >
-                                    <ArrowRight className="w-5 h-5 text-gray-700 dark:text-white" />
+                                    <ArrowRight className="w-4.5 h-4.5" />
                                 </button>
                             </div>
                         </form>
@@ -2347,7 +2347,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 value={inputMessage}
                                 onChange={(e) => setInputMessage(e.target.value)}
                                 // allow typing while generating
-                                className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 h-6 leading-6"
+                                className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 h-7 leading-7 pr-2"
                             />
                             {!inputMessage && (
                                 <div className="absolute inset-0 flex items-center overflow-hidden">
@@ -2366,9 +2366,9 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                         <button
                             type="submit"
                             disabled={!inputMessage.trim() || isLoading}
-                            className="p-2 rounded-full bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/15 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="p-2.5 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white shadow-sm transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            <ArrowRight className="w-5 h-5 text-gray-700 dark:text-white" />
+                            <ArrowRight className="w-4.5 h-4.5" />
                         </button>
                     </div>
                 </form>
