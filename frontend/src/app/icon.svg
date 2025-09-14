@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 100 100">
+  <title>Kairo Icon</title>
+  <g transform="translate(50,50)">
+    <!-- Left stem -->
+    <rect x="-22" y="-30" width="6" height="60" fill="#111" rx="3" />
+    <!-- Upper diagonal arm -->
+    <polygon points="-16,-4 20,-24 24,-21 -12,-1" fill="#111" />
+    <!-- Lower diagonal arm -->
+    <polygon points="-16,4 20,24 24,21 -12,1" fill="#111" />
+    <!-- Connection dot -->
+    <circle cx="-16" cy="0" r="3.2" fill="#111" />
+  </g>
+</svg>
+
