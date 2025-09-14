@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Calendar, BookOpen, MessageSquare, Play, CheckCircle2, Sparkles, Clock, Shield, Users, ChevronDown } from 'lucide-react';
+import { Calendar, BookOpen, MessageSquare, Mail, Play, CheckCircle2, Sparkles, Clock, Shield, Users, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StatsMarquee from '@/components/StatsMarquee';
 
-type FeatureKey = 'schedule' | 'intelligence' | 'assistant';
+type FeatureKey = 'schedule' | 'intelligence' | 'assistant' | 'mail';
 
 const TABS: Array<{
   key: FeatureKey;
@@ -14,8 +14,9 @@ const TABS: Array<{
   icon: any;
 }> = [
   { key: 'schedule', title: 'Smart Schedule Generation', subtitle: 'Conflict‑free, section‑aware planning', icon: Calendar },
-  { key: 'intelligence', title: 'Course & Professor Intelligence', subtitle: 'Real sections, grades, and ratings', icon: BookOpen },
+  { key: 'intelligence', title: 'Course & Section Intelligence', subtitle: 'Real sections and availability', icon: BookOpen },
   { key: 'assistant', title: 'Ask Anything — GPT', subtitle: 'Programs, sequences, prerequisites', icon: MessageSquare },
+  { key: 'mail', title: 'Smart Mail', subtitle: 'AI‑powered professional emails', icon: Mail },
 ];
 
 const HOW_IT_WORKS: Array<{ icon: any; title: string; description: string }>= [
@@ -51,6 +52,8 @@ export default function Features() {
   const [active, setActive] = useState<FeatureKey>('schedule');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [courseCount, setCourseCount] = useState<number | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [pauseStartTime, setPauseStartTime] = useState<number | null>(null);
 
   useEffect(() => {
     fetch('/all_courses_flattened.json')
@@ -67,6 +70,45 @@ export default function Features() {
       })
       .catch(() => setCourseCount(null));
   }, []);
+
+  // Auto-rotation effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isPaused) {
+        setActive(prev => {
+          const currentIndex = TABS.findIndex(tab => tab.key === prev);
+          const nextIndex = (currentIndex + 1) % TABS.length;
+          return TABS[nextIndex].key;
+        });
+      } else if (pauseStartTime) {
+        // Check if pause has exceeded 30 seconds
+        const pauseDuration = Date.now() - pauseStartTime;
+        if (pauseDuration > 30000) { // 30 seconds
+          setIsPaused(false);
+          setPauseStartTime(null);
+        }
+      }
+    }, 7000); // 7 seconds
+
+    return () => clearInterval(interval);
+  }, [isPaused, pauseStartTime]);
+
+  const handleTabInteraction = (key: FeatureKey) => {
+    setActive(key);
+    setIsPaused(true);
+    setPauseStartTime(Date.now());
+  };
+
+  const handleMouseEnter = () => {
+    if (!isPaused) {
+      setIsPaused(true);
+      setPauseStartTime(Date.now());
+    }
+  };
+
+  const handleMouseLeave = () => {
+    // Don't immediately resume - let the 30-second timer handle it
+  };
 
   return (
     <section className="py-16 sm:py-24 bg-slate-50 dark:bg-[rgb(var(--background-rgb))] dark:refined-dark-grid square-grid-bg-light relative overflow-hidden border-t border-gray-200 dark:border-[rgb(var(--border-color))]">
@@ -95,7 +137,11 @@ export default function Features() {
         </div>
 
         {/* Showcase container */}
-        <div className="rounded-3xl overflow-hidden border-2 border-gray-200 dark:border-[rgb(var(--border-color))] bg-white dark:bg-[rgb(var(--secondary-bg))] shadow-xl">
+        <div 
+          className="rounded-3xl overflow-hidden border-2 border-gray-200 dark:border-[rgb(var(--border-color))] bg-white dark:bg-[rgb(var(--secondary-bg))] shadow-xl"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <div className="grid grid-cols-1 lg:grid-cols-5">
             {/* Tabs */}
             <div className="col-span-2 p-4 sm:p-6 lg:p-8 bg-slate-50/70 dark:bg-white/[0.02] border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[rgb(var(--border-color))]">
@@ -105,8 +151,8 @@ export default function Features() {
                   return (
                     <button
                       key={key}
-                      onMouseEnter={() => setActive(key)}
-                      onClick={() => setActive(key)}
+                      onMouseEnter={() => handleTabInteraction(key)}
+                      onClick={() => handleTabInteraction(key)}
                       className={`w-full text-left rounded-2xl p-4 transition-all border ${
                         selected
                           ? 'bg-white dark:bg-white/5 border-gray-300 dark:border-[rgb(var(--border-color))] shadow-sm'
@@ -129,7 +175,7 @@ export default function Features() {
 
               {/* Quick hits */}
               <div className="mt-6 grid grid-cols-2 gap-2 text-xs">
-                {[['Zero conflicts','Schedule'],['Real ratings','Courses'],['Instant answers','Assistant'],['One click add','Calendar']].map(([label, tag]) => (
+                {[['Zero conflicts','Schedule'],['Real ratings','Courses'],['Instant answers','Assistant'],['Pro formatting','Mail']].map(([label, tag]) => (
                   <div key={label} className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-white/70 dark:bg-white/[0.03] px-2 py-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                     <span className="text-gray-800 dark:text-[rgb(var(--text-primary))]">{label}</span>
@@ -152,15 +198,46 @@ export default function Features() {
                     transition={{ duration: 0.4 }}
                     className="relative z-10 h-full"
                   >
-                    <div className="relative h-full rounded-2xl overflow-hidden border border-gray-200 dark:border-[rgb(var(--border-color))] bg-white dark:bg-[rgb(var(--card-bg))]">
-                      <div className="absolute inset-0 z-10 flex items-center justify-center">
-                        <div className="px-3 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-700 dark:text-[rgb(var(--text-secondary))] text-xs">
-                          video coming soon
-                        </div>
+                    <div className="h-full rounded-2xl border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50/50 dark:bg-[rgb(var(--card-bg))] p-4 sm:p-6 flex flex-col">
+                      <div className="mb-4">
+                        <h4 className="text-lg font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">Smart Schedule Generation</h4>
+                        <p className="text-sm text-gray-600 dark:text-[rgb(var(--text-secondary))]">Conflict-free, optimized timetables</p>
                       </div>
 
-                      {/* Empty image holder while video is not available */}
-                      <div className="absolute inset-0" />
+                      <div className="flex-1 space-y-4">
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">Your courses:</div>
+                          <div className="space-y-1 text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
+                            <div>• CSI 2110 - Data Structures and Algorithms</div>
+                            <div>• CSI 3105 - Design and Analysis of Algorithms I</div>
+                            <div>• CSI 4106 - Introduction to Artificial Intelligence</div>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-center">
+                          <div className="text-gray-400 dark:text-gray-500 text-xl">
+                            ↓
+                          </div>
+                        </div>
+
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-[rgb(var(--card-bg))] p-3">
+                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">Generated schedule:</div>
+                          <div className="grid grid-cols-3 gap-1 text-xs">
+                            <div className="text-center font-medium text-gray-700 dark:text-[rgb(var(--text-primary))]">Mon</div>
+                            <div className="text-center font-medium text-gray-700 dark:text-[rgb(var(--text-primary))]">Wed</div>
+                            <div className="text-center font-medium text-gray-700 dark:text-[rgb(var(--text-primary))]">Fri</div>
+                            <div className="bg-blue-100 dark:bg-blue-600/15 p-1 rounded text-center">CSI2110<br/>10:00</div>
+                            <div className="bg-green-100 dark:bg-green-600/15 p-1 rounded text-center">CSI3105<br/>11:30</div>
+                            <div className="bg-purple-100 dark:bg-purple-600/15 p-1 rounded text-center">CSI4106<br/>14:30</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))]">
+                          <span>✓ No conflicts</span>
+                          <span>✓ Balanced days</span>
+                          <span>✓ Open sections</span>
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -174,13 +251,49 @@ export default function Features() {
                     transition={{ duration: 0.4 }}
                     className="relative z-10 h-full"
                   >
-                    <div className="h-full rounded-2xl border border-gray-200 dark:border-[rgb(var(--border-color))] bg-white dark:bg-[rgb(var(--card-bg))] p-4 sm:p-6 relative overflow-hidden">
-                      <div className="absolute inset-0 z-10 flex items-center justify-center">
-                        <div className="px-3 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-700 dark:text-[rgb(var(--text-secondary))] text-xs">
-                          video coming soon
+                    <div className="h-full rounded-2xl border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50/50 dark:bg-[rgb(var(--card-bg))] p-4 sm:p-6 flex flex-col">
+                      <div className="mb-4">
+                        <h4 className="text-lg font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">Course & Section Intelligence</h4>
+                        <p className="text-sm text-gray-600 dark:text-[rgb(var(--text-secondary))]">Real sections, availability, and details</p>
+                      </div>
+
+                      <div className="flex-1 space-y-4">
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="text-sm font-medium text-gray-900 dark:text-[rgb(var(--text-primary))]">CSI 2110 - Data Structures and Algorithms</div>
+                            <div className="text-xs bg-green-100 dark:bg-green-600/15 text-green-700 dark:text-green-300 px-2 py-1 rounded">Open</div>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-[rgb(var(--text-secondary))]">Abdelkrim El Basraoui • RMP: 4.0/5</div>
+                        </div>
+
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="text-sm font-medium text-gray-900 dark:text-[rgb(var(--text-primary))]">CSI 3105 - Design and Analysis of Algorithms I</div>
+                            <div className="text-xs bg-red-100 dark:bg-red-600/15 text-red-700 dark:text-red-300 px-2 py-1 rounded">Closed</div>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-[rgb(var(--text-secondary))]">Aaron Tikuisis • RMP: 2.3/5</div>
+                        </div>
+
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-[rgb(var(--card-bg))] p-3">
+                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">More sections:</div>
+                          <div className="space-y-2 text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
+                            <div className="flex items-center justify-between">
+                              <span>CSI 4106 - Introduction to Artificial Intelligence</span>
+                              <div className="text-xs bg-green-100 dark:bg-green-600/15 text-green-700 dark:text-green-300 px-2 py-1 rounded">Open</div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span>CSI 2372 - Advanced Programming Concepts With C++</span>
+                              <div className="text-xs bg-red-100 dark:bg-red-600/15 text-red-700 dark:text-red-300 px-2 py-1 rounded">Closed</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))]">
+                          <span>✓ Live sections</span>
+                          <span>✓ RMP ratings</span>
+                          <span>✓ Open/Closed status</span>
                         </div>
                       </div>
-                      <div className="absolute inset-0" />
                     </div>
                   </motion.div>
                 )}
@@ -194,13 +307,93 @@ export default function Features() {
                     transition={{ duration: 0.4 }}
                     className="relative z-10 h-full"
                   >
-                    <div className="h-full rounded-2xl border border-gray-200 dark:border-[rgb(var(--border-color))] bg-white dark:bg-[rgb(var(--card-bg))] p-4 sm:p-6 relative overflow-hidden">
-                      <div className="absolute inset-0 z-10 flex items-center justify-center">
-                        <div className="px-3 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-700 dark:text-[rgb(var(--text-secondary))] text-xs">
-                          video coming soon
+                    <div className="h-full rounded-2xl border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50/50 dark:bg-[rgb(var(--card-bg))] p-4 sm:p-6 flex flex-col">
+                      <div className="mb-4">
+                        <h4 className="text-lg font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">AI Assistant</h4>
+                        <p className="text-sm text-gray-600 dark:text-[rgb(var(--text-secondary))]">Ask anything about courses and programs</p>
+                      </div>
+
+                      <div className="flex-1 space-y-4">
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">You ask:</div>
+                          <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
+                            "What are the prerequisites for CSI 3105?"
+                          </div>
+                        </div>
+
+                        <div className="flex justify-center">
+                          <div className="text-gray-400 dark:text-gray-500 text-xl">
+                            ↓
+                          </div>
+                        </div>
+
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-[rgb(var(--card-bg))] p-3">
+                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">Kairo responds:</div>
+                          <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))] space-y-2">
+                            <div><strong>CSI 3105 - Design and Analysis of Algorithms I</strong></div>
+                            <div><strong>Prerequisites:</strong></div>
+                            <div>• CSI 2110 (Data Structures and Algorithms)</div>
+                            <div>• MAT 1341 (Introduction to Discrete Mathematics)</div>
+                            <div><strong>Note:</strong> Strong foundation in data structures is essential for this course.</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))]">
+                          <span>✓ Instant answers</span>
+                          <span>✓ Course details</span>
+                          <span>✓ Program guidance</span>
                         </div>
                       </div>
-                      <div className="absolute inset-0" />
+                    </div>
+                  </motion.div>
+                )}
+
+                {active === 'mail' && (
+                  <motion.div
+                    key="mail"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -12 }}
+                    transition={{ duration: 0.4 }}
+                    className="relative z-10 h-full"
+                  >
+                    <div className="h-full rounded-2xl border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50/50 dark:bg-[rgb(var(--card-bg))] p-4 sm:p-6 flex flex-col">
+                      <div className="mb-4">
+                        <h4 className="text-lg font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">Professional Email Composition</h4>
+                        <p className="text-sm text-gray-600 dark:text-[rgb(var(--text-secondary))]">AI-powered email formatting for professors</p>
+                      </div>
+
+                      <div className="flex-1 space-y-4">
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">Your input:</div>
+                          <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
+                            "Can I get an extension on the assignment?"
+                          </div>
+                        </div>
+
+                        <div className="flex justify-center">
+                          <div className="text-gray-400 dark:text-gray-500 text-xl">
+                            ↓
+                          </div>
+                        </div>
+
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-[rgb(var(--card-bg))] p-3">
+                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">AI-enhanced result:</div>
+                          <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))] space-y-2">
+                            <div><strong>Dear Professor El Basraoui,</strong></div>
+                            <div>I hope this message finds you well.</div>
+                            <div>I am writing to request a brief extension on the upcoming assignment due to unexpected circumstances. I would be grateful for your consideration.</div>
+                            <div>Thank you for your time and understanding.</div>
+                            <div><strong>Best regards,<br />Student Name</strong></div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))]">
+                          <span>✓ Professional tone</span>
+                          <span>✓ Proper greeting</span>
+                          <span>✓ Courteous closing</span>
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -253,6 +446,7 @@ export default function Features() {
               { value: '0', label: 'time conflicts' },
               { value: coursesDisplay, label: 'courses indexed' },
               { value: '1-click', label: 'calendar sync' },
+              { value: '100%', label: 'professional emails' },
             ]}
             wrapperClassName="py-2 px-4 sm:px-6"
             rowClassName="space-x-6 md:space-x-8"

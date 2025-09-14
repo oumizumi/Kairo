@@ -105,6 +105,7 @@ export default function Home() {
             <span className="font-mono px-3 py-1 bg-blue-100 dark:bg-blue-600/15 dark:border dark:border-blue-500/30 text-blue-800 dark:text-blue-200 rounded-full font-medium">Smart Scheduling</span>
             <span className="font-mono px-3 py-1 bg-purple-100 dark:bg-purple-600/15 dark:border dark:border-purple-500/30 text-purple-800 dark:text-purple-200 rounded-full font-medium">AI Assistant</span>
             <span className="font-mono px-3 py-1 bg-green-100 dark:bg-green-600/15 dark:border dark:border-green-500/30 text-green-800 dark:text-green-200 rounded-full font-medium">Course Intelligence</span>
+            <span className="font-mono px-3 py-1 bg-orange-100 dark:bg-orange-600/15 dark:border dark:border-orange-500/30 text-orange-800 dark:text-orange-200 rounded-full font-medium">Smart Mail</span>
           </div>
           
           {/* Get Started Button */}
@@ -134,8 +135,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      
 
       <Features />
 
