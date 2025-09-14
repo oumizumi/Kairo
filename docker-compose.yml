@@ -5,7 +5,7 @@ services:
   db:
     image: postgres:15
     env_file:
-      - .env
+      - .env.local
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-kairo}
       POSTGRES_USER: ${POSTGRES_USER:-kairo_user}
@@ -24,7 +24,7 @@ services:
       - ./backend:/app/backend
       - ./scrapers:/app/scrapers
     env_file:
-      - .env
+      - .env.local
     environment:
       DJANGO_DEBUG: ${DJANGO_DEBUG:-True}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
