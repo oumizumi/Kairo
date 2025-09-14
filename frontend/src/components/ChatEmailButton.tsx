@@ -113,14 +113,17 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     saveRecipients(recipients.filter((e) => e !== email));
   };
 
-  const handleEmailChat = async () => {
+  const handleEmailChat = async (overrides?: { subject?: string; body?: string; to?: string }) => {
     if (!canSend) return;
     setIsLoading(true);
     try {
       const profNameForGreeting = getGreetingProfessorName();
-      const subjectEnc = encodeURIComponent(subject.trim() || generateSubject(currentMessage, ''));
-      const bodyEnc = encodeURIComponent((body || buildEmailBody(currentMessage, profNameForGreeting, userFullName)).replaceAll('\n', '\n'));
-      const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(toParam)}&subject=${subjectEnc}&body=${bodyEnc}`;
+      const chosenSubject = (overrides?.subject?.trim()) || subject.trim() || generateSubject(currentMessage, '');
+      const chosenBody = (overrides?.body?.trim()) || body || buildEmailBody(currentMessage, profNameForGreeting, userFullName);
+      const chosenTo = overrides?.to || toParam;
+      const subjectEnc = encodeURIComponent(chosenSubject);
+      const bodyEnc = encodeURIComponent(chosenBody);
+      const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(chosenTo)}&subject=${subjectEnc}&body=${bodyEnc}`;
       const win = window.open(outlookUrl, '_blank', 'noopener,noreferrer');
       if (!win) {
         window.location.href = outlookUrl;
@@ -135,14 +138,11 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const handleSendToSingle = (email: string) => {
     const to = normalizeToUOttawa(email);
     if (!to || !hasMessage) return;
-    const profNameForGreeting = getGreetingProfessorName();
-    const subjectEnc = encodeURIComponent(subject.trim() || generateSubject(currentMessage, ''));
-    const bodyEnc = encodeURIComponent((body || buildEmailBody(currentMessage, profNameForGreeting, userFullName)).replaceAll('\n', '\n'));
-    const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(to)}&subject=${subjectEnc}&body=${bodyEnc}`;
-    const win = window.open(outlookUrl, '_blank', 'noopener,noreferrer');
-    if (!win) {
-      window.location.href = outlookUrl;
-    }
+    handleEmailChat({
+      to,
+      subject: subject.trim() || generateSubject(currentMessage, ''),
+      body: body || buildEmailBody(currentMessage, getGreetingProfessorName(), userFullName),
+    });
   };
 
   const handleComposeBlank = (to: string) => {
@@ -161,14 +161,16 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     try {
       const professorName = getGreetingProfessorName();
       const userPrompt = currentMessage.trim();
-      const instruction = `Draft a professional email for a University of Ottawa student to a professor.
-Return STRICT JSON with keys: subject (string), body (string). Do not include code fences.
+      const instruction = `You draft short, professional emails for University of Ottawa students.
+Return STRICT JSON: {"subject": string, "body": string}. No code fences.
 Constraints:
+- Subject: short (<= 60 chars), directly reflects the user's ask, no extra details.
+- Body: 2–4 sentences, polite and concise, ONLY address the user's request; no assumptions, no extra offers, no placeholders.
 - Greeting must be exactly: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
 - Closing must be exactly: "Best regards,\\n${userFullName.trim()}"
-- Tone: concise, polite, clear. Vary word choice and sentence structure from common templates.
-- If the user's prompt is minimal or empty, infer a generic but appropriate subject and body.
-Input prompt from user: ${userPrompt || '[no additional details provided]'}
+- Vary wording to avoid repetitive templates.
+- If the prompt is minimal/empty, infer a simple, appropriate subject and a brief body.
+User prompt: ${userPrompt || '[no additional details provided]'}
 `;
 
       const response = await api.post('/api/ai/chat/', { message: instruction });
@@ -193,14 +195,16 @@ Input prompt from user: ${userPrompt || '[no additional details provided]'}
       setBody(draftedBody);
       setJustGenerated(true);
 
-      // Compose after drafting
-      await handleEmailChat();
+      // Compose immediately using overrides to avoid stale state
+      await handleEmailChat({ subject: draftedSubject, body: draftedBody });
     } catch (e) {
       // Fallback to local template
       const professorName = getGreetingProfessorName();
-      setSubject(generateSubject(currentMessage, professorName));
-      setBody(buildEmailBody(currentMessage, professorName, userFullName));
-      await handleEmailChat();
+      const fbSubject = generateSubject(currentMessage, professorName);
+      const fbBody = buildEmailBody(currentMessage, professorName, userFullName);
+      setSubject(fbSubject);
+      setBody(fbBody);
+      await handleEmailChat({ subject: fbSubject, body: fbBody });
     } finally {
       setIsDrafting(false);
     }
