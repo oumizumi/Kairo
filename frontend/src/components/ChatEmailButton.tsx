@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { Mail, Plus, X } from 'lucide-react';
+import { Mail, X } from 'lucide-react';
 
 interface ChatEmailButtonProps {
   currentMessage: string;
@@ -21,11 +21,12 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [recipients, setRecipients] = useState<string[]>([]);
-  const [input, setInput] = useState('');
-  const [activeTab, setActiveTab] = useState<'recipients' | 'professors'>('recipients');
+  const [profName, setProfName] = useState('');
   const [profQuery, setProfQuery] = useState('');
   const [professors, setProfessors] = useState<Array<{ name: string; email: string }>>([]);
   const [profLoading, setProfLoading] = useState(false);
+  const [subject, setSubject] = useState('');
+  const [body, setBody] = useState('');
 
   useEffect(() => {
     try {
@@ -37,7 +38,7 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     } catch {}
   }, []);
 
-  const hasMessage = currentMessage.trim().length > 0;
+  const hasMessage = (subject.trim().length > 0 || currentMessage.trim().length > 0) && body.trim().length > 0;
   const hasRecipients = recipients.length > 0;
   const canSend = hasMessage && hasRecipients && !isLoading;
 
@@ -60,20 +61,29 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     return candidate;
   };
 
-  const addFromInput = () => {
-    const parts = input
-      .split(/[\,\s]+/)
-      .map((p) => p.trim())
-      .filter(Boolean);
-    const valid = parts
-      .map((e) => normalizeToUOttawa(e))
-      .filter((e): e is string => Boolean(e));
-    if (valid.length) {
-      const merged = Array.from(new Set([...recipients, ...valid]));
-      saveRecipients(merged);
-      setInput('');
-    }
+  const generateSubject = (message: string, name: string): string => {
+    const trimmed = message.trim();
+    if (trimmed.length === 0) return name ? `Regarding ${name}` : 'Inquiry';
+    // Use first sentence or up to ~80 chars, no dashes
+    const firstStop = trimmed.split(/(?<=\.)\s|\n/)[0] || trimmed;
+    const raw = firstStop.replace(/\s*-\s*/g, ' ').trim();
+    return raw.length > 80 ? `${raw.slice(0, 77)}...` : raw;
   };
+
+  const generateBody = (message: string, name: string): string => {
+    const greeting = name ? `Dear Professor ${name},` : 'Dear Professor,';
+    const content = message.trim().length > 0 ? message.trim() : 'I hope you are well.';
+    const closing = 'Best regards,\nA uOttawa student';
+    return `${greeting}\n\n${content}\n\n${closing}`;
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setSubject(generateSubject(currentMessage, profName));
+    setBody(generateBody(currentMessage, profName));
+  }, [isOpen]);
+
+  // Recipients are added from the professors list only
 
   const removeRecipient = (email: string) => {
     saveRecipients(recipients.filter((e) => e !== email));
@@ -83,10 +93,13 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     if (!canSend) return;
     setIsLoading(true);
     try {
-      const subject = encodeURIComponent('Chat from Kairo');
-      const body = encodeURIComponent(`Here's my chat message:\n\n${currentMessage}`);
-      const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(toParam)}&subject=${subject}&body=${body}`;
-      window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+      const subjectEnc = encodeURIComponent(subject.trim() || generateSubject(currentMessage, profName));
+      const bodyEnc = encodeURIComponent((body || generateBody(currentMessage, profName)).replaceAll('\n', '\n'));
+      const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(toParam)}&subject=${subjectEnc}&body=${bodyEnc}`;
+      const win = window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+      if (!win) {
+        window.location.href = outlookUrl;
+      }
     } catch (error) {
       console.error('Error opening email client:', error);
     } finally {
@@ -97,14 +110,17 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const handleSendToSingle = (email: string) => {
     const to = normalizeToUOttawa(email);
     if (!to || !hasMessage) return;
-    const subject = encodeURIComponent('Chat from Kairo');
-    const body = encodeURIComponent(`Here's my chat message:\n\n${currentMessage}`);
-    const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(to)}&subject=${subject}&body=${body}`;
-    window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+    const subjectEnc = encodeURIComponent(subject.trim() || generateSubject(currentMessage, profName));
+    const bodyEnc = encodeURIComponent((body || generateBody(currentMessage, profName)).replaceAll('\n', '\n'));
+    const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(to)}&subject=${subjectEnc}&body=${bodyEnc}`;
+    const win = window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+    if (!win) {
+      window.location.href = outlookUrl;
+    }
   };
 
   useEffect(() => {
-    if (activeTab !== 'professors' || professors.length > 0 || profLoading) return;
+    if (!isOpen || professors.length > 0 || profLoading) return;
     const load = async () => {
       setProfLoading(true);
       try {
@@ -138,13 +154,17 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
       setProfLoading(false);
     };
     load();
-  }, [activeTab, professors.length, profLoading]);
+  }, [isOpen, professors.length, profLoading]);
 
   const filteredProfs = useMemo(() => {
     const q = profQuery.trim().toLowerCase();
     if (!q) return professors.slice(0, 20);
     return professors.filter((p) => p.name.toLowerCase().includes(q) || p.email.toLowerCase().includes(q)).slice(0, 20);
   }, [profQuery, professors]);
+
+  const subjectText = useMemo(() => subject.trim() || generateSubject(currentMessage, profName), [subject, currentMessage, profName]);
+  const bodyText = useMemo(() => body.trim() || generateBody(currentMessage, profName), [body, currentMessage, profName]);
+  const composeUrl = useMemo(() => `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(toParam)}&subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`, [toParam, subjectText, bodyText]);
 
   const addProfessor = (p: { name: string; email: string }) => {
     if (!p?.email) return;
@@ -169,7 +189,7 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsOpen(false)} />
           <div className="relative w-full max-w-md rounded-2xl shadow-2xl border overflow-hidden bg-white dark:bg-[#1e1e1e] border-gray-200 dark:border-white/10">
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10">
-              <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">Send with Outlook (uOttawa only)</div>
+              <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">Email Professor (Outlook • uOttawa only)</div>
               <button
                 type="button"
                 className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-white/10"
@@ -181,98 +201,95 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
             </div>
 
             <div className="p-4">
-              <div className="flex gap-2 mb-3 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('recipients')}
-                  className={`px-2 py-1 rounded ${activeTab === 'recipients' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-200'}`}
-                >
-                  Recipients
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('professors')}
-                  className={`px-2 py-1 rounded ${activeTab === 'professors' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-200'}`}
-                >
-                  Professors
-                </button>
+              <div className="mb-3">
+                <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Professor name (optional)</label>
+                <input
+                  value={profName}
+                  onChange={(e) => setProfName(e.target.value)}
+                  placeholder="e.g., Jane Doe"
+                  className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
+                />
               </div>
 
-              {activeTab === 'recipients' && (
-                <>
-                  <div className="flex gap-2">
-                    <input
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder={`netid${UOTTAWA_DOMAIN}, prof${UOTTAWA_DOMAIN}`}
-                      className="flex-1 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
-                    />
-                    <button
-                      type="button"
-                      onClick={addFromInput}
-                      className="px-2 py-2 rounded bg-gray-900 dark:bg-white text-white dark:text-black text-xs font-semibold hover:opacity-90"
-                    >
-                      <Plus className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                  {recipients.length > 0 && (
-                    <div className="mt-3 max-h-36 overflow-auto space-y-1">
-                      {recipients.map((email) => (
-                        <div key={email} className="flex items-center justify-between text-xs">
-                          <span className="text-gray-700 dark:text-gray-200 truncate pr-2">{email}</span>
-                          <button
-                            type="button"
-                            onClick={() => removeRecipient(email)}
-                            className="p-1 rounded hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-
-              {activeTab === 'professors' && (
-                <>
+              <div className="grid grid-cols-1 gap-3 mb-3">
+                <div>
+                  <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Subject</label>
                   <input
-                    value={profQuery}
-                    onChange={(e) => setProfQuery(e.target.value)}
-                    placeholder="Search professors…"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    placeholder={generateSubject(currentMessage, profName)}
                     className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
                   />
-                  <div className="mt-3 max-h-56 overflow-auto divide-y divide-gray-100 dark:divide-white/10">
-                    {profLoading && <div className="py-2 text-xs text-gray-500">Loading…</div>}
-                    {!profLoading && filteredProfs.length === 0 && (
-                      <div className="py-2 text-xs text-gray-500">No matches</div>
-                    )}
-                    {filteredProfs.map((p) => (
-                      <div key={p.email} className="flex items-center justify-between py-2">
-                        <div className="min-w-0 pr-2">
-                          <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p.name}</div>
-                          <div className="text-[10px] text-gray-500 truncate">{p.email}</div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => addProfessor(p)}
-                            className="px-2 py-1 rounded bg-gray-200 dark:bg-white/10 text-gray-800 dark:text-gray-100 text-[10px] font-semibold hover:opacity-90"
-                          >
-                            Add
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleSendToSingle(p.email)}
-                            className="px-2 py-1 rounded bg-blue-600 text-white text-[10px] font-semibold hover:bg-blue-700"
-                          >
-                            Send
-                          </button>
-                        </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Body</label>
+                  <textarea
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                    placeholder={generateBody(currentMessage, profName)}
+                    rows={6}
+                    className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <input
+                  value={profQuery}
+                  onChange={(e) => setProfQuery(e.target.value)}
+                  placeholder="Search professors…"
+                  className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
+                />
+                <div className="mt-3 max-h-56 overflow-auto divide-y divide-gray-100 dark:divide-white/10">
+                  {profLoading && <div className="py-2 text-xs text-gray-500">Loading…</div>}
+                  {!profLoading && filteredProfs.length === 0 && (
+                    <div className="py-2 text-xs text-gray-500">No matches</div>
+                  )}
+                  {filteredProfs.map((p) => (
+                    <div key={p.email} className="flex items-center justify-between py-2">
+                      <div className="min-w-0 pr-2">
+                        <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p.name}</div>
+                        <div className="text-[10px] text-gray-500 truncate">{p.email}</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => addProfessor(p)}
+                          className="px-2 py-1 rounded bg-gray-200 dark:bg-white/10 text-gray-800 dark:text-gray-100 text-[10px] font-semibold hover:opacity-90"
+                        >
+                          Add
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSendToSingle(p.email)}
+                          className="px-2 py-1 rounded bg-blue-600 text-white text-[10px] font-semibold hover:bg-blue-700"
+                        >
+                          Send
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {recipients.length > 0 && (
+                <div className="mt-3">
+                  <div className="text-[11px] font-medium mb-1 text-gray-700 dark:text-gray-300">Selected professors</div>
+                  <div className="max-h-24 overflow-auto space-y-1">
+                    {recipients.map((email) => (
+                      <div key={email} className="flex items-center justify-between text-xs">
+                        <span className="text-gray-700 dark:text-gray-200 truncate pr-2">{email}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeRecipient(email)}
+                          className="p-1 rounded hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
                       </div>
                     ))}
                   </div>
-                </>
+                </div>
               )}
 
               <button
@@ -283,6 +300,19 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
               >
                 {isLoading ? 'Opening Outlook…' : 'Open in Outlook'}
               </button>
+              <a
+                href="https://outlook.office.com/mail/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex w-full items-center justify-center rounded border border-gray-300 dark:border-white/10 text-gray-700 dark:text-gray-200 text-xs font-semibold py-2 hover:bg-gray-50 dark:hover:bg-white/5"
+              >
+                Open Outlook (login)
+              </a>
+              {canSend && (
+                <div className="mt-2 text-[10px] text-gray-500">
+                  If nothing happens, <a className="underline" href={composeUrl} target="_blank" rel="noopener noreferrer">click here to compose</a>.
+                </div>
+              )}
               <div className="mt-2 text-[10px] text-gray-500">Only emails ending with <span className="font-semibold">{UOTTAWA_DOMAIN}</span> are allowed.</div>
               {!hasRecipients && (
                 <div className="mt-1 text-[10px] text-gray-500">Add at least one recipient to enable sending.</div>
