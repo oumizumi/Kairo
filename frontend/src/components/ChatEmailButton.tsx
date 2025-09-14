@@ -200,15 +200,15 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     const userPrompt = manualPrompt || chatPrompt;
     try {
       const professorName = getGreetingProfessorName();
-      const instruction = `You draft short, professional emails for University of Ottawa students.
+      const instruction = `You draft professional emails for University of Ottawa students.
 Return STRICT JSON: {"subject": string, "body": string}. No code fences.
 Constraints:
-- Subject: short (<= 60 chars), directly reflects the user's ask; no extra details.
-- Body: 2–4 sentences, polite, clear, and focused on the user's request. Do not add offers, assumptions, or extra steps the user didn’t mention.
+- Subject: short (<= 60 chars), clearly tied to the user’s ask; no extra details.
+- Body: 3–6 sentences. Be polite and well-explained: include a brief context sentence (why you’re writing) and a clear, specific ask. Do NOT add unnecessary information, offers, assumptions, or steps the user didn’t mention.
+- Use natural, varied phrasing and connectors (not robotic or formulaic). Avoid redundancy.
 - Greeting must be exactly: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
 - Closing must be exactly: "Best regards,\\n${userFullName.trim()}"
-- Use natural, varied phrasing. Avoid rigid templates; vary sentence structure and connectors.
-- If the prompt is minimal/empty, infer a simple, appropriate subject and brief body.
+- If the prompt is minimal/empty, infer a simple subject and a brief, appropriate body following these rules.
 User prompt: ${userPrompt || '[no additional details provided]'}
 `;
 
@@ -423,19 +423,16 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                             />
                           </div>
                         ) : (
-                          <div className="flex-1 flex items-start gap-2">
-                            <input
-                              type="checkbox"
-                              checked={recipients.includes(p.email)}
-                              onChange={() => toggleProfessor(p)}
-                              className="mt-0.5 h-3.5 w-3.5 accent-blue-600"
-                              aria-label={`Select ${p.name}`}
-                            />
+                          <button
+                            type="button"
+                            onClick={() => toggleProfessor(p)}
+                            className="flex-1 text-left"
+                          >
                             <div className="min-w-0 pr-2">
                               <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p.name}</div>
                               <div className="text-[10px] text-gray-500 truncate">{p.email}</div>
                             </div>
-                          </div>
+                          </button>
                         )}
                         <div className="flex items-center gap-2 ml-2">
                           {editingIndex === idx ? (
@@ -512,7 +509,7 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                               <input
                                 type="checkbox"
                                 checked={true}
-                                onChange={() => removeRecipient(email)}
+                                onChange={() => saveRecipients(recipients.filter((r) => r !== email))}
                                 className="mt-0.5 h-3.5 w-3.5 accent-blue-600"
                                 aria-label={`Unselect ${p?.name || 'Professor'}`}
                               />
