@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Mail, X } from 'lucide-react';
 
+
 interface ChatEmailButtonProps {
   currentMessage: string;
 }
@@ -22,13 +23,13 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const [isOpen, setIsOpen] = useState(false);
   const [recipients, setRecipients] = useState<string[]>([]);
   const [userFullName, setUserFullName] = useState('');
-  const [explanation, setExplanation] = useState('');
   const [newProfName, setNewProfName] = useState('');
   const [newProfEmail, setNewProfEmail] = useState('');
   const [professors, setProfessors] = useState<Array<{ name: string; email: string }>>([]);
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
   const bodyRef = useRef<HTMLTextAreaElement | null>(null);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     try {
@@ -72,17 +73,30 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     return raw.length > 80 ? `${raw.slice(0, 77)}...` : raw;
   };
 
-  const generateBody = (message: string, name: string): string => {
-    const greeting = name ? `Dear ${name},` : 'Dear Professor,';
+  const buildEmailBody = (message: string, professorName: string, studentName: string): string => {
+    const greeting = professorName ? `Dear Professor ${professorName},` : 'Dear Professor,';
     const content = message.trim().length > 0 ? message.trim() : 'I hope you are well.';
-    const closing = 'Best regards,\n' + (name || 'A uOttawa student');
+    const closing = 'Best regards,\n' + (studentName || 'A uOttawa student');
     return `${greeting}\n\n${content}\n\n${closing}`;
+  };
+
+  const getGreetingProfessorName = (): string => {
+    // If a selected recipient matches a known professor, use that name
+    for (const email of recipients) {
+      const prof = professors.find((p) => p.email === email);
+      if (prof && prof.name) return prof.name;
+    }
+    // Otherwise, use the pending input name or first professor in list
+    if (newProfName.trim()) return newProfName.trim();
+    if (professors.length > 0 && professors[0].name) return professors[0].name;
+    return '';
   };
 
   useEffect(() => {
     if (!isOpen) return;
-    setSubject(generateSubject(explanation || currentMessage, ''));
-    setBody(generateBody(explanation || currentMessage, userFullName));
+    const profNameForGreeting = getGreetingProfessorName();
+    setSubject(generateSubject(currentMessage, ''));
+    setBody(buildEmailBody(currentMessage, profNameForGreeting, userFullName));
   }, [isOpen]);
 
   // Recipients are added from the professors list only
@@ -95,8 +109,9 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     if (!canSend) return;
     setIsLoading(true);
     try {
-      const subjectEnc = encodeURIComponent(subject.trim() || generateSubject(explanation || currentMessage, ''));
-      const bodyEnc = encodeURIComponent((body || generateBody(explanation || currentMessage, userFullName)).replaceAll('\n', '\n'));
+      const profNameForGreeting = getGreetingProfessorName();
+      const subjectEnc = encodeURIComponent(subject.trim() || generateSubject(currentMessage, ''));
+      const bodyEnc = encodeURIComponent((body || buildEmailBody(currentMessage, profNameForGreeting, userFullName)).replaceAll('\n', '\n'));
       const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(toParam)}&subject=${subjectEnc}&body=${bodyEnc}`;
       const win = window.open(outlookUrl, '_blank', 'noopener,noreferrer');
       if (!win) {
@@ -112,8 +127,9 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const handleSendToSingle = (email: string) => {
     const to = normalizeToUOttawa(email);
     if (!to || !hasMessage) return;
-    const subjectEnc = encodeURIComponent(subject.trim() || generateSubject(explanation || currentMessage, ''));
-    const bodyEnc = encodeURIComponent((body || generateBody(explanation || currentMessage, userFullName)).replaceAll('\n', '\n'));
+    const profNameForGreeting = getGreetingProfessorName();
+    const subjectEnc = encodeURIComponent(subject.trim() || generateSubject(currentMessage, ''));
+    const bodyEnc = encodeURIComponent((body || buildEmailBody(currentMessage, profNameForGreeting, userFullName)).replaceAll('\n', '\n'));
     const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(to)}&subject=${subjectEnc}&body=${bodyEnc}`;
     const win = window.open(outlookUrl, '_blank', 'noopener,noreferrer');
     if (!win) {
@@ -135,15 +151,10 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
 
   const filteredProfs = useMemo(() => professors, [professors]);
 
-  const subjectText = useMemo(() => subject.trim() || generateSubject(explanation || currentMessage, ''), [subject, explanation, currentMessage]);
+  const subjectText = useMemo(() => subject.trim() || generateSubject(currentMessage, ''), [subject, currentMessage]);
   const bodyText = useMemo(() => {
-    const name = userFullName.trim();
-    const expl = (explanation || currentMessage).trim();
-    const greeting = name ? `Dear ${name},` : 'Dear Professor,';
-    const closing = 'Best regards,\n' + (name || 'A uOttawa student');
-    const content = expl || 'I hope you are well.';
-    return `${greeting}\n\n${content}\n\n${closing}`;
-  }, [userFullName, explanation, currentMessage]);
+    return buildEmailBody(currentMessage, getGreetingProfessorName(), userFullName);
+  }, [currentMessage, professors, recipients, newProfName, userFullName]);
   const composeUrl = useMemo(() => `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(toParam)}&subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`, [toParam, subjectText, bodyText]);
 
   const addProfessor = (p: { name: string; email: string }) => {
@@ -191,16 +202,6 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                     className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
                   />
                 </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Explain your situation</label>
-                  <textarea
-                    value={explanation}
-                    onChange={(e) => setExplanation(e.target.value)}
-                    placeholder="Briefly explain why you're emailing the professor."
-                    rows={4}
-                    className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
-                  />
-                </div>
               </div>
 
               <div className="grid grid-cols-1 gap-3 mb-3">
@@ -209,7 +210,7 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                   <input
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    placeholder={generateSubject(explanation || currentMessage, '')}
+                    placeholder={generateSubject(currentMessage, '')}
                     className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
                   />
                 </div>
@@ -218,7 +219,7 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                   <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
-                    placeholder={generateBody(explanation || currentMessage, userFullName)}
+                    placeholder={buildEmailBody(currentMessage, getGreetingProfessorName(), userFullName)}
                     rows={6}
                     ref={bodyRef}
                     className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
@@ -290,19 +291,79 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                 <div className="mt-3 border-t border-gray-200 dark:border-white/10 pt-3">
                   <div className="text-[11px] font-medium mb-1 text-gray-700 dark:text-gray-300">Professors</div>
                   <div className="max-h-40 overflow-auto divide-y divide-gray-100 dark:divide-white/10">
-                    {professors.map((p) => (
-                      <button
-                        key={p.email}
-                        type="button"
-                        onClick={() => addProfessor(p)}
-                        className="w-full text-left py-2 px-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded flex items-center justify-between"
-                      >
-                        <div className="min-w-0 pr-2">
-                          <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p.name}</div>
-                          <div className="text-[10px] text-gray-500 truncate">{p.email}</div>
+                    {professors.map((p, idx) => (
+                      <div key={p.email} className="py-2 px-2 rounded flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5">
+                        {editingIndex === idx ? (
+                          <div className="flex-1 grid grid-cols-5 gap-2 items-center">
+                            <input
+                              value={p.name}
+                              onChange={(e) => {
+                                const next = [...professors];
+                                next[idx] = { ...p, name: e.target.value };
+                                setProfessors(next);
+                              }}
+                              className="col-span-2 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
+                            />
+                            <input
+                              value={p.email}
+                              onChange={(e) => {
+                                const next = [...professors];
+                                next[idx] = { ...p, email: e.target.value };
+                                setProfessors(next);
+                              }}
+                              className="col-span-3 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
+                            />
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => addProfessor(p)}
+                            className="flex-1 text-left"
+                          >
+                            <div className="min-w-0 pr-2">
+                              <div className="text-xs font-medium text-gray-800 dark:text-gray-100 truncate">{p.name}</div>
+                              <div className="text-[10px] text-gray-500 truncate">{p.email}</div>
+                            </div>
+                          </button>
+                        )}
+                        <div className="flex items-center gap-2 ml-2">
+                          {editingIndex === idx ? (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => setEditingIndex(null)}
+                                className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
+                              >
+                                Save
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setEditingIndex(null)}
+                                className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
+                              >
+                                Cancel
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => setEditingIndex(idx)}
+                                className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setProfessors(professors.filter((_, i) => i !== idx))}
+                                className="px-2 py-1 rounded border border-gray-300 dark:border-white/10 text-[10px]"
+                              >
+                                Delete
+                              </button>
+                            </>
+                          )}
                         </div>
-                        <span className="text-[10px] text-gray-600 dark:text-gray-400">Select</span>
-                      </button>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -334,7 +395,7 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
                 disabled={!canSend}
                 className="mt-4 w-full rounded bg-blue-600 disabled:bg-blue-600/50 text-white text-xs font-semibold py-2 hover:bg-blue-700"
               >
-                {isLoading ? 'Preparing…' : 'Compose Email'}
+                {isLoading ? 'Preparing…' : 'Write a prompt for your email'}
               </button>
               <a
                 href="https://outlook.office.com/mail/"
