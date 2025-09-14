@@ -312,6 +312,12 @@ export const login = async (credentials: LoginCredentials): Promise<AuthResponse
                 } else {
                     errorMessage = `Bad request: ${JSON.stringify(data)}`;
                 }
+            } else if (status === 401 && data?.error) {
+                // Backend returns { error: 'Incorrect password' }
+                errorMessage = data.error;
+            } else if (status === 404 && data?.error) {
+                // Backend returns { error: 'Account not found' }
+                errorMessage = data.error;
             } else if (data?.detail) {
                 errorMessage = data.detail;
             }

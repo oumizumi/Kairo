@@ -3015,9 +3015,11 @@ class UserLoginView(APIView):
                             }
                         }, status=status.HTTP_200_OK)
                     else:
-                        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+                        # User exists but password is incorrect
+                        return Response({'error': 'Incorrect password'}, status=status.HTTP_401_UNAUTHORIZED)
                 except User.DoesNotExist:
-                    return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+                    # No account matches the provided identifier
+                    return Response({'error': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
                 except Exception as e:
                     logger.error(f"Database error during login: {e}")
                     return Response({'error': 'Database connection issue - please try again'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
