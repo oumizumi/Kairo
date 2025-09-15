@@ -289,6 +289,22 @@ export const login = async (credentials: LoginCredentials): Promise<AuthResponse
             setUserName(data.user.username);
         }
 
+        // Migrate existing localStorage data to user-specific keys
+        try {
+            const { migrateToUserStorage } = await import('./userStorage');
+            migrateToUserStorage([
+                'kairoll-selected-sections-by-term',
+                'kairoll-selected-sections',
+                'course-visibility',
+                'lastView',
+                'kairo-email-recipients',
+                'kairo-email-professors',
+                'kairo-course-selections'
+            ]);
+        } catch (error) {
+            console.warn('Failed to migrate user storage:', error);
+        }
+
         return authResponse;
     } catch (error) {
         
@@ -430,6 +446,23 @@ export const guestLogin = async (): Promise<AuthResponse> => {
         // Mark as guest
         setGuestFlag(true);
         setGuestSessionId();
+        
+        // Migrate existing localStorage data to user-specific keys for guest users too
+        try {
+            const { migrateToUserStorage } = await import('./userStorage');
+            migrateToUserStorage([
+                'kairoll-selected-sections-by-term',
+                'kairoll-selected-sections',
+                'course-visibility',
+                'lastView',
+                'kairo-email-recipients',
+                'kairo-email-professors',
+                'kairo-course-selections'
+            ]);
+        } catch (error) {
+            console.warn('Failed to migrate guest storage:', error);
+        }
+        
         return data;
     } catch (error) {
         

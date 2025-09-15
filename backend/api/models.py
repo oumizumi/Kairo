@@ -352,6 +352,26 @@ class SharedSchedule(models.Model):
         return f"Shared Schedule: {self.title} by {self.user.username}"
 
 
+class UserPreferences(models.Model):
+    """Store user-specific preferences and settings"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='preferences')
+    key = models.CharField(max_length=100)  # e.g., 'course-visibility', 'selected-sections'
+    value = models.JSONField()  # Store any JSON data
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        unique_together = ('user', 'key')  # Each user can have only one preference per key
+        ordering = ['user', 'key']
+        indexes = [
+            models.Index(fields=['user', 'key']),
+        ]
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.key}"
+
+
 
 
 

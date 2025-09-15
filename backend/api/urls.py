@@ -29,6 +29,7 @@ from .views import (
     professor_search,
     rmp_stats,
     ScheduleGenerationView, # Add ScheduleGenerationView import
+    UserPreferencesView, # Add UserPreferencesView import
 )
 from .calendar_views import UserCalendarViewSet, export_ics, SharedScheduleViewSet, get_shared_schedule
 
@@ -91,6 +92,9 @@ urlpatterns = [
     path('professors/sync/', ProfessorSyncView.as_view(), name='professor-sync'),
     path('professors/auto-sync/', ProfessorAutoSyncView.as_view(), name='professor-auto-sync'),
 
+    # User Preferences URLs
+    path('user-preferences/', UserPreferencesView.as_view(), name='user-preferences'),
+    path('user-preferences/<str:key>/', UserPreferencesView.as_view(), name='user-preferences-key'),
 
     # Add the router URLs to the urlpatterns
     path('', include(router.urls)),

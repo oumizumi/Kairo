@@ -11,6 +11,8 @@ interface CourseSelectionData {
   };
 }
 
+import { getUserStorageItem, setUserStorageItem, removeUserStorageItem } from '../lib/userStorage';
+
 // Storage key
 const STORAGE_KEY = 'kairo-course-selections';
 
@@ -28,8 +30,8 @@ export function saveSelectedSections(courseCode: string, sections: string[]): vo
       timestamp: Date.now()
     };
     
-    // Save back to localStorage
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existingData));
+    // Save back to user-specific localStorage
+    setUserStorageItem(STORAGE_KEY, JSON.stringify(existingData));
   
     
     // Dispatch event for cross-component sync
@@ -59,7 +61,7 @@ export function loadSelectedSections(courseCode: string): string[] {
  */
 export function loadAllSelections(): CourseSelectionData {
   try {
-    const savedData = localStorage.getItem(STORAGE_KEY);
+    const savedData = getUserStorageItem(STORAGE_KEY);
     return savedData ? JSON.parse(savedData) : {};
   } catch (error) {
     console.error('Failed to load course selections:', error);
@@ -76,7 +78,7 @@ export function clearCourseSelection(courseCode: string): void {
     
     if (existingData[courseCode]) {
       delete existingData[courseCode];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(existingData));
+      setUserStorageItem(STORAGE_KEY, JSON.stringify(existingData));
       
       // Dispatch event for cross-component sync
       window.dispatchEvent(new CustomEvent('courseSelectionsChanged', {
@@ -93,7 +95,7 @@ export function clearCourseSelection(courseCode: string): void {
  */
 export function clearAllSelections(): void {
   try {
-    localStorage.removeItem(STORAGE_KEY);
+    removeUserStorageItem(STORAGE_KEY);
     
     // Dispatch event for cross-component sync
     window.dispatchEvent(new CustomEvent('courseSelectionsChanged', {

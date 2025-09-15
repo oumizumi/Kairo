@@ -3373,11 +3373,12 @@ function KairollComponent() {
 
     // Load selected sections from localStorage on mount only
     useEffect(() => {
-        const loadSelectedSections = () => {
+        const loadSelectedSections = async () => {
             try {
-                const guestSessionId = localStorage.getItem('guest_session_id') || 'default';
+                const { getUserStorageItem } = await import('@/lib/userStorage');
+                
                 // Load per-term selections
-                const savedSelectionsByTerm = localStorage.getItem(`kairoll-selected-sections-by-term:${guestSessionId}`);
+                const savedSelectionsByTerm = getUserStorageItem('kairoll-selected-sections-by-term');
                 if (savedSelectionsByTerm) {
                     const parsedData = JSON.parse(savedSelectionsByTerm);
                     const loadedMap = new Map<string, Map<string, number[]>>();
@@ -3397,7 +3398,7 @@ function KairollComponent() {
                 }
 
                 // Legacy: Load old format for backward compatibility
-                const savedSelections = localStorage.getItem(`kairoll-selected-sections:${guestSessionId}`);
+                const savedSelections = getUserStorageItem('kairoll-selected-sections');
                 if (savedSelections) {
                     const parsedData = JSON.parse(savedSelections);
                     const loadedMap = new Map<string, number[]>(parsedData);
@@ -3418,9 +3419,9 @@ function KairollComponent() {
 
     // Save selected sections to localStorage whenever they change (debounced)
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
+        const timeoutId = setTimeout(async () => {
             try {
-                const guestSessionId = localStorage.getItem('guest_session_id') || 'default';
+                const { setUserStorageItem } = await import('@/lib/userStorage');
                 const serializedData: { [term: string]: { [section: string]: number[] } } = {};
                 selectedSectionEventsByTerm.forEach((termSections, term) => {
                     serializedData[term] = {};
@@ -3429,7 +3430,7 @@ function KairollComponent() {
                     });
                 });
 
-                localStorage.setItem(`kairoll-selected-sections-by-term:${guestSessionId}`, JSON.stringify(serializedData));
+                setUserStorageItem('kairoll-selected-sections-by-term', JSON.stringify(serializedData));
             } catch (error) {
                 console.error('❌ Error saving selected sections:', error);
             }
@@ -4860,29 +4861,39 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
 
 export default function ChatDashboard() {
     // Get initial view from URL parameter or default to calendar
-    const getInitialView = (): 'split' | 'calendar' | 'assistant' | 'kairoll' => {
+    const getInitialView = async (): Promise<'split' | 'calendar' | 'assistant' | 'kairoll'> => {
         if (typeof window !== 'undefined') {
-            const lastView = localStorage.getItem('lastView');
-            if (window.innerWidth <= 768) {
-                // On mobile, only allow 'assistant' or 'kairoll'
-                if (lastView === 'assistant' || lastView === 'kairoll') {
-                    return lastView;
+            try {
+                const { getUserStorageItem } = await import('@/lib/userStorage');
+                const lastView = getUserStorageItem('lastView');
+                
+                if (window.innerWidth <= 768) {
+                    // On mobile, only allow 'assistant' or 'kairoll'
+                    if (lastView === 'assistant' || lastView === 'kairoll') {
+                        return lastView;
+                    }
+                    return 'kairoll'; // Default for mobile
                 }
-                return 'kairoll'; // Default for mobile
-            }
-            // For desktop, allow any valid view
-            if (lastView && ['split', 'calendar', 'assistant', 'kairoll'].includes(lastView)) {
-                return lastView as 'split' | 'calendar' | 'assistant' | 'kairoll';
+                // For desktop, allow any valid view
+                if (lastView && ['split', 'calendar', 'assistant', 'kairoll'].includes(lastView)) {
+                    return lastView as 'split' | 'calendar' | 'assistant' | 'kairoll';
+                }
+            } catch (error) {
+                console.warn('Failed to get user-specific lastView:', error);
             }
         }
         return 'split'; // Default for desktop
     };
 
     useEffect(() => {
-        setView(getInitialView());
+        const initializeView = async () => {
+            const initialView = await getInitialView();
+            setView(initialView);
+        };
+        initializeView();
     }, []);
 
-    const handleSetView = (newView: 'split' | 'calendar' | 'assistant' | 'kairoll') => {
+    const handleSetView = async (newView: 'split' | 'calendar' | 'assistant' | 'kairoll') => {
         if (typeof window !== 'undefined') {
             // Prevent mobile users from switching to 'calendar' or 'split'
             if (window.innerWidth <= 768 && (newView === 'calendar' || newView === 'split')) {
@@ -4890,7 +4901,12 @@ export default function ChatDashboard() {
             }
         }
         setView(newView);
-        localStorage.setItem('lastView', newView);
+        try {
+            const { setUserStorageItem } = await import('@/lib/userStorage');
+            setUserStorageItem('lastView', newView);
+        } catch (error) {
+            console.warn('Failed to save user-specific lastView:', error);
+        }
     };
 
     const [mounted, setMounted] = useState(false);

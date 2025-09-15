@@ -4833,3 +4833,99 @@ Example responses:
         except Exception as e:
             print(f"❌ Error extracting elective details: {e}")
             return ""
+
+
+# --- User Preferences API ---
+
+from .models import UserPreferences
+
+class UserPreferencesView(APIView):
+    """API to manage user-specific preferences"""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, key=None):
+        """Get user preferences - either all or by specific key"""
+        try:
+            if key:
+                # Get specific preference
+                try:
+                    preference = UserPreferences.objects.get(user=request.user, key=key)
+                    return Response({
+                        'key': preference.key,
+                        'value': preference.value
+                    })
+                except UserPreferences.DoesNotExist:
+                    return Response({
+                        'key': key,
+                        'value': None
+                    })
+            else:
+                # Get all preferences for user
+                preferences = UserPreferences.objects.filter(user=request.user)
+                data = {pref.key: pref.value for pref in preferences}
+                return Response(data)
+                
+        except Exception as e:
+            logger.error(f"Error getting user preferences: {e}")
+            return Response(
+                {'error': 'Failed to get preferences'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    def post(self, request):
+        """Create or update user preference"""
+        try:
+            key = request.data.get('key')
+            value = request.data.get('value')
+            
+            if not key:
+                return Response(
+                    {'error': 'Key is required'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Create or update preference
+            preference, created = UserPreferences.objects.update_or_create(
+                user=request.user,
+                key=key,
+                defaults={'value': value}
+            )
+            
+            return Response({
+                'key': preference.key,
+                'value': preference.value,
+                'created': created
+            })
+            
+        except Exception as e:
+            logger.error(f"Error saving user preference: {e}")
+            return Response(
+                {'error': 'Failed to save preference'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    def delete(self, request, key=None):
+        """Delete a specific user preference"""
+        try:
+            if not key:
+                return Response(
+                    {'error': 'Key is required'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            try:
+                preference = UserPreferences.objects.get(user=request.user, key=key)
+                preference.delete()
+                return Response({'message': 'Preference deleted successfully'})
+            except UserPreferences.DoesNotExist:
+                return Response(
+                    {'error': 'Preference not found'}, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+                
+        except Exception as e:
+            logger.error(f"Error deleting user preference: {e}")
+            return Response(
+                {'error': 'Failed to delete preference'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

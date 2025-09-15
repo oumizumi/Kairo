@@ -63,9 +63,10 @@ const MobileCalendar: React.FC<MobileCalendarProps> = ({
                     }
                 }
                 
-                // Fallback to localStorage
+                // Fallback to user-specific localStorage
                 try {
-                    const saved = localStorage.getItem('course-visibility');
+                    const { getUserStorageItem } = await import('@/lib/userStorage');
+                    const saved = getUserStorageItem('course-visibility');
                     if (saved) {
                         const savedSet = new Set<string>(JSON.parse(saved));
                         setVisibleCourses(savedSet);
@@ -82,11 +83,13 @@ const MobileCalendar: React.FC<MobileCalendarProps> = ({
     // Save course visibility to localStorage and backend when it changes (same as desktop)
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            try {
-                localStorage.setItem('course-visibility', JSON.stringify(Array.from(visibleCourses)));
+            const saveVisibility = async () => {
+                try {
+                    // Save to user-specific localStorage
+                    const { setUserStorageItem } = await import('@/lib/userStorage');
+                    setUserStorageItem('course-visibility', JSON.stringify(Array.from(visibleCourses)));
 
-                // Save to backend if user is authenticated
-                const saveToBackend = async () => {
+                    // Save to backend if user is authenticated
                     const token = localStorage.getItem('token');
                     if (token && visibleCourses.size > 0) {
                         try {
@@ -105,12 +108,12 @@ const MobileCalendar: React.FC<MobileCalendarProps> = ({
                             console.warn('Mobile: Failed to save course visibility to backend:', error);
                         }
                     }
-                };
+                } catch (error) {
+                    console.warn('Mobile: Failed to save course visibility:', error);
+                }
+            };
 
-                saveToBackend();
-            } catch (error) {
-                console.warn('Mobile: Failed to save course visibility:', error);
-            }
+            saveVisibility();
         }
     }, [visibleCourses]);
 

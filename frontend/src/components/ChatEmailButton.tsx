@@ -39,24 +39,33 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const [selectedEditEmail, setSelectedEditEmail] = useState('');
 
   useEffect(() => {
-    try {
-      const saved = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) setRecipients(parsed.filter((e) => typeof e === 'string'));
-      }
-      const savedProfs = typeof window !== 'undefined' ? localStorage.getItem(PROFESSORS_KEY) : null;
-      if (savedProfs) {
-        const parsedProfs = JSON.parse(savedProfs);
-        if (Array.isArray(parsedProfs)) {
-          setProfessors(
-            parsedProfs
-              .filter((p: any) => p && typeof p.email === 'string')
-              .map((p: any) => ({ name: String(p.name || ''), email: String(p.email) }))
-          );
+    const loadData = async () => {
+      try {
+        if (typeof window !== 'undefined') {
+          const { getUserStorageItem } = await import('@/lib/userStorage');
+          
+          const saved = getUserStorageItem(STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed)) setRecipients(parsed.filter((e) => typeof e === 'string'));
+          }
+          
+          const savedProfs = getUserStorageItem(PROFESSORS_KEY);
+          if (savedProfs) {
+            const parsedProfs = JSON.parse(savedProfs);
+            if (Array.isArray(parsedProfs)) {
+              setProfessors(
+                parsedProfs
+                  .filter((p: any) => p && typeof p.email === 'string')
+                  .map((p: any) => ({ name: String(p.name || ''), email: String(p.email) }))
+              );
+            }
+          }
         }
-      }
-    } catch {}
+      } catch {}
+    };
+    
+    loadData();
   }, []);
 
   const hasMessage = (subject.trim().length > 0 || currentMessage.trim().length > 0) && body.trim().length > 0;
@@ -66,17 +75,23 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
 
   const toParam = useMemo(() => recipients.join(','), [recipients]);
 
-  const saveRecipients = (next: string[]) => {
+  const saveRecipients = async (next: string[]) => {
     setRecipients(next);
     try {
-      if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      if (typeof window !== 'undefined') {
+        const { setUserStorageItem } = await import('@/lib/userStorage');
+        setUserStorageItem(STORAGE_KEY, JSON.stringify(next));
+      }
     } catch {}
   };
 
-  const saveProfessors = (next: Array<{ name: string; email: string }>) => {
+  const saveProfessors = async (next: Array<{ name: string; email: string }>) => {
     setProfessors(next);
     try {
-      if (typeof window !== 'undefined') localStorage.setItem(PROFESSORS_KEY, JSON.stringify(next));
+      if (typeof window !== 'undefined') {
+        const { setUserStorageItem } = await import('@/lib/userStorage');
+        setUserStorageItem(PROFESSORS_KEY, JSON.stringify(next));
+      }
     } catch {}
   };
 
