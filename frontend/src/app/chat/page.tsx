@@ -4992,8 +4992,7 @@ export default function ChatDashboard() {
     // Check calendar accessibility on mount
     useEffect(() => {
         setMounted(true);
-        // Set initial view from URL after mount
-        setView(getInitialView());
+        // Initial view is set by the previous useEffect that calls getInitialView() async
 
         const checkCalendarAccess = async () => {
             try {
