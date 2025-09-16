@@ -2185,8 +2185,19 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                     </div>
                                 </div>
                                 
-                                {/* Send Button */}
-                                <div className="flex justify-end px-4 pb-3 pt-1">
+                                {/* Action Bar */}
+                                <div className="flex items-center justify-between px-4 pb-3 pt-1 border-t border-gray-200/50 dark:border-gray-700/50">
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-2 px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200/50 dark:border-blue-700/50">
+                                            <div className="w-4 h-4 bg-blue-600 rounded-sm flex items-center justify-center">
+                                                <span className="text-white text-xs font-bold">O</span>
+                                            </div>
+                                            <span className="text-xs text-blue-700 dark:text-blue-300 font-medium">Smart Mail</span>
+                                            <div className="group relative">
+                                                <ChatEmailButton currentMessage={inputMessage} />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button
                                         type="submit"
                                         disabled={isLoading}
@@ -2206,22 +2217,6 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 </div>
                             </div>
                         </form>
-
-                        {/* Email Container */}
-                        <div className="mt-3 bg-gray-50/50 dark:bg-[rgb(var(--card-bg))]/50 border border-gray-200/50 dark:border-[rgb(var(--border-color))]/50 rounded-lg p-3 transition-colors duration-300">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">Smart Mail</span>
-                                    <span className="text-xs text-gray-500 dark:text-gray-500">AI-powered professional emails</span>
-                                </div>
-                                <div className="group relative">
-                                    <ChatEmailButton currentMessage={inputMessage} />
-                                    <div className="absolute bottom-full right-0 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                                        Compose email to professor
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
@@ -2438,8 +2433,19 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                             </div>
                         </div>
                         
-                        {/* Send Button */}
-                        <div className="flex justify-end px-4 pb-3 pt-1">
+                        {/* Action Bar */}
+                        <div className="flex items-center justify-between px-4 pb-3 pt-1 border-t border-gray-200/50 dark:border-gray-700/50">
+                            <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2 px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200/50 dark:border-blue-700/50">
+                                    <div className="w-4 h-4 bg-blue-600 rounded-sm flex items-center justify-center">
+                                        <span className="text-white text-xs font-bold">O</span>
+                                    </div>
+                                    <span className="text-xs text-blue-700 dark:text-blue-300 font-medium">Smart Mail</span>
+                                    <div className="group relative">
+                                        <ChatEmailButton currentMessage={inputMessage} />
+                                    </div>
+                                </div>
+                            </div>
                             <button
                                 type="submit"
                                 disabled={isLoading}
@@ -2459,22 +2465,6 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                         </div>
                     </div>
                 </form>
-
-                {/* Email Container */}
-                <div className="mt-3 bg-gray-50/50 dark:bg-[rgb(var(--card-bg))]/50 border border-gray-200/50 dark:border-[rgb(var(--border-color))]/50 rounded-lg p-3 transition-colors duration-300">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">Smart Mail</span>
-                            <span className="text-xs text-gray-500 dark:text-gray-500">AI-powered professional emails</span>
-                        </div>
-                        <div className="group relative">
-                            <ChatEmailButton currentMessage={inputMessage} />
-                            <div className="absolute bottom-full right-0 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                                Compose email to professor
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
