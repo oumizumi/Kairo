@@ -2188,13 +2188,9 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 {/* Action Bar */}
                                 <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 dark:border-white/10">
                                     <div className="flex items-center gap-2">
-                                        {/* Smart Mail Integration */}
-                                        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/50 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-900/30 dark:hover:to-indigo-900/30 transition-all duration-200">
-                                            <Mail className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                                            <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Smart Mail</span>
-                                            <div className="group relative">
-                                                <ChatEmailButton currentMessage={inputMessage} />
-                                            </div>
+                                        {/* Mail Icon Only */}
+                                        <div className="group relative">
+                                            <ChatEmailButton currentMessage={inputMessage} />
                                         </div>
                                     </div>
                                     <button

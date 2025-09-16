@@ -298,13 +298,17 @@ User prompt: ${userPrompt || '[no additional details provided]'}
     <div className="relative inline-flex">
       <button
         onClick={() => setIsOpen((v) => !v)}
-        className="p-1 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-800"
-        title="Compose professional email to professor (Smart Mail)"
+        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-800 group"
         type="button"
         aria-label="Open email composer for professional emails to professors"
       >
-        <ArrowRight className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+        <Mail className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
       </button>
+      
+      {/* Hover Tooltip */}
+      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+        Smart Mail
+      </div>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
