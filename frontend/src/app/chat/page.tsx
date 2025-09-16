@@ -2186,7 +2186,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 </div>
                                 
                                 {/* Action Bar */}
-                                <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 dark:border-white/10">
+                                <div className="flex items-center justify-between px-4 py-3">
                                     <div className="flex items-center gap-2">
                                         {/* Mail Icon Only */}
                                         <div className="group relative">

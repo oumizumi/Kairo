@@ -311,14 +311,14 @@ User prompt: ${userPrompt || '[no additional details provided]'}
       </div>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
           <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setIsOpen(false)} />
-          <div className="relative w-full max-w-md rounded-2xl shadow-2xl border overflow-hidden bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-700">
+          <div className="relative w-full max-w-sm sm:max-w-md rounded-xl sm:rounded-2xl shadow-2xl border overflow-hidden bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-3 sm:p-5 border-b border-gray-100 dark:border-gray-700">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">Smart Mail</div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">• uOttawa only</div>
+                <div className="hidden sm:block text-xs text-gray-500 dark:text-gray-400">• uOttawa only</div>
               </div>
               <button
                 type="button"
@@ -330,43 +330,43 @@ User prompt: ${userPrompt || '[no additional details provided]'}
               </button>
             </div>
 
-            <div className="p-5">
-              <div className="grid grid-cols-1 gap-4 mb-4">
+            <div className="p-3 sm:p-5">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4 mb-3 sm:mb-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Your full name <span className="text-red-500">*</span></label>
+                  <label className="block text-sm font-medium mb-1.5 sm:mb-2 text-gray-700 dark:text-gray-300">Your full name <span className="text-red-500">*</span></label>
                   <input
                     value={userFullName}
                     onChange={(e) => setUserFullName(e.target.value)}
                     placeholder="e.g., Jane Doe"
-                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 mb-4">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4 mb-3 sm:mb-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Subject</label>
+                  <label className="block text-sm font-medium mb-1.5 sm:mb-2 text-gray-700 dark:text-gray-300">Subject</label>
                   <input
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
                     placeholder="e.g., Request to discuss assignment extension"
-                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Body</label>
+                  <label className="block text-sm font-medium mb-1.5 sm:mb-2 text-gray-700 dark:text-gray-300">Body</label>
                   <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     placeholder={`Dear Professor [Name],\n\n[Write your request clearly here]\n\nBest regards,\n[Your Full Name]`}
-                    rows={6}
+                    rows={4}
                     ref={bodyRef}
-                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-3 sm:mb-4">
                 <button
                   type="button"
                   onClick={() => {
@@ -374,22 +374,22 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                     setBody('');
                     setTimeout(() => bodyRef.current?.focus(), 0);
                   }}
-                  className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  className="px-3 sm:px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
                   Clear & Write Myself
                 </button>
               </div>
 
-              <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
-                <label className="block text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Add Professor</label>
-                <div className="grid grid-cols-1 gap-3">
-                  <div className="grid grid-cols-5 gap-3">
+              <div className="border-t border-gray-100 dark:border-gray-700 pt-3 sm:pt-4">
+                <label className="block text-sm font-medium mb-2 sm:mb-3 text-gray-700 dark:text-gray-300">Add Professor</label>
+                <div className="grid grid-cols-1 gap-2 sm:gap-3">
+                  <div className="grid grid-cols-5 gap-2 sm:gap-3">
                     <div className="col-span-2">
                       <input
                         value={newProfName}
                         onChange={(e) => setNewProfName(e.target.value)}
                         placeholder="Professor name"
-                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       />
                     </div>
                     <div className="col-span-3">
@@ -397,7 +397,7 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                         value={newProfEmail}
                         onChange={(e) => setNewProfEmail(e.target.value)}
                         placeholder={`prof${UOTTAWA_DOMAIN}`}
-                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       />
                     </div>
                   </div>
@@ -412,7 +412,7 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                         setNewProfName('');
                         setNewProfEmail('');
                       }}
-                      className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-medium py-2.5 transition-all shadow-sm"
+                      className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-medium py-2 sm:py-2.5 transition-all shadow-sm"
                     >
                       Add Professor
                     </button>
