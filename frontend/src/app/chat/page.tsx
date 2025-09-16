@@ -10,7 +10,7 @@ import TypewriterText from '@/components/TypewriterText';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
 import AccountDropdown from '@/components/AccountDropdown';
-import { ArrowRight, ArrowUp, Download } from "lucide-react";
+import { ArrowRight, ArrowUp, Download, Mail } from "lucide-react";
 import ChatEmailButton from '@/components/ChatEmailButton';
 import { exportCalendarForMobile, hasEventsToExport } from "@/services/mobileIcsExport";
 import { exportCalendarAsICS } from "@/services/icsExportService";
@@ -2140,9 +2140,9 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     <div className="w-full max-w-3xl px-4">
                         <form onSubmit={sendMessage} className="w-full">
                             {/* Main Input Container */}
-                            <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors duration-300 relative overflow-hidden">
+                            <div className="bg-white dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
                                 {/* Text Input Area */}
-                                <div className="p-4 pb-2">
+                                <div className="p-4 pb-0">
                                     <div className="flex-1 relative">
                                         <textarea
                                             value={inputMessage}
@@ -2156,10 +2156,10 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                                 }
                                             }}
                                             rows={1}
-                                            className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 resize-none min-h-[28px] leading-7"
+                                            className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 resize-none min-h-[32px] leading-7 text-[15px]"
                                             style={{
                                                 height: 'auto',
-                                                minHeight: '28px',
+                                                minHeight: '32px',
                                                 maxHeight: '120px'
                                             }}
                                             onInput={(e) => {
@@ -2171,9 +2171,9 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                             autoFocus
                                         />
                                         {!inputMessage && !isInputFocused && (
-                                            <div className="absolute inset-0 flex items-start pt-[7px] overflow-hidden pointer-events-none">
+                                            <div className="absolute inset-0 flex items-start pt-[8px] overflow-hidden pointer-events-none">
                                                 <div
-                                                    className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible
+                                                    className={`text-gray-400 dark:text-neutral-500 transition-all duration-500 text-[15px] ${isVisible
                                                         ? 'opacity-100'
                                                         : 'opacity-0'
                                                     }`}
@@ -2186,13 +2186,12 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 </div>
                                 
                                 {/* Action Bar */}
-                                <div className="flex items-center justify-between px-4 pb-3 pt-1 border-t border-gray-200/50 dark:border-gray-700/50">
-                                    <div className="flex items-center gap-3">
-                                        <div className="flex items-center gap-2 px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200/50 dark:border-blue-700/50">
-                                            <div className="w-4 h-4 bg-blue-600 rounded-sm flex items-center justify-center">
-                                                <span className="text-white text-xs font-bold">O</span>
-                                            </div>
-                                            <span className="text-xs text-blue-700 dark:text-blue-300 font-medium">Smart Mail</span>
+                                <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 dark:border-white/10">
+                                    <div className="flex items-center gap-2">
+                                        {/* Smart Mail Integration */}
+                                        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/50 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-900/30 dark:hover:to-indigo-900/30 transition-all duration-200">
+                                            <Mail className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                                            <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Smart Mail</span>
                                             <div className="group relative">
                                                 <ChatEmailButton currentMessage={inputMessage} />
                                             </div>
@@ -2201,12 +2200,12 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                     <button
                                         type="submit"
                                         disabled={isLoading}
-                                        className={`w-8 h-8 rounded-lg shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
+                                        className={`w-9 h-9 rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
                                             inputMessage.trim() 
-                                                ? 'bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900' 
-                                                : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                                ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md' 
+                                                : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                                         }`}
-                                        aria-label="Send"
+                                        aria-label="Send message"
                                     >
                                         {inputMessage.trim() ? (
                                             <ArrowUp className="w-4 h-4 transition-transform duration-200 group-hover:-translate-y-0.5" />

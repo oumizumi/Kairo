@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Mail, X, Info } from 'lucide-react';
+import { Mail, X, Info, ArrowRight } from 'lucide-react';
 import api from '@/lib/api';
 
 
@@ -298,67 +298,71 @@ User prompt: ${userPrompt || '[no additional details provided]'}
     <div className="relative inline-flex">
       <button
         onClick={() => setIsOpen((v) => !v)}
-        className="p-3 rounded-full bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/15 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+        className="p-1 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-800"
         title="Compose professional email to professor (Smart Mail)"
         type="button"
         aria-label="Open email composer for professional emails to professors"
       >
-        <Mail className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+        <ArrowRight className="h-3 w-3 text-blue-600 dark:text-blue-400" />
       </button>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsOpen(false)} />
-          <div className="relative w-full max-w-md rounded-2xl shadow-2xl border overflow-hidden bg-white dark:bg-[#1e1e1e] border-gray-200 dark:border-white/10">
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10">
-              <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">Email Professor (Outlook • uOttawa only)</div>
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setIsOpen(false)} />
+          <div className="relative w-full max-w-md rounded-2xl shadow-2xl border overflow-hidden bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-700">
+              <div className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">Smart Mail</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">• uOttawa only</div>
+              </div>
               <button
                 type="button"
-                className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-white/10"
+                className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close"
               >
-                <X className="h-4 w-4 text-gray-500" />
+                <X className="h-4 w-4 text-gray-400 dark:text-gray-500" />
               </button>
             </div>
 
-            <div className="p-4">
-              <div className="grid grid-cols-1 gap-3 mb-3">
+            <div className="p-5">
+              <div className="grid grid-cols-1 gap-4 mb-4">
                 <div>
-                  <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Your full name <span className="text-red-500">*</span></label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Your full name <span className="text-red-500">*</span></label>
                   <input
                     value={userFullName}
                     onChange={(e) => setUserFullName(e.target.value)}
                     placeholder="e.g., Jane Doe"
-                    className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 mb-3">
+              <div className="grid grid-cols-1 gap-4 mb-4">
                 <div>
-                  <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Subject</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Subject</label>
                   <input
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
                     placeholder="e.g., Request to discuss assignment extension"
-                    className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium mb-1 text-gray-700 dark:text-gray-300">Body</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Body</label>
                   <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     placeholder={`Dear Professor [Name],\n\n[Write your request clearly here]\n\nBest regards,\n[Your Full Name]`}
                     rows={6}
                     ref={bodyRef}
-                    className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-4">
                 <button
                   type="button"
                   onClick={() => {
@@ -366,46 +370,49 @@ User prompt: ${userPrompt || '[no additional details provided]'}
                     setBody('');
                     setTimeout(() => bodyRef.current?.focus(), 0);
                   }}
-                  className="px-3 py-2 rounded border border-gray-300 dark:border-white/10 text-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-50 dark:hover:bg-white/5"
+                  className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
-                  Write it myself
+                  Clear & Write Myself
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-2">
-                <div className="grid grid-cols-5 gap-2">
-                  <div className="col-span-2">
-                    <input
-                      value={newProfName}
-                      onChange={(e) => setNewProfName(e.target.value)}
-                      placeholder="Professor name"
-                      className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
-                    />
+              <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
+                <label className="block text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Add Professor</label>
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="grid grid-cols-5 gap-3">
+                    <div className="col-span-2">
+                      <input
+                        value={newProfName}
+                        onChange={(e) => setNewProfName(e.target.value)}
+                        placeholder="Professor name"
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      />
+                    </div>
+                    <div className="col-span-3">
+                      <input
+                        value={newProfEmail}
+                        onChange={(e) => setNewProfEmail(e.target.value)}
+                        placeholder={`prof${UOTTAWA_DOMAIN}`}
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      />
+                    </div>
                   </div>
-                  <div className="col-span-3">
-                    <input
-                      value={newProfEmail}
-                      onChange={(e) => setNewProfEmail(e.target.value)}
-                      placeholder={`prof${UOTTAWA_DOMAIN}`}
-                      className="w-full rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-2 text-xs focus:ring-2 focus:ring-blue-500/40 focus:border-transparent"
-                    />
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const normalized = normalizeToUOttawa(newProfEmail || '');
+                        if (!normalized) return;
+                        if (professors.find((p) => p.email === normalized)) return;
+                        setProfessors([...professors, { name: newProfName.trim() || normalized, email: normalized }]);
+                        setNewProfName('');
+                        setNewProfEmail('');
+                      }}
+                      className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-medium py-2.5 transition-all shadow-sm"
+                    >
+                      Add Professor
+                    </button>
                   </div>
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const normalized = normalizeToUOttawa(newProfEmail || '');
-                      if (!normalized) return;
-                      if (professors.find((p) => p.email === normalized)) return;
-                      setProfessors([...professors, { name: newProfName.trim() || normalized, email: normalized }]);
-                      setNewProfName('');
-                      setNewProfEmail('');
-                    }}
-                    className="w-full rounded bg-gray-900 dark:bg-white text-white dark:text-black text-xs font-semibold py-2 hover:opacity-90"
-                  >
-                    Add Professor
-                  </button>
                 </div>
               </div>
 

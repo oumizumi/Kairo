@@ -13033,6 +13033,14 @@
       "location": "TBD"
     },
     {
+      "code": "DCN 1101",
+      "courseTitle": "Digital Literacy",
+      "section": "A00-LEC",
+      "instructor": "Alice Defours",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
       "code": "DCN 1500",
       "courseTitle": "Arts et la culture numérique",
       "section": "A00-LEC",
@@ -13046,6 +13054,14 @@
       "section": "A00-LEC",
       "instructor": "Monireh Sadat Razavi Ganji",
       "schedule": "Mo 08:30 - 11:20",
+      "location": "TBD"
+    },
+    {
+      "code": "DCN 4300",
+      "courseTitle": "Selected Topics in Digital Cultures (+1 combined)",
+      "section": "A00-LEC",
+      "instructor": "Constance Crompton",
+      "schedule": "Tu 08:30 - 11:30",
       "location": "TBD"
     },
     {
@@ -15972,7 +15988,7 @@
       "code": "EDU 1501",
       "courseTitle": "Introduction à l’enseignement",
       "section": "A00-LEC",
-      "instructor": "Julie Mes",
+      "instructor": "JULIE MES",
       "schedule": "Th 14:30 - 17:20",
       "location": "TBD"
     },
@@ -17924,7 +17940,7 @@
       "code": "ENG 1100",
       "courseTitle": "Workshop in Essay Writing",
       "section": "Q00-LEC",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Mo 08:30 - 09:50, Th 10:00 - 11:20",
       "location": "TBD"
     },
@@ -17996,7 +18012,7 @@
       "code": "ENG 1100",
       "courseTitle": "Workshop in Essay Writing",
       "section": "UU00-LEC",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "We 10:00 - 11:20, Fr 08:30 - 09:50",
       "location": "TBD"
     },
@@ -18348,7 +18364,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "H00-LEC",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Fr 14:30 - 15:50",
       "location": "TBD"
     },
@@ -18356,7 +18372,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "H01-DGD",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Tu 11:30 - 12:50",
       "location": "TBD"
     },
@@ -18364,7 +18380,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "H02-DGD",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Tu 11:30 - 12:50",
       "location": "TBD"
     },
@@ -18372,7 +18388,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "H03-DGD",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Tu 11:30 - 12:50",
       "location": "TBD"
     },
@@ -18380,7 +18396,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "I00-LEC",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Tu 14:30 - 15:50",
       "location": "TBD"
     },
@@ -18388,7 +18404,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "I01-DGD",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Th 13:00 - 14:20",
       "location": "TBD"
     },
@@ -18396,7 +18412,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "I02-DGD",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Th 13:00 - 14:20",
       "location": "TBD"
     },
@@ -18404,7 +18420,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "I03-DGD",
-      "instructor": "Ila Ahlawat",
+      "instructor": "ILA AHLAWAT",
       "schedule": "Th 13:00 - 14:20",
       "location": "TBD"
     },
@@ -19604,7 +19620,7 @@
       "code": "ESP 1991",
       "courseTitle": "Elementary Spanish I",
       "section": "B01-TLB",
-      "instructor": "Gabriela Romero",
+      "instructor": "GABRIELA ROMERO",
       "schedule": "Th 08:30 - 10:50",
       "location": "TBD"
     },
@@ -19708,7 +19724,7 @@
       "code": "ESP 1991",
       "courseTitle": "Elementary Spanish I",
       "section": "D02-TLB",
-      "instructor": "Gabriela Romero",
+      "instructor": "GABRIELA ROMERO",
       "schedule": "Fr 14:30 - 16:50",
       "location": "TBD"
     },
@@ -19812,7 +19828,7 @@
       "code": "ESP 2991",
       "courseTitle": "Intermediate Spanish I",
       "section": "B00-LEC",
-      "instructor": "Gabriela Romero",
+      "instructor": "GABRIELA ROMERO",
       "schedule": "Tu 11:30 - 12:50, Fr 13:00 - 14:20",
       "location": "TBD"
     },
@@ -24854,6 +24870,14 @@
       "section": "HS01-LAB",
       "instructor": "Fadi Malek",
       "schedule": "Th 17:30 - 20:20",
+      "location": "TBD"
+    },
+    {
+      "code": "JCS 2301",
+      "courseTitle": "Introduction to Jewish Canadian Studies",
+      "section": "A00-LEC",
+      "instructor": "Jesse Toufexis",
+      "schedule": "Tu 19:00 - 21:50",
       "location": "TBD"
     },
     {
@@ -31228,7 +31252,7 @@
       "code": "PAP 2300",
       "courseTitle": "Introduction to Public Policy Analysis",
       "section": "A00-LEC",
-      "instructor": "Mohammad Habibur Rahman",
+      "instructor": "Mohammed Habibur Rahman",
       "schedule": "We 13:00 - 14:20, Fr 11:30 - 12:50",
       "location": "TBD"
     },
@@ -34838,6 +34862,198 @@
       "section": "UO00-REC",
       "instructor": "Staff",
       "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 5703",
+      "courseTitle": "Pratiques professionnelles en réadaptation",
+      "section": "A00-LEC",
+      "instructor": "Martine Trudelle",
+      "schedule": "Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20, Tu 13:00 - 15:50, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 5703",
+      "courseTitle": "Pratiques professionnelles en réadaptation",
+      "section": "A01-LAB",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 5703",
+      "courseTitle": "Pratiques professionnelles en réadaptation",
+      "section": "B00-LEC",
+      "instructor": "Karine Gauvin",
+      "schedule": "Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 5703",
+      "courseTitle": "Pratiques professionnelles en réadaptation",
+      "section": "B01-LAB",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 5703",
+      "courseTitle": "Pratiques professionnelles en réadaptation",
+      "section": "C00-LEC",
+      "instructor": "Nathalie Christina Dionne",
+      "schedule": "Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 16:50, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Th 16:00 - 18:50, Fr 08:30 - 17:20, Fr 08:30 - 17:20, We 08:30 - 11:20, We 08:30 - 11:20, Tu 15:00 - 16:20, Tu 14:30 - 17:20, Fr 08:30 - 17:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 5703",
+      "courseTitle": "Pratiques professionnelles en réadaptation",
+      "section": "C01-LAB",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 5940",
+      "courseTitle": "English Conversation for Clinical Placements in Rehabilitation",
+      "section": "A00-LEC",
+      "instructor": "Isabelle Landriault",
+      "schedule": "Tu 17:30 - 20:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 7101",
+      "courseTitle": "Team Research and Interdisciplinary Methodology (+1 combined)",
+      "section": "A00-LEC",
+      "instructor": "Motahareh Karimijashni",
+      "schedule": "Tu 08:30 - 11:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 7101",
+      "courseTitle": "Team Research and Interdisciplinary Methodology (+1 combined)",
+      "section": "HC00-LEC",
+      "instructor": "Motahareh Karimijashni",
+      "schedule": "Tu 08:30 - 11:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 7103",
+      "courseTitle": "Knowledge Transfer and Exchange Seminar (+1 combined)",
+      "section": "A00-LEC",
+      "instructor": "Karine Toupin April",
+      "schedule": "Mo 11:30 - 14:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 7103",
+      "courseTitle": "Knowledge Transfer and Exchange Seminar (+1 combined)",
+      "section": "HC00-LEC",
+      "instructor": "Karine Toupin April",
+      "schedule": "Mo 11:30 - 14:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 7501",
+      "courseTitle": "Recherche en équipe et méthodologie interdisciplinaire",
+      "section": "A00-LEC",
+      "instructor": "Stéphane Poitras",
+      "schedule": "Fr 11:30 - 14:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 7501",
+      "courseTitle": "Recherche en équipe et méthodologie interdisciplinaire",
+      "section": "HC00-LEC",
+      "instructor": "Stéphane Poitras",
+      "schedule": "Fr 11:30 - 14:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 7503",
+      "courseTitle": "Séminaire sur le transfert des connaissances",
+      "section": "A00-LEC",
+      "instructor": "Karine Toupin April",
+      "schedule": "Mo 08:30 - 11:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 7503",
+      "courseTitle": "Séminaire sur le transfert des connaissances",
+      "section": "HC00-LEC",
+      "instructor": "Karine Toupin April",
+      "schedule": "Mo 08:30 - 11:20",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 9997",
+      "courseTitle": "Thesis Proposal (+1 combined)",
+      "section": "A00-REC",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 9997",
+      "courseTitle": "Thesis Proposal (+1 combined)",
+      "section": "HC00-REC",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 9998",
+      "courseTitle": "Comprehensive Examination (+1 combined)",
+      "section": "A00-REC",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
+      "code": "REA 9998",
+      "courseTitle": "Comprehensive Examination (+1 combined)",
+      "section": "HC00-REC",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
+      "code": "RUS 1901",
+      "courseTitle": "Elementary Russian I",
+      "section": "A00-LEC",
+      "instructor": "Arkadi Klioutchanski",
+      "schedule": "Mo 17:30 - 18:50, We 17:30 - 18:50",
+      "location": "TBD"
+    },
+    {
+      "code": "RUS 1901",
+      "courseTitle": "Elementary Russian I",
+      "section": "B00-LEC",
+      "instructor": "Richard Sokoloski",
+      "schedule": "Mo 14:30 - 15:50, Th 16:00 - 17:20",
+      "location": "TBD"
+    },
+    {
+      "code": "RUS 2501",
+      "courseTitle": "Initiation à la culture russe",
+      "section": "A00-LEC",
+      "instructor": "Arkadi Klioutchanski",
+      "schedule": "Tu 13:00 - 14:20, Th 11:30 - 12:50",
+      "location": "TBD"
+    },
+    {
+      "code": "RUS 2901",
+      "courseTitle": "Intermediate Russian I",
+      "section": "A00-LEC",
+      "instructor": "Natalia Vesselova",
+      "schedule": "Mo 17:30 - 18:50, We 17:30 - 18:50",
+      "location": "TBD"
+    },
+    {
+      "code": "RUS 3901",
+      "courseTitle": "Advanced Russian I",
+      "section": "A00-LEC",
+      "instructor": "Arkadi Klioutchanski",
+      "schedule": "Tu 17:30 - 18:50, Th 17:30 - 18:50",
       "location": "TBD"
     },
     {

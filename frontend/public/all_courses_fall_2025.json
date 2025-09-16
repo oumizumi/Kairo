@@ -62,7 +62,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -1574,7 +1574,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         },
         "D": {
@@ -3822,7 +3822,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -7694,7 +7694,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         },
         "B": {
@@ -19900,7 +19900,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         },
         "C": {
@@ -20312,7 +20312,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -26382,7 +26382,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         },
         "B": {
@@ -26582,7 +26582,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -29279,7 +29279,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -33932,6 +33932,31 @@
       }
     },
     {
+      "courseCode": "DCN 1101",
+      "courseTitle": "Digital Literacy",
+      "subjectCode": "DCN",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "N/A"
+            ],
+            "time": "N/A 00:00 - 00:00",
+            "instructor": "Alice Defours",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Closed"
+          }
+        }
+      }
+    },
+    {
       "courseCode": "DCN 1500",
       "courseTitle": "Arts et la culture numérique",
       "subjectCode": "DCN",
@@ -33977,6 +34002,31 @@
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
             "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "DCN 4300",
+      "courseTitle": "Selected Topics in Digital Cultures (+1 combined)",
+      "subjectCode": "DCN",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Tu"
+            ],
+            "time": "Tu 08:30 - 11:30",
+            "instructor": "Constance Crompton",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Closed"
           }
         }
       }
@@ -42590,7 +42640,7 @@
               "Th"
             ],
             "time": "Th 14:30 - 17:20",
-            "instructor": "Julie Mes",
+            "instructor": "JULIE MES",
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
@@ -47703,7 +47753,7 @@
               "Th"
             ],
             "time": "Mo 08:30 - 09:50, Th 10:00 - 11:20",
-            "instructor": "Ila Ahlawat",
+            "instructor": "ILA AHLAWAT",
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
@@ -47861,7 +47911,7 @@
               "Fr"
             ],
             "time": "We 10:00 - 11:20, Fr 08:30 - 09:50",
-            "instructor": "Ila Ahlawat",
+            "instructor": "ILA AHLAWAT",
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
@@ -48357,7 +48407,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         },
         "E": {
@@ -48532,7 +48582,7 @@
                 "Tu"
               ],
               "time": "Tu 11:30 - 12:50",
-              "instructor": "Ila Ahlawat",
+              "instructor": "ILA AHLAWAT",
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
@@ -48544,7 +48594,7 @@
                 "Tu"
               ],
               "time": "Tu 11:30 - 12:50",
-              "instructor": "Ila Ahlawat",
+              "instructor": "ILA AHLAWAT",
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
@@ -48556,7 +48606,7 @@
                 "Tu"
               ],
               "time": "Tu 11:30 - 12:50",
-              "instructor": "Ila Ahlawat",
+              "instructor": "ILA AHLAWAT",
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
@@ -48569,7 +48619,7 @@
               "Fr"
             ],
             "time": "Fr 14:30 - 15:50",
-            "instructor": "Ila Ahlawat",
+            "instructor": "ILA AHLAWAT",
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
@@ -48586,7 +48636,7 @@
                 "Th"
               ],
               "time": "Th 13:00 - 14:20",
-              "instructor": "Ila Ahlawat",
+              "instructor": "ILA AHLAWAT",
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
@@ -48598,7 +48648,7 @@
                 "Th"
               ],
               "time": "Th 13:00 - 14:20",
-              "instructor": "Ila Ahlawat",
+              "instructor": "ILA AHLAWAT",
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
@@ -48610,7 +48660,7 @@
                 "Th"
               ],
               "time": "Th 13:00 - 14:20",
-              "instructor": "Ila Ahlawat",
+              "instructor": "ILA AHLAWAT",
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
@@ -48623,7 +48673,7 @@
               "Tu"
             ],
             "time": "Tu 14:30 - 15:50",
-            "instructor": "Ila Ahlawat",
+            "instructor": "ILA AHLAWAT",
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
@@ -48724,7 +48774,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         },
         "CC": {
@@ -49605,7 +49655,7 @@
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
-              "status": "Open"
+              "status": "Closed"
             }
           ],
           "lecture": {
@@ -49618,7 +49668,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -50416,7 +50466,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -51968,7 +52018,7 @@
                 "Th"
               ],
               "time": "Th 08:30 - 10:50",
-              "instructor": "Gabriela Romero",
+              "instructor": "GABRIELA ROMERO",
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
@@ -52033,7 +52083,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         },
         "C": {
@@ -52136,7 +52186,7 @@
                 "Fr"
               ],
               "time": "Fr 14:30 - 16:50",
-              "instructor": "Gabriela Romero",
+              "instructor": "GABRIELA ROMERO",
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
@@ -52359,7 +52409,7 @@
               "Fr"
             ],
             "time": "Tu 11:30 - 12:50, Fr 13:00 - 14:20",
-            "instructor": "Gabriela Romero",
+            "instructor": "GABRIELA ROMERO",
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
@@ -53916,7 +53966,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -56948,7 +56998,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -57217,7 +57267,7 @@
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
-              "status": "Open"
+              "status": "Closed"
             }
           ],
           "tutorials": [],
@@ -57231,7 +57281,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -63910,7 +63960,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         },
         "B": {
@@ -65479,6 +65529,31 @@
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
             "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "JCS 2301",
+      "courseTitle": "Introduction to Jewish Canadian Studies",
+      "subjectCode": "JCS",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Tu"
+            ],
+            "time": "Tu 19:00 - 21:50",
+            "instructor": "Jesse Toufexis",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Closed"
           }
         }
       }
@@ -82369,7 +82444,7 @@
               "Fr"
             ],
             "time": "We 13:00 - 14:20, Fr 11:30 - 12:50",
-            "instructor": "Mohammad Habibur Rahman",
+            "instructor": "Mohammed Habibur Rahman",
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
@@ -83528,7 +83603,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         },
         "C": {
@@ -87020,7 +87095,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -90678,7 +90753,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -90960,7 +91035,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -91873,7 +91948,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -91992,7 +92067,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -92186,7 +92261,7 @@
               "meetingDates": "2025-09-03 - 2025-12-02",
               "meetingStartDate": "2025-09-03",
               "meetingEndDate": "2025-12-02",
-              "status": "Open"
+              "status": "Closed"
             }
           ],
           "tutorials": [],
@@ -92200,7 +92275,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -93087,6 +93162,543 @@
               "status": "Open"
             }
           ]
+        }
+      }
+    },
+    {
+      "courseCode": "REA 5703",
+      "courseTitle": "Pratiques professionnelles en réadaptation",
+      "subjectCode": "REA",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [
+            {
+              "section": "A01-LAB",
+              "days": [
+                "N/A"
+              ],
+              "time": "N/A 00:00 - 00:00",
+              "instructor": "Staff",
+              "meetingDates": "-",
+              "meetingStartDate": "TBD",
+              "meetingEndDate": "TBD",
+              "status": "Closed"
+            }
+          ],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu"
+            ],
+            "time": "Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20, Tu 13:00 - 15:50, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20",
+            "instructor": "Martine Trudelle",
+            "meetingDates": "2025-09-09 - 2025-09-09",
+            "meetingStartDate": "2025-09-09",
+            "meetingEndDate": "2025-09-09",
+            "status": "Closed"
+          }
+        },
+        "B": {
+          "groupId": "B",
+          "labs": [
+            {
+              "section": "B01-LAB",
+              "days": [
+                "N/A"
+              ],
+              "time": "N/A 00:00 - 00:00",
+              "instructor": "Staff",
+              "meetingDates": "-",
+              "meetingStartDate": "TBD",
+              "meetingEndDate": "TBD",
+              "status": "Closed"
+            }
+          ],
+          "tutorials": [],
+          "lecture": {
+            "section": "B00-LEC",
+            "days": [
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu"
+            ],
+            "time": "Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20",
+            "instructor": "Karine Gauvin",
+            "meetingDates": "2025-09-09 - 2025-09-09",
+            "meetingStartDate": "2025-09-09",
+            "meetingEndDate": "2025-09-09",
+            "status": "Closed"
+          }
+        },
+        "C": {
+          "groupId": "C",
+          "labs": [
+            {
+              "section": "C01-LAB",
+              "days": [
+                "N/A"
+              ],
+              "time": "N/A 00:00 - 00:00",
+              "instructor": "Staff",
+              "meetingDates": "-",
+              "meetingStartDate": "TBD",
+              "meetingEndDate": "TBD",
+              "status": "Closed"
+            }
+          ],
+          "tutorials": [],
+          "lecture": {
+            "section": "C00-LEC",
+            "days": [
+              "Tu",
+              "Tu",
+              "Tu",
+              "Tu",
+              "Fr",
+              "Fr",
+              "Fr",
+              "Fr",
+              "Th",
+              "Fr",
+              "Fr",
+              "We",
+              "We",
+              "Tu",
+              "Tu",
+              "Fr"
+            ],
+            "time": "Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 16:50, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Th 16:00 - 18:50, Fr 08:30 - 17:20, Fr 08:30 - 17:20, We 08:30 - 11:20, We 08:30 - 11:20, Tu 15:00 - 16:20, Tu 14:30 - 17:20, Fr 08:30 - 17:20",
+            "instructor": "Nathalie Christina Dionne",
+            "meetingDates": "2025-09-09 - 2025-09-09",
+            "meetingStartDate": "2025-09-09",
+            "meetingEndDate": "2025-09-09",
+            "status": "Closed"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "REA 5940",
+      "courseTitle": "English Conversation for Clinical Placements in Rehabilitation",
+      "subjectCode": "REA",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Tu"
+            ],
+            "time": "Tu 17:30 - 20:20",
+            "instructor": "Isabelle Landriault",
+            "meetingDates": "2025-10-07 - 2025-11-18",
+            "meetingStartDate": "2025-10-07",
+            "meetingEndDate": "2025-11-18",
+            "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "REA 7101",
+      "courseTitle": "Team Research and Interdisciplinary Methodology (+1 combined)",
+      "subjectCode": "REA",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Tu"
+            ],
+            "time": "Tu 08:30 - 11:20",
+            "instructor": "Motahareh Karimijashni",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        },
+        "HC": {
+          "groupId": "HC",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "HC00-LEC",
+            "days": [
+              "Tu"
+            ],
+            "time": "Tu 08:30 - 11:20",
+            "instructor": "Motahareh Karimijashni",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "REA 7103",
+      "courseTitle": "Knowledge Transfer and Exchange Seminar (+1 combined)",
+      "subjectCode": "REA",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Mo"
+            ],
+            "time": "Mo 11:30 - 14:20",
+            "instructor": "Karine Toupin April",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        },
+        "HC": {
+          "groupId": "HC",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "HC00-LEC",
+            "days": [
+              "Mo"
+            ],
+            "time": "Mo 11:30 - 14:20",
+            "instructor": "Karine Toupin April",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "REA 7501",
+      "courseTitle": "Recherche en équipe et méthodologie interdisciplinaire",
+      "subjectCode": "REA",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Fr"
+            ],
+            "time": "Fr 11:30 - 14:20",
+            "instructor": "Stéphane Poitras",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        },
+        "HC": {
+          "groupId": "HC",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "HC00-LEC",
+            "days": [
+              "Fr"
+            ],
+            "time": "Fr 11:30 - 14:20",
+            "instructor": "Stéphane Poitras",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "REA 7503",
+      "courseTitle": "Séminaire sur le transfert des connaissances",
+      "subjectCode": "REA",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Mo"
+            ],
+            "time": "Mo 08:30 - 11:20",
+            "instructor": "Karine Toupin April",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        },
+        "HC": {
+          "groupId": "HC",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "HC00-LEC",
+            "days": [
+              "Mo"
+            ],
+            "time": "Mo 08:30 - 11:20",
+            "instructor": "Karine Toupin April",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "REA 9997",
+      "courseTitle": "Thesis Proposal (+1 combined)",
+      "subjectCode": "REA",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [
+            {
+              "section": "A00-REC",
+              "days": [
+                "N/A"
+              ],
+              "time": "N/A 00:00 - 00:00",
+              "instructor": "Staff",
+              "meetingDates": "2025-09-01 - 2025-12-31",
+              "meetingStartDate": "2025-09-01",
+              "meetingEndDate": "2025-12-31",
+              "status": "Open"
+            }
+          ]
+        },
+        "HC": {
+          "groupId": "HC",
+          "labs": [],
+          "tutorials": [
+            {
+              "section": "HC00-REC",
+              "days": [
+                "N/A"
+              ],
+              "time": "N/A 00:00 - 00:00",
+              "instructor": "Staff",
+              "meetingDates": "-",
+              "meetingStartDate": "TBD",
+              "meetingEndDate": "TBD",
+              "status": "Open"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "courseCode": "REA 9998",
+      "courseTitle": "Comprehensive Examination (+1 combined)",
+      "subjectCode": "REA",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [
+            {
+              "section": "A00-REC",
+              "days": [
+                "N/A"
+              ],
+              "time": "N/A 00:00 - 00:00",
+              "instructor": "Staff",
+              "meetingDates": "2025-09-01 - 2025-12-31",
+              "meetingStartDate": "2025-09-01",
+              "meetingEndDate": "2025-12-31",
+              "status": "Open"
+            }
+          ]
+        },
+        "HC": {
+          "groupId": "HC",
+          "labs": [],
+          "tutorials": [
+            {
+              "section": "HC00-REC",
+              "days": [
+                "N/A"
+              ],
+              "time": "N/A 00:00 - 00:00",
+              "instructor": "Staff",
+              "meetingDates": "-",
+              "meetingStartDate": "TBD",
+              "meetingEndDate": "TBD",
+              "status": "Open"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "courseCode": "RUS 1901",
+      "courseTitle": "Elementary Russian I",
+      "subjectCode": "RUS",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Mo",
+              "We"
+            ],
+            "time": "Mo 17:30 - 18:50, We 17:30 - 18:50",
+            "instructor": "Arkadi Klioutchanski",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Closed"
+          }
+        },
+        "B": {
+          "groupId": "B",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "B00-LEC",
+            "days": [
+              "Mo",
+              "Th"
+            ],
+            "time": "Mo 14:30 - 15:50, Th 16:00 - 17:20",
+            "instructor": "Richard Sokoloski",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Closed"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "RUS 2501",
+      "courseTitle": "Initiation à la culture russe",
+      "subjectCode": "RUS",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Tu",
+              "Th"
+            ],
+            "time": "Tu 13:00 - 14:20, Th 11:30 - 12:50",
+            "instructor": "Arkadi Klioutchanski",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "RUS 2901",
+      "courseTitle": "Intermediate Russian I",
+      "subjectCode": "RUS",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Mo",
+              "We"
+            ],
+            "time": "Mo 17:30 - 18:50, We 17:30 - 18:50",
+            "instructor": "Natalia Vesselova",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
+        }
+      }
+    },
+    {
+      "courseCode": "RUS 3901",
+      "courseTitle": "Advanced Russian I",
+      "subjectCode": "RUS",
+      "term": "2025 Fall Term",
+      "sectionGroups": {
+        "A": {
+          "groupId": "A",
+          "labs": [],
+          "tutorials": [],
+          "lecture": {
+            "section": "A00-LEC",
+            "days": [
+              "Tu",
+              "Th"
+            ],
+            "time": "Tu 17:30 - 18:50, Th 17:30 - 18:50",
+            "instructor": "Arkadi Klioutchanski",
+            "meetingDates": "2025-09-03 - 2025-12-02",
+            "meetingStartDate": "2025-09-03",
+            "meetingEndDate": "2025-12-02",
+            "status": "Open"
+          }
         }
       }
     },
@@ -94889,7 +95501,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -94915,7 +95527,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -96389,7 +97001,7 @@
             "meetingDates": "2025-09-03 - 2025-12-02",
             "meetingStartDate": "2025-09-03",
             "meetingEndDate": "2025-12-02",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
