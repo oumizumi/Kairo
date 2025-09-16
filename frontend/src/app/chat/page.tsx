@@ -1128,6 +1128,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const messagesContainerRef = useRef<HTMLDivElement>(null);
     const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
+    const [isInputFocused, setIsInputFocused] = useState(false);
 
     const { displayText, isVisible } = useAnimatedPlaceholder();
 
@@ -2146,6 +2147,8 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                         <textarea
                                             value={inputMessage}
                                             onChange={(e) => setInputMessage(e.target.value)}
+                                            onFocus={() => setIsInputFocused(true)}
+                                            onBlur={() => setIsInputFocused(false)}
                                             onKeyDown={(e) => {
                                                 if (e.key === 'Enter' && !e.shiftKey) {
                                                     e.preventDefault();
@@ -2167,7 +2170,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                             placeholder=""
                                             autoFocus
                                         />
-                                        {!inputMessage && (
+                                        {!inputMessage && !isInputFocused && (
                                             <div className="absolute inset-0 flex items-start pt-[7px] overflow-hidden pointer-events-none">
                                                 <div
                                                     className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible
@@ -2182,22 +2185,14 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                     </div>
                                 </div>
                                 
-                                {/* Action Buttons */}
-                                <div className="flex items-center justify-between px-4 pb-3 pt-1">
-                                    <div className="flex items-center gap-3">
-                                        <div className="group relative">
-                                            <ChatEmailButton currentMessage={inputMessage} />
-                                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                                                Compose email to professor
-                                            </div>
-                                        </div>
-                                    </div>
+                                {/* Send Button */}
+                                <div className="flex justify-end px-4 pb-3 pt-1">
                                     <button
                                         type="submit"
                                         disabled={isLoading}
                                         className={`w-8 h-8 rounded-lg shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
                                             inputMessage.trim() 
-                                                ? 'bg-blue-500 hover:bg-blue-600 text-white' 
+                                                ? 'bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900' 
                                                 : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                                         }`}
                                         aria-label="Send"
@@ -2212,6 +2207,21 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                             </div>
                         </form>
 
+                        {/* Email Container */}
+                        <div className="mt-3 bg-gray-50/50 dark:bg-[rgb(var(--card-bg))]/50 border border-gray-200/50 dark:border-[rgb(var(--border-color))]/50 rounded-lg p-3 transition-colors duration-300">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">Smart Mail</span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-500">AI-powered professional emails</span>
+                                </div>
+                                <div className="group relative">
+                                    <ChatEmailButton currentMessage={inputMessage} />
+                                    <div className="absolute bottom-full right-0 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                                        Compose email to professor
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -2391,6 +2401,8 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 <textarea
                                     value={inputMessage}
                                     onChange={(e) => setInputMessage(e.target.value)}
+                                    onFocus={() => setIsInputFocused(true)}
+                                    onBlur={() => setIsInputFocused(false)}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter' && !e.shiftKey) {
                                             e.preventDefault();
@@ -2411,7 +2423,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                     }}
                                     placeholder=""
                                 />
-                                {!inputMessage && (
+                                {!inputMessage && !isInputFocused && (
                                     <div className="absolute inset-0 flex items-start pt-[7px] overflow-hidden pointer-events-none">
                                         <div
                                             className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible
@@ -2426,22 +2438,14 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                             </div>
                         </div>
                         
-                        {/* Action Buttons */}
-                        <div className="flex items-center justify-between px-4 pb-3 pt-1">
-                            <div className="flex items-center gap-3">
-                                <div className="group relative">
-                                    <ChatEmailButton currentMessage={inputMessage} />
-                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                                        Compose email to professor
-                                    </div>
-                                </div>
-                            </div>
+                        {/* Send Button */}
+                        <div className="flex justify-end px-4 pb-3 pt-1">
                             <button
                                 type="submit"
                                 disabled={isLoading}
                                 className={`w-8 h-8 rounded-lg shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
                                     inputMessage.trim() 
-                                        ? 'bg-blue-500 hover:bg-blue-600 text-white' 
+                                        ? 'bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900' 
                                         : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                                 }`}
                                 aria-label="Send"
@@ -2456,6 +2460,21 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     </div>
                 </form>
 
+                {/* Email Container */}
+                <div className="mt-3 bg-gray-50/50 dark:bg-[rgb(var(--card-bg))]/50 border border-gray-200/50 dark:border-[rgb(var(--border-color))]/50 rounded-lg p-3 transition-colors duration-300">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">Smart Mail</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-500">AI-powered professional emails</span>
+                        </div>
+                        <div className="group relative">
+                            <ChatEmailButton currentMessage={inputMessage} />
+                            <div className="absolute bottom-full right-0 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                                Compose email to professor
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
