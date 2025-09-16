@@ -10,7 +10,7 @@ import TypewriterText from '@/components/TypewriterText';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
 import AccountDropdown from '@/components/AccountDropdown';
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight, ArrowUp, Download } from "lucide-react";
 import ChatEmailButton from '@/components/ChatEmailButton';
 import { exportCalendarForMobile, hasEventsToExport } from "@/services/mobileIcsExport";
 import { exportCalendarAsICS } from "@/services/icsExportService";
@@ -667,14 +667,14 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
 // Simple Animated Placeholder Hook
 function useAnimatedPlaceholder() {
     const exampleQuestions = [
+        'Ask Kairo about courses or scheduling… or tap the envelope to write an email',
         'Generate my Winter 2026 schedule for first year CS...',
         'Create a schedule for second year winter mechanical engineering...',
         'What are the prerequisites for CSI2110?',
         'What is ITI1121 about?',
         'Generate schedule for first year fall computer science without 8:30 am classes...',
-        'Ask Kairo anything... or click the envelope to write an email',
         'Help me plan my course sequence for graduation',
-        'Click the envelope icon to compose professional emails to professors'
+        'Ask Kairo about courses or scheduling… or tap the envelope to write an email'
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -2136,7 +2136,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     </div>
 
                     {/* Input Form with Improved Design */}
-                    <div className="w-full max-w-2xl px-4">
+                    <div className="w-full max-w-3xl px-4">
                         <form onSubmit={sendMessage} className="w-full">
                             {/* Main Input Container */}
                             <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors duration-300 relative overflow-hidden">
@@ -2184,24 +2184,31 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 
                                 {/* Action Buttons */}
                                 <div className="flex items-center justify-between px-4 pb-3 pt-1">
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-3">
                                         <div className="group relative">
                                             <ChatEmailButton currentMessage={inputMessage} />
                                             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
                                                 Compose email to professor
                                             </div>
                                         </div>
-                                        <span className="text-xs text-gray-400 dark:text-gray-500">
-                                            or click envelope for Smart Mail
-                                        </span>
                                     </div>
                                     <button
-                                    type="submit"
-                                    disabled={!inputMessage.trim() || isLoading}
-                                    className="p-2.5 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white shadow-sm transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
-                                >
-                                    <ArrowRight className="w-4.5 h-4.5" />
-                                </button>
+                                        type="submit"
+                                        disabled={isLoading}
+                                        className={`w-8 h-8 rounded-lg shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
+                                            inputMessage.trim() 
+                                                ? 'bg-blue-500 hover:bg-blue-600 text-white' 
+                                                : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                        }`}
+                                        aria-label="Send"
+                                    >
+                                        {inputMessage.trim() ? (
+                                            <ArrowUp className="w-4 h-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
+                                        ) : (
+                                            <ArrowRight className="w-4 h-4 rotate-90" />
+                                        )}
+                                    </button>
+                                </div>
                             </div>
                         </form>
 
@@ -2374,42 +2381,76 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Form with Simple Animation */}
+            {/* Input Form with Cursor-style Design */}
             <div className="w-full">
                 <form onSubmit={sendMessage} className="w-full">
-                    <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl p-3 sm:p-4 flex flex-col gap-2 relative overflow-hidden transition-colors duration-300 hover:bg-gray-100 dark:hover:bg-white/5">
-                        <div className="relative flex items-center">
-                            <input
-                                type="text"
-                                value={inputMessage}
-                                onChange={(e) => setInputMessage(e.target.value)}
-                                // allow typing while generating
-                                className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 h-10 leading-10 pr-2"
-                            />
-                            {!inputMessage && (
-                                <div className="absolute inset-0 flex items-center overflow-hidden">
-                                    <div
-                                        className={`text-gray-500 dark:text-neutral-500 italic transition-all duration-500 ${isVisible
-                                            ? 'opacity-100'
-                                            : 'opacity-0'
+                    <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors duration-300 relative overflow-hidden">
+                        {/* Text Input Area */}
+                        <div className="p-4 pb-2">
+                            <div className="flex-1 relative">
+                                <textarea
+                                    value={inputMessage}
+                                    onChange={(e) => setInputMessage(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                            e.preventDefault();
+                                            sendMessage(e);
+                                        }
+                                    }}
+                                    rows={1}
+                                    className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 resize-none min-h-[28px] leading-7"
+                                    style={{
+                                        height: 'auto',
+                                        minHeight: '28px',
+                                        maxHeight: '120px'
+                                    }}
+                                    onInput={(e) => {
+                                        const target = e.target as HTMLTextAreaElement;
+                                        target.style.height = 'auto';
+                                        target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+                                    }}
+                                    placeholder=""
+                                />
+                                {!inputMessage && (
+                                    <div className="absolute inset-0 flex items-start pt-[7px] overflow-hidden pointer-events-none">
+                                        <div
+                                            className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible
+                                                ? 'opacity-100'
+                                                : 'opacity-0'
                                             }`}
-                                    >
-                                        {displayText}
+                                        >
+                                            {displayText}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        
+                        {/* Action Buttons */}
+                        <div className="flex items-center justify-between px-4 pb-3 pt-1">
+                            <div className="flex items-center gap-3">
+                                <div className="group relative">
+                                    <ChatEmailButton currentMessage={inputMessage} />
+                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                                        Compose email to professor
                                     </div>
                                 </div>
-                            )}
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <ChatEmailButton currentMessage={inputMessage} />
-                                <span className="text-[11px] text-gray-500 dark:text-neutral-400">Email</span>
                             </div>
                             <button
                                 type="submit"
-                                disabled={!inputMessage.trim() || isLoading}
-                                className="p-2.5 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white shadow-sm transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                                disabled={isLoading}
+                                className={`w-8 h-8 rounded-lg shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
+                                    inputMessage.trim() 
+                                        ? 'bg-blue-500 hover:bg-blue-600 text-white' 
+                                        : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                }`}
+                                aria-label="Send"
                             >
-                                <ArrowRight className="w-4.5 h-4.5" />
+                                {inputMessage.trim() ? (
+                                    <ArrowUp className="w-4 h-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
+                                ) : (
+                                    <ArrowRight className="w-4 h-4 rotate-90" />
+                                )}
                             </button>
                         </div>
                     </div>
