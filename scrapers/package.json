@@ -18,7 +18,8 @@
     "test:spring": "npx ts-node src/test_spring_only.ts",
     "scrape:uottawa": "npx ts-node src/scrape_uottawa_courses.ts",
     "scrape:all-terms": "npx ts-node src/scrape_uottawa_courses.ts",
-    "update:frontend": "node update_frontend_data.js"
+    "update:frontend": "node update_frontend_data.js",
+    "deploy:data": "node deploy-data.js"
   },
   "keywords": [],
   "author": "",

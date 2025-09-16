@@ -1404,29 +1404,41 @@ async function main() {
                 console.log(`⚠️ You may need to manually run: python3 manage.py populate_data\n`);
             }
 
-            // 🔄 ALSO UPDATE FRONTEND AND BACKEND WITH LATEST DATA
-            console.log(`\n🔄 SYNCING LATEST DATA TO ALL LOCATIONS...`);
-            await syncLatestDataToAllLocations(filename);
-            console.log(`✅ Latest data synced to all locations!\n`);
+            // 🔄 SYNC DATA BASED ON ENVIRONMENT
+            if (process.env.SYNC_TO_PRODUCTION === 'true') {
+                console.log(`\n🔄 SYNCING LATEST DATA TO ALL LOCATIONS (PRODUCTION MODE)...`);
+                await syncLatestDataToAllLocations(filename);
+                console.log(`✅ Latest data synced to all locations!\n`);
+            } else {
+                console.log(`\n📝 Skipping production sync (set SYNC_TO_PRODUCTION=true to enable)`);
+                console.log(`💡 Data saved locally in scrapers/data/ - use deploy script to push to production\n`);
+            }
         }
 
         console.log('\n🎉 ALL TERMS SCRAPING AND UPDATING COMPLETED!');
         console.log('📁 All JSON files created and KaiRoll updated for each term');
 
-        // 🔄 FINAL SYNC OF ALL LATEST DATA
-        console.log('\n🔄 PERFORMING FINAL SYNC OF ALL LATEST DATA...');
-        await syncAllLatestData();
-        console.log('✅ All latest data synced across all systems!');
+        // 🔄 FINAL SYNC BASED ON ENVIRONMENT
+        if (process.env.SYNC_TO_PRODUCTION === 'true') {
+            console.log('\n🔄 PERFORMING FINAL SYNC OF ALL LATEST DATA...');
+            await syncAllLatestData();
+            console.log('✅ All latest data synced across all systems!');
+        } else {
+            console.log('\n📝 Scraping completed! Data saved locally in scrapers/data/');
+            console.log('💡 To deploy to production, use: npm run deploy:data');
+        }
 
-        // 🎯 AUTO-UPDATE FRONTEND DATA
-        console.log('\n🎯 AUTO-UPDATING FRONTEND DATA...');
-        try {
-            const { updateFrontendData } = require('../update_frontend_data.js');
-            await updateFrontendData();
-            console.log('✅ Frontend data automatically updated!');
-        } catch (error) {
-            console.error('❌ Error updating frontend data:', error);
-            console.log('💡 You may need to run the update manually');
+        // 🎯 UPDATE FRONTEND DATA BASED ON ENVIRONMENT
+        if (process.env.SYNC_TO_PRODUCTION === 'true') {
+            console.log('\n🎯 AUTO-UPDATING FRONTEND DATA...');
+            try {
+                const { updateFrontendData } = require('../update_frontend_data.js');
+                await updateFrontendData();
+                console.log('✅ Frontend data automatically updated!');
+            } catch (error) {
+                console.error('❌ Error updating frontend data:', error);
+                console.log('💡 You may need to run the update manually');
+            }
         }
 
     } catch (error) {

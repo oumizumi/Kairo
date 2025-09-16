@@ -15,4 +15,4 @@ services:
       minInstances: 1
       maxInstances: 3
     region: oregon
-    autoDeploy: true
+    autoDeploy: false
