@@ -62,7 +62,6 @@ interface SearchParams {
 // Term mappings
 const TERM_MAPPINGS = {
     '2025 Fall Term': '2259',
-    '2025 Spring/Summer Term': '2255',
     '2026 Winter Term': '2261'
 };
 
@@ -1377,8 +1376,6 @@ async function main() {
             let filename = '';
             if (term.includes('Fall')) {
                 filename = 'all_courses_fall_2025.json';
-            } else if (term.includes('Spring') || term.includes('Summer')) {
-                filename = 'all_courses_spring_summer_2025.json';
             } else if (term.includes('Winter')) {
                 filename = 'all_courses_winter_2026.json';
             }
@@ -1399,8 +1396,13 @@ async function main() {
             // 🔄 UPDATE KAIROLL IMMEDIATELY AFTER THIS TERM
             console.log(`\n🔄 UPDATING KAIROLL FOR ${term}...`);
             console.log('='.repeat(50));
-            await updateKaiRollForTerm(term, filename);
-            console.log(`✅ ${term} data updated in KaiRoll!\n`);
+            try {
+                await updateKaiRollForTerm(term, filename);
+                console.log(`✅ ${term} data updated in KaiRoll!\n`);
+            } catch (error) {
+                console.error(`❌ KaiRoll update failed for ${term}, but continuing with next term:`, error);
+                console.log(`⚠️ You may need to manually run: python3 manage.py populate_data\n`);
+            }
 
             // 🔄 ALSO UPDATE FRONTEND AND BACKEND WITH LATEST DATA
             console.log(`\n🔄 SYNCING LATEST DATA TO ALL LOCATIONS...`);
@@ -1468,8 +1470,6 @@ async function updateKaiRollForTerm(term: string, filename: string): Promise<voi
         let termKey = '';
         if (term.includes('Fall')) {
             termKey = 'Fall 2025';
-        } else if (term.includes('Spring') || term.includes('Summer')) {
-            termKey = 'Spring/Summer 2025';
         } else if (term.includes('Winter')) {
             termKey = 'Winter 2026';
         }
@@ -1499,13 +1499,13 @@ async function updateKaiRollForTerm(term: string, filename: string): Promise<voi
             console.warn(`⚠️ Failed to copy ${filename} to frontend:`, copyError);
         }
 
-        // Run Django populate command
+        // Run Django populate command (optional - don't fail if this doesn't work)
         console.log(`🔄 Running Django populate_data command for ${term}...`);
         const { spawn } = require('child_process');
         const backendDir = path.join(__dirname, '..', '..', 'backend');
 
-        return new Promise((resolve, reject) => {
-            const djangoProcess = spawn('python', ['manage.py', 'populate_data'], {
+        return new Promise((resolve) => {
+            const djangoProcess = spawn('python3', ['manage.py', 'populate_data'], {
                 cwd: backendDir,
                 stdio: 'inherit'
             });
@@ -1513,16 +1513,17 @@ async function updateKaiRollForTerm(term: string, filename: string): Promise<voi
             djangoProcess.on('close', (code: number | null) => {
                 if (code === 0) {
                     console.log(`✅ Database populated successfully for ${term}`);
-                    resolve();
                 } else {
                     console.error(`❌ Django command failed with code ${code} for ${term}`);
-                    reject(new Error(`Django populate_data failed with code ${code} for ${term}`));
+                    console.log(`⚠️ Database population failed, but JSON files were saved successfully`);
                 }
+                resolve(); // Always resolve, don't reject
             });
 
             djangoProcess.on('error', (error: Error) => {
                 console.error(`❌ Failed to start Django process for ${term}:`, error);
-                reject(error);
+                console.log(`⚠️ Database population failed, but JSON files were saved successfully`);
+                resolve(); // Always resolve, don't reject
             });
         });
 
@@ -1674,7 +1675,6 @@ async function syncAllLatestData(): Promise<void> {
         // List of files to sync
         const filesToSync = [
             'all_courses_fall_2025.json',
-            'all_courses_spring_summer_2025.json',
             'all_courses_winter_2026.json',
             'all_courses_complete.json',
             'all_courses_flattened.json'

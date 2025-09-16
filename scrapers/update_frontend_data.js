@@ -162,7 +162,6 @@ function updateFrontendData() {
     const backendFiles = [
         'all_courses_fall_2025.json',
         'all_courses_winter_2026.json',
-        'all_courses_spring_summer_2025.json',
         'all_courses_complete.json',
         'all_courses_flattened.json'
     ];
@@ -181,7 +180,6 @@ function updateFrontendData() {
     const frontendFiles = [
         'all_courses_fall_2025.json',
         'all_courses_winter_2026.json',
-        'all_courses_spring_summer_2025.json',
         'all_courses_complete.json',
         'all_courses_flattened.json'
     ];
