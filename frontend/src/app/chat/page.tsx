@@ -667,11 +667,14 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
 // Simple Animated Placeholder Hook
 function useAnimatedPlaceholder() {
     const exampleQuestions = [
-        'Generate my Fall schedule for first year CS.',
-        'Create a schedule for second year winter mechanical engineering.',
-        'whats are the pre reqs for CSI2110?',
-        'what is ITI1121 about?',
-        'Generate schedule for first year fall computer science without 8:30 am classes.'
+        'Generate my Winter 2026 schedule for first year CS...',
+        'Create a schedule for second year winter mechanical engineering...',
+        'What are the prerequisites for CSI2110?',
+        'What is ITI1121 about?',
+        'Generate schedule for first year fall computer science without 8:30 am classes...',
+        'Ask Kairo anything... or click the envelope to write an email',
+        'Help me plan my course sequence for graduation',
+        'Click the envelope icon to compose professional emails to professors'
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -2132,33 +2135,67 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                         </h2>
                     </div>
 
-                    {/* Input Form with Simple Animation */}
-                    <div className="w-full max-w-lg px-4">
+                    {/* Input Form with Improved Design */}
+                    <div className="w-full max-w-2xl px-4">
                         <form onSubmit={sendMessage} className="w-full">
-                            <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-xl p-4 flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors duration-300 relative overflow-hidden">
-                                <div className="flex-1 relative flex items-center">
-                                    <input
-                                        type="text"
-                                        value={inputMessage}
-                                        onChange={(e) => setInputMessage(e.target.value)}
-                                        // allow typing while generating
-                                        className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 h-7 leading-7 pr-2"
-                                    />
-                                    {!inputMessage && (
-                                        <div className="absolute inset-0 flex items-center overflow-hidden">
-                                            <div
-                                                className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible
-                                                    ? 'opacity-100'
-                                                    : 'opacity-0'
+                            {/* Main Input Container */}
+                            <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors duration-300 relative overflow-hidden">
+                                {/* Text Input Area */}
+                                <div className="p-4 pb-2">
+                                    <div className="flex-1 relative">
+                                        <textarea
+                                            value={inputMessage}
+                                            onChange={(e) => setInputMessage(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && !e.shiftKey) {
+                                                    e.preventDefault();
+                                                    sendMessage(e);
+                                                }
+                                            }}
+                                            rows={1}
+                                            className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 resize-none min-h-[28px] leading-7"
+                                            style={{
+                                                height: 'auto',
+                                                minHeight: '28px',
+                                                maxHeight: '120px'
+                                            }}
+                                            onInput={(e) => {
+                                                const target = e.target as HTMLTextAreaElement;
+                                                target.style.height = 'auto';
+                                                target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+                                            }}
+                                            placeholder=""
+                                            autoFocus
+                                        />
+                                        {!inputMessage && (
+                                            <div className="absolute inset-0 flex items-start pt-[7px] overflow-hidden pointer-events-none">
+                                                <div
+                                                    className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible
+                                                        ? 'opacity-100'
+                                                        : 'opacity-0'
                                                     }`}
-                                            >
-                                                {displayText}
+                                                >
+                                                    {displayText}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                
+                                {/* Action Buttons */}
+                                <div className="flex items-center justify-between px-4 pb-3 pt-1">
+                                    <div className="flex items-center gap-2">
+                                        <div className="group relative">
+                                            <ChatEmailButton currentMessage={inputMessage} />
+                                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                                                Compose email to professor
                                             </div>
                                         </div>
-                                    )}
-                                </div>
-                                <ChatEmailButton currentMessage={inputMessage} />
-                                <button
+                                        <span className="text-xs text-gray-400 dark:text-gray-500">
+                                            or click envelope for Smart Mail
+                                        </span>
+                                    </div>
+                                    <button
                                     type="submit"
                                     disabled={!inputMessage.trim() || isLoading}
                                     className="p-2.5 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white shadow-sm transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
@@ -5030,9 +5067,19 @@ export default function ChatDashboard() {
         const urlParams = new URLSearchParams(window.location.search);
         const viewParam = urlParams.get('view');
 
-        // Check if user is authenticated, redirect to login if not (except for kairoll view)
-        if (!isAuthenticated() && viewParam !== 'kairoll') {
-            router.push('/login');
+        // Auto-initialize guest session for unauthenticated users (non-blocking)
+        if (!isAuthenticated()) {
+            // Don't redirect to login, instead initialize guest session in background
+            setTimeout(async () => {
+                try {
+                    const { guestLogin } = await import('@/lib/api');
+                    await guestLogin();
+                    console.log('🎉 Guest session initialized');
+                } catch (error) {
+                    console.warn('Guest session initialization failed:', error);
+                    // App still works without backend auth
+                }
+            }, 500); // Small delay to let UI load first
         }
 
         // Listen for force calendar refresh events

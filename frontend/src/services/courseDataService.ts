@@ -16,12 +16,10 @@ let courseDetailsCacheTimestamp: number = 0;
 // Map terms to their corresponding data files
 const TERM_FILE_MAP: { [key: string]: string } = {
     "2025 Fall Term": "/all_courses_fall_2025.json",
-    "2025 Spring/Summer Term": "/all_courses_spring_summer_2025.json",
     "2026 Winter Term": "/all_courses_winter_2026.json",
     // Add simple term mappings for schedule generator
     "Fall": "/all_courses_fall_2025.json",
-    "Winter": "/all_courses_winter_2026.json",
-    "Summer": "/all_courses_spring_summer_2025.json"
+    "Winter": "/all_courses_winter_2026.json"
 };
 
 // Cache for storing course data with timestamps
@@ -247,14 +245,10 @@ export async function loadCoursesForTerm(term: string): Promise<CourseGrouped[]>
         const termMapping: { [key: string]: string } = {
             // Full term names
             "2025 Fall Term": "Fall 2025",
-            "2025 Spring/Summer Term": "Spring/Summer 2025",
             "2026 Winter Term": "Winter 2026",
             // Simple term names from curriculum service
             "Fall": "Fall 2025",
-            "Winter": "Winter 2026",
-            "Spring": "Spring/Summer 2025",
-            "Summer": "Spring/Summer 2025",
-            "Spring/Summer": "Spring/Summer 2025"
+            "Winter": "Winter 2026"
         };
         let termKey = termMapping[term] || Object.keys(kairollData).find(key => key.toLowerCase().includes(term.toLowerCase()));
         if (!termKey) {

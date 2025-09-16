@@ -14,6 +14,7 @@ import { MessageSquare, User } from 'lucide-react';
 
 export default function Home() {
   const [currentPhrase, setCurrentPhrase] = useState(0);
+  const [isNavigating, setIsNavigating] = useState(false);
   const router = useRouter();
 
   const phrases = ["Made by students", "For students"];
@@ -111,19 +112,30 @@ export default function Home() {
           {/* Get Started Button */}
           <div className="mt-8 flex justify-center">
             <button
-              onClick={async () => {
-                try {
-                  const { guestLogin } = await import('@/lib/api');
-                  await guestLogin();
-                  router.push('/chat/?view=split');
-                } catch (err) {
-                  console.error('Guest login failed:', err);
-                  router.push('/chat/?view=split'); // Fallback to chat split view
-                }
+              onClick={() => {
+                setIsNavigating(true);
+                // Navigate immediately for fast response
+                router.push('/chat/?view=split');
+                
+                // Initialize guest session in background (non-blocking)
+                setTimeout(async () => {
+                  try {
+                    const { guestLogin } = await import('@/lib/api');
+                    await guestLogin();
+                  } catch (err) {
+                    console.warn('Background guest login failed:', err);
+                    // User can still use the app, guest login will happen later if needed
+                  }
+                }, 100);
               }}
-              className="font-mono bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 text-lg"
+              disabled={isNavigating}
+              className={`font-mono font-semibold py-3 px-8 rounded-lg shadow-lg transform transition-all duration-200 text-lg ${
+                isNavigating 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white hover:shadow-xl hover:-translate-y-0.5'
+              }`}
             >
-              Get Started
+              {isNavigating ? 'Loading...' : 'Get Started'}
             </button>
           </div>
           

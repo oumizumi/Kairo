@@ -2561,6 +2561,14 @@
       "location": "TBD"
     },
     {
+      "code": "ADM 3999",
+      "courseTitle": "Applied Research in Management II",
+      "section": "A00-REC",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
+      "location": "TBD"
+    },
+    {
       "code": "ADM 4103",
       "courseTitle": "Project Management",
       "section": "A00-LEC",
@@ -7005,7 +7013,7 @@
       "courseTitle": "Higher Layer Network Protocols",
       "section": "A01-LAB",
       "instructor": "Shervin Shirmohammadi",
-      "schedule": "Fr 16:00 - 18:50",
+      "schedule": "Fr 16:00 - 18:50, Fr 16:00 - 17:20",
       "location": "TBD"
     },
     {
@@ -11205,7 +11213,7 @@
       "courseTitle": "The Dynamical Brain: Experimental and Computational Approaches to Neural Networks",
       "section": "A00-LEC",
       "instructor": "Jean-Claude Béïque",
-      "schedule": "Mo 14:30 - 15:50, Th 16:00 - 17:20",
+      "schedule": "Mo 14:30 - 15:50, Th 16:00 - 17:20, Mo 14:30 - 15:50",
       "location": "TBD"
     },
     {
@@ -13025,14 +13033,6 @@
       "location": "TBD"
     },
     {
-      "code": "DCN 1101",
-      "courseTitle": "Digital Literacy",
-      "section": "A00-LEC",
-      "instructor": "Alice Defours",
-      "schedule": "N/A 00:00 - 00:00",
-      "location": "TBD"
-    },
-    {
       "code": "DCN 1500",
       "courseTitle": "Arts et la culture numérique",
       "section": "A00-LEC",
@@ -13046,14 +13046,6 @@
       "section": "A00-LEC",
       "instructor": "Monireh Sadat Razavi Ganji",
       "schedule": "Mo 08:30 - 11:20",
-      "location": "TBD"
-    },
-    {
-      "code": "DCN 4300",
-      "courseTitle": "Selected Topics in Digital Cultures (+1 combined)",
-      "section": "A00-LEC",
-      "instructor": "Constance Crompton",
-      "schedule": "Tu 08:30 - 11:30",
       "location": "TBD"
     },
     {
@@ -13681,14 +13673,6 @@
       "location": "TBD"
     },
     {
-      "code": "DCL 7317",
-      "courseTitle": "Communications Law (+1 combined)",
-      "section": "A00-LEC",
-      "instructor": "Marina Pavlovic",
-      "schedule": "Mo 13:00 - 15:50",
-      "location": "TBD"
-    },
-    {
       "code": "DCL 7508",
       "courseTitle": "Problèmes choisis de propriété intellectuelle et industrielle (+1 combined)",
       "section": "A00-LEC",
@@ -14037,7 +14021,7 @@
       "courseTitle": "Compétences des juristes II : Séminaire de recherche et d'exposé juridique",
       "section": "CC00-SEM",
       "instructor": "Geneviève Dufour",
-      "schedule": "We 13:00 - 15:50",
+      "schedule": "We 13:00 - 15:50, We 13:00 - 15:50",
       "location": "TBD"
     },
     {
@@ -14644,7 +14628,7 @@
       "code": "DRC 48301",
       "courseTitle": "Concours de plaidoirie interfacultaire (Partie 1 de 2)",
       "section": "D00-TUT",
-      "instructor": "Staff",
+      "instructor": "Thomas Burelli",
       "schedule": "N/A 00:00 - 00:00",
       "location": "TBD"
     },
@@ -15988,7 +15972,7 @@
       "code": "EDU 1501",
       "courseTitle": "Introduction à l’enseignement",
       "section": "A00-LEC",
-      "instructor": "JULIE MES",
+      "instructor": "Julie Mes",
       "schedule": "Th 14:30 - 17:20",
       "location": "TBD"
     },
@@ -17940,7 +17924,7 @@
       "code": "ENG 1100",
       "courseTitle": "Workshop in Essay Writing",
       "section": "Q00-LEC",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Mo 08:30 - 09:50, Th 10:00 - 11:20",
       "location": "TBD"
     },
@@ -18012,7 +17996,7 @@
       "code": "ENG 1100",
       "courseTitle": "Workshop in Essay Writing",
       "section": "UU00-LEC",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "We 10:00 - 11:20, Fr 08:30 - 09:50",
       "location": "TBD"
     },
@@ -18364,7 +18348,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "H00-LEC",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Fr 14:30 - 15:50",
       "location": "TBD"
     },
@@ -18372,7 +18356,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "H01-DGD",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Tu 11:30 - 12:50",
       "location": "TBD"
     },
@@ -18380,7 +18364,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "H02-DGD",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Tu 11:30 - 12:50",
       "location": "TBD"
     },
@@ -18388,7 +18372,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "H03-DGD",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Tu 11:30 - 12:50",
       "location": "TBD"
     },
@@ -18396,7 +18380,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "I00-LEC",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Tu 14:30 - 15:50",
       "location": "TBD"
     },
@@ -18404,7 +18388,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "I01-DGD",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Th 13:00 - 14:20",
       "location": "TBD"
     },
@@ -18412,7 +18396,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "I02-DGD",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Th 13:00 - 14:20",
       "location": "TBD"
     },
@@ -18420,7 +18404,7 @@
       "code": "ENG 1112",
       "courseTitle": "Technical Report Writing",
       "section": "I03-DGD",
-      "instructor": "ILA AHLAWAT",
+      "instructor": "Ila Ahlawat",
       "schedule": "Th 13:00 - 14:20",
       "location": "TBD"
     },
@@ -19148,7 +19132,7 @@
       "code": "ENV 2304",
       "courseTitle": "Climatology (+1 combined)",
       "section": "A01-LAB",
-      "instructor": "Trudy Wohlleben",
+      "instructor": "Krutiben Mehta",
       "schedule": "Fr 14:30 - 15:50, Fr 14:30 - 15:50",
       "location": "TBD"
     },
@@ -19188,7 +19172,7 @@
       "code": "ENV 2704",
       "courseTitle": "Climatologie (+1 combined)",
       "section": "A01-LAB",
-      "instructor": "Staff",
+      "instructor": "Cassandra Aniko Tarnocai",
       "schedule": "Th 16:00 - 17:20",
       "location": "TBD"
     },
@@ -19620,7 +19604,7 @@
       "code": "ESP 1991",
       "courseTitle": "Elementary Spanish I",
       "section": "B01-TLB",
-      "instructor": "GABRIELA ROMERO",
+      "instructor": "Gabriela Romero",
       "schedule": "Th 08:30 - 10:50",
       "location": "TBD"
     },
@@ -19724,7 +19708,7 @@
       "code": "ESP 1991",
       "courseTitle": "Elementary Spanish I",
       "section": "D02-TLB",
-      "instructor": "GABRIELA ROMERO",
+      "instructor": "Gabriela Romero",
       "schedule": "Fr 14:30 - 16:50",
       "location": "TBD"
     },
@@ -19828,7 +19812,7 @@
       "code": "ESP 2991",
       "courseTitle": "Intermediate Spanish I",
       "section": "B00-LEC",
-      "instructor": "GABRIELA ROMERO",
+      "instructor": "Gabriela Romero",
       "schedule": "Tu 11:30 - 12:50, Fr 13:00 - 14:20",
       "location": "TBD"
     },
@@ -19878,6 +19862,14 @@
       "section": "A00-SEM",
       "instructor": "Luis Alexander Abanto Rojas",
       "schedule": "We 14:30 - 17:20",
+      "location": "TBD"
+    },
+    {
+      "code": "ESP 5972",
+      "courseTitle": "Directed Studies I",
+      "section": "A00-SEM",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00",
       "location": "TBD"
     },
     {
@@ -20885,7 +20877,7 @@
       "courseTitle": "Mieux prononcer pour mieux communiquer en français",
       "section": "A00-LEC",
       "instructor": "Lison-Nathalie Gagnon",
-      "schedule": "Mo 13:00 - 14:20, We 11:30 - 12:50",
+      "schedule": "We 11:30 - 12:50, Mo 13:00 - 14:20",
       "location": "TBD"
     },
     {
@@ -21465,14 +21457,6 @@
       "location": "TBD"
     },
     {
-      "code": "FSS 4100",
-      "courseTitle": "Selected Topics III",
-      "section": "A00-LEC",
-      "instructor": "Staff",
-      "schedule": "Tu 11:30 - 14:20",
-      "location": "TBD"
-    },
-    {
       "code": "FSS 4150",
       "courseTitle": "Directed Research in Social Sciences",
       "section": "AA01-LEC",
@@ -21500,7 +21484,7 @@
       "code": "GEG 1301",
       "courseTitle": "The Physical Environment",
       "section": "A01-LAB",
-      "instructor": "Kethra Campbell-Heaton",
+      "instructor": "Mohsen Ansari",
       "schedule": "Th 13:00 - 14:20, Th 13:00 - 14:20",
       "location": "TBD"
     },
@@ -21508,7 +21492,7 @@
       "code": "GEG 1301",
       "courseTitle": "The Physical Environment",
       "section": "A02-LAB",
-      "instructor": "Kethra Campbell-Heaton",
+      "instructor": "Kyle Kuthe",
       "schedule": "Mo 13:00 - 14:20, Mo 13:00 - 14:20",
       "location": "TBD"
     },
@@ -21524,7 +21508,7 @@
       "code": "GEG 1701",
       "courseTitle": "L'environnement physique",
       "section": "A01-LAB",
-      "instructor": "Staff",
+      "instructor": "Tatiana Solfjell Huard",
       "schedule": "Tu 08:30 - 09:50, Tu 08:30 - 09:50",
       "location": "TBD"
     },
@@ -21572,7 +21556,7 @@
       "code": "GEG 2304",
       "courseTitle": "Climatology (+1 combined)",
       "section": "A01-LAB",
-      "instructor": "Trudy Wohlleben",
+      "instructor": "Krutiben Mehta",
       "schedule": "Fr 14:30 - 15:50, Fr 14:30 - 15:50",
       "location": "TBD"
     },
@@ -21588,7 +21572,7 @@
       "code": "GEG 2320",
       "courseTitle": "GIS and the Digital Earth",
       "section": "B01-LAB",
-      "instructor": "Staff",
+      "instructor": "Seyed Navid Mashhadi Moghaddam",
       "schedule": "Fr 20:30 - 21:50, Fr 20:30 - 21:50",
       "location": "TBD"
     },
@@ -21636,7 +21620,7 @@
       "code": "GEG 2704",
       "courseTitle": "Climatologie (+1 combined)",
       "section": "A01-LAB",
-      "instructor": "Staff",
+      "instructor": "Cassandra Aniko Tarnocai",
       "schedule": "Th 16:00 - 17:20",
       "location": "TBD"
     },
@@ -21700,7 +21684,7 @@
       "code": "GEG 3312",
       "courseTitle": "Digital Earth Analysis & Modeling",
       "section": "A01-LAB",
-      "instructor": "Staff",
+      "instructor": "Zhewen Luo",
       "schedule": "Mo 17:30 - 18:50, Mo 17:30 - 18:50",
       "location": "TBD"
     },
@@ -24873,14 +24857,6 @@
       "location": "TBD"
     },
     {
-      "code": "JCS 2301",
-      "courseTitle": "Introduction to Jewish Canadian Studies",
-      "section": "A00-LEC",
-      "instructor": "Jesse Toufexis",
-      "schedule": "Tu 19:00 - 21:50",
-      "location": "TBD"
-    },
-    {
       "code": "JCS 3502",
       "courseTitle": "Thèmes choisis en études juives canadiennes (+1 combined)",
       "section": "A00-LEC",
@@ -25140,7 +25116,7 @@
       "code": "LIN 1315",
       "courseTitle": "Introduction to Linguistics",
       "section": "A00-LEC",
-      "instructor": "Gustavo Freire",
+      "instructor": "Staff",
       "schedule": "Tu 14:30 - 15:50, Fr 16:00 - 17:20",
       "location": "TBD"
     },
@@ -25220,7 +25196,7 @@
       "code": "LIN 1715",
       "courseTitle": "Introduction à la linguistique",
       "section": "A00-LEC",
-      "instructor": "Gustavo Freire",
+      "instructor": "Staff",
       "schedule": "Th 14:30 - 15:50, Tu 16:00 - 17:20",
       "location": "TBD"
     },
@@ -25284,8 +25260,8 @@
       "code": "LIN 2760",
       "courseTitle": "Bilinguisme",
       "section": "A00-LEC",
-      "instructor": "Gustavo Freire",
-      "schedule": "Mo 11:30 - 12:50, Th 13:00 - 14:20",
+      "instructor": "Staff",
+      "schedule": "N/A 00:00 - 00:00, N/A 00:00 - 00:00",
       "location": "TBD"
     },
     {
@@ -30724,7 +30700,7 @@
       "code": "NUT 3507",
       "courseTitle": "Microbiologie alimentaire",
       "section": "A01-LAB",
-      "instructor": "Riadh Hammami",
+      "instructor": "Yasmina Ait Chait",
       "schedule": "Mo 13:00 - 15:50",
       "location": "TBD"
     },
@@ -30740,7 +30716,7 @@
       "code": "NUT 3507",
       "courseTitle": "Microbiologie alimentaire",
       "section": "A03-LAB",
-      "instructor": "Riadh Hammami",
+      "instructor": "Yasmina Ait Chait",
       "schedule": "Mo 17:00 - 19:50",
       "location": "TBD"
     },
@@ -31252,7 +31228,7 @@
       "code": "PAP 2300",
       "courseTitle": "Introduction to Public Policy Analysis",
       "section": "A00-LEC",
-      "instructor": "Mohammed Habibur Rahman",
+      "instructor": "Mohammad Habibur Rahman",
       "schedule": "We 13:00 - 14:20, Fr 11:30 - 12:50",
       "location": "TBD"
     },
@@ -34865,198 +34841,6 @@
       "location": "TBD"
     },
     {
-      "code": "REA 5703",
-      "courseTitle": "Pratiques professionnelles en réadaptation",
-      "section": "A00-LEC",
-      "instructor": "Martine Trudelle",
-      "schedule": "Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20, Tu 13:00 - 15:50, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 5703",
-      "courseTitle": "Pratiques professionnelles en réadaptation",
-      "section": "A01-LAB",
-      "instructor": "Staff",
-      "schedule": "N/A 00:00 - 00:00",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 5703",
-      "courseTitle": "Pratiques professionnelles en réadaptation",
-      "section": "B00-LEC",
-      "instructor": "Karine Gauvin",
-      "schedule": "Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20, Tu 08:30 - 11:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 5703",
-      "courseTitle": "Pratiques professionnelles en réadaptation",
-      "section": "B01-LAB",
-      "instructor": "Staff",
-      "schedule": "N/A 00:00 - 00:00",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 5703",
-      "courseTitle": "Pratiques professionnelles en réadaptation",
-      "section": "C00-LEC",
-      "instructor": "Nathalie Christina Dionne",
-      "schedule": "Tu 14:30 - 17:20, Tu 08:30 - 11:20, Tu 14:30 - 17:20, Tu 14:30 - 16:50, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Fr 08:30 - 15:20, Th 16:00 - 18:50, Fr 08:30 - 17:20, Fr 08:30 - 17:20, We 08:30 - 11:20, We 08:30 - 11:20, Tu 15:00 - 16:20, Tu 14:30 - 17:20, Fr 08:30 - 17:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 5703",
-      "courseTitle": "Pratiques professionnelles en réadaptation",
-      "section": "C01-LAB",
-      "instructor": "Staff",
-      "schedule": "N/A 00:00 - 00:00",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 5940",
-      "courseTitle": "English Conversation for Clinical Placements in Rehabilitation",
-      "section": "A00-LEC",
-      "instructor": "Isabelle Landriault",
-      "schedule": "Tu 17:30 - 20:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 7101",
-      "courseTitle": "Team Research and Interdisciplinary Methodology (+1 combined)",
-      "section": "A00-LEC",
-      "instructor": "Motahareh Karimijashni",
-      "schedule": "Tu 08:30 - 11:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 7101",
-      "courseTitle": "Team Research and Interdisciplinary Methodology (+1 combined)",
-      "section": "HC00-LEC",
-      "instructor": "Motahareh Karimijashni",
-      "schedule": "Tu 08:30 - 11:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 7103",
-      "courseTitle": "Knowledge Transfer and Exchange Seminar (+1 combined)",
-      "section": "A00-LEC",
-      "instructor": "Karine Toupin April",
-      "schedule": "Mo 11:30 - 14:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 7103",
-      "courseTitle": "Knowledge Transfer and Exchange Seminar (+1 combined)",
-      "section": "HC00-LEC",
-      "instructor": "Karine Toupin April",
-      "schedule": "Mo 11:30 - 14:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 7501",
-      "courseTitle": "Recherche en équipe et méthodologie interdisciplinaire",
-      "section": "A00-LEC",
-      "instructor": "Stéphane Poitras",
-      "schedule": "Fr 11:30 - 14:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 7501",
-      "courseTitle": "Recherche en équipe et méthodologie interdisciplinaire",
-      "section": "HC00-LEC",
-      "instructor": "Stéphane Poitras",
-      "schedule": "Fr 11:30 - 14:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 7503",
-      "courseTitle": "Séminaire sur le transfert des connaissances",
-      "section": "A00-LEC",
-      "instructor": "Karine Toupin April",
-      "schedule": "Mo 08:30 - 11:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 7503",
-      "courseTitle": "Séminaire sur le transfert des connaissances",
-      "section": "HC00-LEC",
-      "instructor": "Karine Toupin April",
-      "schedule": "Mo 08:30 - 11:20",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 9997",
-      "courseTitle": "Thesis Proposal (+1 combined)",
-      "section": "A00-REC",
-      "instructor": "Staff",
-      "schedule": "N/A 00:00 - 00:00",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 9997",
-      "courseTitle": "Thesis Proposal (+1 combined)",
-      "section": "HC00-REC",
-      "instructor": "Staff",
-      "schedule": "N/A 00:00 - 00:00",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 9998",
-      "courseTitle": "Comprehensive Examination (+1 combined)",
-      "section": "A00-REC",
-      "instructor": "Staff",
-      "schedule": "N/A 00:00 - 00:00",
-      "location": "TBD"
-    },
-    {
-      "code": "REA 9998",
-      "courseTitle": "Comprehensive Examination (+1 combined)",
-      "section": "HC00-REC",
-      "instructor": "Staff",
-      "schedule": "N/A 00:00 - 00:00",
-      "location": "TBD"
-    },
-    {
-      "code": "RUS 1901",
-      "courseTitle": "Elementary Russian I",
-      "section": "A00-LEC",
-      "instructor": "Arkadi Klioutchanski",
-      "schedule": "Mo 17:30 - 18:50, We 17:30 - 18:50",
-      "location": "TBD"
-    },
-    {
-      "code": "RUS 1901",
-      "courseTitle": "Elementary Russian I",
-      "section": "B00-LEC",
-      "instructor": "Richard Sokoloski",
-      "schedule": "Mo 14:30 - 15:50, Th 16:00 - 17:20",
-      "location": "TBD"
-    },
-    {
-      "code": "RUS 2501",
-      "courseTitle": "Initiation à la culture russe",
-      "section": "A00-LEC",
-      "instructor": "Arkadi Klioutchanski",
-      "schedule": "Tu 13:00 - 14:20, Th 11:30 - 12:50",
-      "location": "TBD"
-    },
-    {
-      "code": "RUS 2901",
-      "courseTitle": "Intermediate Russian I",
-      "section": "A00-LEC",
-      "instructor": "Natalia Vesselova",
-      "schedule": "Mo 17:30 - 18:50, We 17:30 - 18:50",
-      "location": "TBD"
-    },
-    {
-      "code": "RUS 3901",
-      "courseTitle": "Advanced Russian I",
-      "section": "A00-LEC",
-      "instructor": "Arkadi Klioutchanski",
-      "schedule": "Tu 17:30 - 18:50, Th 17:30 - 18:50",
-      "location": "TBD"
-    },
-    {
       "code": "SCI 3101",
       "courseTitle": "The Public Communication of Science",
       "section": "A00-LEC",
@@ -36788,7 +36572,7 @@
       "code": "THE 2110",
       "courseTitle": "Techniques III: Body/Voice/Speech",
       "section": "A00-LEC",
-      "instructor": "Staff",
+      "instructor": "Laurel Thomson",
       "schedule": "Mo 14:30 - 17:20, We 14:30 - 17:20",
       "location": "TBD"
     },

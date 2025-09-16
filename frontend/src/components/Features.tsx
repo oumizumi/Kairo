@@ -39,8 +39,8 @@ const FAQS: Array<{ q: string; a: string }> = [
     a: 'We sync from the official catalogue and live section listings. During enrollment, scrapers run often—and you can manually refresh in‑app to pull the latest sections and times.'
   },
   {
-    q: 'Can I set time preferences or no‑class days?',
-    a: 'Yes. Set earliest/latest times, no‑class days, and minimum break windows. The generator respects these constraints and avoids conflicts.'
+    q: 'Can I set time preferences or no-class days?',
+    a: 'Yes. Set earliest/latest times, no-class days, and minimum break windows. The generator respects these constraints and avoids conflicts.'
   },
   {
     q: 'Can I export to Google/Apple/Outlook Calendar?',

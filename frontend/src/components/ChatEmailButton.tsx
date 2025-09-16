@@ -298,11 +298,12 @@ User prompt: ${userPrompt || '[no additional details provided]'}
     <div className="relative inline-flex">
       <button
         onClick={() => setIsOpen((v) => !v)}
-        className="p-2 rounded-full bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/15 transition-colors duration-300"
-        title={hasRecipients ? 'Send email' : 'Add recipients'}
+        className="p-3 rounded-full bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/15 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+        title="Compose professional email to professor (Smart Mail)"
         type="button"
+        aria-label="Open email composer for professional emails to professors"
       >
-        <Mail className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+        <Mail className="h-5 w-5 text-gray-600 dark:text-gray-300" />
       </button>
 
       {isOpen && (

@@ -423,9 +423,9 @@ export const guestLogin = async (): Promise<AuthResponse> => {
         
         removeTokens();
 
-        // Use extended timeout for guest login due to Render cold starts
+        // Use reasonable timeout for guest login
         const response = await api.post('/api/auth/guest-login/', {}, {
-            timeout: 60000 // 60 second timeout specifically for guest login
+            timeout: 15000 // 15 second timeout for guest login
         });
 
         
@@ -447,21 +447,23 @@ export const guestLogin = async (): Promise<AuthResponse> => {
         setGuestFlag(true);
         setGuestSessionId();
         
-        // Migrate existing localStorage data to user-specific keys for guest users too
-        try {
-            const { migrateToUserStorage } = await import('./userStorage');
-            migrateToUserStorage([
-                'kairoll-selected-sections-by-term',
-                'kairoll-selected-sections',
-                'course-visibility',
-                'lastView',
-                'kairo-email-recipients',
-                'kairo-email-professors',
-                'kairo-course-selections'
-            ]);
-        } catch (error) {
-            console.warn('Failed to migrate guest storage:', error);
-        }
+        // Migrate existing localStorage data to user-specific keys for guest users too (non-blocking)
+        setTimeout(async () => {
+            try {
+                const { migrateToUserStorage } = await import('./userStorage');
+                migrateToUserStorage([
+                    'kairoll-selected-sections-by-term',
+                    'kairoll-selected-sections',
+                    'course-visibility',
+                    'lastView',
+                    'kairo-email-recipients',
+                    'kairo-email-professors',
+                    'kairo-course-selections'
+                ]);
+            } catch (error) {
+                console.warn('Failed to migrate guest storage:', error);
+            }
+        }, 100);
         
         return data;
     } catch (error) {

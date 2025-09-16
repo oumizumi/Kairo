@@ -22798,5 +22798,21 @@
     "units": 3,
     "department": "YDD",
     "professors": []
+  },
+  {
+    "code": "ADM 3999",
+    "title": "Applied Research in Management II",
+    "description": "",
+    "units": 3,
+    "department": "ADM",
+    "professors": []
+  },
+  {
+    "code": "ESP 5972",
+    "title": "Directed Studies I",
+    "description": "",
+    "units": 3,
+    "department": "ESP",
+    "professors": []
   }
 ]
