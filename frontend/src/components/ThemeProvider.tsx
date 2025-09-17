@@ -3,11 +3,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';
+type SeasonalTheme = 'default' | 'halloween' | 'christmas';
 
 interface ThemeContextType {
     theme: Theme;
     setTheme: (theme: Theme) => void;
     actualTheme: 'light' | 'dark';
+    seasonalTheme: SeasonalTheme;
+    setSeasonalTheme: (theme: SeasonalTheme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -28,6 +31,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     const [theme, setTheme] = useState<Theme>('system');
     const [actualTheme, setActualTheme] = useState<'light' | 'dark'>('dark');
     const [mounted, setMounted] = useState(false);
+    const [seasonalTheme, setSeasonalTheme] = useState<SeasonalTheme>('default');
 
     useEffect(() => {
         setMounted(true);
@@ -39,6 +43,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         } else {
             // If no saved theme, default to system preference
             setTheme('system');
+        }
+
+        // Load seasonal theme
+        const savedSeasonal = localStorage.getItem('kairo-seasonal-theme') as SeasonalTheme;
+        if (savedSeasonal) {
+            setSeasonalTheme(savedSeasonal);
         }
     }, []);
 
@@ -64,13 +74,36 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
         setActualTheme(newActualTheme);
 
-        // Apply theme class to document element
+        // Apply theme class to document element, also update seasonal class
         if (typeof document !== 'undefined') {
             const root = document.documentElement;
             root.classList.remove('light', 'dark');
             root.classList.add(newActualTheme);
+
+            // Handle seasonal classes
+            root.classList.remove('seasonal-halloween', 'seasonal-christmas');
+            if (seasonalTheme === 'halloween') {
+                root.classList.add('seasonal-halloween');
+            } else if (seasonalTheme === 'christmas') {
+                root.classList.add('seasonal-christmas');
+            }
         }
-    }, [theme, mounted]);
+    }, [theme, mounted, seasonalTheme]);
+
+    // Persist seasonal theme and update seasonal classes when it changes
+    useEffect(() => {
+        if (!mounted) return;
+        localStorage.setItem('kairo-seasonal-theme', seasonalTheme);
+        if (typeof document !== 'undefined') {
+            const root = document.documentElement;
+            root.classList.remove('seasonal-halloween', 'seasonal-christmas');
+            if (seasonalTheme === 'halloween') {
+                root.classList.add('seasonal-halloween');
+            } else if (seasonalTheme === 'christmas') {
+                root.classList.add('seasonal-christmas');
+            }
+        }
+    }, [seasonalTheme, mounted]);
 
     // Listen for system theme changes when theme is set to 'system'
     useEffect(() => {
@@ -93,7 +126,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     }, [theme]);
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme, actualTheme }}>
+        <ThemeContext.Provider value={{ theme, setTheme, actualTheme, seasonalTheme, setSeasonalTheme }}>
             {children}
         </ThemeContext.Provider>
     );

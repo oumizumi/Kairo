@@ -42,6 +42,15 @@
   --info-color: 140, 170, 220;
 }
 
+/* Seasonal theme variables and decorative styles */
+.seasonal-halloween {
+  --accent-color: 255, 115, 0; /* orange */
+}
+
+.seasonal-christmas {
+  --accent-color: 16, 185, 129; /* emerald */
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

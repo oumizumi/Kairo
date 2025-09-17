@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import SeasonalEffects from "@/components/SeasonalEffects";
 
 const inter = Inter({ subsets: ["latin"] });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
@@ -74,6 +75,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <main className="flex min-h-screen flex-col">
+              <SeasonalEffects />
               {children}
             </main>
           </AuthProvider>
