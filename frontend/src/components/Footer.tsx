@@ -3,7 +3,7 @@
 import { useTheme } from './ThemeProvider';
 
 export default function Footer() {
-    const { theme, setTheme, actualTheme } = useTheme();
+    const { theme, setTheme, actualTheme, seasonalTheme, setSeasonalTheme } = useTheme();
     
     const nextExplicitTheme = actualTheme === 'dark' ? 'light' : 'dark';
 
@@ -14,6 +14,13 @@ export default function Footer() {
             return;
         }
         setTheme(nextExplicitTheme);
+    };
+
+    const handleSeasonalToggle = () => {
+        const order: Array<'default' | 'christmas'> = ['default', 'christmas'];
+        const idx = order.indexOf(seasonalTheme as 'default' | 'christmas');
+        const next = order[(idx + 1) % order.length];
+        setSeasonalTheme(next);
     };
 
     const isDark = actualTheme === 'dark';
@@ -53,6 +60,20 @@ export default function Footer() {
                     )}
                         <span className="sr-only">Toggle theme</span>
                         <span className="w-9 text-center">{isDark ? 'Dark' : 'Light'}</span>
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleSeasonalToggle}
+                        className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-white/80 dark:bg-white/10"
+                        aria-label="Toggle seasonal theme"
+                        title="Seasonal theme"
+                    >
+                        {seasonalTheme === 'christmas' ? (
+                            <span className="text-emerald-500" aria-hidden="true">❄️</span>
+                        ) : (
+                            <span className="text-gray-500" aria-hidden="true">✨</span>
+                        )}
+                        <span className="w-16 text-center capitalize">{seasonalTheme}</span>
                     </button>
                 </div>
             </div>

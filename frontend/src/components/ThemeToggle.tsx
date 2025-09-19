@@ -42,7 +42,7 @@ export default function ThemeToggle({ variant = 'fixed' }: ThemeToggleProps) {
     };
 
     const handleSeasonalToggle = () => {
-        const order: Array<'default' | 'halloween' | 'christmas'> = ['default', 'halloween', 'christmas'];
+        const order: Array<'default' | 'christmas'> = ['default', 'christmas'];
         const idx = order.indexOf(seasonalTheme);
         const next = order[(idx + 1) % order.length];
         setSeasonalTheme(next);

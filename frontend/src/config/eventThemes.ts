@@ -11,15 +11,6 @@ export type EventTheme = {
 // Unified event themes used across calendars. Colors are semi-transparent and
 // identical in light and dark mode to keep appearance consistent.
 export const EVENT_THEMES: Record<string, EventTheme> = {
-  'halloween': {
-    name: 'Halloween',
-    bg: 'bg-orange-500/60',
-    border: 'border-black/20',
-    text: 'text-black dark:text-white',
-    hover: 'hover:brightness-110',
-    preview: 'bg-orange-500',
-    cssGradient: 'rgba(249, 115, 22, 0.6)'
-  },
   'christmas': {
     name: 'Christmas',
     bg: 'bg-emerald-500/60',

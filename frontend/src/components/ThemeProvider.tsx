@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';
-type SeasonalTheme = 'default' | 'halloween' | 'christmas';
+type SeasonalTheme = 'default' | 'christmas';
 
 interface ThemeContextType {
     theme: Theme;
@@ -81,10 +81,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
             root.classList.add(newActualTheme);
 
             // Handle seasonal classes
-            root.classList.remove('seasonal-halloween', 'seasonal-christmas');
-            if (seasonalTheme === 'halloween') {
-                root.classList.add('seasonal-halloween');
-            } else if (seasonalTheme === 'christmas') {
+            root.classList.remove('seasonal-christmas');
+            if (seasonalTheme === 'christmas') {
                 root.classList.add('seasonal-christmas');
             }
         }
@@ -96,10 +94,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         localStorage.setItem('kairo-seasonal-theme', seasonalTheme);
         if (typeof document !== 'undefined') {
             const root = document.documentElement;
-            root.classList.remove('seasonal-halloween', 'seasonal-christmas');
-            if (seasonalTheme === 'halloween') {
-                root.classList.add('seasonal-halloween');
-            } else if (seasonalTheme === 'christmas') {
+            root.classList.remove('seasonal-christmas');
+            if (seasonalTheme === 'christmas') {
                 root.classList.add('seasonal-christmas');
             }
         }

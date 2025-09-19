@@ -5,6 +5,7 @@ import Navbar, { TopNavigation } from '@/components/Navbar';
 import Features from '@/components/Features';
 import Footer from '@/components/Footer';
 import TypewriterHeading from '@/components/TypewriterHeading';
+import { useTheme } from '@/components/ThemeProvider';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -16,8 +17,13 @@ export default function Home() {
   const [currentPhrase, setCurrentPhrase] = useState(0);
   const [isNavigating, setIsNavigating] = useState(false);
   const router = useRouter();
+  const { seasonalTheme } = useTheme();
 
   const phrases = ["Made by students", "For students"];
+
+  // Check if it's December for automatic Christmas theme
+  const isDecember = new Date().getMonth() === 11; // December is month 11 (0-indexed)
+  const shouldShowChristmasButton = seasonalTheme === 'christmas' || isDecember;
 
   // Switching text animation
   useEffect(() => {
@@ -129,13 +135,33 @@ export default function Home() {
                 }, 100);
               }}
               disabled={isNavigating}
-              className={`font-mono font-semibold py-3 px-8 rounded-lg shadow-lg transform transition-all duration-200 text-lg ${
+              className={`font-mono font-semibold py-3 px-8 rounded-lg shadow-lg transform transition-all duration-200 text-lg relative ${
                 isNavigating 
                   ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white hover:shadow-xl hover:-translate-y-0.5'
+                  : shouldShowChristmasButton
+                    ? 'bg-gradient-to-r from-emerald-600 to-red-600 hover:from-emerald-700 hover:to-red-700 text-white hover:shadow-xl hover:-translate-y-0.5 christmas-glow-button'
+                    : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white hover:shadow-xl hover:-translate-y-0.5'
               }`}
+              style={shouldShowChristmasButton && !isNavigating ? {
+                boxShadow: `
+                  0 0 20px rgba(16, 185, 129, 0.4),
+                  0 0 40px rgba(220, 38, 38, 0.3),
+                  0 4px 15px rgba(0, 0, 0, 0.2)
+                `,
+                border: '2px solid transparent',
+                backgroundClip: 'padding-box',
+              } : {}}
             >
-              {isNavigating ? 'Loading...' : 'Get Started'}
+              {/* Christmas sparkle effect */}
+              {shouldShowChristmasButton && !isNavigating && (
+                <>
+                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-400/20 to-red-400/20 animate-pulse"></div>
+                  <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-emerald-600 to-red-600 opacity-30 blur-sm animate-pulse"></div>
+                </>
+              )}
+              <span className="relative z-10">
+                {isNavigating ? 'Loading...' : 'Get Started'}
+              </span>
             </button>
           </div>
           

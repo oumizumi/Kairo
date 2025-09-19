@@ -43,12 +43,103 @@
 }
 
 /* Seasonal theme variables and decorative styles */
-.seasonal-halloween {
-  --accent-color: 255, 115, 0; /* orange */
-}
 
 .seasonal-christmas {
   --accent-color: 16, 185, 129; /* emerald */
+  /* Add festive background overlay */
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.02) 0%, rgba(220, 38, 127, 0.02) 100%);
+}
+
+
+/* Christmas Animations */
+@keyframes festiveGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(220, 38, 127, 0.6);
+    filter: hue-rotate(60deg);
+  }
+}
+
+@keyframes jingleBounce {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(3deg);
+  }
+}
+
+@keyframes sparkleShimmer {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.8;
+  }
+  25% {
+    transform: scale(1.2) rotate(90deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.8) rotate(180deg);
+    opacity: 0.6;
+  }
+  75% {
+    transform: scale(1.1) rotate(270deg);
+    opacity: 0.9;
+  }
+}
+
+@keyframes christmasLights {
+  0% { color: #ff4444; text-shadow: 0 0 10px #ff4444; }
+  16% { color: #44ff44; text-shadow: 0 0 10px #44ff44; }
+  32% { color: #4444ff; text-shadow: 0 0 10px #4444ff; }
+  48% { color: #ffff44; text-shadow: 0 0 10px #ffff44; }
+  64% { color: #ff44ff; text-shadow: 0 0 10px #ff44ff; }
+  80% { color: #44ffff; text-shadow: 0 0 10px #44ffff; }
+  100% { color: #ff4444; text-shadow: 0 0 10px #ff4444; }
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translateY(-100vh) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* Apply seasonal animations */
+
+.seasonal-christmas .animate-festive-glow {
+  animation: festiveGlow 2.5s ease-in-out infinite;
+}
+
+.seasonal-christmas .animate-jingle-bounce {
+  animation: jingleBounce 2s ease-in-out infinite;
+}
+
+.seasonal-christmas .animate-sparkle-shimmer {
+  animation: sparkleShimmer 3s ease-in-out infinite;
+}
+
+.seasonal-christmas .animate-christmas-lights {
+  animation: christmasLights 4s linear infinite;
 }
 
 @layer base {
