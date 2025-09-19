@@ -266,10 +266,8 @@ const Snowfall: React.FC = () => {
 const ChristmasLights: React.FC = () => {
   return (
     <Lights 
-      sideEnabled={true} 
       topEnabled={true} 
       density="subtle" 
-      colors={['#e74c3c', '#2ecc71', '#f1c40f', '#ecf0f1']} // Red, Green, Gold, White
     />
   );
 };
