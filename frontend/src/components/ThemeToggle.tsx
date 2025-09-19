@@ -94,9 +94,7 @@ export default function ThemeToggle({ variant = 'fixed' }: ThemeToggleProps) {
                     aria-label="Toggle seasonal theme"
                     title="Seasonal theme"
                 >
-                    {seasonalTheme === 'halloween' ? (
-                        <span className="text-orange-500" aria-hidden="true">🎃</span>
-                    ) : seasonalTheme === 'christmas' ? (
+                    {seasonalTheme === 'christmas' ? (
                         <span className="text-emerald-500" aria-hidden="true">❄️</span>
                     ) : (
                         <span className="text-gray-500" aria-hidden="true">✨</span>
