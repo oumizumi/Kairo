@@ -1,0 +1,8 @@
+{
+  "timestamp": "2025-09-20T21:15:30.000Z",
+  "version": "1.0.1",
+  "fallCourses": 2850,
+  "winterCourses": 2850,
+  "springSummerCourses": 1226,
+  "note": "Cache bust to ensure fresh course data deployment"
+}
