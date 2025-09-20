@@ -41,6 +41,7 @@ function debounce<T extends (...args: any[]) => any>(func: T, wait: number): T {
 }
 import RMPRating from '@/components/RMPRating';
 import CounterBadge from '@/components/CounterBadge';
+import LastUpdated from '@/components/LastUpdated';
 import { ClipboardList } from "lucide-react";
 
 import { X } from "lucide-react";
@@ -4524,13 +4525,13 @@ function KairollComponent() {
                         <div className="sm:hidden">
                             📅 {getTermStartDate(selectedTerm)}
                         </div>
-                        <div className="hidden sm:block">
-                            Calendar will navigate to: {getTermStartDate(selectedTerm)}
+                        <div className="hidden sm:block flex flex-col items-start">
                             {cacheStatus[selectedTerm] && (
-                                <span className="ml-2">
-                                    | {cacheStatus[selectedTerm].courseCount} courses available
-                                </span>
+                                <div className="mb-1">
+                                    {cacheStatus[selectedTerm].courseCount.toLocaleString()} courses available
+                                </div>
                             )}
+                            <LastUpdated compact={true} showIcon={true} term={selectedTerm} />
                         </div>
                     </div>
                 </div>
@@ -4950,8 +4951,8 @@ export default function ChatDashboard() {
                 const lastView = getUserStorageItem('lastView');
                 
                 if (window.innerWidth <= 768) {
-                    // On mobile, only allow 'assistant' or 'kairoll'
-                    if (lastView === 'assistant' || lastView === 'kairoll') {
+                    // On mobile, allow 'assistant', 'calendar', or 'kairoll'
+                    if (lastView === 'assistant' || lastView === 'calendar' || lastView === 'kairoll') {
                         return lastView;
                     }
                     return 'kairoll'; // Default for mobile
@@ -4977,8 +4978,8 @@ export default function ChatDashboard() {
 
     const handleSetView = async (newView: 'split' | 'calendar' | 'assistant' | 'kairoll') => {
         if (typeof window !== 'undefined') {
-            // Prevent mobile users from switching to 'calendar' or 'split'
-            if (window.innerWidth <= 768 && (newView === 'calendar' || newView === 'split')) {
+            // Prevent mobile users from switching to 'split' only (allow calendar now)
+            if (window.innerWidth <= 768 && newView === 'split') {
                 return;
             }
         }
@@ -5157,10 +5158,11 @@ export default function ChatDashboard() {
                     <div className="flex items-center gap-3">
                         <select
                             value={view}
-                            onChange={(e) => handleSetView(e.target.value as 'assistant' | 'kairoll')}
+                            onChange={(e) => handleSetView(e.target.value as 'calendar' | 'assistant' | 'kairoll')}
                             className="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm font-medium text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
                             <option value="assistant">Assistant</option>
+                            <option value="calendar">Calendar</option>
                             <option value="kairoll">Kairoll</option>
                         </select>
                         {mounted && !userLoading && (
@@ -5181,7 +5183,7 @@ export default function ChatDashboard() {
                         <CounterBadge count={conflictsCount} label="conflicts" variant="warning" />
                     </div>
 
-                    {/* Right side - Split, Calendar, Assistant, Kairoll, Social, Logout */}
+                    {/* Right side - Split, Assistant, Kairoll, Last Updated, Logout */}
                     <div className="flex items-center gap-6">
                         {['split', 'calendar', 'assistant', 'kairoll'].map((tab) => (
                             <button
@@ -5233,6 +5235,7 @@ export default function ChatDashboard() {
                     <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={true} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} />
                 </div>
             )}
+
             {view === 'assistant' && (
                 <div className="h-screen bg-white dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
                     <AssistantComponent onEventAdded={handleCalendarRefresh} />
