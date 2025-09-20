@@ -73,10 +73,57 @@ async function deployData() {
         }
     }
     
+    // Create last updated timestamp files
+    console.log('\n📅 Creating last updated timestamp files...');
+    const lastUpdated = {
+        timestamp: new Date().toISOString(),
+        date: new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZoneName: 'short'
+        }),
+        files_updated: jsonFiles.length,
+        deployment_time: new Date().toISOString()
+    };
+    
+    try {
+        // Save general timestamp to both backend and frontend
+        await fs.writeJson(path.join(BACKEND_DATA_PATH, 'last_updated.json'), lastUpdated, { spaces: 2 });
+        await fs.writeJson(path.join(FRONTEND_PUBLIC_PATH, 'last_updated.json'), lastUpdated, { spaces: 2 });
+        console.log('   ✅ last_updated.json created');
+        
+        // Create term-specific timestamp files based on available data files
+        const termFiles = {
+            'fall_2025': 'all_courses_fall_2025.json',
+            'winter_2026': 'all_courses_winter_2026.json',
+            'spring_summer_2025': 'all_courses_spring_summer_2025.json'
+        };
+        
+        for (const [termKey, termFile] of Object.entries(termFiles)) {
+            if (jsonFiles.includes(termFile)) {
+                const termLastUpdated = {
+                    ...lastUpdated,
+                    term: termKey.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                    files_updated: 1
+                };
+                
+                await fs.writeJson(path.join(BACKEND_DATA_PATH, `last_updated_${termKey}.json`), termLastUpdated, { spaces: 2 });
+                await fs.writeJson(path.join(FRONTEND_PUBLIC_PATH, `last_updated_${termKey}.json`), termLastUpdated, { spaces: 2 });
+                console.log(`   ✅ last_updated_${termKey}.json created`);
+            }
+        }
+    } catch (error) {
+        console.error('   ❌ Failed to create timestamp files:', error.message);
+    }
+    
     // Summary
     console.log('\n🎉 Deployment Summary:');
     console.log(`   Backend: ${backendCount}/${jsonFiles.length} files deployed`);
     console.log(`   Frontend: ${frontendCount}/${jsonFiles.length} files deployed`);
+    console.log(`   Last Updated: ${lastUpdated.date}`);
     
     if (backendCount === jsonFiles.length && frontendCount === jsonFiles.length) {
         console.log('\n✅ All data successfully deployed!');

@@ -1498,6 +1498,23 @@ async function updateKaiRollForTerm(term: string, filename: string): Promise<voi
         // Update courses and professors files (incremental)
         await updateKaiRollFiles(termData, kairollDataDir);
 
+        // Create term-specific last updated file
+        const termFileKey = term.toLowerCase().replace(/\s+/g, '_');
+        const lastUpdatedData = {
+            timestamp: new Date().toISOString(),
+            date: new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            }),
+            term: term,
+            files_updated: 1,
+            deployment_time: new Date().toISOString()
+        };
+
         // Copy updated JSON file to frontend
         console.log(`🔄 Updating frontend data for ${term}...`);
         const frontendPublicDir = path.join(__dirname, '..', '..', 'frontend', 'public');
@@ -1507,6 +1524,11 @@ async function updateKaiRollForTerm(term: string, filename: string): Promise<voi
             await fs.copy(path.join(scraperDataDir, filename),
                 path.join(frontendPublicDir, filename));
             console.log(`✅ Frontend data file updated: ${filename}`);
+            
+            // Save term-specific last updated file to frontend
+            const termLastUpdatedFile = `last_updated_${termFileKey}.json`;
+            await fs.writeJson(path.join(frontendPublicDir, termLastUpdatedFile), lastUpdatedData, { spaces: 2 });
+            console.log(`✅ Term-specific timestamp created: ${termLastUpdatedFile}`);
         } catch (copyError) {
             console.warn(`⚠️ Failed to copy ${filename} to frontend:`, copyError);
         }
