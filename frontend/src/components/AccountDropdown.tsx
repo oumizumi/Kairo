@@ -66,7 +66,7 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({
       >
         <UserAvatar user={user} size="sm" />
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block max-w-32 truncate">
-          {isGuest ? 'Login to save schedules!' : (user?.username || user?.first_name || user?.email?.split('@')[0] || 'Account')}
+          {isGuest ? 'Guest' : (user?.username || user?.first_name || user?.email?.split('@')[0] || 'Account')}
         </span>
         <svg 
           className={`w-4 h-4 text-gray-400 transition-all duration-200 ${isOpen ? 'rotate-180 text-gray-600 dark:text-gray-300' : ''}`}

@@ -1,0 +1,59 @@
+name: Update Course Data
+
+on:
+  # Run daily at 6 AM UTC (adjust timezone as needed)
+  schedule:
+    - cron: '0 6 * * *'
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  update-courses:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        cd scrapers
+        npm ci
+        
+    - name: Install Playwright browsers
+      run: |
+        cd scrapers
+        npx playwright install chromium
+        npx playwright install-deps chromium
+        
+    - name: Run scrapers and update data
+      run: |
+        cd scrapers
+        # Run scrapers with production sync enabled
+        SYNC_TO_PRODUCTION=true npm run scrape:all-terms
+        
+    - name: Deploy updated data
+      run: |
+        cd scrapers
+        npm run deploy:data
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        
+        # Only commit if there are changes
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "🤖 Auto-update course data - $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
+        fi

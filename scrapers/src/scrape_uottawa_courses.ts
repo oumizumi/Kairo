@@ -1311,7 +1311,7 @@ function transformToKaiRollFormat(data: GroupedCourseData): any[] {
 }
 
 // Main execution function for ALL TERMS with automatic KaiRoll update
-async function main() {
+export async function main() {
     console.log('🚀 uOttawa Course Scraper → KaiRoll Auto-Update');
     console.log('==================================================');
     console.log('This will:');

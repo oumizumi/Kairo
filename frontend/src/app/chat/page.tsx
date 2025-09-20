@@ -2170,7 +2170,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                             placeholder=""
                                             autoFocus
                                         />
-                                        {!inputMessage && !isInputFocused && (
+                                        {!inputMessage && (
                                             <div className="absolute inset-0 flex items-start pt-[8px] overflow-hidden pointer-events-none">
                                                 <div
                                                     className={`text-gray-400 dark:text-neutral-500 transition-all duration-500 text-[15px] ${isVisible
@@ -2413,7 +2413,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                     }}
                                     placeholder=""
                                 />
-                                {!inputMessage && !isInputFocused && (
+                                {!inputMessage && (
                                     <div className="absolute inset-0 flex items-start pt-[7px] overflow-hidden pointer-events-none">
                                         <div
                                             className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible

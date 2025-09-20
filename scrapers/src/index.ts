@@ -42,7 +42,36 @@ app.get('/api/scrape', async (req: Request, res: Response) => {
   }
 });
 
+// Add route to trigger full scraping
+app.get('/api/scrape-all', async (req: Request, res: Response) => {
+  console.log('Received request to scrape all terms...');
+  
+  try {
+    // Import and run the main scraper function
+    const { main } = await import('./scrape_uottawa_courses');
+    
+    // Set environment variable to enable production sync
+    process.env.SYNC_TO_PRODUCTION = 'true';
+    
+    // Run the scraper
+    await main();
+    
+    res.json({ 
+      success: true, 
+      message: 'Successfully scraped all terms and updated data',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error: any) {
+    console.error('Error in /api/scrape-all:', error);
+    res.status(500).json({ 
+      error: 'Failed to scrape all terms', 
+      details: error.message 
+    });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Kairo Scraper server listening at http://localhost:${port}`);
+  console.log(`Trigger full scrape: http://localhost:${port}/api/scrape-all`);
 });

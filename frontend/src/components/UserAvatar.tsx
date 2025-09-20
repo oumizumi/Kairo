@@ -52,7 +52,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   };
 
   const getDisplayName = () => {
-    if (!user) return 'Login to save schedules!';
+    if (!user) return 'Guest';
     if (user.username) return user.username;
     if (user.first_name || user.last_name) {
       return `${user.first_name || ''} ${user.last_name || ''}`.trim();
