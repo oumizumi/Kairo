@@ -151,39 +151,56 @@ class RMPService {
         }
 
         if (match) {
-            // Handle both professors with real RMP data and those with N/A values
-            const hasRealData = match.has_rmp_data && 
-                               match.rmp_rating !== 'N/A' && 
-                               match.rmp_rating !== null && 
-                               match.rmp_rating !== undefined;
+            // Check if this professor has real RMP data (not N/A values)
+            const hasRealRating = match.rmp_rating && 
+                                 match.rmp_rating !== 'N/A' && 
+                                 match.rmp_rating !== null && 
+                                 match.rmp_rating !== undefined &&
+                                 match.rmp_rating !== '';
 
             // Parse rating - handle N/A values
             let rating = null;
-            if (hasRealData && match.rmp_rating && match.rmp_rating !== 'N/A') {
-                rating = parseFloat(match.rmp_rating.toString());
+            if (hasRealRating) {
+                const parsedRating = parseFloat(match.rmp_rating.toString());
+                if (!isNaN(parsedRating)) {
+                    rating = parsedRating;
+                }
             }
 
             // Parse difficulty - handle N/A values  
             let difficulty = null;
-            if (hasRealData && match.rmp_difficulty && match.rmp_difficulty !== 'N/A') {
-                difficulty = parseFloat(match.rmp_difficulty.toString());
+            if (match.rmp_difficulty && match.rmp_difficulty !== 'N/A' && match.rmp_difficulty !== '') {
+                const parsedDifficulty = parseFloat(match.rmp_difficulty.toString());
+                if (!isNaN(parsedDifficulty)) {
+                    difficulty = parsedDifficulty;
+                }
             }
 
-            // Parse would take again - handle N/A values
+            // Parse would take again - handle N/A values AND empty strings
             let wouldTakeAgain = null;
-            if (hasRealData && match.rmp_would_take_again && match.rmp_would_take_again !== 'N/A') {
-                wouldTakeAgain = parseFloat(match.rmp_would_take_again.toString());
+            if (match.rmp_would_take_again && 
+                match.rmp_would_take_again !== 'N/A' && 
+                match.rmp_would_take_again !== '' &&
+                match.rmp_would_take_again !== null &&
+                match.rmp_would_take_again !== undefined) {
+                const parsedWTA = parseFloat(match.rmp_would_take_again.toString());
+                if (!isNaN(parsedWTA)) {
+                    wouldTakeAgain = parsedWTA;
+                }
             }
 
-            return {
-                id: (match.rmp_id && match.rmp_id !== 'N/A') ? match.rmp_id.toString() : '',
-                name: match.name,
-                rating: rating,
-                difficulty: difficulty,
-                department: (match.rmp_department && match.rmp_department !== 'N/A') ? match.rmp_department : null,
-                numRatings: null,
-                wouldTakeAgain: wouldTakeAgain
-            };
+            // Only return data if we have at least a rating or would take again
+            if (rating !== null || wouldTakeAgain !== null) {
+                return {
+                    id: (match.rmp_id && match.rmp_id !== 'N/A' && match.rmp_id !== '') ? match.rmp_id.toString() : '',
+                    name: match.name,
+                    rating: rating,
+                    difficulty: difficulty,
+                    department: (match.rmp_department && match.rmp_department !== 'N/A' && match.rmp_department !== '') ? match.rmp_department : null,
+                    numRatings: match.rmp_review_count || null,
+                    wouldTakeAgain: wouldTakeAgain
+                };
+            }
         }
 
         return null;
@@ -201,7 +218,20 @@ class RMPService {
             return this.professorCache.get(cacheKey) || null;
         }
 
-        // Try API first (both development and production)
+        // PRIORITIZE STATIC DATA FIRST - This contains our scraped RMP data!
+        try {
+            const staticData = await this.loadStaticData();
+            const result = this.searchInStaticData(name, staticData);
+
+            if (result) {
+                this.professorCache.set(cacheKey, result);
+                return result;
+            }
+        } catch (error) {
+            console.log('Static data not available, trying API');
+        }
+
+        // Fallback to API only if static data fails
         try {
             const response = await fetch(`${this.API_BASE}/professors/search/?name=${encodeURIComponent(name)}`);
 
@@ -225,23 +255,10 @@ class RMPService {
                 }
             }
         } catch (error) {
-            // API error, will fall back to static data below
+            // API error
         }
 
-        // Fallback to static data (for production or when API fails)
-        try {
-            const staticData = await this.loadStaticData();
-            const result = this.searchInStaticData(name, staticData);
-
-            if (result) {
-                this.professorCache.set(cacheKey, result);
-                return result;
-            }
-
-            return null;
-        } catch (error) {
-            return null;
-        }
+        return null;
     }
 
     // Get multiple professors at once
