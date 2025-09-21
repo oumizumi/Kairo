@@ -6,7 +6,7 @@
   "springSummerCourses": 1226,
   "note": "URGENT: Force cache invalidation - production showing 2785 instead of 2850 Fall courses",
   "deploymentId": "cache-bust-2850-courses",
-  "professors_enhanced": "2025-09-20T22:00:44.492140",
+  "professors_enhanced": "2025-09-20T22:02:09.464279",
   "professor_comments": "2025-09-20T21:47:15.466093",
   "professor_tags_analysis": "2025-09-20T21:47:15.466093",
   "unmatched_professors_structured": "2025-09-20T21:47:15.466093",
@@ -14,5 +14,6 @@
   "last_rmp_update": "2025-09-20T21:47:15.466093",
   "unmatched_professors_added": "2025-09-20T21:49:53.447027",
   "rmp_utils_fix": "2025-09-20T22:00:44.492140",
-  "force_rmp_refresh": "2025-09-20T22:00:44.492140"
+  "force_rmp_refresh": "2025-09-20T22:00:44.492140",
+  "file_cleanup": "2025-09-20T22:02:09.464279"
 }
