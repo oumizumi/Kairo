@@ -40,6 +40,7 @@ function debounce<T extends (...args: any[]) => any>(func: T, wait: number): T {
     }) as T;
 }
 import RMPRating from '@/components/RMPRating';
+import ProfessorWithRMP from '@/components/ProfessorWithRMP';
 import CounterBadge from '@/components/CounterBadge';
 import { ClipboardList } from "lucide-react";
 
@@ -2835,7 +2836,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                 {/* RMP Rating - only show when section is expanded */}
                                                 {isDetailExpanded && group.lecture?.instructor && (
                                                     <div className="flex items-center">
-                                                        <RMPRating
+                                                        <ProfessorWithRMP
                                                             professorName={group.lecture.instructor}
                                                             compact={true}
                                                         />

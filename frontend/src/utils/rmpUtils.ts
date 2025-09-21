@@ -150,18 +150,37 @@ class RMPService {
             );
         }
 
-        if (match && match.has_rmp_data && (match.rmp_rating || match.rmp_would_take_again)) {
-            // FORCE PARSE INCLUDING ZERO VALUES
-            const wouldTakeAgain = match.rmp_would_take_again !== null && match.rmp_would_take_again !== undefined
-                ? parseFloat(match.rmp_would_take_again.toString())
-                : null;
+        if (match) {
+            // Handle both professors with real RMP data and those with N/A values
+            const hasRealData = match.has_rmp_data && 
+                               match.rmp_rating !== 'N/A' && 
+                               match.rmp_rating !== null && 
+                               match.rmp_rating !== undefined;
+
+            // Parse rating - handle N/A values
+            let rating = null;
+            if (hasRealData && match.rmp_rating && match.rmp_rating !== 'N/A') {
+                rating = parseFloat(match.rmp_rating.toString());
+            }
+
+            // Parse difficulty - handle N/A values  
+            let difficulty = null;
+            if (hasRealData && match.rmp_difficulty && match.rmp_difficulty !== 'N/A') {
+                difficulty = parseFloat(match.rmp_difficulty.toString());
+            }
+
+            // Parse would take again - handle N/A values
+            let wouldTakeAgain = null;
+            if (hasRealData && match.rmp_would_take_again && match.rmp_would_take_again !== 'N/A') {
+                wouldTakeAgain = parseFloat(match.rmp_would_take_again.toString());
+            }
 
             return {
-                id: match.rmp_id?.toString() || '',
+                id: (match.rmp_id && match.rmp_id !== 'N/A') ? match.rmp_id.toString() : '',
                 name: match.name,
-                rating: match.rmp_rating ? parseFloat(match.rmp_rating) : null,
-                difficulty: match.rmp_difficulty ? parseFloat(match.rmp_difficulty) : null,
-                department: match.rmp_department || null,
+                rating: rating,
+                difficulty: difficulty,
+                department: (match.rmp_department && match.rmp_department !== 'N/A') ? match.rmp_department : null,
                 numRatings: null,
                 wouldTakeAgain: wouldTakeAgain
             };

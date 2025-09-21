@@ -1,0 +1,98 @@
+{
+  "overview": {
+    "total_individual_reviews": 5934,
+    "professors_with_rmp_data": 359,
+    "professors_needing_manual_entry": 679,
+    "average_reviews_per_professor": 16.5,
+    "unique_rating_tags": 33
+  },
+  "top_20_most_common_tags": [
+    {
+      "tag": "Caring",
+      "frequency": 824
+    },
+    {
+      "tag": "Gives good feedback",
+      "frequency": 552
+    },
+    {
+      "tag": "Participation matters",
+      "frequency": 512
+    },
+    {
+      "tag": "Amazing lectures",
+      "frequency": 499
+    },
+    {
+      "tag": "Get ready to read",
+      "frequency": 487
+    },
+    {
+      "tag": "Clear grading criteria",
+      "frequency": 467
+    },
+    {
+      "tag": "Tough grader",
+      "frequency": 446
+    },
+    {
+      "tag": "Respected",
+      "frequency": 406
+    },
+    {
+      "tag": "Accessible outside class",
+      "frequency": 392
+    },
+    {
+      "tag": "Group projects",
+      "frequency": 346
+    },
+    {
+      "tag": "Lecture heavy",
+      "frequency": 334
+    },
+    {
+      "tag": "Hilarious",
+      "frequency": 291
+    },
+    {
+      "tag": "Lots of homework",
+      "frequency": 285
+    },
+    {
+      "tag": "Graded by few things",
+      "frequency": 284
+    },
+    {
+      "tag": "Skip class? You won't pass.",
+      "frequency": 281
+    },
+    {
+      "tag": "Inspirational",
+      "frequency": 279
+    },
+    {
+      "tag": "Test heavy",
+      "frequency": 271
+    },
+    {
+      "tag": "EXTRA CREDIT",
+      "frequency": 148
+    },
+    {
+      "tag": "So many papers",
+      "frequency": 105
+    },
+    {
+      "tag": "Tough Grader",
+      "frequency": 90
+    }
+  ],
+  "files_created": [
+    "professor_comments.json - All individual student comments",
+    "professor_tags_analysis.json - Rating tags analysis",
+    "unmatched_professors_structured.json - Professors needing manual RMP data",
+    "unmatched_professors_manual_entry.csv - CSV for easy manual editing",
+    "rmp_data_summary.json - This summary file"
+  ]
+}

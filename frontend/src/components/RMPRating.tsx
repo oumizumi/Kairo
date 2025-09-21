@@ -8,13 +8,17 @@ interface RMPRatingProps {
     compact?: boolean;
     showDifficulty?: boolean;
     showWouldTakeAgain?: boolean;
+    showAddButton?: boolean;
+    onAddRMPData?: (professorName: string) => void;
 }
 
 const RMPRating: React.FC<RMPRatingProps> = ({
     professorName,
     compact = false,
     showDifficulty = false,
-    showWouldTakeAgain = true
+    showWouldTakeAgain = true,
+    showAddButton = true,
+    onAddRMPData
 }) => {
     const [rmpData, setRmpData] = useState<RMPData | null>(null);
     const [loading, setLoading] = useState(false);
@@ -67,12 +71,52 @@ const RMPRating: React.FC<RMPRatingProps> = ({
         // Show "N/A" for professors without any data instead of hiding completely
         if (professorName && professorName.toLowerCase() !== 'staff') {
             return (
-                <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-600 border-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600">
-                    N/A
+                <div className="inline-flex items-center gap-1">
+                    <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border bg-gray-100 text-gray-600 border-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600">
+                        No RMP Data
+                    </div>
+                    {showAddButton && onAddRMPData && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onAddRMPData(professorName);
+                            }}
+                            className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800 dark:hover:bg-blue-900/30"
+                        >
+                            Add RMP Data
+                        </button>
+                    )}
                 </div>
             );
         }
         return null; // Only hide for "Staff" or empty names
+    }
+
+    // Check if this professor has N/A values (needs manual entry)
+    const hasNAValues = rmpData.rating === null || 
+                       (typeof rmpData.rating === 'string' && rmpData.rating === 'N/A') ||
+                       rmpData.wouldTakeAgain === null || 
+                       (typeof rmpData.wouldTakeAgain === 'string' && rmpData.wouldTakeAgain === 'N/A');
+
+    if (hasNAValues && professorName && professorName.toLowerCase() !== 'staff') {
+        return (
+            <div className="inline-flex items-center gap-1">
+                <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800">
+                    RMP Data Needed
+                </div>
+                {showAddButton && onAddRMPData && (
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onAddRMPData(professorName);
+                        }}
+                        className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800 dark:hover:bg-blue-900/30"
+                    >
+                        Add RMP Data
+                    </button>
+                )}
+            </div>
+        );
     }
 
     const colorClasses = getRatingColorClasses(rmpData.rating);

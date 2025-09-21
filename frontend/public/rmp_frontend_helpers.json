@@ -1,0 +1,17 @@
+{
+  "title": "Frontend Helper Functions for RMP Data",
+  "description": "Helper functions to handle professors with and without RMP data",
+  "functions": {
+    "hasRMPData": "\n// Check if professor has real RMP data\nfunction hasRMPData(professor) {\n    return professor.has_rmp_data === true && \n           professor.rmp_rating !== 'N/A' && \n           professor.rmp_rating !== '';\n}",
+    "getRMPRating": "\n// Get RMP rating with fallback\nfunction getRMPRating(professor) {\n    if (hasRMPData(professor)) {\n        return parseFloat(professor.rmp_rating);\n    }\n    return null; // or return 'N/A' for display\n}",
+    "getRMPDifficulty": "\n// Get RMP difficulty with fallback  \nfunction getRMPDifficulty(professor) {\n    if (hasRMPData(professor)) {\n        return parseFloat(professor.rmp_difficulty);\n    }\n    return null; // or return 'N/A' for display\n}",
+    "shouldShowAddRMPButton": "\n// Check if should show \"Add RMP Data\" button\nfunction shouldShowAddRMPButton(professor) {\n    return professor.needs_manual_entry === true || \n           professor.rmp_rating === 'N/A';\n}",
+    "formatRMPDisplay": "\n// Format RMP data for display\nfunction formatRMPDisplay(professor) {\n    if (!hasRMPData(professor)) {\n        return {\n            rating: 'No rating available',\n            difficulty: 'No difficulty data',\n            showAddButton: true\n        };\n    }\n    \n    return {\n        rating: `${professor.rmp_rating}/5.0`,\n        difficulty: `${professor.rmp_difficulty}/5.0`,\n        showAddButton: false\n    };\n}",
+    "filterProfessorsWithRMP": "\n// Filter professors that have RMP data\nfunction filterProfessorsWithRMP(professors) {\n    return professors.filter(prof => hasRMPData(prof));\n}",
+    "filterProfessorsNeedingRMP": "\n// Filter professors that need RMP data\nfunction filterProfessorsNeedingRMP(professors) {\n    return professors.filter(prof => !hasRMPData(prof));\n}"
+  },
+  "usage_examples": {
+    "react_component": "\n// Example React component\nfunction ProfessorCard({ professor }) {\n    const rmpDisplay = formatRMPDisplay(professor);\n    \n    return (\n        <div className=\"professor-card\">\n            <h3>{professor.name}</h3>\n            <div>Department: {professor.department}</div>\n            \n            <div className=\"rmp-section\">\n                <div>Rating: {rmpDisplay.rating}</div>\n                <div>Difficulty: {rmpDisplay.difficulty}</div>\n                \n                {rmpDisplay.showAddButton && (\n                    <button onClick={() => handleAddRMP(professor)}>\n                        Add RMP Data\n                    </button>\n                )}\n            </div>\n        </div>\n    );\n}",
+    "search_with_rmp_filter": "\n// Search with RMP filter option\nfunction searchProfessors(query, onlyWithRMP = false) {\n    return fetch('/professors_enhanced.json')\n        .then(r => r.json())\n        .then(professors => {\n            let filtered = professors.filter(prof => \n                prof.name.toLowerCase().includes(query.toLowerCase())\n            );\n            \n            if (onlyWithRMP) {\n                filtered = filterProfessorsWithRMP(filtered);\n            }\n            \n            return filtered;\n        });\n}"
+  }
+}
