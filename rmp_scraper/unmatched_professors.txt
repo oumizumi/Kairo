@@ -1,0 +1,681 @@
+Professors from original list with no RMP matches:
+
+- Abdelhamid Benhmade
+- Abdou Thiaw
+- Adlin Présumé
+- Adriana Kolijn
+- Agathe Rhéaume
+- Agnieszka Grudniewicz
+- Aida Bahramian
+- Aiko Kurimoto
+- Alan O'Sullivan
+- Albert Stolow
+- Alexandra Charland-Froment
+- Alexandra Dubé-Chavanel
+- Alexandra Pépin
+- Alexandre Dumas
+- Alexandre Pelletier-Audet
+- Alexandria Bonney
+- Alexi Desmarais
+- Alexis Sprung
+- Ali Hamad
+- Ali Momenimovahed
+- Alice Anne Zwerling
+- Alice Defours
+- Alice Levasseur
+- Aline Germain-Rutherford
+- Alison Mcewen
+- Allan Michael David Charbonneau
+- Amanda Kellock
+- Amanda Noronha Oliveira
+- Amir Abou-El-Kheir
+- Amir Hossein Khataie
+- Amir Hossein Razavi
+- Anabel Beaudry Sarazin
+- Anais Tatossian
+- Andrea Olivares Beltran
+- Andrew Anstey
+- André Bélanger
+- André Laliberté
+- André Lecours
+- André Perrier
+- André Samson
+- Andréanne Dutil
+- Andrée Deslauriers
+- Andrée Marie Sylvie Rainville
+- Andrés Ramos Garcia
+- Angela Bruckel-Lichtenoecker
+- Angèle Lamothe
+- Anie Marie Louise Charlebois
+- Ann Robichaud-Gagné
+- Ann-Marie Kerr
+- Anna Maria Paluch
+- Anne-Marie Guilmaine
+- Anne-Marie Ouellet
+- Anne-Marie Parent
+- Annie Bourque
+- Anthony Carlsen
+- Antoine Côté
+- Antoine Laugrand
+- Anton-Emmanuel Demarchi
+- Areej Tayem
+- Ariane Senécal
+- Atticus Campbell Gordon
+- Attila Clemann
+- Aude Urbancic
+- Ayman Elsayed
+- Bahram Daneshfar
+- Barbara Graves
+- Basam Al-Hasoo
+- Basit Yousuf
+- Bastien Tremblay-Cousineau
+- Benjamin Rotstein
+- Benyamin Aryanayekta
+- Bernardo Mingarelli
+- Bertrand Tchantcho
+- Billie Nell
+- Birgit Maria Wirz-Endrys
+- Boussad Berrichi
+- Brahim Amrendi
+- Brendyn Johnson
+- Brian O'Driscoll
+- Brunella Masciantonio
+- Bryce Andrew John Graham
+- Bárbara Muniz Vieira
+- Béatrice Adèle Crettenand Pecorini
+- Bénédicte Fontaine-Bisson
+- C. Dawn Stacey
+- Caitlin Heppner
+- Camille Parker
+- Camille Perrin
+- Camille Slack
+- Candide Mawoko
+- Carl Monfils
+- Carlos Arturo Cancino
+- Carole Yauk
+- Carolina Solange Ilkow
+- Caroline Barrière
+- Caroline Prud'Homme
+- Caroline Séguin Leclair
+- Cary Kogan
+- Cassandra Aniko Tarnocai
+- Catherine Déri
+- Catherine Giroux
+- Catherine James
+- Catherine O'Grady
+- Catherine Pouliot
+- Chantal Beaupré
+- Chantal Matar
+- Charles Dabone
+- Charles Laplante
+- Chloé Le Quéré
+- Chloé Turcotte
+- Chockry Barbana
+- Chris Gravel
+- Chris Ramnanan
+- Christian Giguère
+- Christian Gudbranson
+- Christiane Bertrand
+- Christiane Riel
+- Christina Charles
+- Christina Clark-Kazak
+- Christine Guptill
+- Claire Tugault-Lafleur
+- Clara Laplante-Bédard
+- Claudia Rochon
+- Colin Cordner
+- Corneliu Varlan
+- Cristelle Audet
+- Céline Castets-Renard
+- Dallas Glenn Mack
+- Damiem Rolon Mérette
+- Damien D'Amours
+- Dana Hyde
+- Dannick Rivest
+- Daphnée Drouin
+- Daria Kolmogorova
+- David Boucher
+- David Fewer
+- David Girard
+- David Mcleod
+- David Murakami Wood
+- Deepanshu Mohan
+- Defao Tchoffo
+- Denis Myre
+- Derya Sahingil
+- Desneiges Mitchell
+- Diane Lagace
+- Diem Ngoc Thi Dao Nguyen
+- Dieudonné Stéphane Akaba Minkada
+- Dima Zaid-Kilani
+- Dinuk Wijeratne
+- Dixi Modi
+- Dominique Cécile Suzanne Mamet
+- Dominique Côté
+- Dominique Morisano
+- Domynik Huot
+- Doreen Anne Taylor-Claxton
+- Douglas Sarro
+- Edmundo Marcelo Arroyo Espinoza
+- Ehsan Mirzaee
+- El Hadji Yaya Koné
+- Eliane Cloutier
+- Eliane Dulude
+- Ellen Freeman
+- Emil Aliyev
+- Emile James Khordoc
+- Emilio Alarcon
+- Emily Kotow
+- Emily Laidlaw
+- Emily Lampron
+- Emily Pearlman
+- Emily Wills
+- Emma Costain
+- Emma Gabe
+- Emmanuel Carrière
+- Emmanuel Duplàa
+- Eric Granger
+- Erin Bethell
+- Erin M Kean
+- Erin Mccuaig-Lambrinakos
+- Eugénie Tessier
+- Eva Ottawa
+- Fabrice Blée
+- Farzaneh Salehi Kahrizsangi
+- Federica De Sisto
+- Felipe Dargent-Bocanegra
+- Fernanda Scussiato Lago
+- Florence Robert
+- Francesca Caiazzo
+- Francis Bergevin-Thériault
+- Francis Desjardins
+- Francois Baril
+- Francois Joubert
+- Francois-Xavier Campbell-Valois
+- Frankie Young
+- François Jean Larocque
+- François Le Moine
+- François Robitaille
+- François Thibeault
+- Frédéric Lacroix
+- Gabriel Bergeron
+- Gabriel Cadieux
+- Gabriel Christophe Poliquin
+- Gabriel Marrocco
+- Gabriela Romero
+- Gabrielle Dorr
+- Gabrielle Marie Beaulieu
+- Garrick Apollon
+- Gaston Lillo
+- Geneviève Abdelfatah-Desautels
+- Geneviève Barbara Bazinet
+- Geneviève Bossé
+- Geneviève Boucher
+- Geneviève Chabot
+- Geneviève Dufour
+- Geneviève Gauthier
+- Geneviève Grenier
+- Geneviève Ouellet Therrien
+- Geneviève Robert
+- George Monastiriakos
+- Georges Eddy Lucien
+- Gerard Brathwaite-Sturgeon
+- Germain Aoun
+- Gervais Deschênes
+- Gervais Doumtsop Kanouo
+- Gervais Yamb
+- Giuseppe Ficocelli
+- Guillaume Houët-Brisebois
+- Gwenaelle Peyret
+- Gwendelyn Hanna
+- Gérard Étienne
+- Haitian Zhong
+- Hamidreza Rahmatjou
+- Hang Chi
+- Hannah Mckillop
+- Hannah Rudderham
+- Hantz Prosper
+- Hassan Shahraki
+- Hassane Beidou
+- Heather Lee Cross
+- Herold Constant
+- Hind Moutai
+- Hoda Agharazi
+- Hortense Aurélie Nguetemo Likeufack
+- Houda Hamdi
+- Houssem Eddine Ben Ahmed
+- Huda Akef
+- Hugo B. Lafrenière
+- Hugo Crites
+- Hung-Chang Liao
+- Héloïse Lessard-Dostie
+- Ian Colman
+- Ian Graham
+- Ilham Mekkioui
+- Iman Hassan
+- Inga Bohnekamp
+- Inga Hilmarsson
+- Irving Gold
+- Isabelle Barsive
+- Isabelle Carole Monnin
+- Isabelle Landriault
+- Isabelle Thomas-Fogiel
+- Jackson Reggie
+- Jacline Anne All Nyman
+- Jacques Egle
+- Jacynthe Mayer
+- Jaime Garza
+- Jaklin Zayat
+- Jamal Hejazi
+- Jamel-Eddine Cherbib
+- James W. Nelson Novoa
+- Jamie Brehaut
+- Jamie Roy Bradley
+- Jan Claudius Völkel
+- Janet Elaine Squires
+- Janick Robidoux
+- Janyck Beaulieu
+- Jashong King
+- Jasna Drnda
+- Javiera Araya-Moreno
+- Jean Alain Goudiaby
+- Jean C. Grenier
+- Jean Gardy Dumoulin
+- Jean-Claude Béïque
+- Jean-Claude Roc
+- Jean-François Mauger
+- Jean-François Nadeau
+- Jean-François Rousseau
+- Jean-Lou De Carufel
+- Jean-Michel Ménard
+- Jeanette Gallina
+- Jeannine M.A. Quenneville
+- Jennifer Anne E. Quaid
+- Jennifer Lynne Macquarrie
+- Jessica Dufresne
+- Jingen Su
+- Jo Anne Margaret Mccutcheon
+- Joan Ofulue
+- Joanne Rumig
+- Jodi Edwards
+- John Fraser Bruce
+- John J. Donohue
+- John Joseph Leddy
+- Jolene Hansell
+- Jonathan Carlson
+- Jonathan Frauley
+- Jonathan O'Neil
+- Jonathan Parenteau
+- Jose Dibella
+- Joseph Lukas Beddows
+- Josée Coutu
+- Josée Desmarais
+- Josée-Michèle Richer
+- Julian Bertino
+- Julian Little
+- Julie Marie Loui Morissette
+- Julie Mes
+- Julie Pedneault D
+- Julien Bazile
+- Julien Leclair-Dionne
+- Julien Thibault Lévesque
+- Junru Bian
+- Jérémie Richard
+- Jérôme Havre
+- Karen Borland
+- Karin Galldin
+- Karine Bissonnette
+- Karine Toupin April
+- Karyne Merrick Moore
+- Katarina Ghdaye
+- Katherine Kehoe
+- Katherine Mohindra
+- Kathleen Durocher
+- Kathy-Sarah Focsanéanu
+- Katrina Kellar Pinard
+- Kenneth Eakin
+- Kerri Bodin
+- Kerry-Anne Hogan
+- Kethra Campbell-Heaton
+- Kevin Petit-Frère
+- Khaled El Emam
+- Khalil Abu-Osba
+- Khalil Habrih
+- Kiana Pilon
+- Kianoosh Shokri
+- Kimberley Nault
+- Koami Dzigbodi Amegble
+- Kori Ladonna
+- Krisandra Ivings
+- Krissi Laura Michaud
+- Krutiben Mehta
+- Krystel Descary
+- Krzysztof Duniewicz
+- Kyle Kuthe
+- Kyra Alexandra Moritz St Pierre
+- Laura Astwood
+- Laura Castano Laverde
+- Laura Trinkle-Mulcahy
+- Laure-Marie Carignan
+- Laurie Chan
+- Lefranc Joseph
+- Leilah Mbida
+- Leonard Joseph Andrew Droppo-Crites
+- Liad Amir
+- Lillian Thomsen
+- Lina Aburas Awadalla
+- Linda Mclean
+- Lindsay Noël
+- Lisa Michelle D'Ambrosio
+- Lisa Pike
+- Lise J. Kingsbury
+- Lison-Nathalie Gagnon
+- Lissa Lamarche
+- Lori Beaman
+- Lorrain Haitham Tyrany
+- Louis L'Allier
+- Louis Trepanier
+- Louis-Philippe Morin
+- Louise Brasseur
+- Louise Fines
+- Louise Y. Bélanger-Hardy
+- Luca Pellegrini
+- Lucie Jane Bartosova
+- Ludivine Bodar
+- Luvunu Armand Kayolo
+- Lyne Jolette
+- Lynn Rockman
+- Léa Derome Hétu
+- Madeleine Mayo
+- Madeline White
+- Manal Abou-Chakra
+- Manal Beydoun
+- Manuel Perron
+- Marc Prudhomme
+- Marc Tremblay
+- Marcel Mérette
+- Marceline Côté
+- Marcelo Thompson Mello Guimaraes
+- Maria Cherba
+- Maria Katsivela
+- Maria Pilar Abellan
+- Mariana Cortes Kandler
+- Mariana Custódio Do Nascimento Lago
+- Marie-Catherine Chiasson
+- Marie-Claire Gauthier
+- Marie-Claude Plourde
+- Marie-France Boily
+- Marie-France Fortin
+- Marie-Hélène Roy-Gagnon
+- Marie-Josée Bourget
+- Marie-Lyne Vachon
+- Marie-Pier Abel
+- Marie-Pier Vandette
+- Mariem Chiba
+- Mariette Théberge
+- Marilyn Ashley
+- Mario J. Blouin
+- Marion Sandilands
+- Marjolaine Hébert
+- Mark Hannington
+- Mark Warriner
+- Marlene Winifred Best
+- Martin Noël
+- Martin Pelchat
+- Martine Rhéaume
+- Martine Trudelle
+- Mary Margaret Stalcup
+- Marylène Charette
+- Maryn Diiorio
+- Maryse Dionne
+- Mathieu De Lafontaine
+- Mathieu O'Brien
+- Mathieu Tovar-Poitras
+- Matthieu Boisgontier
+- Maurice Joseph Kistabish
+- Max Robenson Vilaire Dortilus
+- Maxime Prévost
+- Maxime Rousseaux
+- Maximilian Mauricio-Cardilli
+- Maxwell Hincke
+- Md Mahmud Hasan
+- Medet Segizbayev
+- Mehdi Iddar
+- Melissa Bayrock
+- Michael A. O'Neill
+- Michael Bao
+- Michael Chateauneuf
+- Michael Hudecki
+- Michael Law-Smith
+- Michael Patrick Dougan
+- Michael Purcell
+- Michael Van Der Sloot
+- Michael W. Reynolds
+- Michel Désilets
+- Michel Mathieu
+- Michelle Cicchino
+- Milena Buziak
+- Mina Faghih
+- Minahil Asim
+- Mireille Fournier
+- Mireille Khacho
+- Miriam Cusson
+- Mohammad Al Ridhawi
+- Mohammad Ali Ahmadpoor Jadehkenary
+- Mohammad Taghi Gholami
+- Mohammed Al-Ta'Amneh
+- Mohammed Habibur Rahman
+- Mohsen Ansari
+- Monica Taljaard
+- Monim Benaissa
+- Monireh Sadat Razavi Ganji
+- Monnica Williams
+- Montana Cardinal
+- Mouhcine Guennoun
+- Mounira Khoris
+- Mujda Nooristani
+- Munazza Tahir
+- Mylene Rosa
+- Na Lin
+- Nabil Afodjo
+- Nadia Abu-Zahra
+- Nadia Jacqueline Boucher
+- Nadia Ross
+- Nafisa Bano
+- Naivi Chikoc Barreda
+- Najwa Haddad
+- Nancy Vézina
+- Naomi Francis
+- Nasandratra Rabariniaina
+- Natalia Jeniffer Leal Wyss
+- Natalie Dubé
+- Natalie J Quesnel
+- Natalie Kelly-Ann Durand-Bush
+- Natalie Magdalena Sadowski
+- Natasha Mcbrearty
+- Nathalie Burlone
+- Nathalie Bélanger
+- Nathalie Christina Dionne
+- Nathalie Dupuis-Desormeaux
+- Nathalie Todam Nguepnang
+- Nathan Pécout--Le Bras
+- Neha Chugh
+- Nelson Duenas Gil
+- Nichelle Bradley-Laforge
+- Nicholas Koudounis
+- Nicholas Paluzzi
+- Nicola Gazzola
+- Nicolas Galton
+- Nicolas Moreau
+- Nikolaos Benos
+- Nikolay Slavkov
+- Niloofar Abdehagh
+- Nisrine Zamjaoui
+- Nissreen Alsheik-Ahmad
+- Nora Paillon
+- Noureddine Bardad Daidj
+- Oleg Mysyk
+- Olfa Karoui
+- Olivia Johnston
+- Omar Al-Mufti
+- Omid Biabanimilani
+- Palladam Vasudev
+- Pamela Hermosilla Luco
+- Patricia Derepentigny
+- Patricia Kmiec
+- Patrick Duong
+- Patrick Giguère
+- Patryk Polec
+- Paul Kouadio
+- Paul Makdissi
+- Paul Marleyn
+- Peter Fillmore
+- Pierre Ezer Pélissier
+- Pierre Gilles Bélanger
+- Pierre J. Champagne
+- Pierre M. Boyer
+- Pierrot Ross-Tremblay
+- Piers Eaton
+- Rabeb Mbarek
+- Rabia Sabah Meziane
+- Rahmani Naim
+- Rajni Sharma
+- Randolph Waugh
+- Raquel Albano Scopinho
+- Rebecca Trueman
+- René-Étienne Bellavance
+- Renée Légaré
+- Reza Valimoradi
+- Riadh Hammami
+- Richard L. Hébert
+- Rita Forte
+- Roanne Thomas
+- Robert Michael Edwards
+- Robert Vitulano
+- Robert-Falcon Ouellette
+- Roberta De Oliveira Soares
+- Rocif Axel Pueugue Simo
+- Roodabeh Dehghani
+- Roojin Habibi
+- Rose Martini
+- Rosemary O'Brien
+- Rosemary Oflaherty
+- Roxanne Brousseau
+- Runze Qian
+- Ryan Katz-Rosene
+- Saeid Mirzaei Yengejeh
+- Saman Alavi-Shoushtari
+- Samantha Van Geel
+- Samuel Lelievre
+- Samuel Singer
+- Samuel Vitel
+- Sarafina Pagnotta
+- Sarah Pignac
+- Sarah Varadi
+- Sarah-Jane Mathieu
+- Sawsan Abdul-Majid
+- Sean R. Moreland
+- Serine Bairakji
+- Setareh Dorood
+- Seunghwan Lee
+- Severina Borisevich
+- Seyed Hossein Kalati
+- Sharon Barden
+- Sharon O'Sullivan
+- Shauna Barker
+- Shawninder Chahal
+- Shouresh Assimizidehsaraee
+- Siarhei Loika
+- Sima Neisary
+- Simon Lapierre
+- Sommer Knight
+- Sophie Thériault
+- Souad Aissioui
+- Soulaimane Chemlal
+- Stepan Kopytov
+- Stephanie Ketha Meyer
+- Stephen Bindman
+- Stephen Ferguson
+- Stephen Kurelek
+- Steve Lorteau
+- Steven Gaon
+- Steven Mckibbin
+- Stéphane Aris-Brosou
+- Stéphane Brutus
+- Stéphane Jean Fournier
+- Stéphane Lefebvre
+- Stéphane Poitras
+- Stéphanie Viola-Plante
+- Suresh Gadde
+- Susie Ouellette
+- Susie Renaud
+- Sylvain Bérubé
+- Sylvie Loubier
+- Sylvie Rochon
+- Syrine Sassi
+- Tamer Anwar Esmail Ahmed
+- Tanoh Laurent Kakou
+- Tasha Stansbury
+- Tatiana Solfjell Huard
+- Taylor Barber
+- Teresa Scassa
+- Terri Lovell
+- Thaddé Rolon-Mérette
+- Theodore Perkins
+- Thomas Brabec
+- Thomas Burelli
+- Thomas Hervé Mboa Nkoudou
+- Thomas Hoshizaki
+- Thomas Polkinghorne
+- Tian Kai
+- Tifanie Valade
+- Timothy Ramsay
+- Tom Al
+- Tommy Alain
+- Tracey M. Doyle
+- Trista Hollweck
+- Troy Emery Elliott
+- Tya Collins
+- Valentina Gaddi
+- Valérie Bibeau
+- Valérie Roy
+- Vanessa Ann Macdonnell
+- Vincent Cusson
+- Vincent Thivierge
+- Vincenzo Giardina
+- Vitor Ciampolini
+- Véronique Beaudry
+- Véronique Pharand
+- Véronique Sylvain
+- Waleed Shahid
+- Wassim El Ahmar
+- Wayne Eyre
+- Wilfried De Jean Nonguierma
+- William Dénommé
+- William Tcheumtchoua Nzali
+- Wissal Charef
+- Yannick Benoit
+- Yao-Te Huang
+- Yasmina Ait Chait
+- Yassine Hammadi
+- Younes Hamani
+- Youri Cormier
+- Youri Gendel
+- Youssef El Hajj
+- Yubin Xing
+- Yukang Peng
+- Yéroséo Aris Kusiele Somda
+- Zachary Pulak
+- Zekai Hong
+- Zennube Aylin Seckin Georges
+- Zhewen Luo
+- Zisheng Zhang
+- Zixuan Li
+- Élodie Le Boeuf
+- Élysée Robert Cadet
+- Émilie Bernier
+- Émilie Pigeon-Gagné
+- Émélie Bowness
+- Éric Mathieu
+- Étienne Brown
+- Étienne Trépanier
