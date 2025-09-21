@@ -298,9 +298,8 @@ def create_deployment_summary():
         'next_steps': [
             '1. Update your frontend components to use the new RMP data',
             '2. Test the new professor profiles with ratings and comments',
-            '3. Manually add RMP data for the 679 unmatched professors using the CSV file',
-            '4. Deploy your frontend changes to production',
-            '5. Monitor for any issues with the new data integration'
+            '3. Deploy your frontend changes to production',
+            '4. Monitor for any issues with the new data integration'
         ],
         'api_endpoints': {
             'main_data': '/professors_enhanced.json',

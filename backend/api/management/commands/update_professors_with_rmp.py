@@ -78,7 +78,7 @@ class Command(BaseCommand):
                             professor.email = prof_data['email']
                         needs_update = True
                     
-                    # Add RMP data as JSON in bio field (temporary solution)
+                    # Update RMP data in bio field
                     if prof_data.get('has_rmp_data'):
                         rmp_data = {
                             'rmp_id': prof_data.get('rmp_id'),
