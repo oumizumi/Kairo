@@ -46,7 +46,7 @@ import { ClipboardList } from "lucide-react";
 
 import { X } from "lucide-react";
 import { motion, useAnimation } from "framer-motion";
-import { gptClassificationService } from '@/lib/gptClassificationService';
+
 
 
 // Interface for chat messages
@@ -479,7 +479,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
                             await updateCalendarEvent(related.id, { theme: updatedEvent.theme });
                         }
                     }
-                } catch {}
+                } catch { }
             }
 
             // Dispatch update event for global state sync
@@ -1404,7 +1404,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 termRequested: intentResult.termRequested,
                                 isFullSequence: intentResult.isFullSequence
                             };
-                            
+
                             setMessages(prev => [...prev, messageWithData]);
                             setIsLoading(false);
                             return; // Exit early, program sequence was handled
@@ -1517,7 +1517,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                     theme: event.theme || 'blue-gradient'
                                 }))
                             );
-                            
+
                         } catch (error) {
                             console.error('❌ Failed to save course change events:', error);
                             // Fallback to legacy API if persistent storage fails
@@ -1739,7 +1739,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                     theme: event.theme || 'blue-gradient'
                                 }))
                             );
-                            
+
 
                             if (result.total_errors > 0) {
                                 console.warn('⚠️ Some events failed to save:', result.errors);
@@ -1789,9 +1789,9 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                             const electiveCount = (scheduleResult.unmatched_courses || []).filter(c => /Elective/i.test(c)).length;
                             if (electiveCount > 0) {
                                 const variants = [
-                                    (n: number) => `You're missing ${n} elective${n>1?'s':''}. Use Kairoll to choose non-conflicting times and add them.`,
-                                    (n: number) => `${n} elective${n>1?'s are':' is'} still open — pick a section in Kairoll that doesn't clash and add it.`,
-                                    (n: number) => `Reminder: add ${n} elective${n>1?'s':''}. Browse in Kairoll and pick times that don't overlap.`,
+                                    (n: number) => `You're missing ${n} elective${n > 1 ? 's' : ''}. Use Kairoll to choose non-conflicting times and add them.`,
+                                    (n: number) => `${n} elective${n > 1 ? 's are' : ' is'} still open — pick a section in Kairoll that doesn't clash and add it.`,
+                                    (n: number) => `Reminder: add ${n} elective${n > 1 ? 's' : ''}. Browse in Kairoll and pick times that don't overlap.`,
                                 ];
                                 const variant = variants[Math.floor(Math.random() * variants.length)](electiveCount);
                                 confirmationMessage = `${confirmationMessage}\n\n${variant}`;
@@ -2177,7 +2177,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                                     className={`text-gray-400 dark:text-neutral-500 transition-all duration-500 text-[15px] ${isVisible
                                                         ? 'opacity-100'
                                                         : 'opacity-0'
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {displayText}
                                                 </div>
@@ -2185,7 +2185,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                         )}
                                     </div>
                                 </div>
-                                
+
                                 {/* Action Bar */}
                                 <div className="flex items-center justify-between px-4 py-3">
                                     <div className="flex items-center gap-2">
@@ -2197,11 +2197,10 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                     <button
                                         type="submit"
                                         disabled={isLoading}
-                                        className={`w-9 h-9 rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
-                                            inputMessage.trim() 
-                                                ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md' 
+                                        className={`w-9 h-9 rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${inputMessage.trim()
+                                                ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md'
                                                 : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                                        }`}
+                                            }`}
                                         aria-label="Send message"
                                     >
                                         {inputMessage.trim() ? (
@@ -2273,11 +2272,11 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
             )}
 
             {/* Messages Container */}
-                <div
-                    ref={messagesContainerRef}
-                    onScroll={handleScroll}
-                    className="flex-1 overflow-y-auto mb-4 space-y-3"
-                >
+            <div
+                ref={messagesContainerRef}
+                onScroll={handleScroll}
+                className="flex-1 overflow-y-auto mb-4 space-y-3"
+            >
                 <div className="flex flex-col space-y-3">
                     {messages.map((message) => (
                         <div
@@ -2348,9 +2347,9 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     {/* Floating star thinking indicator */}
                     {isLoading && !isTyping && (
                         <div className="flex justify-start">
-                    <div className="relative w-6 h-6">
+                            <div className="relative w-6 h-6">
                                 {/* Central Dot */}
-                        <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-600 dark:bg-[rgb(var(--accent-color))] rounded-full -translate-x-1/2 -translate-y-1/2 animate-pulse shadow-[0_0_6px_rgba(59,130,246,0.6)]" />
+                                <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-600 dark:bg-[rgb(var(--accent-color))] rounded-full -translate-x-1/2 -translate-y-1/2 animate-pulse shadow-[0_0_6px_rgba(59,130,246,0.6)]" />
 
                                 {/* Orbiting Dots */}
                                 <div className="absolute w-full h-full animate-spin-slow">
@@ -2420,7 +2419,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                             className={`text-gray-500 dark:text-neutral-500 transition-all duration-500 ${isVisible
                                                 ? 'opacity-100'
                                                 : 'opacity-0'
-                                            }`}
+                                                }`}
                                         >
                                             {displayText}
                                         </div>
@@ -2428,7 +2427,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 )}
                             </div>
                         </div>
-                        
+
                         {/* Action Bar */}
                         <div className="flex items-center justify-between px-4 pb-3 pt-1 border-t border-gray-200/50 dark:border-gray-700/50">
                             <div className="flex items-center gap-3">
@@ -2445,11 +2444,10 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className={`w-8 h-8 rounded-lg shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
-                                    inputMessage.trim() 
-                                        ? 'bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900' 
+                                className={`w-8 h-8 rounded-lg shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${inputMessage.trim()
+                                        ? 'bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900'
                                         : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                                }`}
+                                    }`}
                                 aria-label="Send"
                             >
                                 {inputMessage.trim() ? (
@@ -2534,9 +2532,9 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
         if (pendingToggles.current.has(sectionValue)) {
             return;
         }
-        
+
         pendingToggles.current.add(sectionValue);
-        
+
         // Use setTimeout to batch updates and prevent UI flicker
         setTimeout(() => {
             const newSelection = selectedSections.includes(sectionValue)
@@ -2545,7 +2543,7 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
 
             setSelectedSections(newSelection);
             onSelectionChange(newSelection);
-            
+
             // Remove from pending after a short delay
             setTimeout(() => {
                 pendingToggles.current.delete(sectionValue);
@@ -2593,11 +2591,10 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
                     {sectionOptions.map((option) => (
                         <div
                             key={option.value}
-                            className={`px-3 py-2 border-b border-gray-100 dark:border-gray-600 last:border-b-0 transition-colors duration-150 ${
-                                pendingToggles.current.has(option.value) 
-                                    ? 'bg-orange-50 dark:bg-orange-900/20 cursor-wait' 
+                            className={`px-3 py-2 border-b border-gray-100 dark:border-gray-600 last:border-b-0 transition-colors duration-150 ${pendingToggles.current.has(option.value)
+                                    ? 'bg-orange-50 dark:bg-orange-900/20 cursor-wait'
                                     : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
-                            }`}
+                                }`}
                             onClick={() => handleSectionToggle(option.value)}
                         >
                             <div className="flex items-center gap-3">
@@ -2605,10 +2602,10 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
                                 <input
                                     type="checkbox"
                                     checked={selectedSections.includes(option.value)}
-                                    onChange={(e) => { 
-                                        e.stopPropagation(); 
+                                    onChange={(e) => {
+                                        e.stopPropagation();
                                         e.preventDefault();
-                                        handleSectionToggle(option.value); 
+                                        handleSectionToggle(option.value);
                                     }}
                                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded pointer-events-none"
                                     readOnly
@@ -2671,8 +2668,8 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
         const courseCode = isCourseGrouped(course) ? course.courseCode : course.code;
         const uniqueKey = `${courseCode}-${sectionCode}`;
         // Check both selected events and pending additions for accurate state
-        return (selectedSectionEvents ? selectedSectionEvents.has(uniqueKey) : false) || 
-               (pendingAdditions ? pendingAdditions.has(uniqueKey) : false);
+        return (selectedSectionEvents ? selectedSectionEvents.has(uniqueKey) : false) ||
+            (pendingAdditions ? pendingAdditions.has(uniqueKey) : false);
     };
 
     // Check if section is currently being processed
@@ -2885,22 +2882,21 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                         {group.lecture.status === 'Open' ? 'Open' : 'Closed'}
                                                                     </span>
                                                                     <div
-                                                                        className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${
-                                                                            isPending(group.lecture.section)
+                                                                        className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(group.lecture.section)
                                                                                 ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
                                                                                 : isSelected(group.lecture.section)
                                                                                     ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
                                                                                     : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                                                                        }`}
+                                                                            }`}
                                                                         onClick={(e) => {
                                                                             e.stopPropagation();
                                                                             e.preventDefault();
-                                                                            
+
                                                                             // Prevent multiple clicks while pending
                                                                             if (isPending(group.lecture.section)) {
                                                                                 return;
                                                                             }
-                                                                            
+
                                                                             handleSectionClick(group.lecture.section, {
                                                                                 ...group.lecture,
                                                                                 code: group.lecture.section,
@@ -2959,22 +2955,21 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                             {lab.status === 'Open' ? 'Open' : 'Closed'}
                                                                         </span>
                                                                         <div
-                                                                            className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${
-                                                                                isPending(lab.section)
+                                                                            className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(lab.section)
                                                                                     ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
                                                                                     : isSelected(lab.section)
                                                                                         ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
                                                                                         : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                                                                            }`}
+                                                                                }`}
                                                                             onClick={(e) => {
                                                                                 e.stopPropagation();
                                                                                 e.preventDefault();
-                                                                                
+
                                                                                 // Prevent multiple clicks while pending
                                                                                 if (isPending(lab.section)) {
                                                                                     return;
                                                                                 }
-                                                                                
+
                                                                                 handleSectionClick(lab.section, {
                                                                                     ...lab,
                                                                                     code: lab.section,
@@ -3038,22 +3033,21 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                 {tutorial.status === 'Open' ? 'Open' : 'Closed'}
                                                                             </span>
                                                                             <div
-                                                                                className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${
-                                                                                    isPending(tutorial.section)
+                                                                                className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(tutorial.section)
                                                                                         ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
                                                                                         : isSelected(tutorial.section)
                                                                                             ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
                                                                                             : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                                                                                }`}
+                                                                                    }`}
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
                                                                                     e.preventDefault();
-                                                                                    
+
                                                                                     // Prevent multiple clicks while pending
                                                                                     if (isPending(tutorial.section)) {
                                                                                         return;
                                                                                     }
-                                                                                    
+
                                                                                     handleSectionClick(tutorial.section, {
                                                                                         ...tutorial,
                                                                                         code: tutorial.section,
@@ -3459,7 +3453,7 @@ function KairollComponent() {
         const loadSelectedSections = async () => {
             try {
                 const { getUserStorageItem } = await import('@/lib/userStorage');
-                
+
                 // Load per-term selections
                 const savedSelectionsByTerm = getUserStorageItem('kairoll-selected-sections-by-term');
                 if (savedSelectionsByTerm) {
@@ -3558,7 +3552,7 @@ function KairollComponent() {
     const handleMobileEventClick = useCallback((event: DailyCalendarEvent, clickEvent: React.MouseEvent | React.TouchEvent) => {
         clickEvent.preventDefault();
         clickEvent.stopPropagation();
-        
+
         setSelectedEvent(event);
         const rect = clickEvent.currentTarget.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -3626,18 +3620,18 @@ function KairollComponent() {
                         endTime: event.end_time,
                         day_of_week: event.day_of_week
                     }));
-                    
+
                     // Only update if we actually have different data to prevent unnecessary re-renders
                     setCalendarEvents(prev => {
                         const prevIds = new Set(prev.map(e => e.id));
                         const newIds = new Set(mappedEvents.map(e => e.id));
-                        
+
                         // If the event sets are the same, don't update
-                        if (prevIds.size === newIds.size && 
+                        if (prevIds.size === newIds.size &&
                             [...prevIds].every(id => newIds.has(id))) {
                             return prev;
                         }
-                        
+
                         return mappedEvents;
                     });
                 } catch (error) {
@@ -3981,7 +3975,7 @@ function KairollComponent() {
     useEffect(() => {
         const handleMobileForceRemoveEvents = (event: any) => {
             if (!isMobile) return;
-            
+
             const { eventIds } = event.detail;
             if (!eventIds || eventIds.length === 0) return;
 
@@ -3990,12 +3984,12 @@ function KairollComponent() {
                 const beforeCount = prev.length;
                 const filteredEvents = prev.filter(e => e.id && !eventIds.includes(e.id));
                 const afterCount = filteredEvents.length;
-                
+
                 // Only log if events were actually removed for debugging
                 if (beforeCount !== afterCount) {
                     console.log(`📱 Mobile: Removed ${beforeCount - afterCount} events from calendar`);
                 }
-                
+
                 return filteredEvents;
             });
         };
@@ -4217,7 +4211,7 @@ function KairollComponent() {
                         theme: e.theme
                     }));
                 }
-            } catch {}
+            } catch { }
 
             const timesOverlap = (aStart: string, aEnd: string, bStart: string, bEnd: string) => {
                 const toMin = (t: string) => {
@@ -4312,7 +4306,7 @@ function KairollComponent() {
             if (pendingAdditions.has(sectionKey)) {
                 return;
             }
-            
+
             // If already selected, ignore duplicate requests
             if (selectedSectionEvents.has(sectionKey)) {
                 return;
@@ -4377,7 +4371,7 @@ function KairollComponent() {
             // Remove from calendar
             const eventIds = selectedSectionEvents.get(sectionKey);
             const pendingKey = pendingAdditions.get(sectionKey);
-            
+
             // If neither selected nor pending, ignore the request
             if (!eventIds && !pendingKey) {
                 return;
@@ -4410,7 +4404,7 @@ function KairollComponent() {
                         const filteredEvents = prev.filter(e => e.id && !eventIds.includes(e.id));
                         return filteredEvents;
                     });
-                    
+
                     // Clear pending state immediately for better mobile responsiveness
                     setPendingAdditions(prev => {
                         const next = new Map(prev);
@@ -4428,7 +4422,7 @@ function KairollComponent() {
                     await Promise.all(eventIds.map(async (eventId) => {
                         let attempts = 0;
                         const maxAttempts = 2; // Try twice for mobile reliability
-                        
+
                         while (attempts < maxAttempts) {
                             try {
                                 await deleteCalendarEvent(eventId);
@@ -4450,7 +4444,7 @@ function KairollComponent() {
                     // Handle failed deletions for mobile
                     if (failedDeletions.length > 0) {
                         console.warn(`⚠️ ${failedDeletions.length} event(s) failed to delete: ${failedDeletions.join(', ')}`);
-                        
+
                         // On mobile, if some events failed to delete, restore them to the UI
                         if (isMobile && failedDeletions.length > 0) {
                             // We need to restore the failed events back to the calendar
@@ -4684,7 +4678,7 @@ function KairollComponent() {
                                                             reference_date: e.reference_date,
                                                             theme: e.theme
                                                         }));
-                                                    } catch {}
+                                                    } catch { }
                                                 }
 
                                                 if (!hasEventsToExport(allEvents)) {
@@ -4892,17 +4886,17 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
                 style={{ left: position.x, top: position.y }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <button 
-                    onClick={onClose} 
+                <button
+                    onClick={onClose}
                     className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                     <X size={16} />
                 </button>
-                
+
                 <div className="pr-8">
                     <h3 className="font-bold text-lg mb-2 text-blue-600 dark:text-blue-400">{courseCode}</h3>
                     <h4 className="font-medium text-sm mb-3 text-gray-700 dark:text-gray-300">{courseTitle}</h4>
-                    
+
                     <div className="space-y-2 text-sm">
                         <div className="flex items-center gap-2">
                             <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -4912,14 +4906,14 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
                                 {formatTime12Hour(event.startTime)} - {formatTime12Hour(event.endTime)}
                             </span>
                         </div>
-                        
+
                         <div className="flex items-center gap-2">
                             <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                             <span>Section {section} ({sectionType})</span>
                         </div>
-                        
+
                         {instructor && (
                             <div className="flex items-center gap-2">
                                 <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -4928,7 +4922,7 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
                                 <span>{instructor}</span>
                             </div>
                         )}
-                        
+
                         <div className="flex items-center gap-2">
                             <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -4949,7 +4943,7 @@ export default function ChatDashboard() {
             try {
                 const { getUserStorageItem } = await import('@/lib/userStorage');
                 const lastView = getUserStorageItem('lastView');
-                
+
                 if (window.innerWidth <= 768) {
                     // On mobile, only allow 'assistant' or 'kairoll'
                     if (lastView === 'assistant' || lastView === 'kairoll') {
@@ -5098,7 +5092,7 @@ export default function ChatDashboard() {
             const lastShown = localStorage.getItem(lastShownKey);
             const now = Date.now();
             const twoDaysInMs = 2 * 24 * 60 * 60 * 1000; // 2 days in milliseconds
-            
+
             if (!lastShown || (now - parseInt(lastShown)) > twoDaysInMs) {
                 setShowGuestPopup(true);
                 localStorage.setItem(lastShownKey, now.toString());
@@ -5153,7 +5147,7 @@ export default function ChatDashboard() {
                 {/* Mobile Navigation - Clean Top Nav Bar (MOBILE ONLY) */}
                 <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white dark:bg-[rgb(var(--secondary-bg))] border-b border-gray-200 dark:border-[rgb(var(--border-color))]">
                     <div className="flex items-center gap-3">
-<Logo size={36} />
+                        <Logo size={36} />
                     </div>
                     <div className="flex items-center gap-3">
                         <select
@@ -5165,7 +5159,7 @@ export default function ChatDashboard() {
                             <option value="kairoll">Kairoll</option>
                         </select>
                         {mounted && !userLoading && (
-                            <AccountDropdown 
+                            <AccountDropdown
                                 user={user}
                                 isAuthenticated={isAuthenticated()}
                                 onLogout={handleLogout}
@@ -5200,7 +5194,7 @@ export default function ChatDashboard() {
 
                         {/* Account Dropdown */}
                         {mounted && !userLoading && (
-                            <AccountDropdown 
+                            <AccountDropdown
                                 user={user}
                                 isAuthenticated={isAuthenticated()}
                                 onLogout={handleLogout}
@@ -5253,62 +5247,62 @@ export default function ChatDashboard() {
                 </div>
             )}
 
-                                {/* Guest Mode Welcome Popup */}
-                    {showGuestPopup && (
-                        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
-                            <div className="bg-white dark:bg-[#121212] rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center border border-gray-200/20 dark:border-white/10 animate-in slide-in-from-bottom-4 duration-300">
-                                {/* Close button */}
-                                <button
-                                    onClick={() => setShowGuestPopup(false)}
-                                    className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 group"
-                                >
-                                    <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                                
-                                {/* Icon */}
-                                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                    <svg className="w-9 h-9 text-white drop-shadow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                        <circle cx="12" cy="8.5" r="3.25"/>
-                                        <path d="M4.5 19.5c1.6-3.4 4.6-5 7.5-5s5.9 1.6 7.5 5"/>
-                                    </svg>
-                                </div>
-                                
-                                {/* Content */}
-                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                                    Welcome to Kairo!
-                                </h2>
-                                <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
-                                    You're now in <span className="font-semibold text-emerald-600 dark:text-emerald-400">guest mode</span>. Explore all features freely. To save your schedule, <a href="/signup" className="underline text-emerald-700 dark:text-emerald-400 hover:opacity-80">sign up</a> or <a href="/login" className="underline text-emerald-700 dark:text-emerald-400 hover:opacity-80">log in</a>.
-                                </p>
-                                
-                                {/* Subtle 5s auto-dismiss hint (no live timer) */}
-                                <div className="relative w-full h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full mb-2 overflow-hidden">
-                                    <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full animate-[grow_5s_linear_forwards]"></div>
-                                </div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Auto-dismiss in 5 seconds…</p>
-                                
-                                
-                                
-                                {/* Action buttons */}
-                                <div className="flex gap-2 mt-4">
-                                    <button
-                                        onClick={() => setShowGuestPopup(false)}
-                                        className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-2 px-3 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 text-sm"
-                                    >
-                                        Got it
-                                    </button>
-                                    <button
-                                        onClick={() => router.push('/signup')}
-                                        className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2 px-3 rounded-lg font-medium hover:from-emerald-700 hover:to-teal-700 transform hover:-translate-y-0.5 transition-all duration-200 shadow-lg text-sm"
-                                    >
-                                        Sign up
-                                    </button>
-                                </div>
-                            </div>
+            {/* Guest Mode Welcome Popup */}
+            {showGuestPopup && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
+                    <div className="bg-white dark:bg-[#121212] rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center border border-gray-200/20 dark:border-white/10 animate-in slide-in-from-bottom-4 duration-300">
+                        {/* Close button */}
+                        <button
+                            onClick={() => setShowGuestPopup(false)}
+                            className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 group"
+                        >
+                            <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        {/* Icon */}
+                        <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg className="w-9 h-9 text-white drop-shadow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="8.5" r="3.25" />
+                                <path d="M4.5 19.5c1.6-3.4 4.6-5 7.5-5s5.9 1.6 7.5 5" />
+                            </svg>
                         </div>
-                    )}
+
+                        {/* Content */}
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                            Welcome to Kairo!
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                            You're now in <span className="font-semibold text-emerald-600 dark:text-emerald-400">guest mode</span>. Explore all features freely. To save your schedule, <a href="/signup" className="underline text-emerald-700 dark:text-emerald-400 hover:opacity-80">sign up</a> or <a href="/login" className="underline text-emerald-700 dark:text-emerald-400 hover:opacity-80">log in</a>.
+                        </p>
+
+                        {/* Subtle 5s auto-dismiss hint (no live timer) */}
+                        <div className="relative w-full h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full mb-2 overflow-hidden">
+                            <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full animate-[grow_5s_linear_forwards]"></div>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Auto-dismiss in 5 seconds…</p>
+
+
+
+                        {/* Action buttons */}
+                        <div className="flex gap-2 mt-4">
+                            <button
+                                onClick={() => setShowGuestPopup(false)}
+                                className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-2 px-3 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 text-sm"
+                            >
+                                Got it
+                            </button>
+                            <button
+                                onClick={() => router.push('/signup')}
+                                className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2 px-3 rounded-lg font-medium hover:from-emerald-700 hover:to-teal-700 transform hover:-translate-y-0.5 transition-all duration-200 shadow-lg text-sm"
+                            >
+                                Sign up
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 } 
