@@ -11,10 +11,15 @@ interface GPTResponse {
 const INTENT_MAP: Record<string, string> = {
     "when_is_course_taken": "course_timing_query",
     "course_info": "course_info",
-    "build_schedule": "build_schedule",
-    "generate_schedule": "build_schedule",
+    "build_schedule": "auto_schedule_builder",
+    "generate_schedule": "auto_schedule_builder",
+    "schedule_generation": "auto_schedule_builder",
+    "auto_schedule": "auto_schedule_builder",
+    "schedule_adjustment": "schedule_adjustment",
+    "modify_schedule": "schedule_adjustment",
+    "adjust_schedule": "schedule_adjustment",
     "reset_chat": "reset_chat",
-    "schedule_builder": "build_schedule", // Future-proof example
+    "schedule_builder": "auto_schedule_builder", // Future-proof example
     "course_timing": "course_timing_query",
     "course_details": "course_info",
     "program_sequence": "program_sequence",
@@ -124,14 +129,100 @@ export function routeToLogic(intent: string, course_codes: string[], userMessage
             return handleCoreqCheck(course_codes, userMessage);
         case 'course_list':
             return handleCourseList(course_codes, userMessage);
-        case 'build_schedule':
-            return handleBuildSchedule(userMessage);
+        case 'auto_schedule_builder':
+            return handleAutoScheduleBuilder(userMessage);
+        case 'schedule_adjustment':
+            return handleScheduleAdjustment(userMessage);
         case 'program_sequence':
             return handleProgramSequence(userMessage);
         case 'reset_chat':
             return handleResetChat(userMessage);
         default:
             return handleUnknownIntent(userMessage);
+    }
+}
+
+// Auto Schedule Builder handlers
+async function handleAutoScheduleBuilder(userMessage: string) {
+    try {
+        const { autoScheduleBuilderService } = await import('@/services/autoScheduleBuilderService');
+        
+        // Parse time preferences from the message
+        const preferences = autoScheduleBuilderService.parseTimePreferences(userMessage);
+        
+        // Build the schedule
+        const result = await autoScheduleBuilderService.buildSchedule({
+            message: userMessage,
+            preferences
+        });
+        
+        if (result.success) {
+            const totalCourses = result.schedules.reduce((total, schedule) => total + schedule.total_courses, 0);
+            const termsList = result.schedules.map(s => s.term_display).join(' and ');
+            
+            return {
+                type: 'auto_schedule_success',
+                message: `✅ ${result.message}\n\nBuilt schedules for ${termsList} with ${totalCourses} total courses.\n\nYou can view your schedule in the calendar or make adjustments by saying things like:\n• "Remove CSI 2110"\n• "No Friday classes"\n• "Avoid 8am classes"\n• "Prefer Prof. Smith"`,
+                schedules: result.schedules,
+                events: autoScheduleBuilderService.convertToCalendarEvents(result.schedules)
+            };
+        } else {
+            return {
+                type: 'auto_schedule_error',
+                message: `❌ ${result.message}\n\nTry being more specific, like:\n• "Build my Fall schedule"\n• "Generate Winter schedule for Software Engineering Year 2"\n• "Create my schedule with no 8am classes"`
+            };
+        }
+    } catch (error) {
+        console.error('Error in auto schedule builder:', error);
+        return {
+            type: 'error',
+            message: 'Sorry, I encountered an error while building your schedule. Please try again.'
+        };
+    }
+}
+
+async function handleScheduleAdjustment(userMessage: string) {
+    try {
+        const { autoScheduleBuilderService } = await import('@/services/autoScheduleBuilderService');
+        
+        // Get current schedules first
+        const currentSchedules = await autoScheduleBuilderService.getCurrentSchedules();
+        
+        if (!currentSchedules.success || currentSchedules.schedules.length === 0) {
+            return {
+                type: 'schedule_adjustment_error',
+                message: "❌ No active schedules found to adjust. Please build a schedule first by saying something like 'Build my Fall schedule'."
+            };
+        }
+        
+        // For now, apply adjustment to the first schedule
+        // TODO: Could be enhanced to detect which schedule to adjust
+        const scheduleId = currentSchedules.schedules[0].id;
+        
+        const result = await autoScheduleBuilderService.adjustSchedule(scheduleId, userMessage);
+        
+        if (result.success) {
+            // Get updated schedules
+            const updatedSchedules = await autoScheduleBuilderService.getCurrentSchedules();
+            
+            return {
+                type: 'schedule_adjustment_success',
+                message: `✅ ${result.message}\n\nYour schedule has been updated. You can make more adjustments or view the changes in your calendar.`,
+                schedules: updatedSchedules.success ? updatedSchedules.schedules : [],
+                events: updatedSchedules.success ? autoScheduleBuilderService.convertToCalendarEvents(updatedSchedules.schedules) : []
+            };
+        } else {
+            return {
+                type: 'schedule_adjustment_error',
+                message: `❌ ${result.message}\n\nTry adjustments like:\n• "Remove CSI 2110"\n• "No Friday labs"\n• "Avoid 8am classes"`
+            };
+        }
+    } catch (error) {
+        console.error('Error in schedule adjustment:', error);
+        return {
+            type: 'error',
+            message: 'Sorry, I encountered an error while adjusting your schedule. Please try again.'
+        };
     }
 }
 
@@ -233,47 +324,10 @@ async function handleCourseList(course_codes: string[], userMessage: string) {
     return { message: `Course list query detected for: ${course_codes.join(', ')}` };
 }
 
+// Legacy schedule builder - deprecated, redirects to new auto schedule builder
 async function handleBuildSchedule(userMessage: string) {
-    console.log('[BUILD_SCHEDULE] Starting schedule generation for:', userMessage);
-
-    try {
-        // Import the schedule generator service
-        const { scheduleGeneratorService } = await import('../services/scheduleGeneratorService');
-
-        console.log('[BUILD_SCHEDULE] Calling scheduleGeneratorService.generateSchedule');
-        // Use the existing schedule generation logic
-        const result = await scheduleGeneratorService.generateSchedule(userMessage);
-
-        console.log('[BUILD_SCHEDULE] Schedule generation result:', {
-            success: result.success,
-            eventsCount: result.events?.length || 0,
-            matchedCourses: result.matched_courses?.length || 0,
-            unmatchedCourses: result.unmatched_courses?.length || 0,
-            errors: result.errors?.length || 0
-        });
-
-        if (result.success && result.events && result.events.length > 0) {
-            console.log('[BUILD_SCHEDULE] Generated events for calendar insertion:', result.events);
-            return {
-                message: result.message,
-                success: result.success,
-                events: result.events,
-                action: 'create_schedule_events'
-            };
-        } else {
-            console.log('[BUILD_SCHEDULE] No events generated. Error details:', result.errors);
-            return {
-                message: result.message || "I couldn't generate a schedule. Please check your program and year details.",
-                success: false
-            };
-        }
-    } catch (error) {
-        console.error('[BUILD_SCHEDULE] Error in handleBuildSchedule:', error);
-        return {
-            message: "Sorry, I encountered an error while generating your schedule. Please try again.",
-            success: false
-        };
-    }
+    console.warn('[DEPRECATED] handleBuildSchedule called - redirecting to auto schedule builder');
+    return await handleAutoScheduleBuilder(userMessage);
 }
 
 async function handleProgramSequence(userMessage: string) {

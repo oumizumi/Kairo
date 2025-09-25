@@ -795,69 +795,13 @@ Build naturally on what was discussed - reference previous topics when relevant 
                     'hasOfficialDescription': course_info['hasOfficialDescription']
                     }
             
-            # FALLBACK: If course not found in scraped data, use hardcoded knowledge
-            fallback_courses = {
-                'ITI1120': {
-                    'courseCode': 'ITI1120',
-                    'courseTitle': 'Introduction to Computing I',
-                    'units': '3',
-                    'description': 'Introduction to computing and programming using Python. Covers basic programming concepts, data structures, and problem-solving techniques. Topics include variables, control structures, functions, lists, and file I/O.',
-                    'prerequisites': None,
-                    'credits': 3,
-                    'hasOfficialDescription': True
-                },
-                'ITI1121': {
-                    'courseCode': 'ITI1121', 
-                    'courseTitle': 'Introduction to Computing II',
-                    'units': '3',
-                    'description': 'Continuation of ITI1120. Object-oriented programming concepts, advanced data structures, algorithm design, and software development practices using Java.',
-                    'prerequisites': 'ITI1120',
-                    'credits': 3,
-                    'hasOfficialDescription': True
-                },
-                'CSI2110': {
-                    'courseCode': 'CSI2110',
-                    'courseTitle': 'Data Structures and Algorithms',
-                    'units': '3', 
-                    'description': 'Introduction to the design and analysis of efficient data structures and algorithms. Topics include lists, stacks, queues, trees, graphs, sorting, and searching.',
-                    'prerequisites': 'ITI1121',
-                    'credits': 3,
-                    'hasOfficialDescription': True
-                },
-                'CSI2132': {
-                    'courseCode': 'CSI2132',
-                    'courseTitle': 'Databases I',
-                    'units': '3',
-                    'description': 'Introduction to database concepts, relational model, SQL, database design, and database management systems.',
-                    'prerequisites': 'ITI1121',
-                    'credits': 3,
-                    'hasOfficialDescription': True
-                }
-            }
-            
-            # Try to find in fallback data
-            normalized_code = course_code.upper().replace(' ', '')
-            for fallback_code, fallback_info in fallback_courses.items():
-                if normalized_code == fallback_code.replace(' ', ''):
-                    print(f"[KAIRO DEBUG] Using fallback data for {course_code}")
-                    return fallback_info
+            # No hardcoded fallback data - rely only on scraped course data
             
             return None
         except Exception as e:
             print(f"Error getting course data for {course_code}: {e}")
             
-            # EMERGENCY FALLBACK for ITI1120 specifically
-            if 'ITI1120' in course_code.upper().replace(' ', ''):
-                print(f"[KAIRO DEBUG] Using emergency fallback for ITI1120")
-                return {
-                    'courseCode': 'ITI1120',
-                    'courseTitle': 'Introduction to Computing I',
-                    'units': '3',
-                    'description': 'Introduction to computing and programming using Python. This course covers fundamental programming concepts including variables, data types, control structures, functions, lists, and basic algorithms.',
-                    'prerequisites': None,
-                    'credits': 3,
-                    'hasOfficialDescription': True
-                }
+            # No emergency fallback - rely only on scraped course data
             
             return None
 
@@ -3507,7 +3451,161 @@ class ProfessorAutoSyncView(APIView):
                 'message': f'Failed to control auto-sync: {str(e)}'
             }, status=500)
 
-# Schedule Generation API
+# Auto Schedule Builder API
+class AutoScheduleBuilderView(APIView):
+    """New auto schedule builder that works with any program and uses scraper data"""
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        """Build a new auto-generated schedule"""
+        try:
+            from .services.auto_schedule_builder_service import auto_schedule_service
+            
+            # Extract request data
+            request_text = request.data.get('message', request.data.get('request', ''))
+            term = request.data.get('term')
+            preferences = request.data.get('preferences', {})
+            
+            if not request_text:
+                return Response({
+                    'success': False,
+                    'message': 'Please provide a schedule request message'
+                }, status=400)
+            
+            # Build the schedule
+            result = auto_schedule_service.build_schedule(
+                user=request.user,
+                request_text=request_text,
+                term=term,
+                preferences=preferences
+            )
+            
+            return Response(result)
+            
+        except Exception as e:
+            logger.error(f"[AUTO_SCHEDULE] Error in schedule builder API: {e}")
+            return Response({
+                'success': False,
+                'message': f'Error building schedule: {str(e)}',
+                'error': str(e)
+            }, status=500)
+    
+    def get(self, request):
+        """Get user's current schedules"""
+        try:
+            from .models import Schedule, ScheduleEntry
+            
+            # Get user's active schedules
+            schedules = Schedule.objects.filter(
+                user=request.user,
+                is_active=True
+            ).prefetch_related('entries')
+            
+            schedule_data = []
+            for schedule in schedules:
+                entries = []
+                for entry in schedule.entries.all():
+                    entries.append({
+                        'id': str(entry.id),
+                        'course_code': entry.course_code,
+                        'course_title': entry.course_title,
+                        'section_code': entry.section_code,
+                        'component': entry.component,
+                        'day_of_week': entry.day_of_week,
+                        'start_time': entry.start_time.strftime('%H:%M'),
+                        'end_time': entry.end_time.strftime('%H:%M'),
+                        'instructor': entry.instructor,
+                        'location': entry.location,
+                        'theme': entry.color,  # Using color field for theme
+                        'start_date': entry.start_date.isoformat(),
+                        'end_date': entry.end_date.isoformat()
+                    })
+                
+                schedule_data.append({
+                    'id': str(schedule.id),
+                    'term': schedule.term,
+                    'term_display': schedule.term_display,
+                    'created_at': schedule.created_at.isoformat(),
+                    'entries': entries,
+                    'total_courses': len(set(entry.course_code for entry in schedule.entries.all()))
+                })
+            
+            return Response({
+                'success': True,
+                'schedules': schedule_data,
+                'count': len(schedule_data)
+            })
+            
+        except Exception as e:
+            logger.error(f"[AUTO_SCHEDULE] Error getting schedules: {e}")
+            return Response({
+                'success': False,
+                'message': f'Error retrieving schedules: {str(e)}'
+            }, status=500)
+
+
+class ScheduleAdjustmentView(APIView):
+    """Handle natural language schedule adjustments"""
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, schedule_id):
+        """Apply natural language adjustments to a schedule"""
+        try:
+            from .services.nlp_schedule_adjustments_service import nlp_adjustments_service
+            
+            adjustment_request = request.data.get('adjustment', request.data.get('message', ''))
+            
+            if not adjustment_request:
+                return Response({
+                    'success': False,
+                    'message': 'Please provide an adjustment request'
+                }, status=400)
+            
+            # Process the adjustment
+            result = nlp_adjustments_service.process_adjustment(
+                user=request.user,
+                schedule_id=schedule_id,
+                adjustment_request=adjustment_request
+            )
+            
+            return Response(result)
+            
+        except Exception as e:
+            logger.error(f"[SCHEDULE_ADJUST] Error processing adjustment: {e}")
+            return Response({
+                'success': False,
+                'message': f'Error processing adjustment: {str(e)}',
+                'error': str(e)
+            }, status=500)
+
+
+class ScheduleDataVersionView(APIView):
+    """Check scraper data version and invalidate cache if needed"""
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        """Get current dataset version"""
+        try:
+            from .services.scraper_integration_service import scraper_service
+            
+            current_version = scraper_service.check_dataset_version()
+            cache_invalidated = scraper_service.invalidate_cache_if_stale(current_version)
+            
+            return Response({
+                'success': True,
+                'dataset_version': current_version,
+                'cache_invalidated': cache_invalidated
+            })
+            
+        except Exception as e:
+            logger.error(f"[DATA_VERSION] Error checking version: {e}")
+            return Response({
+                'success': False,
+                'message': f'Error checking data version: {str(e)}'
+            }, status=500)
+
+
+# Legacy Schedule Generation API (keep for backward compatibility)
 class ScheduleGenerationView(APIView):
     permission_classes = [IsAuthenticated]
     

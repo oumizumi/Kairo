@@ -1371,6 +1371,47 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                         // Handle different actions
                         if (intentResult.action === 'reset_chat') {
                             clearConversation();
+                        } else if (intentResult.type === 'auto_schedule_success' && intentResult.events && intentResult.events.length > 0) {
+                            try {
+                                // Create calendar events for the auto-generated schedule
+                                const createdEvents = [];
+                                for (const event of intentResult.events) {
+                                    try {
+                                        const calendarEventData = {
+                                            title: event.title,
+                                            start_time: event.start_time,
+                                            end_time: event.end_time,
+                                            day_of_week: event.day_of_week,
+                                            start_date: event.start_date,
+                                            end_date: event.end_date,
+                                            description: event.description,
+                                            professor: event.instructor || '',
+                                            recurrence_pattern: 'weekly' as const,
+                                            theme: event.theme || 'blue-purple-magenta'
+                                        };
+                                        const apiEvent = await createCalendarEvent(calendarEventData);
+                                        createdEvents.push(apiEvent);
+                                    } catch (error) {
+                                        console.error('Failed to create auto schedule calendar event:', error);
+                                    }
+                                }
+
+                                // Trigger calendar refresh if events were created
+                                if (onEventAdded && createdEvents.length > 0) {
+                                    onEventAdded();
+                                }
+                            } catch (error) {
+                                console.error('Error creating auto schedule events:', error);
+                            }
+                        } else if (intentResult.type === 'schedule_adjustment_success' && intentResult.events && intentResult.events.length > 0) {
+                            try {
+                                // For schedule adjustments, refresh the calendar to show changes
+                                if (onEventAdded) {
+                                    onEventAdded();
+                                }
+                            } catch (error) {
+                                console.error('Error handling schedule adjustment:', error);
+                            }
                         } else if (intentResult.action === 'create_schedule_events' && intentResult.events && intentResult.events.length > 0) {
                             try {
                                 // Create calendar events for the generated schedule

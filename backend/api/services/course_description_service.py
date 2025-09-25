@@ -57,26 +57,9 @@ class CourseDescriptionService:
                     continue
             
             if not file_found:
-                print("❌ No valid course data file found, using hardcoded sample data")
-                # Hardcoded sample data for ITI courses as fallback
-                data = {
-                    "ITI": [
-                        {
-                            "courseCode": "ITI1120",
-                            "courseTitle": "Introduction to Computing I",
-                            "units": "3",
-                            "description": "Introduction to computing and programming using Python. Covers basic programming concepts, data structures, and problem-solving techniques.",
-                            "prerequisites": ""
-                        },
-                        {
-                            "courseCode": "ITI1121",
-                            "courseTitle": "Introduction to Computing II", 
-                            "units": "3",
-                            "description": "Continuation of ITI1120. Object-oriented programming, advanced data structures, and algorithm design.",
-                            "prerequisites": "ITI1120"
-                        }
-                    ]
-                }
+                print("❌ No valid course data file found, using empty data")
+                # No hardcoded fallback data - rely only on scraped course data
+                data = {}
             
             # Flatten the data and store with multiple key formats
             cls._course_data = {}
@@ -113,17 +96,8 @@ class CourseDescriptionService:
             
         except Exception as e:
             print(f"❌ Fatal error loading course data: {e}")
-            # Return minimal hardcoded data as absolute fallback
-            cls._course_data = {
-                "ITI1120": {
-                    'courseCode': "ITI1120",
-                    'courseTitle': "Introduction to Computing I",
-                    'units': "3", 
-                    'description': "Introduction to computing and programming using Python.",
-                    'prerequisites': "",
-                    'subject': "ITI"
-                }
-            }
+            # Return empty data - no hardcoded fallback
+            cls._course_data = {}
             return cls._course_data
     
     @classmethod

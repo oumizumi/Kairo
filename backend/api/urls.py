@@ -28,7 +28,10 @@ from .views import (
     professor_rmp_data, # Add RMP endpoints
     professor_search,
     rmp_stats,
-    ScheduleGenerationView, # Add ScheduleGenerationView import
+    ScheduleGenerationView, # Add ScheduleGenerationView import (legacy)
+    AutoScheduleBuilderView, # Add new auto schedule builder
+    ScheduleAdjustmentView, # Add schedule adjustment view
+    ScheduleDataVersionView, # Add data version check view
     UserPreferencesView, # Add UserPreferencesView import
 )
 from .calendar_views import UserCalendarViewSet, export_ics, SharedScheduleViewSet, get_shared_schedule
@@ -67,7 +70,12 @@ urlpatterns = [
     path('ai/intent/', IntentDetectionView.as_view(), name='ai-intent'),
     # AI Classification URL
     path('ai/classify/', AIClassificationView.as_view(), name='ai-classify'),
-    # Schedule Generation URL
+    # Auto Schedule Builder URLs (new system)
+    path('auto-schedule/', AutoScheduleBuilderView.as_view(), name='auto-schedule-builder'),
+    path('auto-schedule/adjust/<uuid:schedule_id>/', ScheduleAdjustmentView.as_view(), name='schedule-adjustment'),
+    path('auto-schedule/version/', ScheduleDataVersionView.as_view(), name='schedule-data-version'),
+    
+    # Legacy Schedule Generation URL (backward compatibility)
     path('schedule/generate/', ScheduleGenerationView.as_view(), name='schedule-generate'),
     path('health-check/', HealthCheckView.as_view(), name='health-check-dup'), # Add this line
     path('health-check', HealthCheckView.as_view(), name='health-check-no-slash'),

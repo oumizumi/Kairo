@@ -372,6 +372,122 @@ class UserPreferences(models.Model):
         return f"{self.user.username} - {self.key}"
 
 
+class Schedule(models.Model):
+    """Auto-generated schedules for users"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auto_schedules')
+    
+    # Schedule metadata
+    term = models.CharField(max_length=50)  # e.g., "2025FALL", "2026WINTER"
+    term_display = models.CharField(max_length=100)  # e.g., "Fall 2025", "Winter 2026"
+    
+    # Generation preferences and context
+    preferences = models.JSONField(default=dict, blank=True)  # Time preferences, constraints, etc.
+    generation_context = models.TextField(blank=True)  # Original user request
+    
+    # Status and metadata
+    is_active = models.BooleanField(default=True)  # Only one active schedule per user per term
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    # Scraper version tracking for invalidation
+    dataset_version = models.CharField(max_length=100, blank=True)  # ETag or version from scraper
+    
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', 'term', 'is_active']),
+            models.Index(fields=['user', 'created_at']),
+            models.Index(fields=['dataset_version']),
+        ]
+        # Ensure only one active schedule per user per term
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'term'],
+                condition=models.Q(is_active=True),
+                name='unique_active_schedule_per_user_term'
+            )
+        ]
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.term_display} Schedule"
+
+
+class ScheduleEntry(models.Model):
+    """Individual course sections within a schedule"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='entries')
+    
+    # Course identification
+    course_code = models.CharField(max_length=20)  # e.g., "CSI2110"
+    course_title = models.CharField(max_length=255)  # e.g., "Data Structures and Algorithms"
+    section_code = models.CharField(max_length=20)  # e.g., "A01-LEC"
+    
+    # Section details
+    component = models.CharField(max_length=10)  # e.g., "LEC", "LAB", "DGD", "TUT"
+    
+    # Schedule information
+    day_of_week = models.CharField(max_length=20)  # e.g., "Monday"
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    
+    # Additional information
+    instructor = models.CharField(max_length=255, blank=True)
+    location = models.CharField(max_length=255, blank=True)
+    class_number = models.CharField(max_length=20, blank=True)  # Unique identifier from scraper
+    
+    # Visual styling
+    color = models.CharField(max_length=50, blank=True)  # Stable color for this course
+    
+    # Date range for term
+    start_date = models.DateField()
+    end_date = models.DateField()
+    
+    class Meta:
+        ordering = ['day_of_week', 'start_time']
+        indexes = [
+            models.Index(fields=['schedule', 'course_code']),
+            models.Index(fields=['schedule', 'day_of_week', 'start_time']),
+        ]
+    
+    def __str__(self):
+        return f"{self.course_code} {self.section_code} - {self.day_of_week} {self.start_time}"
+
+
+class ScheduleAdjustment(models.Model):
+    """Track natural language adjustments made to schedules"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='adjustments')
+    
+    # Adjustment details
+    user_request = models.TextField()  # Original natural language request
+    adjustment_type = models.CharField(max_length=50)  # e.g., "remove_course", "change_time", "prefer_instructor"
+    
+    # What was changed
+    affected_courses = models.JSONField(default=list)  # List of course codes affected
+    previous_state = models.JSONField(default=dict)  # Previous schedule state
+    new_state = models.JSONField(default=dict)  # New schedule state
+    
+    # Processing status
+    success = models.BooleanField(default=False)
+    error_message = models.TextField(blank=True)
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['schedule', 'created_at']),
+            models.Index(fields=['adjustment_type']),
+        ]
+    
+    def __str__(self):
+        return f"{self.schedule} - {self.adjustment_type} ({self.created_at})"
+
+
 
 
 
