@@ -13,13 +13,13 @@ const TABS: Array<{
   subtitle: string;
   icon: any;
 }> = [
-  { key: 'schedule', title: 'Smart Schedule Generation', subtitle: 'Conflict‑free, section‑aware planning', icon: Calendar },
-  { key: 'intelligence', title: 'Course & Section Intelligence', subtitle: 'Real sections and availability', icon: BookOpen },
-  { key: 'assistant', title: 'Ask Anything — GPT', subtitle: 'Programs, sequences, prerequisites', icon: MessageSquare },
-  { key: 'mail', title: 'Smart Mail', subtitle: 'AI‑powered professional emails', icon: Mail },
-];
+    { key: 'schedule', title: 'Smart Schedule Generation', subtitle: 'Conflict‑free, section‑aware planning', icon: Calendar },
+    { key: 'intelligence', title: 'Course & Section Intelligence', subtitle: 'Real sections and availability', icon: BookOpen },
+    { key: 'assistant', title: 'Ask Anything — GPT', subtitle: 'Programs, sequences, prerequisites', icon: MessageSquare },
+    { key: 'mail', title: 'Smart Mail', subtitle: 'AI‑powered professional emails', icon: Mail },
+  ];
 
-const HOW_IT_WORKS: Array<{ icon: any; title: string; description: string }>= [
+const HOW_IT_WORKS: Array<{ icon: any; title: string; description: string }> = [
   { icon: Sparkles, title: 'Tell Kairo your goals', description: 'Pick your program/term or paste courses. Kairo understands prerequisites automatically.' },
   { icon: Clock, title: 'We build a schedule', description: 'Open sections first, balanced days, no conflicts — labs and tutorials included.' },
   { icon: Shield, title: 'Save & sync', description: 'One click to add to your calendar. Update anytime in the chat.' },
@@ -137,7 +137,7 @@ export default function Features() {
         </div>
 
         {/* Showcase container */}
-        <div 
+        <div
           className="rounded-3xl overflow-hidden border-2 border-gray-200 dark:border-[rgb(var(--border-color))] bg-white dark:bg-[rgb(var(--secondary-bg))] shadow-xl"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -153,18 +153,24 @@ export default function Features() {
                       key={key}
                       onMouseEnter={() => handleTabInteraction(key)}
                       onClick={() => handleTabInteraction(key)}
-                      className={`w-full text-left rounded-2xl p-4 transition-all border ${
-                        selected
-                          ? 'bg-white dark:bg-white/5 border-gray-300 dark:border-[rgb(var(--border-color))] shadow-sm'
-                          : 'bg-white/60 dark:bg-white/[0.02] hover:bg-white dark:hover:bg-white/[0.04] border-gray-200 dark:border-[rgb(var(--border-color))]'
-                      }`}
+                      className={`w-full text-left rounded-2xl p-4 transition-all border ${selected
+                        ? 'bg-white dark:bg-white/5 border-gray-300 dark:border-[rgb(var(--border-color))] shadow-sm'
+                        : 'bg-white/60 dark:bg-white/[0.02] hover:bg-white dark:hover:bg-white/[0.04] border-gray-200 dark:border-[rgb(var(--border-color))]'
+                        }`}
                     >
                       <div className="flex items-start gap-3">
                         <div className={`w-9 h-9 rounded-lg flex items-center justify-center border ${selected ? 'bg-black dark:bg-white' : 'bg-gray-900/90 dark:bg-white/10'} ${selected ? 'border-black/10 dark:border-[rgb(var(--border-color))]' : 'border-gray-200 dark:border-[rgb(var(--border-color))]'}`}>
                           <Icon className={`w-5 h-5 ${selected ? 'text-white dark:text-black' : 'text-white dark:text-white/80'}`} />
                         </div>
-                        <div>
-                          <div className="text-sm font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">{title}</div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <div className="text-sm font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">{title}</div>
+                            {key === 'schedule' && (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 text-orange-800 dark:text-orange-300 border border-orange-200 dark:border-orange-700/50">
+                                Coming Soon
+                              </span>
+                            )}
+                          </div>
                           <div className="text-xs text-gray-600 dark:text-[rgb(var(--text-secondary))]">{subtitle}</div>
                         </div>
                       </div>
@@ -175,7 +181,7 @@ export default function Features() {
 
               {/* Quick hits */}
               <div className="mt-6 grid grid-cols-2 gap-2 text-xs">
-                {[['Zero conflicts','Schedule'],['Real ratings','Courses'],['Instant answers','Assistant'],['Pro formatting','Mail']].map(([label, tag]) => (
+                {[['Zero conflicts', 'Schedule'], ['Real ratings', 'Courses'], ['Instant answers', 'Assistant'], ['Pro formatting', 'Mail']].map(([label, tag]) => (
                   <div key={label} className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-white/70 dark:bg-white/[0.03] px-2 py-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                     <span className="text-gray-800 dark:text-[rgb(var(--text-primary))]">{label}</span>
@@ -200,7 +206,12 @@ export default function Features() {
                   >
                     <div className="h-full rounded-2xl border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50/50 dark:bg-[rgb(var(--card-bg))] p-4 sm:p-6 flex flex-col">
                       <div className="mb-4">
-                        <h4 className="text-lg font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">Smart Schedule Generation</h4>
+                        <div className="flex items-center gap-3 flex-wrap mb-2">
+                          <h4 className="text-lg font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">Smart Schedule Generation</h4>
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 text-orange-800 dark:text-orange-300 border border-orange-200 dark:border-orange-700/50 shadow-sm">
+                            Coming Soon
+                          </span>
+                        </div>
                         <p className="text-sm text-gray-600 dark:text-[rgb(var(--text-secondary))]">Conflict-free, optimized timetables</p>
                       </div>
 
@@ -226,9 +237,9 @@ export default function Features() {
                             <div className="text-center font-medium text-gray-700 dark:text-[rgb(var(--text-primary))]">Mon</div>
                             <div className="text-center font-medium text-gray-700 dark:text-[rgb(var(--text-primary))]">Wed</div>
                             <div className="text-center font-medium text-gray-700 dark:text-[rgb(var(--text-primary))]">Fri</div>
-                            <div className="bg-blue-100 dark:bg-blue-600/15 p-1 rounded text-center">CSI2110<br/>10:00</div>
-                            <div className="bg-green-100 dark:bg-green-600/15 p-1 rounded text-center">CSI3105<br/>11:30</div>
-                            <div className="bg-purple-100 dark:bg-purple-600/15 p-1 rounded text-center">CSI4106<br/>14:30</div>
+                            <div className="bg-blue-100 dark:bg-blue-600/15 p-1 rounded text-center">CSI2110<br />10:00</div>
+                            <div className="bg-green-100 dark:bg-green-600/15 p-1 rounded text-center">CSI3105<br />11:30</div>
+                            <div className="bg-purple-100 dark:bg-purple-600/15 p-1 rounded text-center">CSI4106<br />14:30</div>
                           </div>
                         </div>
 
@@ -404,7 +415,7 @@ export default function Features() {
 
         {/* Secondary badges */}
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-          {['Fast setup','No conflicts','Real data','Privacy-first'].map((label) => (
+          {['Fast setup', 'No conflicts', 'Real data', 'Privacy-first'].map((label) => (
             <div key={label} className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.03] py-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-500" />
               <span className="text-gray-800 dark:text-gray-200">{label}</span>
@@ -438,22 +449,22 @@ export default function Features() {
               ? (courseCount >= 10000 ? '10,000+' : courseCount.toLocaleString())
               : '10,000+';
             return (
-          <StatsMarquee
-            speed={20}
-            respectReducedMotion={true}
-            items={[
-              { value: '2–3 min', label: 'to first schedule' },
-              { value: '0', label: 'time conflicts' },
-              { value: coursesDisplay, label: 'courses indexed' },
-              { value: '1-click', label: 'calendar sync' },
-              { value: '100%', label: 'professional emails' },
-            ]}
-            wrapperClassName="py-2 px-4 sm:px-6"
-            rowClassName="space-x-6 md:space-x-8"
-            chipClassName="flex shrink-0 items-center justify-center rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.02] px-6 py-5 text-center w-[200px] sm:w-[220px] md:w-[240px] lg:w-[260px] xl:w-[280px] h-[88px]"
-            valueClassName="text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white whitespace-nowrap"
-            labelClassName="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap"
-          />
+              <StatsMarquee
+                speed={20}
+                respectReducedMotion={true}
+                items={[
+                  { value: '2–3 min', label: 'to first schedule' },
+                  { value: '0', label: 'time conflicts' },
+                  { value: coursesDisplay, label: 'courses indexed' },
+                  { value: '1-click', label: 'calendar sync' },
+                  { value: '100%', label: 'professional emails' },
+                ]}
+                wrapperClassName="py-2 px-4 sm:px-6"
+                rowClassName="space-x-6 md:space-x-8"
+                chipClassName="flex shrink-0 items-center justify-center rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.02] px-6 py-5 text-center w-[200px] sm:w-[220px] md:w-[240px] lg:w-[260px] xl:w-[280px] h-[88px]"
+                valueClassName="text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white whitespace-nowrap"
+                labelClassName="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap"
+              />
             );
           })()}
         </div>
