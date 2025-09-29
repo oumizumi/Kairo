@@ -35,6 +35,8 @@ from .views import (
     UserPreferencesView, # Add UserPreferencesView import
 )
 from .calendar_views import UserCalendarViewSet, export_ics, SharedScheduleViewSet, get_shared_schedule
+from .views import ai_enqueue, ai_status
+from .views_ai import ai_router
 
 app_name = 'api'
 
@@ -90,6 +92,12 @@ urlpatterns = [
     path('contact/send/', ContactEmailView.as_view(), name='contact-send'),
     # Course Data API
     path('data/courses-complete/', CourseDataView.as_view(), name='courses-complete'),
+    # Unified AI Router (fast path + background upgrade + limits)
+    path('ai/router', ai_router, name='ai-router'),
+    # AI async endpoints
+    path('ai/enqueue', ai_enqueue, name='ai-enqueue-no-slash'),
+    path('ai/enqueue/', ai_enqueue, name='ai-enqueue'),
+    path('ai/status/<str:task_id>/', ai_status, name='ai-status'),
     
     # RMP Data APIs
     path('professors/rmp/', professor_rmp_data, name='professor-rmp-data'),

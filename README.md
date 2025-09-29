@@ -135,6 +135,44 @@ NEXT_PUBLIC_API_URL=https://your-backend-domain.vercel.app
   - Copies `backend/` and `scrapers/` into the image and uses `scripts/backend/railway_start.sh` as the entrypoint.
 - Scrapers have a separate `scrapers/Dockerfile` and Render blueprint at `scrapers/render.yaml`.
 
+### Production Hardening and Scaling
+- Postgres required via `DATABASE_URL` (SQLite fallback removed)
+- Optional read replica via `DATABASE_URL_REPLICA` and router `kairo.db_router.ReadReplicaRouter`
+- PgBouncer support via `USE_PGBOUNCER=1` (sets `CONN_MAX_AGE=0`)
+- Redis cache configured (`REDIS_CACHE_URL`), Conditional GET middleware enabled
+- Health endpoints at `/healthz` and `/readyz`
+- Gunicorn gthread workers via `gunicorn.conf.py`
+- Celery workers for AI tasks (`REDIS_BROKER_URL`)
+- Rate limiting and circuit breaker added for AI enqueue path
+
+Environment variables (required): `DATABASE_URL`, `REDIS_CACHE_URL`, `REDIS_BROKER_URL`, `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS`.
+Optional: `USE_PGBOUNCER`, `DATABASE_URL_REPLICA`, `WEB_CONCURRENCY`, `WEB_THREADS`, `REQUESTS_DEFAULT_CONNECT_TIMEOUT`, `REQUESTS_DEFAULT_READ_TIMEOUT`.
+
+Local run example:
+```bash
+cd backend
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+export DATABASE_URL=postgres://user:pass@localhost:5432/db
+export REDIS_CACHE_URL=redis://localhost:6379/1
+export REDIS_BROKER_URL=redis://localhost:6379/2
+export DJANGO_SECRET_KEY=dev
+python manage.py migrate
+gunicorn kairo.wsgi:application -c ../gunicorn.conf.py
+```
+
+Celery worker:
+```bash
+cd backend
+celery -A kairo worker --concurrency=${CELERY_CONCURRENCY:-16} -Ofair
+```
+
+### k6 load tests
+```bash
+k6 run -e BASE_URL=http://localhost:8000 k6/k6_cached_reads.js
+k6 run -e BASE_URL=http://localhost:8000 k6/k6_ai_enqueue.js
+```
+
 ### Scripts
 - `scripts/backend/railway_start.sh`: Production startup (gunicorn) used in containers/Railway.
 - `scripts/backend/railway_db_fix.sh`: Utility to reconcile DB on Railway.

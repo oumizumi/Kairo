@@ -28,6 +28,8 @@ from rest_framework import viewsets, filters
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
 import logging
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -2899,6 +2901,7 @@ class ExamEventViewSet(viewsets.ModelViewSet):
 
 # --- Course Views ---
 
+@method_decorator(cache_page(90), name='list')
 class CourseViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
@@ -3037,6 +3040,7 @@ from django.http import JsonResponse
 from django.views import View
 from pathlib import Path
 
+@method_decorator(cache_page(120), name='dispatch')
 class CourseDataView(View):
     """Serve the complete course data JSON"""
     
@@ -3124,6 +3128,17 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 import json
 import os
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_exempt
+try:
+    from ratelimit.decorators import ratelimit
+except Exception:  # pragma: no cover
+    def ratelimit(*args, **kwargs):
+        def _wrap(fn):
+            return fn
+        return _wrap
+from celery.result import AsyncResult
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -3321,6 +3336,55 @@ def rmp_stats(request):
             'success': False,
             'error': str(e)
         }, status=500)
+
+try:
+    from celery.result import AsyncResult
+except Exception:  # pragma: no cover
+    class AsyncResult:  # type: ignore
+        def __init__(self, task_id: str):
+            self.id = task_id
+            self.state = 'PENDING'
+            self.result = None
+            self.info = None
+
+try:
+    from .tasks import run_ai
+except Exception:  # pragma: no cover
+    class _Dummy:
+        def delay(self, payload):
+            class _Task:
+                id = 'dev-no-worker'
+            return _Task()
+    run_ai = _Dummy()
+
+@csrf_exempt
+@ratelimit(key='ip', rate='60/m', block=True)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def ai_enqueue(request):
+    try:
+        payload = {}
+        try:
+            payload = json.loads(request.body.decode('utf-8') or '{}')
+        except Exception:
+            payload = {}
+
+        task = run_ai.delay(payload)
+        return JsonResponse({"task_id": str(task.id)})
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def ai_status(request, task_id: str):
+    res = AsyncResult(task_id)
+    data = {"state": res.state}
+    if res.state == 'SUCCESS':
+        data["result"] = res.result
+    elif res.state in ('FAILURE', 'REVOKED'):
+        data["error"] = str(res.info)
+    return JsonResponse(data)
 
 class ProfessorSyncView(APIView):
     permission_classes = [AllowAny]  # Adjust permissions as needed

@@ -44,7 +44,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-fallback-key-f
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DJANGO_DEBUG should be 'False' in production.
-DEBUG = get_env_var_as_boolean('DJANGO_DEBUG', 'True')
+DEBUG = get_env_var_as_boolean('DJANGO_DEBUG', 'False')
 
 
 # ALLOWED_HOSTS
@@ -119,43 +119,53 @@ WSGI_APPLICATION = 'kairo.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 import dj_database_url
 
-# Default to SQLite for development
-DATABASES = {
-    'default': {
+# Database URL or optional dev SQLite fallback
+DATABASE_URL = os.environ.get('DATABASE_URL')
+USE_SQLITE_DEV = os.environ.get('USE_SQLITE_DEV', '0') == '1'
+if not DATABASE_URL and not USE_SQLITE_DEV:
+    raise RuntimeError('DATABASE_URL is required. For local dev without Postgres, set USE_SQLITE_DEV=1.')
+
+USE_PGBOUNCER = os.environ.get('USE_PGBOUNCER', '0')
+
+if USE_SQLITE_DEV and not DATABASE_URL:
+    default_db = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+else:
+    default_db = dj_database_url.parse(DATABASE_URL, ssl_require=True)
+
+# PgBouncer-friendly: use CONN_MAX_AGE=0 when behind pgbouncer; else keep persistent connections
+default_db['CONN_MAX_AGE'] = 0 if USE_PGBOUNCER == '1' else 300
+default_db['CONN_HEALTH_CHECKS'] = True
+
+if default_db.get('ENGINE') != 'django.db.backends.sqlite3':
+    if 'OPTIONS' not in default_db:
+        default_db['OPTIONS'] = {}
+    default_db['OPTIONS'].update({
+        'connect_timeout': 15,
+        'application_name': 'kairo_django',
+        'sslmode': 'require',
+    })
+
+DATABASES = {
+    'default': default_db,
 }
 
-# Use DATABASE_URL if provided (for production)
-if 'DATABASE_URL' in os.environ:
-    try:
-        parsed_db = dj_database_url.parse(os.environ['DATABASE_URL'])
-        DATABASES['default'] = parsed_db
-        DATABASES['default']['CONN_MAX_AGE'] = 0  # Disable connection pooling to avoid stale connections
-        
-        # Add connection retry settings for Railway with better timeouts
-        if 'OPTIONS' not in DATABASES['default']:
-            DATABASES['default']['OPTIONS'] = {}
-        
-        DATABASES['default']['OPTIONS'].update({
-            'connect_timeout': 60,  # Increased timeout
-            'sslmode': 'require',
-            'application_name': 'kairo_django',
-            'keepalives_idle': 600,
-            'keepalives_interval': 30,
-            'keepalives_count': 3,
-        })
-        
-        # Add connection retry at Django level
-        DATABASES['default']['CONN_HEALTH_CHECKS'] = True
-        
-        print(f"Configured PostgreSQL database: {parsed_db['NAME']}")
-        
-    except Exception as e:
-        print(f"Warning: Could not parse DATABASE_URL: {e}")
-        print("Falling back to SQLite database")
-        # Keep the default SQLite configuration
+# Optional read replica (Postgres-only)
+DATABASE_URL_REPLICA = os.environ.get('DATABASE_URL_REPLICA')
+if DATABASE_URL_REPLICA and not USE_SQLITE_DEV:
+    replica_db = dj_database_url.parse(DATABASE_URL_REPLICA, ssl_require=True)
+    replica_db['CONN_MAX_AGE'] = 0 if USE_PGBOUNCER == '1' else 300
+    replica_db['CONN_HEALTH_CHECKS'] = True
+    if 'OPTIONS' not in replica_db:
+        replica_db['OPTIONS'] = {}
+    replica_db['OPTIONS'].update({
+        'connect_timeout': 15,
+        'application_name': 'kairo_django_replica',
+        'sslmode': 'require',
+    })
+    DATABASES['replica'] = replica_db
 
 
 # Password validation
@@ -356,6 +366,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    # Ratelimit scope support (once decorators used)
+    'DEFAULT_THROTTLE_CLASSES': [],
+    'DEFAULT_THROTTLE_RATES': {},
 }
 
 # JWT Settings
@@ -398,3 +411,41 @@ SIMPLE_JWT = {
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 if not OPENAI_API_KEY:
     print("WARNING: OPENAI_API_KEY environment variable is not set. AI features will not work.")
+
+# --- Caching (Redis) ---
+# Expect REDIS_CACHE_URL env var. Example: redis://:password@host:6379/1
+REDIS_CACHE_URL = os.environ.get('REDIS_CACHE_URL')
+if not REDIS_CACHE_URL:
+    print('WARNING: REDIS_CACHE_URL is not set. Caching will be disabled.')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache' if REDIS_CACHE_URL else 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': REDIS_CACHE_URL or 'unique-snowflake',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'SOCKET_CONNECT_TIMEOUT': 2,
+            'SOCKET_TIMEOUT': 2,
+        } if REDIS_CACHE_URL else {},
+        'TIMEOUT': 90, # default TTL in seconds
+    }
+}
+
+# Conditional GET support
+MIDDLEWARE = MIDDLEWARE + ['django.middleware.http.ConditionalGetMiddleware']
+
+# --- Requests timeouts (for outbound HTTP clients) ---
+REQUESTS_DEFAULT_CONNECT_TIMEOUT = int(os.environ.get('REQUESTS_DEFAULT_CONNECT_TIMEOUT', '2'))
+REQUESTS_DEFAULT_READ_TIMEOUT = int(os.environ.get('REQUESTS_DEFAULT_READ_TIMEOUT', '25'))
+
+# --- Security / Proxy ---
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# --- DB Router for read-replica (if configured) ---
+DATABASE_ROUTERS = ['kairo.db_router.ReadReplicaRouter']
+
+# --- Celery ---
+CELERY_BROKER_URL = os.environ.get('REDIS_BROKER_URL')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_BROKER_URL')
+CELERY_TASK_TIME_LIMIT = 30
+CELERY_TASK_SOFT_TIME_LIMIT = 25
