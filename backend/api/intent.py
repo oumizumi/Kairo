@@ -15,3 +15,7 @@ def detect_intent(payload: dict) -> "Intent":
     return "qa" if text else "other"
 
 
+
+
+
+

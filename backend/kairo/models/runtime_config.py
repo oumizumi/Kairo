@@ -10,3 +10,7 @@ class RuntimeConfig(models.Model):
         return f"{self.key}={self.value}"
 
 
+
+
+
+

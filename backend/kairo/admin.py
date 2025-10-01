@@ -8,3 +8,7 @@ class RuntimeConfigAdmin(admin.ModelAdmin):
     search_fields = ("key", "value")
 
 
+
+
+
+
