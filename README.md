@@ -122,6 +122,7 @@ Your app should now be running at:
 - **Task Queue**: Celery with Redis broker
 - **API**: RESTful API with rate limiting
 - **Deployment**: Railway / Render
+- **Language**: Python
 
 ### AI & Data
 - **AI Model**: OpenAI GPT-4
