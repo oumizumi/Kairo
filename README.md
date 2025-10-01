@@ -334,6 +334,73 @@ node scripts/update_kairoll_data.js
 - **Rate Limiting**: Circuit breaker for AI endpoints
 - **Workers**: Gunicorn gthread workers + Celery for async tasks
 
+### System Capacity
+
+Current configuration supports:
+
+| Workload Type | Concurrent Users | Notes |
+|--------------|------------------|-------|
+| AI workloads (write-heavy) | ~400 | Tested with p95 < 800ms |
+| Cached reads | ~2,000 | Heavily cached API responses |
+| Synchronous HTTP | ~16–50 | Depends on request duration |
+
+**Configuration:**
+- Gunicorn workers: 4 (`WEB_CONCURRENCY`)
+- Threads per worker: 4 (`WEB_THREADS`)
+- Celery concurrency: 16 (`CELERY_CONCURRENCY`)
+- Total HTTP capacity: **16 concurrent requests** (4 × 4)
+
+### Capacity Constraints
+
+System throughput is limited by:
+
+1. **Database Connections**
+   - Default pool: ~100 connections per worker (no explicit cap)
+   - Risk of saturation under high concurrency if not tuned
+
+2. **Redis Connections**
+   - Used for caching and Celery task queues
+   - Pool exhaustion under load spikes may increase latency
+
+3. **Request Patterns**
+   - Write-heavy operations (AI inference + DB writes) stress CPU and DB
+   - Read-heavy operations benefit significantly from Redis caching
+
+4. **Resource Allocation**
+   - Memory and CPU limits on hosting platform directly affect throughput
+   - Monitor resource utilization during peak load
+
+### Scaling Guidelines
+
+To increase capacity safely:
+
+#### Application Layer
+```bash
+# Increase web server concurrency
+WEB_CONCURRENCY=8        # Double the workers
+WEB_THREADS=4            # Keep thread count moderate
+
+# Increase task worker concurrency
+CELERY_CONCURRENCY=32    # Scale background tasks
+```
+
+#### Database Layer
+- Scale PostgreSQL connection pool proportionally to workers
+- Consider adding a read replica (`DATABASE_URL_REPLICA`)
+- Ensure PgBouncer is configured if using connection pooling
+
+#### Cache Layer
+- Increase Redis connection pool to match increased concurrency
+- Monitor Redis memory usage and eviction rates
+- Consider Redis cluster for horizontal scaling
+
+#### Monitoring Checklist
+- [ ] Track p95/p99 response times for AI vs cached endpoints
+- [ ] Monitor DB/Redis connection pool utilization
+- [ ] Watch for connection exhaustion errors in logs
+- [ ] Track memory and CPU usage under load
+- [ ] Run load tests before and after scaling changes
+
 ### Health Monitoring
 
 - **Liveness**: `GET /healthz`

@@ -12,3 +12,6 @@ class RuntimeConfigAdmin(admin.ModelAdmin):
 
 
 
+
+
+
