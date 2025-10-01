@@ -1818,6 +1818,20 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
                 // Only check conflicts for events on the same day
                 if (event1.day_of_week === event2.day_of_week) {
+                    // Check if date ranges overlap (if both events have date ranges)
+                    // Events from different terms shouldn't conflict
+                    if (event1.start_date && event1.end_date && event2.start_date && event2.end_date) {
+                        const date1Start = new Date(event1.start_date);
+                        const date1End = new Date(event1.end_date);
+                        const date2Start = new Date(event2.start_date);
+                        const date2End = new Date(event2.end_date);
+                        
+                        // Check if date ranges don't overlap - if so, skip (no conflict)
+                        if (date1End < date2Start || date2End < date1Start) {
+                            continue; // Different terms, no conflict
+                        }
+                    }
+                    
                     const start1 = timeToMinutes(event1.startTime);
                     const end1 = timeToMinutes(event1.endTime);
                     const start2 = timeToMinutes(event2.startTime);
@@ -1852,6 +1866,20 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
                 // Only check conflicts for events on the same day
                 if (event1.day_of_week === event2.day_of_week) {
+                    // Check if date ranges overlap (if both events have date ranges)
+                    // Events from different terms shouldn't conflict
+                    if (event1.start_date && event1.end_date && event2.start_date && event2.end_date) {
+                        const date1Start = new Date(event1.start_date);
+                        const date1End = new Date(event1.end_date);
+                        const date2Start = new Date(event2.start_date);
+                        const date2End = new Date(event2.end_date);
+                        
+                        // Check if date ranges don't overlap - if so, skip (no conflict)
+                        if (date1End < date2Start || date2End < date1Start) {
+                            continue; // Different terms, no conflict
+                        }
+                    }
+                    
                     const start1 = timeToMinutes(event1.startTime);
                     const end1 = timeToMinutes(event1.endTime);
                     const start2 = timeToMinutes(event2.startTime);
