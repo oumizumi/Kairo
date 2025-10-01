@@ -366,6 +366,6 @@ For issues or questions, please contact the development team.
 
 <div align="center">
 
-**Made with ❤️ for university students**
+**Made for university students :)**
 
 </div>
