@@ -1806,15 +1806,36 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     // Function to count scheduling conflicts
     const getConflictsCount = () => {
         const allEvents = [...events, ...(loadFromBackend ? backendEvents : [])];
+        
+        // Filter events by current term's date range to avoid cross-term conflicts
+        const getTermDateRange = (term: string): { start: string, end: string } => {
+            const termMap: { [key: string]: { start: string, end: string } } = {
+                "Fall": { start: "2025-09-03", end: "2025-12-02" },
+                "Winter": { start: "2026-01-12", end: "2026-04-15" },
+                "Spring/Summer": { start: "2025-05-05", end: "2025-07-25" }
+            };
+            return termMap[term] || termMap["Fall"];
+        };
+
+        const termRange = getTermDateRange(currentTerm || 'Fall');
+        const filteredEvents = allEvents.filter(event => {
+            // If event has date range, check if it overlaps with selected term
+            if (event.start_date && event.end_date) {
+                return event.start_date <= termRange.end && event.end_date >= termRange.start;
+            }
+            // For events without date range, keep them (they might be manually created)
+            return true;
+        });
+
         let conflictCount = 0;
         const conflictPairs = new Set();
 
         
 
-        for (let i = 0; i < allEvents.length; i++) {
-            for (let j = i + 1; j < allEvents.length; j++) {
-                const event1 = normalizeEventProperties(allEvents[i]);
-                const event2 = normalizeEventProperties(allEvents[j]);
+        for (let i = 0; i < filteredEvents.length; i++) {
+            for (let j = i + 1; j < filteredEvents.length; j++) {
+                const event1 = normalizeEventProperties(filteredEvents[i]);
+                const event2 = normalizeEventProperties(filteredEvents[j]);
 
                 // Only check conflicts for events on the same day
                 if (event1.day_of_week === event2.day_of_week) {
@@ -1857,12 +1878,33 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     // Function to get actual conflicting events
     const getConflictingEvents = () => {
         const allEvents = [...events, ...(loadFromBackend ? backendEvents : [])];
+        
+        // Filter events by current term's date range to avoid cross-term conflicts
+        const getTermDateRange = (term: string): { start: string, end: string } => {
+            const termMap: { [key: string]: { start: string, end: string } } = {
+                "Fall": { start: "2025-09-03", end: "2025-12-02" },
+                "Winter": { start: "2026-01-12", end: "2026-04-15" },
+                "Spring/Summer": { start: "2025-05-05", end: "2025-07-25" }
+            };
+            return termMap[term] || termMap["Fall"];
+        };
+
+        const termRange = getTermDateRange(currentTerm || 'Fall');
+        const filteredEvents = allEvents.filter(event => {
+            // If event has date range, check if it overlaps with selected term
+            if (event.start_date && event.end_date) {
+                return event.start_date <= termRange.end && event.end_date >= termRange.start;
+            }
+            // For events without date range, keep them (they might be manually created)
+            return true;
+        });
+
         const conflicts: { event1: Event; event2: Event; day: string }[] = [];
 
-        for (let i = 0; i < allEvents.length; i++) {
-            for (let j = i + 1; j < allEvents.length; j++) {
-                const event1 = normalizeEventProperties(allEvents[i]);
-                const event2 = normalizeEventProperties(allEvents[j]);
+        for (let i = 0; i < filteredEvents.length; i++) {
+            for (let j = i + 1; j < filteredEvents.length; j++) {
+                const event1 = normalizeEventProperties(filteredEvents[i]);
+                const event2 = normalizeEventProperties(filteredEvents[j]);
 
                 // Only check conflicts for events on the same day
                 if (event1.day_of_week === event2.day_of_week) {
@@ -1888,8 +1930,8 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     // Check if times overlap (start of one is before end of other)
                     if (start1 < end2 && start2 < end1) {
                         conflicts.push({
-                            event1: allEvents[i],
-                            event2: allEvents[j],
+                            event1: filteredEvents[i],
+                            event2: filteredEvents[j],
                             day: event1.day_of_week || 'Unknown'
                         });
                     }
@@ -1907,7 +1949,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             const conflictsCount = getConflictsCount();
             onStatsChange(courseCount, conflictsCount);
         }
-    }, [allEvents, onStatsChange]);
+    }, [allEvents, onStatsChange, currentTerm]);
 
     // Function to detect overlapping events in the same day
     const detectOverlaps = (dayEvents: Event[]) => {
