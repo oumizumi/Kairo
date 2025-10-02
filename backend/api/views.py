@@ -2773,6 +2773,7 @@ class GuestLoginView(APIView):
                 "refresh": str(refresh),
                 "user": {
                     "id": guest_user.id,
+                    "username": guest_user.username,
                     "email": guest_user.email,
                     "first_name": guest_user.first_name,
                     "last_name": guest_user.last_name,

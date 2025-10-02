@@ -44,6 +44,7 @@ export interface AuthResponse {
     refresh?: string;  // JWT refresh token (optional, not used with Django Token auth)
     user?: {
         id: number;
+        username?: string;
         email: string;
         first_name: string;
         last_name: string;
@@ -443,6 +444,12 @@ export const guestLogin = async (): Promise<AuthResponse> => {
         } else {
             
         }
+        
+        // Store username if available
+        if (data.user?.username) {
+            setUserName(data.user.username);
+        }
+        
         // Mark as guest
         setGuestFlag(true);
         setGuestSessionId();
