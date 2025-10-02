@@ -66,7 +66,7 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({
       >
         <UserAvatar user={user} size="sm" />
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block max-w-32 truncate">
-          {isGuest ? 'Login to save schedules!' : (user?.username || user?.first_name || user?.email?.split('@')[0] || 'Account')}
+          {isGuest ? 'Guest User' : (user?.username || user?.first_name || user?.email?.split('@')[0] || 'Account')}
         </span>
         <svg 
           className={`w-4 h-4 text-gray-400 transition-all duration-200 ${isOpen ? 'rotate-180 text-gray-600 dark:text-gray-300' : ''}`}
@@ -239,8 +239,8 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({
                       </svg>
                     </div>
                     <div>
-                      <div className="text-xs font-medium text-blue-800 dark:text-blue-200">Login/Signup to save schedules</div>
-                      <div className="text-xs text-blue-600 dark:text-blue-300 mt-0.5">Create an account to persist your data</div>
+                      <div className="text-xs font-medium text-blue-800 dark:text-blue-200">You're using Guest Mode</div>
+                      <div className="text-xs text-blue-600 dark:text-blue-300 mt-0.5">Sign up to save your schedules permanently</div>
                     </div>
                   </div>
                 </div>
