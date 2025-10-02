@@ -1294,19 +1294,19 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 setTypingMessage(currentText);
                 currentWordIndex++;
 
-                // Variable delays for more natural feel
-                let delay = 50; // Base delay
+                // Variable delays for more natural feel - optimized for speed
+                let delay = 15; // Faster base delay
 
-                // Longer pause after punctuation
+                // Shorter pauses after punctuation for faster responses
                 if (currentText.endsWith('.') || currentText.endsWith('!') || currentText.endsWith('?')) {
-                    delay = 300;
+                    delay = 80;
                 } else if (currentText.endsWith(',') || currentText.endsWith(';')) {
-                    delay = 150;
+                    delay = 40;
                 } else if (currentText.endsWith('\n')) {
-                    delay = 200;
+                    delay = 60;
                 } else {
-                    // Random variation for natural feel
-                    delay = 30 + Math.random() * 40;
+                    // Faster random variation for natural feel
+                    delay = 10 + Math.random() * 15;
                 }
 
                 setTimeout(typeNextWord, delay);

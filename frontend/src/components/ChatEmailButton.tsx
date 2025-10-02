@@ -215,17 +215,43 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     const userPrompt = manualPrompt || chatPrompt;
     try {
       const professorName = getGreetingProfessorName();
-      const instruction = `You draft professional emails for University of Ottawa students.
-Return STRICT JSON: {"subject": string, "body": string}. No code fences.
-Constraints:
-- Subject: short (<= 60 chars), clearly tied to the user’s ask; no extra details.
-- Body: 3–6 sentences. Be polite and well-explained: include a brief context sentence (why you’re writing) and a clear, specific ask. Do NOT add unnecessary information, offers, assumptions, or steps the user didn’t mention.
-- Use natural, varied phrasing and connectors (not robotic or formulaic). Avoid redundancy.
-- Greeting must be exactly: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
-- Closing must be exactly: "Best regards,\\n${userFullName.trim()}"
-- If the prompt is minimal/empty, infer a simple subject and a brief, appropriate body following these rules.
-User prompt: ${userPrompt || '[no additional details provided]'}
-`;
+      const instruction = `You are an expert email writing assistant for University of Ottawa students. Your task is to draft professional, concise, and varied emails to professors.
+
+CRITICAL: Generate emails with DIVERSE STYLES and STRUCTURES. Never repeat the same patterns, sentence structures, or transitions. Each email should feel unique and authentic.
+
+Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
+
+Requirements:
+1. Subject Line:
+   - Keep it under 60 characters
+   - Make it specific to the request
+   - Vary your approach: sometimes be direct ("Office Hours Availability"), sometimes contextual ("Question About Assignment 2"), sometimes formal ("Request for Course Override")
+
+2. Email Body (3-5 sentences):
+   - ALWAYS be professional and concise
+   - VARY your email structure - don't follow the same pattern every time:
+     * Sometimes start with context, then request
+     * Sometimes state the request directly, then provide brief context
+     * Sometimes use a brief introduction, then the ask
+   - Use DIFFERENT transition words and phrases each time (instead of repeating "I am writing to...", try: "I wanted to ask about...", "I hope this email finds you well. Could you...", "I'm reaching out regarding...", "I have a question about...", etc.)
+   - Be SPECIFIC to the user's request - don't add assumptions or extra steps they didn't mention
+   - Match the tone to the request (urgent matters vs. simple questions)
+   - Avoid formulaic phrases like "I hope this email finds you well" unless it genuinely fits
+
+3. Format:
+   - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
+   - Closing: "Best regards,\\n${userFullName.trim()}"
+
+4. Diversity Guidelines:
+   - Change your sentence structure each time
+   - Use different opening strategies
+   - Vary the level of formality appropriately
+   - Mix direct and indirect language styles
+   - Alternate between shorter and slightly longer emails (within the 3-5 sentence limit)
+
+User's Request: ${userPrompt || '[Generate a simple, professional inquiry]'}
+
+Generate a unique, professional email that directly addresses this request.`;
 
       const response = await api.post('/api/ai/chat/', { message: instruction });
       let content: string = (response.data && (response.data.content || response.data.message)) || '';
