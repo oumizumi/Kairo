@@ -3155,7 +3155,8 @@ function SocialComponent() {
                 const token = localStorage.getItem('token');
                 if (!token) {
                     // No token - treat as guest user
-                    setUser({ id: null, isGuest: true });
+                    const guestUsername = getUserName();
+                    setUser({ id: null, isGuest: true, username: guestUsername });
                     setLoading(false);
                     return;
                 }
@@ -3171,12 +3172,14 @@ function SocialComponent() {
                     setUser(userData);
                 } else {
                     // Invalid token - treat as guest user
-                    setUser({ id: null, isGuest: true });
+                    const guestUsername = getUserName();
+                    setUser({ id: null, isGuest: true, username: guestUsername });
                 }
             } catch (error) {
                 console.error('Failed to fetch user info:', error);
                 // On error, treat as guest user
-                setUser({ id: null, isGuest: true });
+                const guestUsername = getUserName();
+                setUser({ id: null, isGuest: true, username: guestUsername });
             } finally {
                 setLoading(false);
             }
@@ -5060,7 +5063,8 @@ export default function ChatDashboard() {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    setUser({ id: null, isGuest: true });
+                    const guestUsername = getUserName();
+                    setUser({ id: null, isGuest: true, username: guestUsername });
                     setUserLoading(false);
                     return;
                 }
@@ -5075,11 +5079,13 @@ export default function ChatDashboard() {
                     const userData = await response.json();
                     setUser(userData);
                 } else {
-                    setUser({ id: null, isGuest: true });
+                    const guestUsername = getUserName();
+                    setUser({ id: null, isGuest: true, username: guestUsername });
                 }
             } catch (error) {
                 console.error('Failed to fetch user info:', error);
-                setUser({ id: null, isGuest: true });
+                const guestUsername = getUserName();
+                setUser({ id: null, isGuest: true, username: guestUsername });
             } finally {
                 setUserLoading(false);
             }
