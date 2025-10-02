@@ -401,9 +401,9 @@ class MessageInputSerializer(serializers.Serializer):
 
 class MessageView(APIView):
     permission_classes = [IsAuthenticated]
-    MAX_HISTORY_MESSAGES = 20  # Increased from 10 - Maximum number of message pairs to include for better memory
-    SESSION_EXPIRY_DAYS = 14   # Increased from 7 - Session expiry in days for better continuity
-    MIN_CONTEXT_MESSAGES = 5   # Minimum number of message pairs to include for context
+    MAX_HISTORY_MESSAGES = 6  # Optimized for faster response times - Maximum number of message pairs to include
+    SESSION_EXPIRY_DAYS = 14   # Session expiry in days for better continuity
+    MIN_CONTEXT_MESSAGES = 3   # Minimum number of message pairs to include for context
     
     # AI-generated emojis - no hardcoded lists
     
@@ -450,24 +450,24 @@ class MessageView(APIView):
 
     def _format_system_prompt(self, course_info=None, last_user_msg=None, last_ai_msg=None):
         """Format a comprehensive system prompt with conversation context"""
-        base_prompt = """You are Kairo, the uOttawa academic assistant. You help students with course information, scheduling, and academic planning.
+        base_prompt = """You are Kairo, the uOttawa academic assistant helping students with courses, scheduling, and academic planning.
 
-Core principles:
-- Use only official course data - never guess or invent information
-- Respond naturally and conversationally
-- Be direct and helpful without unnecessary clarification questions
-- Adapt to the user's communication style (formal/casual)
-- Reference conversation context when relevant
+Key principles:
+- Use only official course data - never guess
+- Be direct, natural, and conversational with DIVERSE language
+- Vary your response style - never repeat patterns, sentence structures, or transitions
+- Adapt to the user's communication style
+- Be concise and helpful
 
-For course information: Use the provided JSON data to explain courses, prerequisites, and descriptions accurately.
+For course info: Use provided JSON data to explain courses, prerequisites, and descriptions accurately.
 
-For schedule building: When users ask to build schedules (e.g., "build me a sched for comp sci year 2"), generate a schedule immediately based on the program and year mentioned. Don't ask for clarification unless critical information is missing.
+For emails (Smart Mail): Generate DIVERSE professional emails (3-5 sentences):
+- Vary openings/structures significantly each time
+- Use different transitions (avoid repeating "I am writing to...", "I hope this email finds you well")
+- Match tone to context, be specific to user requests
+- Never add assumptions or extra steps
 
-For course timing: Tell students when courses are typically taken in their program.
-
-Be honest about limitations: If you don't have information, say so clearly and suggest checking official sources.
-
-Keep responses natural, helpful, and grounded in actual data."""
+Be honest about limitations and suggest official sources when needed. Keep responses grounded in actual data."""
 
 
         if course_info:
@@ -1835,7 +1835,8 @@ Do NOT include any links or say where you're getting the data from. Just acknowl
                     completion = client.chat.completions.create(
                         model="gpt-4o-mini",
                         messages=messages_for_openai,
-                        temperature=0.7  # Slightly increased for more natural conversation
+                        temperature=0.7,  # Slightly increased for more natural conversation
+                        max_tokens=500  # Limit response length for faster generation
                     )
                     ai_response_text = completion.choices[0].message.content.strip()
 
@@ -2577,7 +2578,7 @@ class IntentDetectionSerializer(serializers.Serializer):
     system_prompt = serializers.CharField(required=False, allow_blank=True)
     model = serializers.CharField(required=False, default='gpt-4o-mini')
     temperature = serializers.FloatField(required=False, default=0.1)
-    max_tokens = serializers.IntegerField(required=False, default=300)
+    max_tokens = serializers.IntegerField(required=False, default=200)  # Optimized for faster classification
 
 class AIClassificationView(APIView):
     permission_classes = [AllowAny]  # Allow unauthenticated access for classification
@@ -2593,7 +2594,7 @@ class AIClassificationView(APIView):
         system_prompt = serializer.validated_data.get('system_prompt')
         model = serializer.validated_data.get('model', 'gpt-4o-mini')
         temperature = serializer.validated_data.get('temperature', 0.1)
-        max_tokens = serializer.validated_data.get('max_tokens', 300)
+        max_tokens = serializer.validated_data.get('max_tokens', 200)  # Optimized for faster responses
         
         try:
             # Use the prompt if provided, otherwise use system_prompt
