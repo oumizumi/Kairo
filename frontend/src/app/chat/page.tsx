@@ -7,7 +7,6 @@ import { isMobileDevice as isDeviceMobile } from '@/utils/deviceDetection';
 import WeeklyCalendar from '@/components/DailyCalendar';
 import TypewriterText from '@/components/TypewriterText';
 
-import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
 import AccountDropdown from '@/components/AccountDropdown';
 import { ArrowRight, ArrowUp, Download, Mail } from "lucide-react";
@@ -4106,7 +4105,15 @@ function KairollComponent() {
     }, []);
 
     const handleResetCourses = useCallback(async () => {
-
+        // Show confirmation dialog before resetting
+        const confirmed = window.confirm(
+            'Are you sure you want to remove all courses from your calendar? This action cannot be undone.'
+        );
+        
+        // If user cancels, exit early
+        if (!confirmed) {
+            return;
+        }
 
         // Clear all calendar events first
         const allEventIds: number[] = [];
@@ -4155,6 +4162,7 @@ function KairollComponent() {
         }
 
         setAddedCourses([]);
+        setPendingAdditions(new Map()); // Clear pending additions to uncheck all course boxes
         setSearchQuery(''); // Clear search when resetting
 
         // IMPORTANT: Reset the manually removed flag so calendar can refresh properly
@@ -4727,10 +4735,10 @@ function KairollComponent() {
 
                                                 // Prefer optimized mobile export; fall back to server-based if needed
                                                 try {
-                                                    await exportCalendarForMobile(allEvents, 'kairoschedule');
+                                                    await exportCalendarForMobile(allEvents, 'kairoschedule', selectedTerm);
                                                 } catch (mobileErr) {
                                                     console.warn('Mobile export failed, falling back to server ICS:', mobileErr);
-                                                    await exportCalendarAsICS(allEvents, 'kairoschedule');
+                                                    await exportCalendarAsICS(allEvents, 'kairoschedule', selectedTerm);
                                                 }
                                             } catch (error) {
                                                 alert(`Failed to export calendar: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -4869,17 +4877,6 @@ function KairollComponent() {
                     position={popupPosition}
                 />
             )}
-
-            {/* Feature Carousel - Mobile Only */}
-            {showWelcomeModal && isMobile && (
-                <FeatureCarousel
-                    isOpen={showWelcomeModal}
-                    onClose={handleCloseWelcomeModal}
-                    onSignup={() => handleSignupLogin('signup')}
-                    onLogin={() => handleSignupLogin('login')}
-                    isMobile={isMobile}
-                />
-            )}
         </div>
     );
 }
@@ -4902,11 +4899,22 @@ function parseEventDescription(description: string | undefined) {
 }
 
 const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onClose, position }) => {
-    const { courseTitle, section, instructor } = parseEventDescription(event.description);
-    const courseCodeMatch = event.title.match(/([A-Z]{3}\s*\d{4})/);
+    // Safely parse event description with fallbacks
+    const { courseTitle, section, instructor } = parseEventDescription(event?.description);
+    const courseCodeMatch = event?.title?.match(/([A-Z]{3}\s*\d{4})/);
     const courseCode = courseCodeMatch ? courseCodeMatch[0] : '';
-    const sectionTypeMatch = event.title.match(/\(([^)]+)\)/);
+    const sectionTypeMatch = event?.title?.match(/\(([^)]+)\)/);
     const sectionType = sectionTypeMatch ? sectionTypeMatch[1] : 'LEC';
+
+    // Map section type abbreviations to full names
+    const sectionTypeMap: { [key: string]: string } = {
+        'LEC': 'Lecture',
+        'LAB': 'Laboratory',
+        'TUT': 'Tutorial',
+        'SEM': 'Seminar',
+        'DGD': 'Discussion Group'
+    };
+    const fullSectionType = sectionTypeMap[sectionType] || sectionType;
 
     const formatTime12Hour = (timeString: string) => {
         if (!timeString) return '';
@@ -4919,55 +4927,80 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
 
     return (
         <>
-            <div className="fixed inset-0 z-[59] bg-black/10" onClick={onClose} />
+            {/* Backdrop */}
+            <div className="fixed inset-0 z-[59] bg-black/20 backdrop-blur-sm" onClick={onClose} />
+            
+            {/* Modal */}
             <div
-                className="fixed z-[60] bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl shadow-2xl p-4 w-64 border border-gray-200 dark:border-gray-600 animate-in fade-in-0 zoom-in-95 duration-200"
+                className="fixed z-[60] bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white rounded-2xl shadow-2xl p-4 w-72 border border-gray-200 dark:border-gray-700 animate-in fade-in-0 zoom-in-95 duration-200"
                 style={{ left: position.x, top: position.y }}
                 onClick={(e) => e.stopPropagation()}
             >
+                {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 z-10"
+                    aria-label="Close"
                 >
-                    <X size={16} />
+                    <X size={18} />
                 </button>
 
                 <div className="pr-8">
-                    <h3 className="font-bold text-lg mb-2 text-blue-600 dark:text-blue-400">{courseCode}</h3>
-                    <h4 className="font-medium text-sm mb-3 text-gray-700 dark:text-gray-300">{courseTitle}</h4>
+                    {/* Course Code */}
+                    <h3 className="font-bold text-xl mb-1.5 text-blue-600 dark:text-blue-400 leading-tight">
+                        {courseCode || 'Course'}
+                    </h3>
+                    
+                    {/* Course Title */}
+                    {courseTitle && (
+                        <h4 className="font-medium text-sm mb-3 text-gray-700 dark:text-gray-300 leading-snug">
+                            {courseTitle}
+                        </h4>
+                    )}
 
-                    <div className="space-y-2 text-sm">
-                        <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {/* Details */}
+                    <div className="space-y-2.5 text-sm mt-4">
+                        {/* Time */}
+                        <div className="flex items-center gap-2.5">
+                            <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span className="font-medium text-green-600 dark:text-green-400">
+                            <span className="font-semibold text-green-600 dark:text-green-400">
                                 {formatTime12Hour(event.startTime)} - {formatTime12Hour(event.endTime)}
                             </span>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                            <span>Section {section} ({sectionType})</span>
-                        </div>
-
-                        {instructor && (
-                            <div className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        {/* Section */}
+                        {section && (
+                            <div className="flex items-center gap-2.5">
+                                <svg className="w-4 h-4 text-purple-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                 </svg>
-                                <span>{instructor}</span>
+                                <span className="text-gray-700 dark:text-gray-300">
+                                    {section} <span className="text-gray-500 dark:text-gray-400">({fullSectionType})</span>
+                                </span>
                             </div>
                         )}
 
-                        <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>{event.day_of_week}</span>
-                        </div>
+                        {/* Instructor */}
+                        {instructor && instructor !== 'Staff' && (
+                            <div className="flex items-center gap-2.5">
+                                <svg className="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <span className="text-gray-700 dark:text-gray-300">{instructor}</span>
+                            </div>
+                        )}
+
+                        {/* Day */}
+                        {event.day_of_week && (
+                            <div className="flex items-center gap-2.5">
+                                <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span className="text-gray-700 dark:text-gray-300">{event.day_of_week}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -5245,9 +5278,6 @@ export default function ChatDashboard() {
                     </div>
                 </div>
             </div>
-
-            {/* Theme Toggle - only show for assistant view */}
-            {view === 'assistant' && <ThemeToggle />}
 
             {/* Main Content */}
             {view === 'split' && (

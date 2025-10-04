@@ -210,48 +210,114 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const draftWithAIThenCompose = async () => {
     if (!hasRecipients || !userFullName.trim()) return;
     setIsDrafting(true);
-    const manualPrompt = body.trim();
-    const chatPrompt = currentMessage.trim();
-    const userPrompt = manualPrompt || chatPrompt;
+    
+    const userSubject = subject.trim();
+    const userBody = body.trim();
+    const chatMessage = currentMessage.trim();
+    
     try {
       const professorName = getGreetingProfessorName();
-      const instruction = `You are an expert email writing assistant for University of Ottawa students. Your task is to draft professional, concise, and varied emails to professors.
-
-CRITICAL: Generate emails with DIVERSE STYLES and STRUCTURES. Never repeat the same patterns, sentence structures, or transitions. Each email should feel unique and authentic.
+      
+      // Determine what the AI needs to generate based on what the user provided
+      let instruction = '';
+      let needsSubject = !userSubject;
+      let needsBody = !userBody;
+      
+      if (!needsSubject && !needsBody) {
+        // User provided both - AI should polish/improve them
+        instruction = `You are an expert email writing assistant for University of Ottawa students. The user has written both a subject and body. Your task is to polish and improve them while keeping the core message intact.
 
 Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
+
+User's Subject: "${userSubject}"
+User's Body/Message: "${userBody}"
+
+Requirements:
+1. Subject Line:
+   - Keep the core meaning of the user's subject
+   - Make it professional and concise (under 60 characters)
+   - Fix any grammatical issues
+
+2. Email Body:
+   - Use the user's message as the core content
+   - Format it professionally with proper greeting and closing
+   - Keep it concise (3-5 sentences)
+   - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
+   - Closing: "Best regards,\\n${userFullName.trim()}"
+   - Preserve the user's intent and main points
+   - Fix grammar and improve clarity
+
+Polish and format this email professionally.`;
+      } else if (!needsSubject && needsBody) {
+        // User provided subject only - generate body based on subject
+        instruction = `You are an expert email writing assistant for University of Ottawa students. The user provided a subject line. Generate a professional email body that matches this subject.
+
+Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
+
+User's Subject: "${userSubject}"
+${chatMessage ? `Additional Context: "${chatMessage}"` : ''}
+
+Requirements:
+1. Subject Line:
+   - Return the same subject (or slightly polished version): "${userSubject}"
+
+2. Email Body (3-5 sentences):
+   - Write content that directly relates to the subject
+   - Be professional, concise, and specific
+   - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
+   - Closing: "Best regards,\\n${userFullName.trim()}"
+   - Match the tone to the subject (urgent, formal, casual question, etc.)
+   - Vary your structure - don't always follow the same pattern
+
+Generate a professional email body for this subject.`;
+      } else if (needsSubject && !needsBody) {
+        // User provided body only - generate subject based on body
+        instruction = `You are an expert email writing assistant for University of Ottawa students. The user wrote an email message. Generate a professional subject line and polish the body.
+
+Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
+
+User's Message: "${userBody}"
+
+Requirements:
+1. Subject Line:
+   - Create a concise subject (under 60 characters) that captures the main point
+   - Make it specific and professional
+
+2. Email Body:
+   - Use the user's message as the core content
+   - Format it professionally with greeting and closing
+   - Keep the user's intent and main points
+   - Polish grammar and clarity
+   - Keep it concise (3-5 sentences)
+   - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
+   - Closing: "Best regards,\\n${userFullName.trim()}"
+
+Generate subject and polish the email body.`;
+      } else {
+        // User provided neither - use chat message or generate generic
+        const userRequest = chatMessage || '[Generate a simple, professional inquiry]';
+        instruction = `You are an expert email writing assistant for University of Ottawa students. Generate a professional email based on the user's request.
+
+Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
+
+User's Request: "${userRequest}"
 
 Requirements:
 1. Subject Line:
    - Keep it under 60 characters
    - Make it specific to the request
-   - Vary your approach: sometimes be direct ("Office Hours Availability"), sometimes contextual ("Question About Assignment 2"), sometimes formal ("Request for Course Override")
+   - Be direct and professional
 
 2. Email Body (3-5 sentences):
-   - ALWAYS be professional and concise
-   - VARY your email structure - don't follow the same pattern every time:
-     * Sometimes start with context, then request
-     * Sometimes state the request directly, then provide brief context
-     * Sometimes use a brief introduction, then the ask
-   - Use DIFFERENT transition words and phrases each time (instead of repeating "I am writing to...", try: "I wanted to ask about...", "I hope this email finds you well. Could you...", "I'm reaching out regarding...", "I have a question about...", etc.)
-   - Be SPECIFIC to the user's request - don't add assumptions or extra steps they didn't mention
-   - Match the tone to the request (urgent matters vs. simple questions)
-   - Avoid formulaic phrases like "I hope this email finds you well" unless it genuinely fits
-
-3. Format:
+   - Be professional and concise
+   - Vary your structure - don't follow the same pattern every time
+   - Be SPECIFIC to the user's request
+   - Match the tone appropriately
    - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
    - Closing: "Best regards,\\n${userFullName.trim()}"
 
-4. Diversity Guidelines:
-   - Change your sentence structure each time
-   - Use different opening strategies
-   - Vary the level of formality appropriately
-   - Mix direct and indirect language styles
-   - Alternate between shorter and slightly longer emails (within the 3-5 sentence limit)
-
-User's Request: ${userPrompt || '[Generate a simple, professional inquiry]'}
-
-Generate a unique, professional email that directly addresses this request.`;
+Generate a professional email that addresses this request.`;
+      }
 
       const response = await api.post('/api/ai/chat/', { message: instruction });
       let content: string = (response.data && (response.data.content || response.data.message)) || '';
@@ -264,12 +330,13 @@ Generate a unique, professional email that directly addresses this request.`;
       let parsed: any = null;
       try { parsed = JSON.parse(jsonText); } catch {}
 
+      // Use AI-generated content or fallback to user input or templates
       const draftedSubject: string = (parsed && typeof parsed.subject === 'string' && parsed.subject.trim())
         ? parsed.subject.trim()
-        : generateSubject(userPrompt, professorName);
+        : (userSubject || generateSubject(chatMessage || userBody, professorName));
       const draftedBody: string = (parsed && typeof parsed.body === 'string' && parsed.body.trim())
         ? parsed.body.trim()
-        : buildEmailBody(userPrompt, professorName, userFullName);
+        : (userBody || buildEmailBody(chatMessage || userSubject, professorName, userFullName));
 
       setSubject(draftedSubject);
       setBody(draftedBody);
@@ -280,9 +347,9 @@ Generate a unique, professional email that directly addresses this request.`;
     } catch (e) {
       // Fallback to local template
       const professorName = getGreetingProfessorName();
-      const fallbackPrompt = userPrompt;
-      const fbSubject = generateSubject(fallbackPrompt, professorName);
-      const fbBody = buildEmailBody(fallbackPrompt, professorName, userFullName);
+      const fallbackPrompt = userBody || chatMessage || userSubject;
+      const fbSubject = userSubject || generateSubject(fallbackPrompt, professorName);
+      const fbBody = userBody || buildEmailBody(fallbackPrompt, professorName, userFullName);
       setSubject(fbSubject);
       setBody(fbBody);
       await handleEmailChat({ subject: fbSubject, body: fbBody });
@@ -339,8 +406,8 @@ Generate a unique, professional email that directly addresses this request.`;
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
           <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setIsOpen(false)} />
-          <div className="relative w-full max-w-sm sm:max-w-md rounded-xl sm:rounded-2xl shadow-2xl border overflow-hidden bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-3 sm:p-5 border-b border-gray-100 dark:border-gray-700">
+          <div className="relative w-full max-w-sm sm:max-w-md rounded-xl shadow-2xl border overflow-hidden bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-2.5 sm:p-4 border-b border-gray-100 dark:border-gray-700">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">Smart Mail</div>
@@ -356,8 +423,8 @@ Generate a unique, professional email that directly addresses this request.`;
               </button>
             </div>
 
-            <div className="p-3 sm:p-5">
-              <div className="grid grid-cols-1 gap-3 sm:gap-4 mb-3 sm:mb-4">
+            <div className="p-2.5 sm:p-4">
+              <div className="grid grid-cols-1 gap-2.5 sm:gap-3 mb-2.5 sm:mb-3">
                 <div>
                   <label className="block text-sm font-medium mb-1.5 sm:mb-2 text-gray-700 dark:text-gray-300">Your full name <span className="text-red-500">*</span></label>
                   <input
@@ -369,9 +436,9 @@ Generate a unique, professional email that directly addresses this request.`;
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <div className="grid grid-cols-1 gap-2.5 sm:gap-3 mb-2.5 sm:mb-3">
                 <div>
-                  <label className="block text-sm font-medium mb-1.5 sm:mb-2 text-gray-700 dark:text-gray-300">Subject</label>
+                  <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-gray-300">Subject</label>
                   <input
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
@@ -380,19 +447,19 @@ Generate a unique, professional email that directly addresses this request.`;
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1.5 sm:mb-2 text-gray-700 dark:text-gray-300">Body</label>
+                  <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-gray-300">Body</label>
                   <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     placeholder={`Dear Professor [Name],\n\n[Write your request clearly here]\n\nBest regards,\n[Your Full Name]`}
-                    rows={4}
+                    rows={3}
                     ref={bodyRef}
                     className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 mb-3 sm:mb-4">
+              <div className="flex items-center gap-2 mb-2.5 sm:mb-3">
                 <button
                   type="button"
                   onClick={() => {
@@ -400,22 +467,22 @@ Generate a unique, professional email that directly addresses this request.`;
                     setBody('');
                     setTimeout(() => bodyRef.current?.focus(), 0);
                   }}
-                  className="px-3 sm:px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  className="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-xs sm:text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
                   Clear & Write Myself
                 </button>
               </div>
 
-              <div className="border-t border-gray-100 dark:border-gray-700 pt-3 sm:pt-4">
-                <label className="block text-sm font-medium mb-2 sm:mb-3 text-gray-700 dark:text-gray-300">Add Professor</label>
-                <div className="grid grid-cols-1 gap-2 sm:gap-3">
+              <div className="border-t border-gray-100 dark:border-gray-700 pt-2.5 sm:pt-3">
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Add Professor</label>
+                <div className="grid grid-cols-1 gap-2">
                   <div className="grid grid-cols-5 gap-2 sm:gap-3">
                     <div className="col-span-2">
                       <input
                         value={newProfName}
                         onChange={(e) => setNewProfName(e.target.value)}
                         placeholder="Professor name"
-                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2.5 py-1.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       />
                     </div>
                     <div className="col-span-3">
@@ -423,7 +490,7 @@ Generate a unique, professional email that directly addresses this request.`;
                         value={newProfEmail}
                         onChange={(e) => setNewProfEmail(e.target.value)}
                         placeholder={`prof${UOTTAWA_DOMAIN}`}
-                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2.5 py-1.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       />
                     </div>
                   </div>
@@ -438,7 +505,7 @@ Generate a unique, professional email that directly addresses this request.`;
                         setNewProfName('');
                         setNewProfEmail('');
                       }}
-                      className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-medium py-2 sm:py-2.5 transition-all shadow-sm"
+                      className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-xs sm:text-sm font-medium py-1.5 sm:py-2 transition-all shadow-sm"
                     >
                       Add Professor
                     </button>
@@ -653,19 +720,19 @@ Generate a unique, professional email that directly addresses this request.`;
                 type="button"
                 onClick={draftWithAIThenCompose}
                 disabled={!hasRecipients || !hasName || isDrafting}
-                className="mt-4 w-full rounded bg-blue-600 disabled:bg-blue-600/50 text-white text-xs font-semibold py-2 hover:bg-blue-700"
+                className="mt-3 w-full rounded bg-blue-600 disabled:bg-blue-600/50 text-white text-xs font-semibold py-1.5 sm:py-2 hover:bg-blue-700"
               >
                 {isDrafting ? 'Drafting with AI…' : 'Draft with AI (polish)'}
               </button>
-              <div className="mt-2 text-[10px] text-red-600 dark:text-red-400 flex items-center gap-1">
-                <Info className="h-3.5 w-3.5" aria-hidden="true" />
+              <div className="mt-1.5 text-[9px] sm:text-[10px] text-red-600 dark:text-red-400 flex items-center gap-1">
+                <Info className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
                 <span>Please review the draft before sending. AI may make mistakes.</span>
               </div>
               <a
                 href="https://outlook.office.com/mail/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex w-full items-center justify-center rounded border border-gray-300 dark:border-white/10 text-gray-700 dark:text-gray-200 text-xs font-semibold py-2 hover:bg-gray-50 dark:hover:bg-white/5"
+                className="mt-1.5 inline-flex w-full items-center justify-center rounded border border-gray-300 dark:border-white/10 text-gray-700 dark:text-gray-200 text-xs font-semibold py-1.5 sm:py-2 hover:bg-gray-50 dark:hover:bg-white/5"
               >
                 Open Outlook (Login)
               </a>
@@ -674,7 +741,7 @@ Generate a unique, professional email that directly addresses this request.`;
                 <div className="mt-1 text-[10px] text-gray-500">Add at least one recipient to enable sending.</div>
               )}
               {!hasName && (
-                <div className="mt-1 text-[10px] text-red-500">Enter your full name to include in the closing.</div>
+                <div className="mt-1 text-[10px] text-red-500"></div>
               )}
               {!hasMessage && (
                 <div className="mt-1 text-[10px] text-gray-500">Write a message to enable sending.</div>
