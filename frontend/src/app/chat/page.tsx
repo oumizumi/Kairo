@@ -2774,7 +2774,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
     // Type guard check and render appropriate format
     if (isCourseGrouped(course)) {
         return (
-            <div className="bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
+            <div className="w-full bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
                 {/* Course Header - Grouped Format */}
                 <div
                     className="p-3 sm:p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-white/[0.12] transition-colors"
@@ -4617,15 +4617,15 @@ function KairollComponent() {
     };
 
     return (
-        <div className="font-mono bg-white dark:bg-[rgb(var(--secondary-bg))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col h-full transition-colors duration-300">
+        <div className="font-mono w-full bg-white dark:bg-[rgb(var(--secondary-bg))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col h-full transition-colors duration-300">
             {/* Header */}
-            <div className={`p-4 sm:p-5 lg:p-6 border-b border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 ${isDeviceMobile() ? 'overflow-hidden' : ''}`}>
+            <div className={`w-full p-4 sm:p-5 lg:p-6 border-b border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 ${isDeviceMobile() ? 'overflow-hidden' : ''}`}>
                 <h1 className="text-base sm:text-lg lg:text-xl font-bold text-black dark:text-[rgb(var(--text-primary))] mb-3 sm:mb-4 transition-colors duration-300">Course Enrollment</h1>
 
                 {/* Stats Marquee removed on chat page per request */}
 
                 {/* Term Selector */}
-                <div className="mb-3 sm:mb-4">
+                <div className="w-full mb-3 sm:mb-4">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Academic Term
                     </label>
@@ -4657,7 +4657,7 @@ function KairollComponent() {
                 </div>
 
                 {/* Search Bar */}
-                <div className="mb-4 sm:mb-6">
+                <div className="w-full mb-4 sm:mb-6">
                     <div className="relative">
                         <input
                             type="text"
@@ -4700,7 +4700,7 @@ function KairollComponent() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-3">
                     <button
                         onClick={() => setSearchQuery('')}
                         disabled={!searchQuery}
@@ -4724,10 +4724,10 @@ function KairollComponent() {
             </div>
 
             {/* Course List */}
-            <div className={`flex flex-col ${isMobile ? '' : 'flex-1 min-h-0 course-list-container'}`}>
+            <div className={`flex flex-col w-full ${isMobile ? '' : 'flex-1 min-h-0 course-list-container'}`}>
                 {/* Course List */}
-                <div className={`p-4 sm:p-5 lg:p-6 ${isMobile ? 'border-b border-gray-200 dark:border-white/10 transition-colors duration-300' : ''}`}>
-                    <div className="space-y-4">
+                <div className={`w-full p-4 sm:p-5 lg:p-6 ${isMobile ? 'border-b border-gray-200 dark:border-white/10 transition-colors duration-300' : ''}`}>
+                    <div className="w-full space-y-4">
                         {searchQuery.trim() !== '' && (
                             <>
                                 {(isMobile ? filteredCourses.slice(0, 5) : filteredCourses).map((course: CourseGrouped) => (
@@ -4763,9 +4763,9 @@ function KairollComponent() {
                 </div>
 
                 {/* Weekly Schedule */}
-                <div className="flex-1 p-4 sm:p-5 lg:p-6">
+                <div className="flex-1 w-full p-4 sm:p-5 lg:p-6">
                     {isMobile && (
-                        <div className="flex items-center justify-between mb-4">
+                        <div className="w-full flex items-center justify-between mb-4">
                             <div className="flex items-center gap-2 text-gray-900 dark:text-gray-400">
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -4834,7 +4834,7 @@ function KairollComponent() {
                         </div>
                     )}
                     {isMobile && (
-                        <div className="bg-white dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-lg border border-gray-200 dark:border-white/5 dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
+                        <div className="w-full bg-white dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-lg border border-gray-200 dark:border-white/5 dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
                             {/* Mobile Time Grid Calendar: Outer container for vertical scroll (scrollbar hidden) */}
                             <div className="no-scrollbar">
                                 {/* Inner container for horizontal scroll (scrollbar visible) */}
