@@ -584,8 +584,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
                 }
             }, 100);
 
-            // Show success message
-            alert(`✅ Event "${newEvent.title}" created successfully!`);
+            // Don't show alert for individual events - let batch operations show their own summary
 
         } catch (error) {
             console.error('Error creating event:', error);
@@ -2696,6 +2695,10 @@ interface CourseCardProps {
 const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSectionToggle, selectedSectionEvents, pendingAdditions }: CourseCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+    
+    // Touch tracking to differentiate between scroll and click
+    const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+    const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
 
     // Use the global selection state with unique course-section identifiers
     const isSelected = (sectionCode: string) => {
@@ -2724,6 +2727,14 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
             }
             return newSet;
         });
+    };
+
+    // Check if touch movement was a scroll (moved more than 10px)
+    const wasScroll = () => {
+        if (!touchStart || !touchEnd) return false;
+        const deltaX = Math.abs(touchEnd.x - touchStart.x);
+        const deltaY = Math.abs(touchEnd.y - touchStart.y);
+        return deltaX > 10 || deltaY > 10; // If moved more than 10px, consider it a scroll
     };
 
     const handleSectionClick = (sectionCode: string, sectionData: any) => {
@@ -2923,9 +2934,22 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                     ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
                                                                                     : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                             }`}
+                                                                        onTouchStart={(e) => {
+                                                                            setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+                                                                        }}
+                                                                        onTouchEnd={(e) => {
+                                                                            setTouchEnd({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY });
+                                                                        }}
                                                                         onClick={(e) => {
                                                                             e.stopPropagation();
                                                                             e.preventDefault();
+
+                                                                            // Check if this was a scroll gesture
+                                                                            if (wasScroll()) {
+                                                                                setTouchStart(null);
+                                                                                setTouchEnd(null);
+                                                                                return;
+                                                                            }
 
                                                                             // Prevent multiple clicks while pending
                                                                             if (isPending(group.lecture.section)) {
@@ -2939,6 +2963,10 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                 courseTitle: course.courseTitle,
                                                                                 type: group.lecture.section.split('-')[1] || 'LEC'
                                                                             });
+                                                                            
+                                                                            // Reset touch tracking
+                                                                            setTouchStart(null);
+                                                                            setTouchEnd(null);
                                                                         }}
                                                                     >
                                                                         {isPending(group.lecture.section) ? (
@@ -2996,9 +3024,22 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                         ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
                                                                                         : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                                 }`}
+                                                                            onTouchStart={(e) => {
+                                                                                setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+                                                                            }}
+                                                                            onTouchEnd={(e) => {
+                                                                                setTouchEnd({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY });
+                                                                            }}
                                                                             onClick={(e) => {
                                                                                 e.stopPropagation();
                                                                                 e.preventDefault();
+
+                                                                                // Check if this was a scroll gesture
+                                                                                if (wasScroll()) {
+                                                                                    setTouchStart(null);
+                                                                                    setTouchEnd(null);
+                                                                                    return;
+                                                                                }
 
                                                                                 // Prevent multiple clicks while pending
                                                                                 if (isPending(lab.section)) {
@@ -3012,6 +3053,10 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                     courseTitle: course.courseTitle,
                                                                                     type: lab.section.split('-')[1] || 'LAB'
                                                                                 });
+                                                                                
+                                                                                // Reset touch tracking
+                                                                                setTouchStart(null);
+                                                                                setTouchEnd(null);
                                                                             }}
                                                                         >
                                                                             {isPending(lab.section) ? (
@@ -3074,9 +3119,22 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                             ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
                                                                                             : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                                     }`}
+                                                                                onTouchStart={(e) => {
+                                                                                    setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+                                                                                }}
+                                                                                onTouchEnd={(e) => {
+                                                                                    setTouchEnd({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY });
+                                                                                }}
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
                                                                                     e.preventDefault();
+
+                                                                                    // Check if this was a scroll gesture
+                                                                                    if (wasScroll()) {
+                                                                                        setTouchStart(null);
+                                                                                        setTouchEnd(null);
+                                                                                        return;
+                                                                                    }
 
                                                                                     // Prevent multiple clicks while pending
                                                                                     if (isPending(tutorial.section)) {
@@ -3090,6 +3148,10 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                         courseTitle: course.courseTitle,
                                                                                         type: sectionType
                                                                                     });
+                                                                                    
+                                                                                    // Reset touch tracking
+                                                                                    setTouchStart(null);
+                                                                                    setTouchEnd(null);
                                                                                 }}
                                                                             >
                                                                                 {isPending(tutorial.section) ? (
@@ -4115,14 +4177,31 @@ function KairollComponent() {
             return;
         }
 
-        // Clear all calendar events first
+        // Fetch ALL calendar events from the server to ensure we delete everything
+        let allServerEvents: any[] = [];
+        try {
+            allServerEvents = await getCalendarEvents();
+        } catch (error) {
+            console.error('Error fetching calendar events:', error);
+        }
+
+        // Collect all event IDs (from both local state and server)
         const allEventIds: number[] = [];
+        
+        // Add IDs from local state
         selectedSectionEvents.forEach((eventIds) => {
             allEventIds.push(...eventIds);
         });
 
-        if (allEventIds.length > 0) {
+        // Add IDs from server (avoiding duplicates)
+        const localIds = new Set(allEventIds);
+        allServerEvents.forEach((event) => {
+            if (event.id && !localIds.has(event.id)) {
+                allEventIds.push(event.id);
+            }
+        });
 
+        if (allEventIds.length > 0) {
             // IMMEDIATELY remove events from calendar state for instant visual feedback
             window.dispatchEvent(new CustomEvent('forceRemoveEvents', {
                 detail: { eventIds: allEventIds, resetFlag: true }
@@ -4762,17 +4841,16 @@ function KairollComponent() {
                                 <div className="overflow-x-auto">
                                     {/* Day Headers */}
                                     <div className="bg-gray-50 dark:bg-gradient-to-b dark:from-[#1e1e1e] dark:to-[#1a1a1a] border-b border-gray-200 dark:border-white/5">
-                                        <div className="flex gap-0 min-w-[600px]">
+                                        <div className="flex gap-0 w-full">
                                             {/* Time column header */}
-                                            <div className="p-2 text-xs font-medium text-gray-500 dark:text-[#aaaaaa] bg-gray-50 dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-white/5 flex-shrink-0" style={{ width: '60px' }}>
+                                            <div className="p-2 text-xs font-medium text-gray-500 dark:text-[#aaaaaa] bg-gray-50 dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-white/5 flex-shrink-0 w-[60px]">
                                                 Time
                                             </div>
                                             {/* Day headers */}
                                             {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                                                 <div
                                                     key={day}
-                                                    className="p-2 text-sm font-medium text-center text-gray-700 dark:text-[#e0e0e0] bg-gray-50 dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-white/5 last:border-r-0"
-                                                    style={{ width: `${(600 - 60) / 6}px` }}
+                                                    className="flex-1 p-2 text-sm font-medium text-center text-gray-700 dark:text-[#e0e0e0] bg-gray-50 dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-white/5 last:border-r-0"
                                                 >
                                                     {day}
                                                 </div>
@@ -4789,11 +4867,10 @@ function KairollComponent() {
                                             const period = hour >= 12 ? 'PM' : 'AM';
 
                                             return (
-                                                <div key={hour} className="flex border-b border-gray-200 dark:border-white/5 bg-white dark:bg-[#121212] min-w-[600px]" style={{ height: '48px' }}>
+                                                <div key={hour} className="flex border-b border-gray-200 dark:border-white/5 bg-white dark:bg-[#121212] w-full" style={{ height: '48px' }}>
                                                     {/* Time label */}
                                                     <div
-                                                        className="p-1 text-xs text-black dark:text-[#aaaaaa] bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/5 flex items-center justify-center flex-shrink-0"
-                                                        style={{ width: '60px' }}
+                                                        className="p-1 text-xs text-black dark:text-[#aaaaaa] bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/5 flex items-center justify-center flex-shrink-0 w-[60px]"
                                                     >
                                                         <div className="flex flex-col items-center">
                                                             <span className="text-xs font-medium">{timeStr}</span>
@@ -4805,7 +4882,6 @@ function KairollComponent() {
                                                         <div
                                                             key={dayIndex}
                                                             className="flex-1 border-r border-gray-200 dark:border-gray-800 last:border-r-0"
-                                                            style={{ width: `${(600 - 60) / 6}px` }}
                                                         />
                                                     ))}
                                                 </div>
@@ -4827,10 +4903,6 @@ function KairollComponent() {
                                             const theme = EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['lavender-peach'];
                                             if (!theme) return null; // Defensive check
 
-                                            const timeColWidth = 60;
-                                            const dayColWidth = (600 - timeColWidth) / 6;
-                                            const left = timeColWidth + colIndex * dayColWidth + 2;
-
                                             const titleMatch = event.title.match(/([A-Z]{3}\s\d{4})\s\((.*?)\)/);
                                             const courseCode = titleMatch ? titleMatch[1] : event.title.split('(')[0].trim();
                                             const sectionType = titleMatch ? titleMatch[2] : '';
@@ -4842,9 +4914,9 @@ function KairollComponent() {
                                                     className="absolute rounded-md p-1.5 text-white overflow-hidden leading-tight cursor-pointer transition-all duration-200 lg:hover:scale-105 lg:hover:shadow-xl lg:hover:brightness-110"
                                                     style={{
                                                         top: `${top}px`,
-                                                        left: `${left}px`,
+                                                        left: `calc(60px + ${colIndex * 16.666}%)`,
                                                         height: `${height}px`,
-                                                        width: `${dayColWidth - 4}px`,
+                                                        width: `calc(16.666% - 4px)`,
                                                         backgroundColor: theme.cssGradient,
                                                         boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
                                                         border: '1px solid rgba(255,255,255,0.15)',
@@ -4884,7 +4956,7 @@ function KairollComponent() {
 interface MobileEventInfoModalProps {
     event: DailyCalendarEvent;
     onClose: () => void;
-    position: { x: number, y: number };
+    position?: { x: number, y: number }; // Optional since modal is now always centered
 }
 
 function parseEventDescription(description: string | undefined) {
@@ -4927,15 +4999,16 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
 
     return (
         <>
-            {/* Backdrop */}
-            <div className="fixed inset-0 z-[59] bg-black/20 backdrop-blur-sm" onClick={onClose} />
-            
-            {/* Modal */}
-            <div
-                className="fixed z-[60] bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white rounded-2xl shadow-2xl p-4 w-72 border border-gray-200 dark:border-gray-700 animate-in fade-in-0 zoom-in-95 duration-200"
-                style={{ left: position.x, top: position.y }}
-                onClick={(e) => e.stopPropagation()}
+            {/* Backdrop - centered positioning */}
+            <div 
+                className="fixed inset-0 z-[59] bg-black/30 backdrop-blur-sm flex items-center justify-center p-4" 
+                onClick={onClose}
             >
+                {/* Modal - always centered */}
+                <div
+                    className="relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white rounded-2xl shadow-2xl p-4 w-full max-w-[280px] border border-gray-200 dark:border-gray-700 animate-in fade-in-0 zoom-in-95 duration-200"
+                    onClick={(e) => e.stopPropagation()}
+                >
                 {/* Close Button */}
                 <button
                     onClick={onClose}
@@ -5003,6 +5076,7 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
                         )}
                     </div>
                 </div>
+                </div>
             </div>
         </>
     );
@@ -5016,8 +5090,8 @@ export default function ChatDashboard() {
                 const { getUserStorageItem } = await import('@/lib/userStorage');
                 const lastView = getUserStorageItem('lastView');
 
-                if (window.innerWidth <= 768) {
-                    // On mobile, only allow 'assistant' or 'kairoll'
+                if (window.innerWidth < 1024) {
+                    // On mobile/tablet, only allow 'assistant' or 'kairoll'
                     if (lastView === 'assistant' || lastView === 'kairoll') {
                         return lastView;
                     }
@@ -5045,7 +5119,7 @@ export default function ChatDashboard() {
     const handleSetView = async (newView: 'split' | 'calendar' | 'assistant' | 'kairoll') => {
         if (typeof window !== 'undefined') {
             // Prevent mobile users from switching to 'calendar' or 'split'
-            if (window.innerWidth <= 768 && (newView === 'calendar' || newView === 'split')) {
+            if (window.innerWidth < 1024 && (newView === 'calendar' || newView === 'split')) {
                 return;
             }
         }
@@ -5219,8 +5293,8 @@ export default function ChatDashboard() {
         <div className="font-mono min-h-screen bg-white dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] transition-colors duration-300">
             {/* Navigation Bar */}
             <div className="bg-white dark:bg-[rgb(var(--secondary-bg))] border-b border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 sticky top-0 z-50">
-                {/* Mobile Navigation - Clean Top Nav Bar (MOBILE ONLY) */}
-                <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white dark:bg-[rgb(var(--secondary-bg))] border-b border-gray-200 dark:border-[rgb(var(--border-color))]">
+                {/* Mobile Navigation - Clean Top Nav Bar (MOBILE/TABLET) */}
+                <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-white dark:bg-[rgb(var(--secondary-bg))] border-b border-gray-200 dark:border-[rgb(var(--border-color))]">
                     <div className="flex items-center gap-3">
                         <Logo size={36} />
                     </div>

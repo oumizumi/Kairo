@@ -4,8 +4,8 @@ export const isMobileDevice = (): boolean => {
         return false; // Default to desktop for SSR
     }
 
-    // Check screen width - consider anything 768px and below as mobile
-    const isMobileWidth = window.innerWidth <= 768;
+    // Check screen width - consider anything below 1024px as mobile to match desktop calendar breakpoint
+    const isMobileWidth = window.innerWidth < 1024;
 
     // Check user agent for mobile devices
     const userAgent = navigator.userAgent.toLowerCase();

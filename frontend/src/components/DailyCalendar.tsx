@@ -2769,8 +2769,21 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 // Close the modal
                 handleClosePasteModal();
 
-                // Show success message
-                alert(`Successfully imported ${scheduleEvents.length} events from shared schedule!`);
+                // Extract unique course codes from the events
+                const addedCourses = new Set<string>();
+                scheduleEvents.forEach(event => {
+                    // Extract course code from title (e.g., "CSI 2110 - Prof Name" -> "CSI 2110")
+                    const courseMatch = event.title.match(/([A-Z]{3}\s*\d{4})/);
+                    if (courseMatch) {
+                        addedCourses.add(courseMatch[1]);
+                    }
+                });
+
+                // Create a nice formatted list
+                const courseList = Array.from(addedCourses).join('\n• ');
+                
+                // Show consolidated success message with list
+                alert(`✅ Successfully imported ${scheduleEvents.length} events!\n\nCourses added:\n• ${courseList}`);
             } else {
                 setPasteError('No events found in the shared schedule');
             }
