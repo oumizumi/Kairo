@@ -5009,8 +5009,8 @@ export default function ChatDashboard() {
                 const { getUserStorageItem } = await import('@/lib/userStorage');
                 const lastView = getUserStorageItem('lastView');
 
-                if (window.innerWidth <= 768) {
-                    // On mobile, only allow 'assistant' or 'kairoll'
+                if (window.innerWidth < 1024) {
+                    // On mobile/tablet, only allow 'assistant' or 'kairoll'
                     if (lastView === 'assistant' || lastView === 'kairoll') {
                         return lastView;
                     }
@@ -5038,7 +5038,7 @@ export default function ChatDashboard() {
     const handleSetView = async (newView: 'split' | 'calendar' | 'assistant' | 'kairoll') => {
         if (typeof window !== 'undefined') {
             // Prevent mobile users from switching to 'calendar' or 'split'
-            if (window.innerWidth <= 768 && (newView === 'calendar' || newView === 'split')) {
+            if (window.innerWidth < 1024 && (newView === 'calendar' || newView === 'split')) {
                 return;
             }
         }
