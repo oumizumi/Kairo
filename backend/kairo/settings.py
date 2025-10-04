@@ -211,11 +211,7 @@ empty unless provided or one of the known Vercel domains. When a non-empty list 
 configured, force CORS_ALLOW_ALL_ORIGINS to False so the list applies.
 """
 CORS_ALLOWED_ORIGINS = get_env_var_as_list('DJANGO_CORS_ALLOWED_ORIGINS')
-CORS_ALLOW_ALL_ORIGINS = get_env_var_as_boolean('DJANGO_CORS_ALLOW_ALL_ORIGINS', 'True')
-
-# Temporary fix: Allow all origins for debugging
-if not DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = get_env_var_as_boolean('DJANGO_CORS_ALLOW_ALL_ORIGINS', 'False')
 
 if DEBUG:
     if not CORS_ALLOWED_ORIGINS:
