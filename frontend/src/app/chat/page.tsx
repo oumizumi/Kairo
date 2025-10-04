@@ -4762,17 +4762,16 @@ function KairollComponent() {
                                 <div className="overflow-x-auto">
                                     {/* Day Headers */}
                                     <div className="bg-gray-50 dark:bg-gradient-to-b dark:from-[#1e1e1e] dark:to-[#1a1a1a] border-b border-gray-200 dark:border-white/5">
-                                        <div className="flex gap-0 min-w-[600px]">
+                                        <div className="flex gap-0 w-full">
                                             {/* Time column header */}
-                                            <div className="p-2 text-xs font-medium text-gray-500 dark:text-[#aaaaaa] bg-gray-50 dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-white/5 flex-shrink-0" style={{ width: '60px' }}>
+                                            <div className="p-2 text-xs font-medium text-gray-500 dark:text-[#aaaaaa] bg-gray-50 dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-white/5 flex-shrink-0 w-[60px]">
                                                 Time
                                             </div>
                                             {/* Day headers */}
                                             {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                                                 <div
                                                     key={day}
-                                                    className="p-2 text-sm font-medium text-center text-gray-700 dark:text-[#e0e0e0] bg-gray-50 dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-white/5 last:border-r-0"
-                                                    style={{ width: `${(600 - 60) / 6}px` }}
+                                                    className="flex-1 p-2 text-sm font-medium text-center text-gray-700 dark:text-[#e0e0e0] bg-gray-50 dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-white/5 last:border-r-0"
                                                 >
                                                     {day}
                                                 </div>
@@ -4789,11 +4788,10 @@ function KairollComponent() {
                                             const period = hour >= 12 ? 'PM' : 'AM';
 
                                             return (
-                                                <div key={hour} className="flex border-b border-gray-200 dark:border-white/5 bg-white dark:bg-[#121212] min-w-[600px]" style={{ height: '48px' }}>
+                                                <div key={hour} className="flex border-b border-gray-200 dark:border-white/5 bg-white dark:bg-[#121212] w-full" style={{ height: '48px' }}>
                                                     {/* Time label */}
                                                     <div
-                                                        className="p-1 text-xs text-black dark:text-[#aaaaaa] bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/5 flex items-center justify-center flex-shrink-0"
-                                                        style={{ width: '60px' }}
+                                                        className="p-1 text-xs text-black dark:text-[#aaaaaa] bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/5 flex items-center justify-center flex-shrink-0 w-[60px]"
                                                     >
                                                         <div className="flex flex-col items-center">
                                                             <span className="text-xs font-medium">{timeStr}</span>
@@ -4805,7 +4803,6 @@ function KairollComponent() {
                                                         <div
                                                             key={dayIndex}
                                                             className="flex-1 border-r border-gray-200 dark:border-gray-800 last:border-r-0"
-                                                            style={{ width: `${(600 - 60) / 6}px` }}
                                                         />
                                                     ))}
                                                 </div>
@@ -4827,10 +4824,6 @@ function KairollComponent() {
                                             const theme = EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['lavender-peach'];
                                             if (!theme) return null; // Defensive check
 
-                                            const timeColWidth = 60;
-                                            const dayColWidth = (600 - timeColWidth) / 6;
-                                            const left = timeColWidth + colIndex * dayColWidth + 2;
-
                                             const titleMatch = event.title.match(/([A-Z]{3}\s\d{4})\s\((.*?)\)/);
                                             const courseCode = titleMatch ? titleMatch[1] : event.title.split('(')[0].trim();
                                             const sectionType = titleMatch ? titleMatch[2] : '';
@@ -4842,9 +4835,9 @@ function KairollComponent() {
                                                     className="absolute rounded-md p-1.5 text-white overflow-hidden leading-tight cursor-pointer transition-all duration-200 lg:hover:scale-105 lg:hover:shadow-xl lg:hover:brightness-110"
                                                     style={{
                                                         top: `${top}px`,
-                                                        left: `${left}px`,
+                                                        left: `calc(60px + ${colIndex * 16.666}%)`,
                                                         height: `${height}px`,
-                                                        width: `${dayColWidth - 4}px`,
+                                                        width: `calc(16.666% - 4px)`,
                                                         backgroundColor: theme.cssGradient,
                                                         boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
                                                         border: '1px solid rgba(255,255,255,0.15)',
