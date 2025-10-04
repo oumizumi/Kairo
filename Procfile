@@ -9,3 +9,5 @@ beat: celery -A kairo beat
 
 
 
+
+
