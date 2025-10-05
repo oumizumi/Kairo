@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from 'react';
-import { Orbitron } from 'next/font/google';
-import ThemeToggle from '@/components/ThemeToggle';
+import Link from 'next/link';
+import Logo from '@/components/Logo';
 import api from '@/lib/api';
-
-const orbitron = Orbitron({ subsets: ['latin'], weight: ['700'] });
 
 export default function ContactPage() {
     const [fullName, setFullName] = useState('');
@@ -31,7 +29,7 @@ export default function ContactPage() {
 
             if (response.status === 200) {
                 setIsSuccess(true);
-                setSubmitMessage(response.data.message || 'Your message has been sent successfully!');
+                setSubmitMessage(response.data.message || 'Message sent successfully!');
                 // Clear form
                 setFullName('');
                 setEmail('');
@@ -47,7 +45,7 @@ export default function ContactPage() {
                 const errorMessages = Object.values(errors).flat();
                 setSubmitMessage(errorMessages.join(' '));
             } else {
-                setSubmitMessage('Failed to send message. Please try again later.');
+                setSubmitMessage('Server error. Please try again later.');
             }
         } finally {
             setIsSubmitting(false);
@@ -55,82 +53,112 @@ export default function ContactPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 px-4" style={{ fontFamily: 'Monaco, Menlo, "Courier New", monospace' }}>
-            <div className="w-full max-w-md mx-auto">
-                <div className={`${orbitron.className} text-2xl sm:text-3xl font-extrabold text-black dark:text-white tracking-wide text-center mb-6 select-none`}>
-                    KAIRO
-                </div>
-                <div className="bg-gray-50 dark:bg-neutral-900 p-6 sm:p-8 rounded-xl shadow-xl border border-gray-200 dark:border-neutral-700 w-full transition-colors duration-300">
-                    <h2 className="text-2xl font-bold mb-2 text-center text-gray-900 dark:text-white">Get in Touch</h2>
-                    <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
+        <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative" style={{ fontFamily: 'Monaco, Menlo, "Courier New", monospace' }}>
+            {/* Logo with proper anchoring */}
+            <div className="absolute top-6 left-8 z-10">
+                <Link 
+                    href="/" 
+                    className="inline-block drop-shadow-md hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] transition-all duration-200 hover:scale-105"
+                >
+                    <Logo size={56} />
+                </Link>
+            </div>
+
+            {/* Subtle horizontal line under header area */}
+            <div className="absolute top-[90px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-neutral-800 to-transparent opacity-60"></div>
+
+            {/* Decorative vertical lines for framing */}
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-200 dark:via-neutral-800 to-transparent opacity-40"></div>
+            <div className="absolute right-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-200 dark:via-neutral-800 to-transparent opacity-40"></div>
+
+            {/* Main content area - positioned at 45% from top */}
+            <div className="flex items-start justify-center px-4 pt-[calc(45vh-250px)] min-h-screen">
+                <div className="w-full max-w-md mx-auto relative animate-fadeInUp">
+                    <h2 className="text-xl font-bold mb-2 text-center text-gray-900 dark:text-white">Get in Touch</h2>
+                    <p className="text-gray-600 dark:text-gray-400 text-center mb-6 text-sm">
                         Questions, feedback, or feature ideas? Let us know.
                     </p>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        {submitMessage && (
-                            <div className={`p-3 rounded border text-sm ${isSuccess
-                                ? 'bg-green-50 dark:bg-green-900/50 border-green-200 dark:border-green-700 text-green-800 dark:text-green-200'
-                                : 'bg-red-50 dark:bg-red-900/50 border-red-200 dark:border-red-700 text-red-800 dark:text-red-200'
-                                }`}>
-                                {submitMessage}
-                            </div>
-                        )}
 
+                    {submitMessage && (
+                        <div className={`mb-4 p-3 rounded border text-sm text-center animate-fadeIn ${isSuccess
+                            ? 'bg-green-50 dark:bg-green-900/30 border-green-300 dark:border-green-700 text-green-700 dark:text-green-300'
+                            : 'bg-red-50 dark:bg-red-900/30 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300'
+                            }`}>
+                            {submitMessage}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-3">
                         <div>
-                            <label htmlFor="fullName" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <label htmlFor="fullName" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Full Name
                             </label>
                             <input
                                 id="fullName"
                                 type="text"
                                 placeholder="Enter your full name"
-                                className="rounded border border-gray-300 dark:border-white/5 bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-[#e0e0e0] px-4 py-2 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:border-transparent w-full transition-colors duration-300"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] w-full transition-all duration-200"
                                 value={fullName}
                                 onChange={e => setFullName(e.target.value)}
                                 required
                                 disabled={isSubmitting}
+                                aria-label="Full name"
                             />
                         </div>
                         <div>
-                            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Email
                             </label>
                             <input
                                 id="email"
                                 type="email"
-                                placeholder="Enter your email"
-                                className="rounded border border-gray-300 dark:border-white/5 bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-[#e0e0e0] px-4 py-2 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:border-transparent w-full transition-colors duration-300"
+                                placeholder="your@email.com"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] w-full transition-all duration-200"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 required
                                 disabled={isSubmitting}
+                                aria-label="Email"
                             />
                         </div>
                         <div>
-                            <label htmlFor="message" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Message
                             </label>
                             <textarea
                                 id="message"
                                 placeholder="Type your message here..."
-                                rows={4}
-                                className="rounded border border-gray-300 dark:border-white/5 bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-[#e0e0e0] px-4 py-2 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 focus:border-transparent w-full resize-none transition-colors duration-300"
+                                rows={5}
+                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] w-full resize-none transition-all duration-200"
                                 value={message}
                                 onChange={e => setMessage(e.target.value)}
                                 required
                                 disabled={isSubmitting}
+                                aria-label="Message"
                             />
                         </div>
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="bg-gray-900 dark:bg-white text-white dark:text-black font-semibold py-2 px-4 rounded hover:bg-gray-800 dark:hover:bg-neutral-300 w-full transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="bg-gradient-to-r from-[#8b5cf6] to-[#7c3aed] hover:from-[#7c3aed] hover:to-[#6d28d9] text-white font-semibold py-2.5 px-4 rounded w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4 focus:outline-none focus:ring-2 focus:ring-[#8b5cf6] focus:ring-offset-2 focus:ring-offset-[#121212]"
+                            aria-label="Send message"
                         >
+                            {isSubmitting && (
+                                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            )}
                             {isSubmitting ? 'Sending...' : 'Send Message'}
                         </button>
                     </form>
                 </div>
             </div>
-            <ThemeToggle />
+
+            {/* Footer */}
+            <footer className="absolute bottom-4 left-0 right-0 text-center">
+                <p className="text-xs text-gray-500 dark:text-gray-600 opacity-60">© 2025 Kairo</p>
+            </footer>
         </div>
     );
 } 
