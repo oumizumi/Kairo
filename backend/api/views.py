@@ -2964,10 +2964,10 @@ class UserLoginView(APIView):
                             }
                         }, status=status.HTTP_200_OK)
                     else:
-                        # User exists but password is incorrect
+                        # User exists but password is incorrect - return clear error message
                         return Response({'error': 'Incorrect password'}, status=status.HTTP_401_UNAUTHORIZED)
                 except User.DoesNotExist:
-                    # No account matches the provided identifier
+                    # No account matches the provided identifier - return clear error message
                     return Response({'error': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
                 except Exception as e:
                     logger.error(f"Database error during login: {e}")
