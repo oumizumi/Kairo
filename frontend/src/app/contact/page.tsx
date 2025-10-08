@@ -58,7 +58,7 @@ export default function ContactPage() {
             <div className="absolute top-6 left-8 z-10">
                 <Link 
                     href="/" 
-                    className="inline-block drop-shadow-md hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] transition-all duration-200 hover:scale-105"
+                    className="inline-block drop-shadow-md hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.6)] transition-all duration-200 hover:scale-105"
                 >
                     <Logo size={56} />
                 </Link>
@@ -97,7 +97,7 @@ export default function ContactPage() {
                                 id="fullName"
                                 type="text"
                                 placeholder="Enter your full name"
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] w-full transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
                                 value={fullName}
                                 onChange={e => setFullName(e.target.value)}
                                 required
@@ -113,7 +113,7 @@ export default function ContactPage() {
                                 id="email"
                                 type="email"
                                 placeholder="your@email.com"
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] w-full transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 required
@@ -129,7 +129,7 @@ export default function ContactPage() {
                                 id="message"
                                 placeholder="Type your message here..."
                                 rows={5}
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] w-full resize-none transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full resize-none transition-all duration-200"
                                 value={message}
                                 onChange={e => setMessage(e.target.value)}
                                 required
@@ -140,7 +140,7 @@ export default function ContactPage() {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="bg-gradient-to-r from-[#8b5cf6] to-[#7c3aed] hover:from-[#7c3aed] hover:to-[#6d28d9] text-white font-semibold py-2.5 px-4 rounded w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4 focus:outline-none focus:ring-2 focus:ring-[#8b5cf6] focus:ring-offset-2 focus:ring-offset-[#121212]"
+                            className="bg-gradient-to-r from-[#f97316] to-[#ea580c] hover:from-[#ea580c] hover:to-[#c2410c] text-white font-semibold py-2.5 px-4 rounded w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4 focus:outline-none focus:ring-2 focus:ring-[#f97316] focus:ring-offset-2 focus:ring-offset-[#121212]"
                             aria-label="Send message"
                         >
                             {isSubmitting && (

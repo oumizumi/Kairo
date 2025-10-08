@@ -88,7 +88,7 @@ function LoginForm() {
             <div className="absolute top-6 left-8 z-10">
                 <Link 
                     href="/" 
-                    className="inline-block drop-shadow-md hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] transition-all duration-200 hover:scale-105"
+                    className="inline-block drop-shadow-md hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.6)] transition-all duration-200 hover:scale-105"
                 >
                     <Logo size={56} />
                 </Link>
@@ -119,7 +119,7 @@ function LoginForm() {
                             id="identifier"
                             type="text"
                             placeholder="Enter your email or username"
-                            className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] w-full transition-all duration-200"
+                            className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
                             value={identifier}
                             onChange={e => setIdentifier(e.target.value)}
                             required
@@ -134,7 +134,7 @@ function LoginForm() {
                                 id="password"
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder="Enter your password"
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] w-full transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 required
@@ -144,7 +144,7 @@ function LoginForm() {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:opacity-80 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#8b5cf6]"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:opacity-80 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                                 aria-label={showPassword ? 'Hide password' : 'Show password'}
                                 disabled={isLoading || isGuestLoading}
                             >
@@ -171,7 +171,7 @@ function LoginForm() {
                     </div>
                     <button
                         type="submit"
-                        className="bg-gradient-to-r from-[#8b5cf6] to-[#7c3aed] hover:from-[#7c3aed] hover:to-[#6d28d9] text-white font-semibold py-2.5 px-4 rounded w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4 focus:outline-none focus:ring-2 focus:ring-[#8b5cf6] focus:ring-offset-2 focus:ring-offset-[#121212]"
+                        className="bg-gradient-to-r from-[#f97316] to-[#ea580c] hover:from-[#ea580c] hover:to-[#c2410c] text-white font-semibold py-2.5 px-4 rounded w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4 focus:outline-none focus:ring-2 focus:ring-[#f97316] focus:ring-offset-2 focus:ring-offset-[#121212]"
                         disabled={isLoading || isGuestLoading}
                         aria-label="Login to your account"
                     >
@@ -195,7 +195,7 @@ function LoginForm() {
                 {/* Guest Login Button */}
                 <button
                     onClick={handleGuestLogin}
-                    className="bg-transparent border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 font-medium py-2.5 px-4 rounded hover:bg-gray-100 dark:hover:bg-[#1f1f1f] hover:border-gray-500 dark:hover:border-[#333] w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#8b5cf6]"
+                    className="bg-transparent border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 font-medium py-2.5 px-4 rounded hover:bg-gray-100 dark:hover:bg-[#1f1f1f] hover:border-gray-500 dark:hover:border-[#333] w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                     disabled={isLoading || isGuestLoading}
                     aria-label="Continue as guest"
                 >
@@ -235,7 +235,7 @@ export default function LoginPage() {
                 <div className="absolute top-6 left-8 z-10">
                     <Link 
                         href="/" 
-                        className="inline-block drop-shadow-md hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] transition-all duration-200 hover:scale-105"
+                        className="inline-block drop-shadow-md hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.6)] transition-all duration-200 hover:scale-105"
                     >
                         <Logo size={56} />
                     </Link>
