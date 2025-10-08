@@ -434,6 +434,6 @@ For issues or questions, please contact the development team.
 
 <div align="center">
 
-**Made for university students :)**
+**Made for university students 🎓✨**
 
 </div>
