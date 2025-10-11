@@ -3984,20 +3984,6 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         )}
                     </div>
 
-                    {/* Center: Course and Conflicts Badges - Only show in Kairoll view */}
-                    {isKairollView && (
-                        <div className="flex items-center gap-3">
-                            <CounterBadge count={courseCount} label="courses" />
-                            <CounterBadge
-                                count={conflictsCount}
-                                label="conflicts"
-                                variant="warning"
-                                clickable={true}
-                                onClick={handleShowConflicts}
-                            />
-                        </div>
-                    )}
-
                     {/* Right: Action Buttons */}
                     <div className="flex items-center gap-2">
                         {!readOnly && hasScheduleContent(allEvents) && (
@@ -4048,22 +4034,6 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
                 {/* Compact layout for medium screens (md to xl) */}
                 <div className="xl:hidden flex flex-col gap-3">
-                    {/* Course and Conflicts Badges - Only show in Kairoll view */}
-                    {isKairollView && (
-                        <div className="flex flex-wrap items-center justify-center gap-3">
-                            <div className="flex items-center gap-3">
-                                <CounterBadge count={courseCount} label="courses" />
-                                <CounterBadge
-                                    count={conflictsCount}
-                                    label="conflicts"
-                                    variant="warning"
-                                    clickable={true}
-                                    onClick={handleShowConflicts}
-                                />
-                            </div>
-                        </div>
-                    )}
-
                     {/* Main Header Row */}
                     <div className="flex items-center justify-between">
                         {/* Left: Date Range Display with Navigation and Today Button */}
