@@ -3984,6 +3984,20 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         )}
                     </div>
 
+                    {/* Center: Course and Conflicts Badges - Only show in Kairoll view */}
+                    {isKairollView && (
+                        <div className="flex items-center gap-3">
+                            <CounterBadge count={courseCount} label="courses" />
+                            <CounterBadge
+                                count={conflictsCount}
+                                label="conflicts"
+                                variant="warning"
+                                clickable={true}
+                                onClick={handleShowConflicts}
+                            />
+                        </div>
+                    )}
+
                     {/* Right: Action Buttons */}
                     <div className="flex items-center gap-2">
                         {!readOnly && hasScheduleContent(allEvents) && (
@@ -4034,6 +4048,22 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
                 {/* Compact layout for medium screens (md to xl) */}
                 <div className="xl:hidden flex flex-col gap-3">
+                    {/* Course and Conflicts Badges - Only show in Kairoll view */}
+                    {isKairollView && (
+                        <div className="flex flex-wrap items-center justify-center gap-3">
+                            <div className="flex items-center gap-3">
+                                <CounterBadge count={courseCount} label="courses" />
+                                <CounterBadge
+                                    count={conflictsCount}
+                                    label="conflicts"
+                                    variant="warning"
+                                    clickable={true}
+                                    onClick={handleShowConflicts}
+                                />
+                            </div>
+                        </div>
+                    )}
+
                     {/* Main Header Row */}
                     <div className="flex items-center justify-between">
                         {/* Left: Date Range Display with Navigation and Today Button */}
@@ -4136,7 +4166,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 {/* Days header */}
                 <div className={`grid grid-cols-[48px_repeat(5,1fr)] sm:grid-cols-[64px_repeat(5,1fr)_100px_100px] ${themeStyles.dayHeaderBg} border-b-2 ${themeStyles.containerBorder} sticky top-0 z-20`}>
                     {/* Time column header */}
-                    <div className={`col-span-1 p-1 text-xs ${themeStyles.timeLabelText} border-r-2 ${themeStyles.containerBorder} transition-colors duration-300 flex items-center justify-center ${themeStyles.timeLabelBg} font-semibold w-12 sm:w-16 max-w-16`}>
+                    <div className={`col-span-1 p-1 text-xs ${themeStyles.timeLabelText} border-r-2 ${themeStyles.containerBorder} transition-colors duration-300 flex items-center justify-center ${themeStyles.timeLabelBg} font-semibold w-[48px] sm:w-[64px]`}>
                         <span className="hidden sm:inline text-xs">Time</span>
                         <span className="inline sm:hidden text-[10px]">T</span>
                     </div>
@@ -4379,7 +4409,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             )}
 
                             {/* Time label */}
-                            <div className={`col-span-1 mobile-time-label p-1 text-xs ${themeStyles.timeLabelText} ${themeStyles.timeLabelBg} border-r-2 ${themeStyles.containerBorder} font-medium flex items-center justify-center relative z-20 w-12 sm:w-16 max-w-16`}>
+                            <div className={`col-span-1 mobile-time-label p-1 text-xs ${themeStyles.timeLabelText} ${themeStyles.timeLabelBg} border-r-2 ${themeStyles.containerBorder} font-medium flex items-center justify-center relative z-20 w-[48px] sm:w-[64px]`}>
                                 {/* Compact mobile format: 10a / 4p */}
                                 <span className="inline sm:hidden text-[10px] leading-tight font-medium whitespace-nowrap">{slot.display.replace(':00', '').replace(' ', '').replace('AM', 'a').replace('PM', 'p')}</span>
                                 {/* Desktop format: align AM/PM consistently */}
