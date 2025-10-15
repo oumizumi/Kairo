@@ -4175,6 +4175,11 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     {weekDays.map((day, index) => {
                         // On mobile, only show Monday-Friday (index 0-4)
                         const isWeekend = index >= 5; // Saturday (5) and Sunday (6)
+                        
+                        // Skip rendering weekend headers on mobile entirely
+                        if (screenWidth < 640 && isWeekend) {
+                            return null;
+                        }
 
                         return (
                             <div key={index} className={`mobile-day-header text-center transition-colors duration-300 flex flex-col justify-center ${themeStyles.dayHeaderBg} relative ${isWeekend ? 'hidden sm:flex' : ''}`}>
@@ -4230,6 +4235,11 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         {weekDays.map((day, dayIndex) => {
                             // On mobile, only show Monday-Friday (index 0-4)
                             const isWeekend = dayIndex >= 5; // Saturday (5) and Sunday (6)
+                            
+                            // Skip weekend event containers on mobile entirely
+                            if (screenWidth < 640 && isWeekend) {
+                                return null;
+                            }
 
                             const dayEvents = getEventsForDay(dayNames[dayIndex], day);
 
@@ -4239,12 +4249,17 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
                             if (screenWidth < 640) {
                                 // Mobile: grid-cols-[50px_repeat(5,1fr)] - 5 equal columns after time
+                                // Each day column gets equal space after the 50px time column
                                 const timeColumnWidth = 50;
                                 const totalColumns = 5;
-                                const availableWidth = `calc(100% - ${timeColumnWidth}px)`;
-
-                                columnWidth = `calc(${availableWidth} / ${totalColumns})`;
-                                leftPosition = `calc(${timeColumnWidth}px + ${availableWidth} * ${dayIndex} / ${totalColumns})`;
+                                
+                                // Use CSS calc to match grid-template-columns exactly
+                                // The available width is (100% - 50px), divided by 5 columns
+                                const singleColumnWidth = `calc((100% - ${timeColumnWidth}px) / ${totalColumns})`;
+                                
+                                // Position: time column width + (column width * day index)
+                                columnWidth = singleColumnWidth;
+                                leftPosition = `calc(${timeColumnWidth}px + (${singleColumnWidth} * ${dayIndex}))`;
                             } else {
                                 // Desktop: grid-cols-[64px_repeat(5,1fr)_100px_100px]
                                 const timeColumnWidth = 64;
@@ -4430,6 +4445,11 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             {weekDays.map((day, dayIndex) => {
                                 // On mobile, only show Monday-Friday (index 0-4)
                                 const isWeekend = dayIndex >= 5; // Saturday (5) and Sunday (6)
+                                
+                                // Skip rendering weekend columns on mobile entirely
+                                if (screenWidth < 640 && isWeekend) {
+                                    return null;
+                                }
 
                                 return (
                                     <div key={dayIndex} className={`relative ${themeStyles.timeSlotBg} min-h-[80px] h-full ${isWeekend ? 'hidden sm:block' : ''}`}>
