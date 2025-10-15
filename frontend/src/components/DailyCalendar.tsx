@@ -2911,17 +2911,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 height: 70px !important;
             }
 
+            /* Mobile time and day cells - let grid control sizing */
             .mobile-time-label {
-                width: 50px !important;
-                padding: 0.75rem 0.25rem !important;
-                font-size: 0.7rem !important;
-                font-weight: 700 !important;
+                /* Grid controls width - no explicit width needed */
             }
 
             .mobile-day-header {
-                padding: 1rem 0.5rem !important;
-                font-size: 0.8rem !important;
-                min-height: 60px !important;
+                /* Grid controls width and padding is on inner div */
             }
         }
 
@@ -4164,11 +4160,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 : ''
                 }`}>
                 {/* Days header */}
-                <div className={`grid grid-cols-[48px_repeat(5,1fr)] sm:grid-cols-[64px_repeat(5,1fr)_100px_100px] ${themeStyles.dayHeaderBg} border-b-2 ${themeStyles.containerBorder} sticky top-0 z-20`}>
+                <div className={`grid grid-cols-[50px_repeat(5,1fr)] sm:grid-cols-[64px_repeat(5,1fr)_100px_100px] ${themeStyles.dayHeaderBg} border-b-2 ${themeStyles.containerBorder} sticky top-0 z-20`}>
                     {/* Time column header */}
-                    <div className={`col-span-1 p-1 text-xs ${themeStyles.timeLabelText} border-r-2 ${themeStyles.containerBorder} transition-colors duration-300 flex items-center justify-center ${themeStyles.timeLabelBg} font-semibold`}>
-                        <span className="hidden sm:inline text-xs">Time</span>
-                        <span className="inline sm:hidden text-[10px]">T</span>
+                    <div className={`border-r-2 ${themeStyles.containerBorder} transition-colors duration-300 flex items-center justify-center ${themeStyles.timeLabelBg}`}>
+                        <div className={`text-xs ${themeStyles.timeLabelText} font-semibold`}>
+                            <span className="hidden sm:inline text-xs">Time</span>
+                            <span className="inline sm:hidden text-[10px]">T</span>
+                        </div>
                     </div>
                     {/* Day headers - EXACT same border structure as day columns */}
                     {weekDays.map((day, index) => {
@@ -4176,14 +4174,16 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         const isWeekend = index >= 5; // Saturday (5) and Sunday (6)
 
                         return (
-                            <div key={index} className={`col-span-1 mobile-day-header p-3 text-center transition-colors duration-300 min-w-0 flex flex-col justify-center ${themeStyles.dayHeaderBg} relative ${isWeekend ? 'hidden sm:flex' : ''}`}>
-                                <div className={`text-sm font-semibold ${themeStyles.dayHeaderText} transition-colors duration-300 overflow-hidden`}>
-                                    <span className="inline sm:hidden">{dayNames[index].slice(0, 3)}</span>
-                                    <span className="hidden sm:inline">{dayNames[index]}</span>
-                                </div>
-                                <div className={`text-xs ${themeStyles.dayHeaderSubtext} mt-1 transition-colors duration-300`}>
-                                    <span className="inline sm:hidden">{format(day, 'd')}</span>
-                                    <span className="hidden sm:inline">{format(day, 'MMM d')}</span>
+                            <div key={index} className={`mobile-day-header text-center transition-colors duration-300 flex flex-col justify-center ${themeStyles.dayHeaderBg} relative ${isWeekend ? 'hidden sm:flex' : ''}`}>
+                                <div className="py-2 px-1">
+                                    <div className={`text-sm font-semibold ${themeStyles.dayHeaderText} transition-colors duration-300`}>
+                                        <span className="inline sm:hidden">{dayNames[index].slice(0, 3)}</span>
+                                        <span className="hidden sm:inline">{dayNames[index]}</span>
+                                    </div>
+                                    <div className={`text-xs ${themeStyles.dayHeaderSubtext} mt-1 transition-colors duration-300`}>
+                                        <span className="inline sm:hidden">{format(day, 'd')}</span>
+                                        <span className="hidden sm:inline">{format(day, 'MMM d')}</span>
+                                    </div>
                                 </div>
                                 {/* Vertical grid line - DESKTOP: extends down through entire calendar */}
                                 {index < (screenWidth < 640 ? 4 : 6) && screenWidth >= 640 && (
@@ -4209,7 +4209,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                             top: 0,
                                             height: 'calc(100vh - 120px)', // Extend down through entire calendar on mobile
                                             width: '1px',
-                                            right: '-0.5px',
+                                            right: 0,
                                             zIndex: 30,
                                             pointerEvents: 'none'
                                         }}
@@ -4235,8 +4235,8 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             let columnWidth;
 
                             if (screenWidth < 640) {
-                                // Mobile: grid-cols-[48px_repeat(5,1fr)] - 5 equal columns after time
-                                const timeColumnWidth = 48;
+                                // Mobile: grid-cols-[50px_repeat(5,1fr)] - 5 equal columns after time
+                                const timeColumnWidth = 50;
                                 const totalColumns = 5;
                                 const availableWidth = `calc(100% - ${timeColumnWidth}px)`;
 
@@ -4389,7 +4389,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
                     {/* Time slots */}
                     {timeSlots.map((slot, index) => (
-                        <div key={slot.hour} className="relative grid grid-cols-[48px_repeat(5,1fr)] sm:grid-cols-[64px_repeat(5,1fr)_100px_100px] mobile-time-slot min-h-[80px] h-20 flex-1">
+                        <div key={slot.hour} className="relative grid grid-cols-[50px_repeat(5,1fr)] sm:grid-cols-[64px_repeat(5,1fr)_100px_100px] mobile-time-slot min-h-[80px] h-20">
                             {/* CLEAN horizontal separator line under each hour */}
                             {screenWidth < 640 ? (
                                 <div
@@ -4409,14 +4409,16 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             )}
 
                             {/* Time label */}
-                            <div className={`col-span-1 mobile-time-label p-1 text-xs ${themeStyles.timeLabelText} ${themeStyles.timeLabelBg} border-r-2 ${themeStyles.containerBorder} font-medium flex items-center justify-center relative z-20`}>
-                                {/* Compact mobile format: 10a / 4p */}
-                                <span className="inline sm:hidden text-[10px] leading-tight font-medium whitespace-nowrap">{slot.display.replace(':00', '').replace(' ', '').replace('AM', 'a').replace('PM', 'p')}</span>
-                                {/* Desktop format: align AM/PM consistently */}
-                                <span className="hidden sm:flex items-baseline gap-1 font-medium text-xs whitespace-nowrap">
-                                    <span>{slot.display.split(' ')[0]}</span>
-                                    <span className="text-[10px] leading-none">{slot.display.split(' ')[1]}</span>
-                                </span>
+                            <div className={`border-r-2 ${themeStyles.containerBorder} flex items-center justify-center relative z-20 ${themeStyles.timeLabelBg}`}>
+                                <div className={`text-xs ${themeStyles.timeLabelText} font-medium`}>
+                                    {/* Compact mobile format: 10a / 4p */}
+                                    <span className="inline sm:hidden text-[10px] leading-tight font-medium whitespace-nowrap">{slot.display.replace(':00', '').replace(' ', '').replace('AM', 'a').replace('PM', 'p')}</span>
+                                    {/* Desktop format: align AM/PM consistently */}
+                                    <span className="hidden sm:flex items-baseline gap-1 font-medium text-xs whitespace-nowrap">
+                                        <span>{slot.display.split(' ')[0]}</span>
+                                        <span className="text-[10px] leading-none">{slot.display.split(' ')[1]}</span>
+                                    </span>
+                                </div>
                                 {/* Horizontal separator under hour label */}
                                 <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-400 dark:bg-white/5"></div>
                             </div>
@@ -4427,7 +4429,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                 const isWeekend = dayIndex >= 5; // Saturday (5) and Sunday (6)
 
                                 return (
-                                    <div key={dayIndex} className={`col-span-1 relative ${themeStyles.timeSlotBg} min-h-[80px] h-full ${isWeekend ? 'hidden sm:block' : ''}`}>
+                                    <div key={dayIndex} className={`relative ${themeStyles.timeSlotBg} min-h-[80px] h-full ${isWeekend ? 'hidden sm:block' : ''}`}>
                                         {/* Horizontal separator under hour label extending across day columns */}
                                         <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-400 dark:bg-white/5"></div>
                                         {/* NO vertical lines in time grid - only in header */}
