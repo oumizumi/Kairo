@@ -2905,10 +2905,10 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 display: grid;
             }
 
-            /* Larger, more touch-friendly mobile grid cells */
+            /* Larger, more touch-friendly mobile grid cells - FIXED to 80px for alignment */
             .mobile-time-slot {
-                min-height: 70px !important;
-                height: 70px !important;
+                min-height: 80px !important;
+                height: 80px !important;
             }
 
             /* Mobile time and day cells - let grid control sizing */
@@ -3243,8 +3243,8 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             }
 
             .time-slot {
-                min-height: 50px;
-                height: 50px;
+                min-height: 80px;
+                height: 80px;
                 display: flex;
                 border-bottom: 1px solid transparent;
                 align-items: stretch;
@@ -3258,7 +3258,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 flex: 1;
                 position: relative;
                 border-right: 1px solid transparent;
-            height: 50px;
+            height: 80px;
             background: rgb(var(--card-bg));
             }
 
@@ -3406,11 +3406,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             }
 
             .time-slot {
-                min-height: 3.5rem;
+                min-height: 80px;
+                height: 80px;
             }
 
             .day-column {
-                min-height: 3.5rem;
+                min-height: 80px;
+                height: 80px;
                 padding: 0.25rem;
             }
 
@@ -3474,20 +3476,20 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 z-index: 10;
             }
 
-            /* Optimal time slot height for mobile with precise timing */
+            /* Optimal time slot height for mobile with precise timing - FIXED to 80px */
             .time-slot {
-                min-height: 3.5rem;
-                height: 3.5rem;
+                min-height: 80px;
+                height: 80px;
                 border-bottom-width: 1px;
                 position: relative;
                 display: flex;
                 align-items: stretch;
             }
 
-            /* Better day column spacing with exact positioning */
+            /* Better day column spacing with exact positioning - FIXED to 80px */
             .day-column {
-                min-height: 3.5rem;
-                height: 3.5rem;
+                min-height: 80px;
+                height: 80px;
                 padding: 0.2rem;
                 min-width: 0;
                 flex: 1;
@@ -3554,16 +3556,16 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             }
         }
 
-        /* Extra small mobile styles (320px - 375px) - Enhanced time precision */
+        /* Extra small mobile styles (320px - 375px) - Enhanced time precision - FIXED to 80px */
         @media (max-width: 375px) {
             .time-slot {
-                min-height: 4rem;
-                height: 4rem;
+                min-height: 80px;
+                height: 80px;
             }
 
             .day-column {
-                min-height: 4rem;
-                height: 4rem;
+                min-height: 80px;
+                height: 80px;
                 padding: 0.15rem;
             }
 
@@ -3588,7 +3590,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             }
         }
 
-        /* Extra small mobile (320px and below) */
+        /* Extra small mobile (320px and below) - FIXED to 80px */
         @media (max-width: 320px) {
             .time-label {
                 width: 35px;
@@ -3597,12 +3599,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             }
 
             .time-slot {
-                min-height: 3rem;
-                height: 3rem;
+                min-height: 80px;
+                height: 80px;
             }
 
             .day-column {
-                min-height: 3rem;
+                min-height: 80px;
+                height: 80px;
                 padding: 0.15rem;
             }
 
