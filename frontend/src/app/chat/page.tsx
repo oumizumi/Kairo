@@ -46,7 +46,101 @@ import { ClipboardList } from "lucide-react";
 import { X } from "lucide-react";
 import { motion, useAnimation } from "framer-motion";
 
+// Interactive Courses Badge Component
+interface InteractiveCoursesBadgeProps {
+    events: DailyCalendarEvent[];
+    selectedTerm: string;
+    onTermChange: (term: string) => void;
+}
 
+const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({ 
+    events, 
+    selectedTerm, 
+    onTermChange 
+}) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    // Compute term counts
+    const termCounts = useMemo(() => {
+        const counts: Record<string, number> = {};
+        for (const e of events) {
+            const term = e.term || 'Unknown Term';
+            counts[term] = (counts[term] || 0) + 1;
+        }
+        const total = events.length;
+        return { counts, total };
+    }, [events]);
+
+    // Derive rows for rendering
+    const rows = useMemo(() => {
+        const entries = Object.entries(termCounts.counts).sort(([a], [b]) => a.localeCompare(b));
+        return [
+            { term: 'All Terms', count: termCounts.total },
+            ...entries.map(([term, count]) => ({ term, count }))
+        ];
+    }, [termCounts]);
+
+    // Close handlers
+    useEffect(() => {
+        function onKey(e: KeyboardEvent) { 
+            if (e.key === 'Escape') setIsOpen(false); 
+        }
+        function onClick(e: MouseEvent) { 
+            if (ref.current && !ref.current.contains(e.target as Node)) setIsOpen(false); 
+        }
+        document.addEventListener('keydown', onKey);
+        document.addEventListener('mousedown', onClick);
+        return () => { 
+            document.removeEventListener('keydown', onKey); 
+            document.removeEventListener('mousedown', onClick); 
+        };
+    }, []);
+
+    // Badge label and count
+    const activeCount = selectedTerm === 'All Terms' 
+        ? termCounts.total 
+        : (termCounts.counts[selectedTerm] || 0);
+    
+    const badgeLabel = selectedTerm === 'All Terms' 
+        ? `${activeCount} courses`
+        : `${activeCount} courses • ${selectedTerm}`;
+
+    return (
+        <div className="relative" ref={ref}
+             onMouseEnter={() => setIsOpen(true)}
+             onMouseLeave={() => setIsOpen(false)}>
+            <span
+                role="button"
+                tabIndex={0}
+                aria-haspopup="true"
+                aria-expanded={isOpen}
+                onClick={() => setIsOpen(v => !v)}
+                className="inline-flex items-center rounded-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 cursor-pointer select-none transition-colors"
+            >
+                {badgeLabel} <span className="ml-1">▾</span>
+            </span>
+
+            {isOpen && (
+                <div className="absolute left-0 mt-2 w-56 rounded-xl border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-2 shadow-lg z-50">
+                    {rows.map(({ term, count }) => (
+                        <button
+                            key={term}
+                            className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
+                            onClick={() => {
+                                onTermChange(term === 'All Terms' ? 'All Terms' : term);
+                                setIsOpen(false);
+                            }}
+                        >
+                            <span className="truncate">{term}</span>
+                            <span className="tabular-nums">{count}</span>
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
 
 // Interface for chat messages
 interface ChatMessage {
@@ -65,10 +159,11 @@ interface CalendarComponentProps {
     initialDate?: string;
     onEventAdded?: () => void;
     showDeleteButton?: boolean; // Controls whether to show the delete events button
-    onStatsChange?: (courseCount: number, conflictsCount: number) => void; // Add callback for stats
+    onStatsChange?: (courseCount: number, conflictsCount: number, events?: DailyCalendarEvent[]) => void; // Add callback for stats
     courseCount?: number; // Current course count for mobile badges
     conflictsCount?: number; // Current conflicts count for mobile badges
     isKairollView?: boolean; // Whether this is being used in Kairoll view for special styling
+    selectedTerm?: string; // Selected term for filtering
 }
 
 // Interface for the DailyCalendar component's expected event format
@@ -85,6 +180,7 @@ interface DailyCalendarEvent {
     recurrence_pattern?: 'weekly' | 'biweekly' | 'none'; // Recurrence pattern
     reference_date?: string; // Reference date for bi-weekly calculation
     theme?: string; // Event color theme
+    term?: string; // Term for filtering (e.g., "Fall 2025", "Winter 2026")
 }
 
 // Add interface for backend message format
@@ -95,7 +191,7 @@ interface BackendMessage {
     timestamp: string;
 }
 
-function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteButton = true, onStatsChange, courseCount = 0, conflictsCount = 0, isKairollView = false }: CalendarComponentProps) {
+function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteButton = true, onStatsChange, courseCount = 0, conflictsCount = 0, isKairollView = false, selectedTerm = 'All Terms' }: CalendarComponentProps) {
     const [currentDate, setCurrentDate] = useState(initialDate || format(new Date(), 'yyyy-MM-dd'));
     const [events, setEvents] = useState<DailyCalendarEvent[]>([]); // Use DailyCalendarEvent instead of ApiCalendarEvent
     const [isManuallyRemoved, setIsManuallyRemoved] = useState(false); // Flag to prevent server overrides
@@ -110,6 +206,14 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
     const getEventTheme = (event: DailyCalendarEvent) => {
         return EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['lavender-peach'];
     };
+
+    // Filter events based on selected term
+    const filteredEvents = useMemo(() => {
+        if (selectedTerm === 'All Terms') {
+            return events;
+        }
+        return events.filter(event => event.term === selectedTerm);
+    }, [events, selectedTerm]);
 
     const fetchEvents = useCallback(async () => {
         if (isManuallyRemoved) {
@@ -647,7 +751,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
             {isLargeScreen && (
                 <WeeklyCalendar
                     date={currentDate}
-                    events={events}
+                    events={filteredEvents}
                     onDateChange={setCurrentDate}
                     onDeleteEvent={handleDeleteEvent}
                     onEditEvent={handleEditEvent}
@@ -2237,8 +2341,8 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                         type="submit"
                                         disabled={isLoading}
                                         className={`w-9 h-9 rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${inputMessage.trim()
-                                                ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md'
-                                                : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                            ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md'
+                                            : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                                             }`}
                                         aria-label="Send message"
                                     >
@@ -2383,34 +2487,36 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                         </div>
                     )}
 
-                    {/* Floating star thinking indicator */}
+                    {/* K logo with dots thinking indicator */}
                     {isLoading && !isTyping && (
-                        <div className="flex justify-start">
-                            <div className="relative w-6 h-6">
-                                {/* Central Dot */}
-                                <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-600 dark:bg-[rgb(var(--accent-color))] rounded-full -translate-x-1/2 -translate-y-1/2 animate-pulse shadow-[0_0_6px_rgba(59,130,246,0.6)]" />
+                        <div className="flex justify-start px-4 py-2">
+                            <div className="flex items-center space-x-3">
+                                {/* K Logo */}
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 100 100"
+                                    className="text-gray-600 dark:text-gray-400"
+                                >
+                                    <title>Kairo</title>
+                                    <g transform="translate(50,50)">
+                                        {/* Left stem */}
+                                        <rect x="-22" y="-30" width="6" height="60" fill="currentColor" rx="3" />
+                                        {/* Upper diagonal arm */}
+                                        <polygon points="-16,-4 20,-24 24,-21 -12,-1" fill="currentColor" />
+                                        {/* Lower diagonal arm */}
+                                        <polygon points="-16,4 20,24 24,21 -12,1" fill="currentColor" />
+                                        {/* Connection dot */}
+                                        <circle cx="-16" cy="0" r="3.2" fill="currentColor" />
+                                    </g>
+                                </svg>
 
-                                {/* Orbiting Dots */}
-                                <div className="absolute w-full h-full animate-spin-slow">
-                                    {/* Cyan dot at 0° */}
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translate(-50%, -50%) rotate(0deg) translateX(10px)' }}>
-                                        <div className="w-1 h-1 bg-cyan-500 dark:bg-cyan-400 rounded-full animate-bob" />
-                                    </div>
-
-                                    {/* Indigo dot at 90° */}
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translate(-50%, -50%) rotate(90deg) translateX(10px)' }}>
-                                        <div className="w-1 h-1 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-bob" style={{ animationDelay: '0.375s' }} />
-                                    </div>
-
-                                    {/* Purple dot at 180° */}
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translate(-50%, -50%) rotate(180deg) translateX(10px)' }}>
-                                        <div className="w-1 h-1 bg-purple-500 dark:bg-purple-400 rounded-full animate-bob" style={{ animationDelay: '0.75s' }} />
-                                    </div>
-
-                                    {/* Blue dot at 270° */}
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translate(-50%, -50%) rotate(270deg) translateX(10px)' }}>
-                                        <div className="w-1 h-1 bg-blue-400 dark:bg-blue-300 rounded-full animate-bob" style={{ animationDelay: '1.125s' }} />
-                                    </div>
+                                {/* Animated dots - Smaller and normal speed */}
+                                <div className="flex items-center space-x-0.5">
+                                    <div className="w-1.5 h-1.5 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0s', animationDuration: '1.5s' }}></div>
+                                    <div className="w-1.5 h-1.5 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '1.5s' }}></div>
+                                    <div className="w-1.5 h-1.5 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '1s', animationDuration: '1.5s' }}></div>
                                 </div>
                             </div>
                         </div>
@@ -2479,8 +2585,8 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 type="submit"
                                 disabled={isLoading}
                                 className={`w-9 h-9 rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${inputMessage.trim()
-                                        ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md'
-                                        : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                    ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md'
+                                    : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                                     }`}
                                 aria-label="Send message"
                             >
@@ -2626,8 +2732,8 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
                         <div
                             key={option.value}
                             className={`px-3 py-2 border-b border-gray-100 dark:border-gray-600 last:border-b-0 transition-colors duration-150 ${pendingToggles.current.has(option.value)
-                                    ? 'bg-orange-50 dark:bg-orange-900/20 cursor-wait'
-                                    : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
+                                ? 'bg-orange-50 dark:bg-orange-900/20 cursor-wait'
+                                : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
                                 }`}
                             onClick={() => handleSectionToggle(option.value)}
                         >
@@ -2695,7 +2801,7 @@ interface CourseCardProps {
 const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSectionToggle, selectedSectionEvents, pendingAdditions }: CourseCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
-    
+
     // Touch tracking to differentiate between scroll and click
     const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
     const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
@@ -2929,10 +3035,10 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                     </span>
                                                                     <div
                                                                         className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(group.lecture.section)
-                                                                                ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
-                                                                                : isSelected(group.lecture.section)
-                                                                                    ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
-                                                                                    : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                                                                            ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
+                                                                            : isSelected(group.lecture.section)
+                                                                                ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
+                                                                                : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                             }`}
                                                                         onTouchStart={(e) => {
                                                                             setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
@@ -2963,7 +3069,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                 courseTitle: course.courseTitle,
                                                                                 type: group.lecture.section.split('-')[1] || 'LEC'
                                                                             });
-                                                                            
+
                                                                             // Reset touch tracking
                                                                             setTouchStart(null);
                                                                             setTouchEnd(null);
@@ -3019,10 +3125,10 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                         </span>
                                                                         <div
                                                                             className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(lab.section)
-                                                                                    ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
-                                                                                    : isSelected(lab.section)
-                                                                                        ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
-                                                                                        : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                                                                                ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
+                                                                                : isSelected(lab.section)
+                                                                                    ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
+                                                                                    : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                                 }`}
                                                                             onTouchStart={(e) => {
                                                                                 setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
@@ -3053,7 +3159,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                     courseTitle: course.courseTitle,
                                                                                     type: lab.section.split('-')[1] || 'LAB'
                                                                                 });
-                                                                                
+
                                                                                 // Reset touch tracking
                                                                                 setTouchStart(null);
                                                                                 setTouchEnd(null);
@@ -3114,10 +3220,10 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                             </span>
                                                                             <div
                                                                                 className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(tutorial.section)
-                                                                                        ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
-                                                                                        : isSelected(tutorial.section)
-                                                                                            ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
-                                                                                            : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                                                                                    ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
+                                                                                    : isSelected(tutorial.section)
+                                                                                        ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
+                                                                                        : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                                     }`}
                                                                                 onTouchStart={(e) => {
                                                                                     setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
@@ -3148,7 +3254,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                         courseTitle: course.courseTitle,
                                                                                         type: sectionType
                                                                                     });
-                                                                                    
+
                                                                                     // Reset touch tracking
                                                                                     setTouchStart(null);
                                                                                     setTouchEnd(null);
@@ -4171,7 +4277,7 @@ function KairollComponent() {
         const confirmed = window.confirm(
             'Are you sure you want to remove all courses from your calendar? This action cannot be undone.'
         );
-        
+
         // If user cancels, exit early
         if (!confirmed) {
             return;
@@ -4187,7 +4293,7 @@ function KairollComponent() {
 
         // Collect all event IDs (from both local state and server)
         const allEventIds: number[] = [];
-        
+
         // Add IDs from local state
         selectedSectionEvents.forEach((eventIds) => {
             allEventIds.push(...eventIds);
@@ -5000,8 +5106,8 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
     return (
         <>
             {/* Backdrop - centered positioning */}
-            <div 
-                className="fixed inset-0 z-[59] bg-black/30 backdrop-blur-sm flex items-center justify-center p-4" 
+            <div
+                className="fixed inset-0 z-[59] bg-black/30 backdrop-blur-sm flex items-center justify-center p-4"
                 onClick={onClose}
             >
                 {/* Modal - always centered */}
@@ -5009,73 +5115,73 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
                     className="relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white rounded-2xl shadow-2xl p-4 w-full max-w-[280px] border border-gray-200 dark:border-gray-700 animate-in fade-in-0 zoom-in-95 duration-200"
                     onClick={(e) => e.stopPropagation()}
                 >
-                {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 z-10"
-                    aria-label="Close"
-                >
-                    <X size={18} />
-                </button>
+                    {/* Close Button */}
+                    <button
+                        onClick={onClose}
+                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 z-10"
+                        aria-label="Close"
+                    >
+                        <X size={18} />
+                    </button>
 
-                <div className="pr-8">
-                    {/* Course Code */}
-                    <h3 className="font-bold text-xl mb-1.5 text-blue-600 dark:text-blue-400 leading-tight">
-                        {courseCode || 'Course'}
-                    </h3>
-                    
-                    {/* Course Title */}
-                    {courseTitle && (
-                        <h4 className="font-medium text-sm mb-3 text-gray-700 dark:text-gray-300 leading-snug">
-                            {courseTitle}
-                        </h4>
-                    )}
+                    <div className="pr-8">
+                        {/* Course Code */}
+                        <h3 className="font-bold text-xl mb-1.5 text-blue-600 dark:text-blue-400 leading-tight">
+                            {courseCode || 'Course'}
+                        </h3>
 
-                    {/* Details */}
-                    <div className="space-y-2.5 text-sm mt-4">
-                        {/* Time */}
-                        <div className="flex items-center gap-2.5">
-                            <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span className="font-semibold text-green-600 dark:text-green-400">
-                                {formatTime12Hour(event.startTime)} - {formatTime12Hour(event.endTime)}
-                            </span>
-                        </div>
+                        {/* Course Title */}
+                        {courseTitle && (
+                            <h4 className="font-medium text-sm mb-3 text-gray-700 dark:text-gray-300 leading-snug">
+                                {courseTitle}
+                            </h4>
+                        )}
 
-                        {/* Section */}
-                        {section && (
+                        {/* Details */}
+                        <div className="space-y-2.5 text-sm mt-4">
+                            {/* Time */}
                             <div className="flex items-center gap-2.5">
-                                <svg className="w-4 h-4 text-purple-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                <span className="text-gray-700 dark:text-gray-300">
-                                    {section} <span className="text-gray-500 dark:text-gray-400">({fullSectionType})</span>
+                                <span className="font-semibold text-green-600 dark:text-green-400">
+                                    {formatTime12Hour(event.startTime)} - {formatTime12Hour(event.endTime)}
                                 </span>
                             </div>
-                        )}
 
-                        {/* Instructor */}
-                        {instructor && instructor !== 'Staff' && (
-                            <div className="flex items-center gap-2.5">
-                                <svg className="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                                <span className="text-gray-700 dark:text-gray-300">{instructor}</span>
-                            </div>
-                        )}
+                            {/* Section */}
+                            {section && (
+                                <div className="flex items-center gap-2.5">
+                                    <svg className="w-4 h-4 text-purple-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                        {section} <span className="text-gray-500 dark:text-gray-400">({fullSectionType})</span>
+                                    </span>
+                                </div>
+                            )}
 
-                        {/* Day */}
-                        {event.day_of_week && (
-                            <div className="flex items-center gap-2.5">
-                                <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                <span className="text-gray-700 dark:text-gray-300">{event.day_of_week}</span>
-                            </div>
-                        )}
+                            {/* Instructor */}
+                            {instructor && instructor !== 'Staff' && (
+                                <div className="flex items-center gap-2.5">
+                                    <svg className="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span className="text-gray-700 dark:text-gray-300">{instructor}</span>
+                                </div>
+                            )}
+
+                            {/* Day */}
+                            {event.day_of_week && (
+                                <div className="flex items-center gap-2.5">
+                                    <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <span className="text-gray-700 dark:text-gray-300">{event.day_of_week}</span>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </>
@@ -5143,6 +5249,8 @@ export default function ChatDashboard() {
     // Calendar stats state
     const [courseCount, setCourseCount] = useState(0);
     const [conflictsCount, setConflictsCount] = useState(0);
+    const [calendarEvents, setCalendarEvents] = useState<DailyCalendarEvent[]>([]);
+    const [selectedTerm, setSelectedTerm] = useState<string>('All Terms');
 
     // Persistent calendar state
     const [isCalendarAccessible, setIsCalendarAccessible] = useState(false);
@@ -5159,9 +5267,12 @@ export default function ChatDashboard() {
     const handleCalendarRefresh = () => setCalendarRefreshKey(prevKey => prevKey + 1); // Added refresh handler
 
     // Handle calendar stats updates
-    const handleStatsChange = (newCourseCount: number, newConflictsCount: number) => {
+    const handleStatsChange = (newCourseCount: number, newConflictsCount: number, events?: DailyCalendarEvent[]) => {
         setCourseCount(newCourseCount);
         setConflictsCount(newConflictsCount);
+        if (events) {
+            setCalendarEvents(events);
+        }
     };
 
     // Fetch user data
@@ -5321,7 +5432,11 @@ export default function ChatDashboard() {
                 <div className="hidden lg:flex items-center justify-between px-6 py-4">
                     {/* Counter Badges - Center (Only on large screens where desktop calendar is used) */}
                     <div className="flex items-center gap-3">
-                        <CounterBadge count={courseCount} label="courses" />
+                        <InteractiveCoursesBadge 
+                            events={calendarEvents}
+                            selectedTerm={selectedTerm}
+                            onTermChange={setSelectedTerm}
+                        />
                         <CounterBadge count={conflictsCount} label="conflicts" variant="warning" />
                     </div>
 
@@ -5358,7 +5473,7 @@ export default function ChatDashboard() {
                 <div className="hidden sm:flex sm:flex-row h-[calc(100vh-64px)]">{/* subtract desktop header ~64px */}
                     {/* Calendar Panel - 60% width on desktop only */}
                     <div className="w-3/5 h-full bg-white dark:bg-[rgb(var(--background-rgb))] border-r border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 overflow-hidden">
-                        <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={false} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} />
+                        <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={false} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
                     </div>
 
                     {/* Assistant Panel - 40% width on desktop only */}
@@ -5371,7 +5486,7 @@ export default function ChatDashboard() {
             {view === 'calendar' && (
                 <div className="h-[calc(100vh-64px)] bg-white dark:bg-[rgb(var(--background-rgb))] transition-colors duration-300 overflow-hidden">{/* subtract header */}
                     {/* CALENDAR ONLY - No assistant content should show here */}
-                    <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={true} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} />
+                    <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={true} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
                 </div>
             )}
             {view === 'assistant' && (
@@ -5388,7 +5503,7 @@ export default function ChatDashboard() {
 
                     {/* Calendar Panel - Show on desktop, full-screen calendar view on mobile will be separate */}
                     <div className="hidden lg:block w-full lg:w-[65%] lg:h-full bg-white dark:bg-[rgb(var(--background-rgb))] transition-colors duration-300 overflow-hidden">
-                        <CalendarComponent refreshKey={calendarRefreshKey} initialDate={getKairollInitialDate()} onEventAdded={handleCalendarRefresh} showDeleteButton={false} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} />
+                        <CalendarComponent refreshKey={calendarRefreshKey} initialDate={getKairollInitialDate()} onEventAdded={handleCalendarRefresh} showDeleteButton={false} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
                     </div>
                 </div>
             )}

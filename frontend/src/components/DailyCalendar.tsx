@@ -6,6 +6,7 @@ import { useTheme } from '@/components/ThemeProvider';
 import { getCalendarEvents, CalendarEvent as APICalendarEvent } from '@/lib/api';
 import { loadCoursesForTerm } from '@/services/courseDataService';
 import CounterBadge from './CounterBadge';
+import TermFilterBadge from './TermFilterBadge';
 import { exportCalendarAsICS, hasEventsToExport } from '@/services/icsExportService';
 import DownloadScheduleModal from './DownloadScheduleModal';
 import { shareSchedule, generateShareableSchedule, copyToClipboard, hasScheduleContent, getSharedSchedule } from '@/services/scheduleShareService';
@@ -26,6 +27,7 @@ interface Event {
     recurrence_pattern?: 'weekly' | 'biweekly' | 'none'; // Recurrence pattern
     reference_date?: string; // Reference date for bi-weekly calculation
     theme?: string; // Event color theme
+    term?: string; // e.g., "Fall 2025", "Winter 2026"
 }
 
 interface EditEventModalProps {
@@ -1513,7 +1515,7 @@ interface WeeklyCalendarProps {
     currentTerm?: string;
     loadFromBackend?: boolean;
     isKairollView?: boolean; // Whether this is being used in Kairoll view for special styling
-    onStatsChange?: (courseCount: number, conflictsCount: number) => void; // Add callback for stats
+    onStatsChange?: (courseCount: number, conflictsCount: number, events?: Event[]) => void; // Add callback for stats
     courseCount?: number; // Current course count for badges
     conflictsCount?: number; // Current conflicts count for badges
     readOnly?: boolean; // Whether the calendar is read-only (no editing/sharing/deleting)
@@ -1545,6 +1547,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     const [editingEvent, setEditingEvent] = useState<Event | null>(null);
     const [showAddEventModal, setShowAddEventModal] = useState(false);
     const [showDownloadModal, setShowDownloadModal] = useState(false);
+    const [selectedTerm, setSelectedTerm] = useState<string>('All Terms');
 
 
     const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
@@ -1598,6 +1601,14 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
         // Default: use passed events only
         return events;
     }, [events, backendEvents, loadFromBackend]);
+
+    // Filter events by selected term
+    const filteredEvents = useMemo(() => {
+        if (selectedTerm === 'All Terms') {
+            return allEvents;
+        }
+        return allEvents.filter(event => event.term === selectedTerm);
+    }, [allEvents, selectedTerm]);
 
     
 
@@ -1661,7 +1672,8 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         professor: apiEvent.professor,
                         recurrence_pattern: apiEvent.recurrence_pattern,
                         reference_date: apiEvent.reference_date,
-                        theme: apiEvent.theme
+                        theme: apiEvent.theme,
+                        term: apiEvent.term
                     }));
 
                     
@@ -1877,34 +1889,15 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
     // Function to get actual conflicting events
     const getConflictingEvents = () => {
-        const allEvents = [...events, ...(loadFromBackend ? backendEvents : [])];
-        
-        // Filter events by current term's date range to avoid cross-term conflicts
-        const getTermDateRange = (term: string): { start: string, end: string } => {
-            const termMap: { [key: string]: { start: string, end: string } } = {
-                "Fall": { start: "2025-09-03", end: "2025-12-02" },
-                "Winter": { start: "2026-01-12", end: "2026-04-15" },
-                "Spring/Summer": { start: "2025-05-05", end: "2025-07-25" }
-            };
-            return termMap[term] || termMap["Fall"];
-        };
-
-        const termRange = getTermDateRange(currentTerm || 'Fall');
-        const filteredEvents = allEvents.filter(event => {
-            // If event has date range, check if it overlaps with selected term
-            if (event.start_date && event.end_date) {
-                return event.start_date <= termRange.end && event.end_date >= termRange.start;
-            }
-            // For events without date range, keep them (they might be manually created)
-            return true;
-        });
+        // Use the term-filtered events for conflict detection
+        const eventsToCheck = filteredEvents;
 
         const conflicts: { event1: Event; event2: Event; day: string }[] = [];
 
-        for (let i = 0; i < filteredEvents.length; i++) {
-            for (let j = i + 1; j < filteredEvents.length; j++) {
-                const event1 = normalizeEventProperties(filteredEvents[i]);
-                const event2 = normalizeEventProperties(filteredEvents[j]);
+        for (let i = 0; i < eventsToCheck.length; i++) {
+            for (let j = i + 1; j < eventsToCheck.length; j++) {
+                const event1 = normalizeEventProperties(eventsToCheck[i]);
+                const event2 = normalizeEventProperties(eventsToCheck[j]);
 
                 // Only check conflicts for events on the same day
                 if (event1.day_of_week === event2.day_of_week) {
@@ -1930,8 +1923,8 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     // Check if times overlap (start of one is before end of other)
                     if (start1 < end2 && start2 < end1) {
                         conflicts.push({
-                            event1: filteredEvents[i],
-                            event2: filteredEvents[j],
+                            event1: eventsToCheck[i],
+                            event2: eventsToCheck[j],
                             day: event1.day_of_week || 'Unknown'
                         });
                     }
@@ -1947,7 +1940,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
         if (onStatsChange) {
             const courseCount = getUniqueCourseCount();
             const conflictsCount = getConflictsCount();
-            onStatsChange(courseCount, conflictsCount);
+            onStatsChange(courseCount, conflictsCount, allEvents);
         }
     }, [allEvents, onStatsChange, currentTerm]);
 
@@ -2222,7 +2215,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     const getEventsForDay = (dayName: string, dayDate: Date) => {
         const dayDateString = format(dayDate, 'yyyy-MM-dd');
 
-        const filteredEvents = allEvents.filter(event => {
+        const eventsForThisDay = filteredEvents.filter(event => {
             // RULE 1: If event has day_of_week, show it on that day
             if (event.day_of_week) {
                 // Handle different day formats: "Monday", "Mon", "MONDAY", etc.
@@ -2281,7 +2274,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             return false;
         });
 
-        return filteredEvents;
+        return eventsForThisDay;
     };
 
     // Navigation handlers
@@ -3986,7 +3979,11 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     {/* Center: Course and Conflicts Badges - Only show in Kairoll view */}
                     {isKairollView && (
                         <div className="flex items-center gap-3">
-                            <CounterBadge count={courseCount} label="courses" />
+                            <TermFilterBadge 
+                                events={allEvents}
+                                selectedTerm={selectedTerm}
+                                onTermChange={setSelectedTerm}
+                            />
                             <CounterBadge
                                 count={conflictsCount}
                                 label="conflicts"
@@ -4051,7 +4048,11 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     {isKairollView && (
                         <div className="flex flex-wrap items-center justify-center gap-3">
                             <div className="flex items-center gap-3">
-                                <CounterBadge count={courseCount} label="courses" />
+                                <TermFilterBadge 
+                                    events={allEvents}
+                                    selectedTerm={selectedTerm}
+                                    onTermChange={setSelectedTerm}
+                                />
                                 <CounterBadge
                                     count={conflictsCount}
                                     label="conflicts"

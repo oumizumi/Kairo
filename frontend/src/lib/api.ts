@@ -516,6 +516,7 @@ export interface CalendarEvent {
     recurrence_pattern?: 'weekly' | 'biweekly' | 'none'; // Recurrence pattern
     reference_date?: string; // Reference date for bi-weekly calculation
     theme?: string; // Event color theme
+    term?: string; // e.g., "Fall 2025", "Winter 2026"
 }
 
 // Function to get calendar events
