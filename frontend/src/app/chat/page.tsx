@@ -9,7 +9,7 @@ import TypewriterText from '@/components/TypewriterText';
 
 import Logo from '@/components/Logo';
 import AccountDropdown from '@/components/AccountDropdown';
-import { ArrowRight, ArrowUp, Download, Mail } from "lucide-react";
+import { ArrowRight, ArrowUp, Download, Mail, ThumbsUp, ThumbsDown, Copy, Check } from "lucide-react";
 import ChatEmailButton from '@/components/ChatEmailButton';
 import { exportCalendarForMobile, hasEventsToExport } from "@/services/mobileIcsExport";
 import { exportCalendarAsICS } from "@/services/icsExportService";
@@ -1421,6 +1421,8 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const [messageFeedback, setMessageFeedback] = useState<Record<string, 'up' | 'down' | null>>({});
+    const [copiedMessages, setCopiedMessages] = useState<Record<string, boolean>>({});
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -1510,6 +1512,32 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
         // Clear all conversation context
         aiCourseService.clearContext();
 
+    };
+
+    // Handle message feedback
+    const handleMessageFeedback = (messageId: string, feedback: 'up' | 'down') => {
+        setMessageFeedback(prev => ({
+            ...prev,
+            [messageId]: prev[messageId] === feedback ? null : feedback
+        }));
+        
+        // TODO: Send feedback to backend for analytics
+        console.log(`Feedback for message ${messageId}: ${feedback}`);
+    };
+
+    // Handle copy message
+    const handleCopyMessage = async (messageId: string, content: string) => {
+        try {
+            await navigator.clipboard.writeText(content);
+            setCopiedMessages(prev => ({ ...prev, [messageId]: true }));
+            
+            // Reset copy status after 2 seconds
+            setTimeout(() => {
+                setCopiedMessages(prev => ({ ...prev, [messageId]: false }));
+            }, 2000);
+        } catch (error) {
+            console.error('Failed to copy message:', error);
+        }
     };
 
     // Function to handle individual course deletion requests
@@ -2171,13 +2199,44 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
 
 
 
-            // Prepare the request payload with session_id if available (normal AI flow)
-            const requestPayload: { message: string; session_id?: string } = {
+            // Prepare the request payload with full conversation context (normal AI flow)
+            const requestPayload: { 
+                message: string; 
+                session_id?: string;
+                conversation_history?: Array<{role: string; content: string; timestamp: string}>;
+                context_summary?: string;
+            } = {
                 message: userMessage.content
             };
 
             if (sessionId) {
                 requestPayload.session_id = sessionId;
+            }
+
+            // Include recent conversation history for context (last 10 messages)
+            const recentMessages = messages.slice(-10).map(msg => ({
+                role: msg.role,
+                content: msg.content,
+                timestamp: msg.timestamp.toISOString()
+            }));
+
+            // Add the current user message to the history
+            recentMessages.push({
+                role: userMessage.role,
+                content: userMessage.content,
+                timestamp: userMessage.timestamp.toISOString()
+            });
+
+            requestPayload.conversation_history = recentMessages;
+
+            // Generate a context summary for longer conversations
+            if (messages.length > 5) {
+                const topics = messages.slice(-10)
+                    .filter(msg => msg.role === 'user')
+                    .map(msg => msg.content)
+                    .join(' | ');
+                
+                requestPayload.context_summary = `Recent topics discussed: ${topics}`;
             }
 
             const response = await api.post('/api/ai/chat/', requestPayload);
@@ -2633,6 +2692,50 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                             isFullSequence={message.isFullSequence}
                                         />
                                     </div>
+                                    
+                                    {/* Feedback and Copy buttons for curriculum messages */}
+                                    {message.role === 'assistant' && (
+                                        <div className="flex items-center gap-1 mt-2 ml-3">
+                                            {/* Copy button */}
+                                            <button
+                                                onClick={() => handleCopyMessage(message.id, message.content)}
+                                                className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group"
+                                                title="Copy message"
+                                            >
+                                                {copiedMessages[message.id] ? (
+                                                    <Check className="w-3.5 h-3.5 text-green-500" />
+                                                ) : (
+                                                    <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
+                                                )}
+                                            </button>
+                                            
+                                            {/* Thumbs up */}
+                                            <button
+                                                onClick={() => handleMessageFeedback(message.id, 'up')}
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                                                    messageFeedback[message.id] === 'up' 
+                                                        ? 'text-green-500' 
+                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                }`}
+                                                title="Good response"
+                                            >
+                                                <ThumbsUp className="w-3.5 h-3.5" />
+                                            </button>
+                                            
+                                            {/* Thumbs down */}
+                                            <button
+                                                onClick={() => handleMessageFeedback(message.id, 'down')}
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                                                    messageFeedback[message.id] === 'down' 
+                                                        ? 'text-red-500' 
+                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                }`}
+                                                title="Bad response"
+                                            >
+                                                <ThumbsDown className="w-3.5 h-3.5" />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             ) : message.curriculumData ? (
                                 // Legacy curriculum display (for backward compatibility)
@@ -2650,19 +2753,109 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                         winterCourses={message.curriculumData.winterCourses}
                                         structuredData={message.curriculumData.structuredData}
                                     />
+                                    
+                                    {/* Feedback and Copy buttons for legacy curriculum messages */}
+                                    {message.role === 'assistant' && (
+                                        <div className="flex items-center gap-1 mt-2 ml-3">
+                                            {/* Copy button */}
+                                            <button
+                                                onClick={() => handleCopyMessage(message.id, message.content)}
+                                                className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group"
+                                                title="Copy message"
+                                            >
+                                                {copiedMessages[message.id] ? (
+                                                    <Check className="w-3.5 h-3.5 text-green-500" />
+                                                ) : (
+                                                    <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
+                                                )}
+                                            </button>
+                                            
+                                            {/* Thumbs up */}
+                                            <button
+                                                onClick={() => handleMessageFeedback(message.id, 'up')}
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                                                    messageFeedback[message.id] === 'up' 
+                                                        ? 'text-green-500' 
+                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                }`}
+                                                title="Good response"
+                                            >
+                                                <ThumbsUp className="w-3.5 h-3.5" />
+                                            </button>
+                                            
+                                            {/* Thumbs down */}
+                                            <button
+                                                onClick={() => handleMessageFeedback(message.id, 'down')}
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                                                    messageFeedback[message.id] === 'down' 
+                                                        ? 'text-red-500' 
+                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                }`}
+                                                title="Bad response"
+                                            >
+                                                <ThumbsDown className="w-3.5 h-3.5" />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             ) : (
                                 // Regular message rendering
-                                <div
-                                    className={`${message.role === 'user'
-                                        ? 'bg-gray-100 dark:bg-white/10 rounded-lg p-2 text-gray-900 dark:text-white max-w-[85%] sm:max-w-xs ml-auto mb-2 transition-colors duration-300'
-                                        : 'bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-900 dark:text-neutral-300 self-start p-3 rounded-lg max-w-[90%] sm:max-w-[70%] transition-colors duration-300'
-                                        }`}
-                                >
-                                    <MessageContent
-                                        content={message.content}
-                                        className={`text-sm leading-relaxed ${message.role === 'user' ? 'font-bold' : ''}`}
-                                    />
+                                <div className={`${message.role === 'user' ? 'ml-auto' : 'mr-auto'} max-w-[90%] sm:max-w-[70%]`}>
+                                    <div
+                                        className={`${message.role === 'user'
+                                            ? 'bg-gray-100 dark:bg-white/10 rounded-lg p-2 text-gray-900 dark:text-white mb-2 transition-colors duration-300'
+                                            : 'bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-900 dark:text-neutral-300 p-3 rounded-lg transition-colors duration-300'
+                                            }`}
+                                    >
+                                        <MessageContent
+                                            content={message.content}
+                                            className="text-sm leading-relaxed"
+                                        />
+                                    </div>
+                                    
+                                    {/* Feedback and Copy buttons for AI messages */}
+                                    {message.role === 'assistant' && (
+                                        <div className="flex items-center gap-1 mt-2 ml-3">
+                                            {/* Copy button */}
+                                            <button
+                                                onClick={() => handleCopyMessage(message.id, message.content)}
+                                                className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group"
+                                                title="Copy message"
+                                            >
+                                                {copiedMessages[message.id] ? (
+                                                    <Check className="w-3.5 h-3.5 text-green-500" />
+                                                ) : (
+                                                    <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
+                                                )}
+                                            </button>
+                                            
+                                            {/* Thumbs up */}
+                                            <button
+                                                onClick={() => handleMessageFeedback(message.id, 'up')}
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                                                    messageFeedback[message.id] === 'up' 
+                                                        ? 'text-green-500' 
+                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                }`}
+                                                title="Good response"
+                                            >
+                                                <ThumbsUp className="w-3.5 h-3.5" />
+                                            </button>
+                                            
+                                            {/* Thumbs down */}
+                                            <button
+                                                onClick={() => handleMessageFeedback(message.id, 'down')}
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                                                    messageFeedback[message.id] === 'down' 
+                                                        ? 'text-red-500' 
+                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                }`}
+                                                title="Bad response"
+                                            >
+                                                <ThumbsDown className="w-3.5 h-3.5" />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>

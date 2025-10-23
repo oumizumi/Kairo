@@ -341,14 +341,13 @@ const EditEventModal: React.FC<EditEventModalProps> = ({ event, isOpen, onClose,
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded sm:rounded-md lg:rounded-lg transition-all duration-300 font-medium group relative overflow-hidden shadow-sm hover:shadow-md transform hover:scale-105 text-xs sm:text-sm lg:text-base"
+                            className="flex-1 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-2.5 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white rounded sm:rounded-md lg:rounded-lg transition-all duration-300 font-medium group relative overflow-hidden shadow-sm hover:shadow-md transform hover:scale-105 text-xs sm:text-sm lg:text-base"
                         >
                             {/* Animated background */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                             {/* Button content */}
-                            <div className="relative flex items-center justify-center gap-1 sm:gap-2">
-                                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 transition-transform duration-200 group-hover:scale-110" />
+                            <div className="relative flex items-center justify-center">
                                 <span className="relative">{isCreating ? 'Create Event' : 'Save Changes'}</span>
                             </div>
                         </button>

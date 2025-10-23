@@ -34,6 +34,13 @@ from .views import (
     ScheduleDataVersionView, # Add data version check view
     UserPreferencesView, # Add UserPreferencesView import
 )
+from .views_feedback import (
+    AIResponseFeedbackCreateView,
+    FeedbackAnalyticsView,
+    FeedbackExportView,
+    quick_feedback,
+    feedback_stats_public
+)
 from .calendar_views import UserCalendarViewSet, export_ics, SharedScheduleViewSet, get_shared_schedule
 from .views import ai_enqueue, ai_status
 from .views_ai import ai_router
@@ -111,6 +118,13 @@ urlpatterns = [
     # User Preferences URLs
     path('user-preferences/', UserPreferencesView.as_view(), name='user-preferences'),
     path('user-preferences/<str:key>/', UserPreferencesView.as_view(), name='user-preferences-key'),
+
+    # Feedback URLs
+    path('feedback/submit/', AIResponseFeedbackCreateView.as_view(), name='feedback-submit'),
+    path('feedback/quick/', quick_feedback, name='feedback-quick'),
+    path('feedback/analytics/', FeedbackAnalyticsView.as_view(), name='feedback-analytics'),
+    path('feedback/export/', FeedbackExportView.as_view(), name='feedback-export'),
+    path('feedback/stats/', feedback_stats_public, name='feedback-stats-public'),
 
     # Add the router URLs to the urlpatterns
     path('', include(router.urls)),

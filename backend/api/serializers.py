@@ -176,3 +176,103 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 
+
+# Feedback Serializers
+from .models import AIResponseFeedback, EmailFeedback, FeedbackAnalytics
+
+class AIResponseFeedbackSerializer(serializers.ModelSerializer):
+    """Serializer for reading AI response feedback"""
+    user_username = serializers.CharField(source='user.username', read_only=True)
+    is_positive = serializers.BooleanField(source='is_positive_feedback', read_only=True)
+    is_negative = serializers.BooleanField(source='is_negative_feedback', read_only=True)
+    
+    class Meta:
+        model = AIResponseFeedback
+        fields = [
+            'id', 'user_username', 'feedback_type', 'user_input', 'ai_response',
+            'rating', 'feedback_text', 'is_helpful', 'is_accurate', 'is_professional',
+            'is_relevant', 'model_used', 'prompt_version', 'session_id',
+            'created_at', 'is_positive', 'is_negative'
+        ]
+        read_only_fields = ['id', 'created_at', 'user_username', 'is_positive', 'is_negative']
+
+
+class AIResponseFeedbackCreateSerializer(serializers.ModelSerializer):
+    """Serializer for creating AI response feedback"""
+    
+    class Meta:
+        model = AIResponseFeedback
+        fields = [
+            'user', 'feedback_type', 'user_input', 'ai_response', 'rating',
+            'feedback_text', 'is_helpful', 'is_accurate', 'is_professional',
+            'is_relevant', 'model_used', 'prompt_version', 'session_id',
+            'ip_address', 'user_agent'
+        ]
+        
+    def validate_rating(self, value):
+        if value < 1 or value > 5:
+            raise serializers.ValidationError("Rating must be between 1 and 5")
+        return value
+
+
+class EmailFeedbackSerializer(serializers.ModelSerializer):
+    """Serializer for reading email feedback"""
+    
+    class Meta:
+        model = EmailFeedback
+        fields = [
+            'ai_feedback', 'generated_subject', 'generated_body', 'professor_name',
+            'professor_email', 'subject_quality', 'body_quality', 'too_formal',
+            'too_casual', 'wrong_tone', 'missing_context', 'grammatical_errors',
+            'user_modified_subject', 'user_modified_body', 'final_subject_sent',
+            'final_body_sent'
+        ]
+
+
+class EmailFeedbackCreateSerializer(serializers.ModelSerializer):
+    """Serializer for creating email feedback"""
+    
+    class Meta:
+        model = EmailFeedback
+        fields = [
+            'ai_feedback', 'generated_subject', 'generated_body', 'professor_name',
+            'professor_email', 'subject_quality', 'body_quality', 'too_formal',
+            'too_casual', 'wrong_tone', 'missing_context', 'grammatical_errors',
+            'user_modified_subject', 'user_modified_body', 'final_subject_sent',
+            'final_body_sent'
+        ]
+        
+    def validate_subject_quality(self, value):
+        if value < 1 or value > 5:
+            raise serializers.ValidationError("Subject quality rating must be between 1 and 5")
+        return value
+        
+    def validate_body_quality(self, value):
+        if value < 1 or value > 5:
+            raise serializers.ValidationError("Body quality rating must be between 1 and 5")
+        return value
+
+
+class FeedbackAnalyticsSerializer(serializers.ModelSerializer):
+    """Serializer for feedback analytics"""
+    
+    class Meta:
+        model = FeedbackAnalytics
+        fields = [
+            'date', 'total_responses', 'total_feedback_received', 'feedback_rate',
+            'average_rating', 'positive_feedback_count', 'negative_feedback_count',
+            'email_feedback_count', 'chat_feedback_count', 'average_email_rating',
+            'email_modification_rate', 'top_issue_1', 'top_issue_2', 'top_issue_3',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at']
+
+
+class QuickFeedbackSerializer(serializers.Serializer):
+    """Serializer for quick thumbs up/down feedback"""
+    type = serializers.ChoiceField(choices=['email', 'chat', 'schedule', 'other'], default='chat')
+    user_input = serializers.CharField(max_length=1000)
+    ai_response = serializers.CharField(max_length=5000)
+    thumbs_up = serializers.BooleanField()
+    session_id = serializers.UUIDField(required=False, allow_null=True)
+    model = serializers.CharField(max_length=50, default='gpt-4o-mini')

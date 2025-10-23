@@ -22,15 +22,69 @@ const MessageContent: React.FC<MessageContentProps> = ({
     // Regular expression to match URLs
     const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-    // Split the content by URLs and create an array of text and URL parts
-    const parts = content.split(urlRegex);
+    // Function to detect and format direct answers
+    const formatAnswers = (text: string) => {
+        // Patterns for common answer formats
+        const answerPatterns = [
+            // Prerequisites: "is/are [ANSWER]"
+            /(\b(?:prerequisite|prerequisites?|requirement|requirements?)\s+(?:for\s+\w+\s+)?(?:is|are)\s+)([^.!?]+)/gi,
+            // Direct answers: "The answer is [ANSWER]"
+            /(\b(?:the\s+)?(?:answer|prerequisite|requirement)\s+(?:is|are)\s+)([^.!?]+)/gi,
+            // Course codes in answers
+            /(\b)([A-Z]{3}\s*\d{4}(?:\s+and\s+[A-Z]{3}\s*\d{4})*)/g,
+            // Simple "is/are [ANSWER]" patterns
+            /(\s+(?:is|are)\s+)([A-Z][^.!?]*(?:[A-Z]{3}\s*\d{4})[^.!?]*)/g,
+        ];
+
+        let formattedText = text;
+        
+        answerPatterns.forEach(pattern => {
+            formattedText = formattedText.replace(pattern, (match, prefix, answer) => {
+                // Clean up the answer part
+                const cleanAnswer = answer.trim();
+                return `${prefix}**${cleanAnswer}**`;
+            });
+        });
+
+        return formattedText;
+    };
+
+    // Process content to add bold formatting for answers
+    const processedContent = formatAnswers(content);
+
+    // Split by URLs first, then process markdown-style bold
+    const urlParts = processedContent.split(urlRegex);
+    
+    // Process each part for bold formatting
+    const processTextPart = (text: string) => {
+        // Split by **bold** markers
+        const boldParts = text.split(/(\*\*[^*]+\*\*)/g);
+        
+        return boldParts.map((part, index) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+                // Bold text
+                const boldText = part.slice(2, -2);
+                return (
+                    <strong key={index} className="font-bold">
+                        {boldText}
+                    </strong>
+                );
+            }
+            // Regular text
+            return (
+                <span key={index} className="whitespace-pre-wrap">
+                    {part}
+                </span>
+            );
+        });
+    };
 
     return (
         <div>
             {/* Only render text content if it exists */}
             {content && content.trim() && (
                 <p className={className}>
-                    {parts.map((part, index) => {
+                    {urlParts.map((part, index) => {
                         // Check if this part is a URL
                         if (urlRegex.test(part)) {
                             return (
@@ -45,12 +99,8 @@ const MessageContent: React.FC<MessageContentProps> = ({
                                 </a>
                             );
                         }
-                        // Regular text part - preserve whitespace and line breaks
-                        return (
-                            <span key={index} className="whitespace-pre-wrap">
-                                {part}
-                            </span>
-                        );
+                        // Regular text part - process for bold formatting
+                        return processTextPart(part);
                     })}
                 </p>
             )}

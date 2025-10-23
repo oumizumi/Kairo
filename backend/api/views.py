@@ -393,6 +393,17 @@ class MessageSerializer(serializers.ModelSerializer):
 class MessageInputSerializer(serializers.Serializer):
     message = serializers.CharField(required=True, allow_blank=False)
     session_id = serializers.UUIDField(required=False, allow_null=True) # Allow it to be optional
+    conversation_history = serializers.ListField(
+        child=serializers.DictField(),
+        required=False,
+        allow_empty=True,
+        help_text="Recent conversation history for context"
+    )
+    context_summary = serializers.CharField(
+        required=False, 
+        allow_blank=True,
+        help_text="Summary of conversation context"
+    )
 
     def validate_session_id(self, value):
         # Although UUIDField validates format, you might add custom checks if needed
@@ -523,6 +534,26 @@ Build naturally on what was discussed - reference previous topics when relevant 
                 'content': msg.content
             })
             
+        return formatted_messages
+
+    def _format_frontend_conversation_for_openai(self, conversation_history, system_prompt, context_summary=None):
+        """Format frontend conversation history for OpenAI API with enhanced context"""
+        formatted_messages = [{'role': 'system', 'content': system_prompt}]
+        
+        # Add context summary if provided
+        if context_summary:
+            enhanced_system_prompt = f"{system_prompt}\n\nConversation Context: {context_summary}"
+            formatted_messages[0]['content'] = enhanced_system_prompt
+        
+        # Add conversation history from frontend
+        for msg in conversation_history:
+            if isinstance(msg, dict) and 'role' in msg and 'content' in msg:
+                formatted_messages.append({
+                    'role': msg['role'],
+                    'content': msg['content']
+                })
+        
+        print(f"[KAIRO DEBUG] Formatted {len(formatted_messages)} messages for OpenAI (including system)")
         return formatted_messages
 
     def _should_reset_session(self, message_content):
@@ -1492,6 +1523,10 @@ Examples of non-historical queries (return false):
         print(f"[KAIRO DEBUG] Request data: {request.data}")
         print(f"[KAIRO DEBUG] Request user: {request.user}")
         
+        # Initialize variables for broader scope
+        conversation_history = []
+        context_summary = ''
+        
         try:
             input_serializer = MessageInputSerializer(data=request.data)
             if not input_serializer.is_valid():
@@ -1505,7 +1540,13 @@ Examples of non-historical queries (return false):
             validated_data = input_serializer.validated_data
             user_message_content = validated_data['message']
             session_id = validated_data.get('session_id')
+            conversation_history = validated_data.get('conversation_history', [])
+            context_summary = validated_data.get('context_summary', '')
+            
             print(f"[KAIRO DEBUG] Processing message: '{user_message_content}' with session_id: {session_id}")
+            print(f"[KAIRO DEBUG] Conversation history length: {len(conversation_history)}")
+            if context_summary:
+                print(f"[KAIRO DEBUG] Context summary: {context_summary}")
 
             # Check if we should reset the session
             if session_id and self._should_reset_session(user_message_content):
@@ -1812,14 +1853,20 @@ Do NOT include any links or say where you're getting the data from. Just acknowl
                     print(f"Error decoding JSON from ExamEvent API: {e}")
 
         if not processed_by_custom_logic and ai_response_text is None:
-            # Get conversation history
-            history = self._get_conversation_history(session_id)
-            
             # Prepare system prompt for general conversation
             system_prompt = self._format_system_prompt()
 
-            # Format messages for OpenAI API
-            messages_for_openai = self._format_messages_for_openai(history, system_prompt)
+            # Use frontend conversation history if available, otherwise fall back to database
+            if conversation_history:
+                print(f"[KAIRO DEBUG] Using frontend conversation history ({len(conversation_history)} messages)")
+                messages_for_openai = self._format_frontend_conversation_for_openai(
+                    conversation_history, system_prompt, context_summary
+                )
+            else:
+                print(f"[KAIRO DEBUG] Using database conversation history")
+                # Get conversation history from database (fallback)
+                history = self._get_conversation_history(session_id)
+                messages_for_openai = self._format_messages_for_openai(history, system_prompt)
 
             openai_api_key = os.environ.get('OPENAI_API_KEY')
             if not openai_api_key:
