@@ -3,6 +3,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Mail, X, Info, ArrowRight } from 'lucide-react';
 import api from '@/lib/api';
+import FeedbackModal from './FeedbackModal';
+import QuickFeedback from './QuickFeedback';
 
 interface ChatEmailButtonProps {
   currentMessage: string;
@@ -36,6 +38,18 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
   const [selectedEditingEmail, setSelectedEditingEmail] = useState<string | null>(null);
   const [selectedEditName, setSelectedEditName] = useState('');
   const [selectedEditEmail, setSelectedEditEmail] = useState('');
+  
+  // Feedback states
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [lastGeneratedEmail, setLastGeneratedEmail] = useState<{
+    subject: string;
+    body: string;
+    userInput: string;
+    professorName?: string;
+    professorEmail?: string;
+    userModifiedSubject?: boolean;
+    userModifiedBody?: boolean;
+  } | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -104,6 +118,23 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     return candidate;
   };
 
+  // Fallback functions (defined first)
+  const generateFallbackSubject = (message: string, professorName: string): string => {
+    const trimmed = message.trim();
+    if (trimmed.length === 0) return professorName ? `Regarding ${professorName}` : 'Inquiry';
+    const firstStop = trimmed.split(/(?<=\.)\s|\n/)[0] || trimmed;
+    const raw = firstStop.replace(/\s*-\s*/g, ' ').trim();
+    return raw.length > 80 ? `${raw.slice(0, 77)}...` : raw;
+  };
+
+  const generateFallbackEmailBody = (message: string, professorName: string, studentName: string): string => {
+    const greeting = professorName ? `Dear Professor ${professorName},` : 'Dear Professor,';
+    const ask = (message || '').trim();
+    const body = ask || 'I hope this message finds you well. I wanted to reach out regarding our course.';
+    const closing = `Best regards,\n${studentName}`;
+    return `${greeting}\n\n${body}\n\n${closing}`;
+  };
+
   // AI-powered email generation functions
   const generateAISubject = async (message: string, professorName: string): Promise<string> => {
     try {
@@ -166,30 +197,35 @@ Structure:
     }
   };
 
-
-  // Fallback functions
-  const generateFallbackSubject = (message: string, professorName: string): string => {
+  const generateSubject = (message: string, name: string): string => {
     const trimmed = message.trim();
-    if (trimmed.length === 0) return professorName ? `Regarding ${professorName}` : "Inquiry";
-    const firstStop = trimmed.split(/(?<=\.)s|n/)[0] || trimmed;
-    const raw = firstStop.replace(/s*-s*/g, " ").trim();
+    if (trimmed.length === 0) return name ? `Regarding ${name}` : 'Inquiry';
+    // Use first sentence or up to ~80 chars, no dashes
+    const firstStop = trimmed.split(/(?<=\.)\s|\n/)[0] || trimmed;
+    const raw = firstStop.replace(/\s*-\s*/g, ' ').trim();
     return raw.length > 80 ? `${raw.slice(0, 77)}...` : raw;
   };
 
-  const generateFallbackEmailBody = (message: string, professorName: string, studentName: string): string => {
-    const greeting = professorName ? `Dear Professor ${professorName},` : "Dear Professor,";
-    const ask = (message || "").trim();
-    const body = ask || "I hope this message finds you well. I wanted to reach out regarding our course.";
-    const closing = `Best regards,n${studentName}`;
-    return `${greeting}nn${body}nn${closing}`;
-  };
-  // Legacy sync functions for backward compatibility
-  const generateSubject = (message: string, name: string): string => {
-    return generateFallbackSubject(message, name);
-  };
-
   const buildEmailBody = (message: string, professorName: string, studentName: string): string => {
-    return generateFallbackEmailBody(message, professorName, studentName);
+    const greeting = professorName ? `Dear Professor ${professorName},` : 'Dear Professor,';
+    const openers = [
+      'I hope this message finds you well.',
+      'I hope you are doing well.',
+      'I hope everything is going well.',
+    ];
+    const courtesyClosers = [
+      'I appreciate your time and help.',
+      'I appreciate your assistance.',
+      'I’d be grateful for your clarification.',
+    ];
+    const thanksVariants = ['Thank you!', 'Thanks!'];
+    const intro = openers[Math.floor(Math.random() * openers.length)];
+    const ask = (message || '').trim();
+    const maybeCourtesy = Math.random() < 0.5 ? `\n\n${courtesyClosers[Math.floor(Math.random() * courtesyClosers.length)]}` : '';
+    const maybeThanks = Math.random() < 0.8 ? `\n\n${thanksVariants[Math.floor(Math.random() * thanksVariants.length)]}` : '';
+    const closing = 'Best regards,\n' + studentName;
+    const core = ask ? `${intro}\n\n${ask}${maybeCourtesy}${maybeThanks}` : `${intro}${maybeCourtesy}${maybeThanks}`;
+    return `${greeting}\n\n${core}\n\n${closing}`.replace(/\n{3,}/g, '\n\n').trim();
   };
 
   const getGreetingProfessorName = (): string => {
@@ -204,7 +240,6 @@ Structure:
     return '';
   };
 
-  // Auto-generate subject and body when modal opens
   useEffect(() => {
     if (!isOpen) return;
     const generateInitialContent = async () => {
@@ -218,6 +253,7 @@ Structure:
           setSubject(aiSubject);
           setBody(aiBody);
         } catch (error) {
+          console.error('Error generating AI content:', error);
           // Fallback to simple generation
           setSubject(generateSubject(currentMessage, ''));
           setBody(buildEmailBody(currentMessage, profNameForGreeting, userFullName));
@@ -228,7 +264,7 @@ Structure:
       }
     };
     generateInitialContent();
-  }, [isOpen, currentMessage, userFullName, recipients, professors, newProfName]);
+  }, [isOpen, currentMessage, userFullName]);
 
   // Recipients are added from the professors list only
 
@@ -245,8 +281,32 @@ Structure:
     setIsLoading(true);
     try {
       const profNameForGreeting = getGreetingProfessorName();
-      const chosenSubject = (overrides?.subject?.trim()) || subject.trim() || generateSubject(currentMessage, '');
-      const chosenBody = (overrides?.body?.trim()) || body || buildEmailBody(currentMessage, profNameForGreeting, userFullName);
+      
+      // Use AI-generated content if available, otherwise fallback
+      let chosenSubject = overrides?.subject?.trim() || subject.trim();
+      let chosenBody = overrides?.body?.trim() || body;
+      
+      // If no subject/body and we have a message, try to generate with AI
+      if (!chosenSubject && currentMessage.trim()) {
+        try {
+          chosenSubject = await generateAISubject(currentMessage, profNameForGreeting);
+        } catch (error) {
+          chosenSubject = generateSubject(currentMessage, '');
+        }
+      }
+      
+      if (!chosenBody && currentMessage.trim()) {
+        try {
+          chosenBody = await generateAIEmailBody(currentMessage, profNameForGreeting, userFullName);
+        } catch (error) {
+          chosenBody = buildEmailBody(currentMessage, profNameForGreeting, userFullName);
+        }
+      }
+      
+      // Final fallbacks
+      if (!chosenSubject) chosenSubject = generateSubject(currentMessage, '');
+      if (!chosenBody) chosenBody = buildEmailBody(currentMessage, profNameForGreeting, userFullName);
+      
       const chosenTo = overrides?.to || toParam;
       const subjectEnc = encodeURIComponent(chosenSubject);
       const bodyEnc = encodeURIComponent(chosenBody);
@@ -262,13 +322,35 @@ Structure:
     }
   };
 
-  const handleSendToSingle = (email: string) => {
+  const handleSendToSingle = async (email: string) => {
     const to = normalizeToUOttawa(email);
     if (!to || !hasMessage) return;
+    
+    const profNameForGreeting = getGreetingProfessorName();
+    let emailSubject = subject.trim();
+    let emailBody = body;
+    
+    // Generate AI content if not already present
+    if (!emailSubject && currentMessage.trim()) {
+      try {
+        emailSubject = await generateAISubject(currentMessage, profNameForGreeting);
+      } catch (error) {
+        emailSubject = generateSubject(currentMessage, '');
+      }
+    }
+    
+    if (!emailBody && currentMessage.trim()) {
+      try {
+        emailBody = await generateAIEmailBody(currentMessage, profNameForGreeting, userFullName);
+      } catch (error) {
+        emailBody = buildEmailBody(currentMessage, profNameForGreeting, userFullName);
+      }
+    }
+    
     handleEmailChat({
       to,
-      subject: subject.trim() || generateSubject(currentMessage, ''),
-      body: body || buildEmailBody(currentMessage, getGreetingProfessorName(), userFullName),
+      subject: emailSubject || generateSubject(currentMessage, ''),
+      body: emailBody || buildEmailBody(currentMessage, profNameForGreeting, userFullName),
     });
   };
 
@@ -293,14 +375,14 @@ Structure:
     try {
       const professorName = getGreetingProfessorName();
 
-      // Enhanced AI instruction based on what user provided
+      // Create intelligent AI instruction based on user input
       let instruction = '';
       let needsSubject = !userSubject;
       let needsBody = !userBody;
 
       if (!needsSubject && !needsBody) {
         // User provided both - AI should polish/improve them
-        instruction = `You are an expert email writing assistant for University of Ottawa students. Polish and improve this email while preserving the student's intent and voice.
+        instruction = `You are Kairo, an intelligent email writing assistant for University of Ottawa students. Analyze and enhance the user's email while preserving their intent and voice.
 
 Context: Student writing to ${professorName ? `Professor ${professorName}` : 'a professor'} at uOttawa.
 
@@ -322,7 +404,7 @@ Requirements:
 - Be specific and actionable when possible`;
       } else if (!needsSubject && needsBody) {
         // User provided subject only - generate body based on subject
-        instruction = `You are an expert email writing assistant for University of Ottawa students. Generate a professional email body that matches the subject line.
+        instruction = `You are an expert email writing assistant for University of Ottawa students. The user provided a subject line. Generate a professional email body that matches this subject.
 
 Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
 
@@ -330,7 +412,9 @@ User's Subject: "${userSubject}"
 ${chatMessage ? `Additional Context: "${chatMessage}"` : ''}
 
 Requirements:
-1. Subject Line: Return the same subject: "${userSubject}"
+1. Subject Line:
+   - Return the same subject (or slightly polished version): "${userSubject}"
+
 2. Email Body (3-5 sentences):
    - Write content that directly relates to the subject
    - Be professional, concise, and specific
@@ -342,25 +426,30 @@ Requirements:
 Generate a professional email body for this subject.`;
       } else if (needsSubject && !needsBody) {
         // User provided body only - generate subject based on body
-        instruction = `You are an expert email writing assistant for University of Ottawa students. Generate a professional subject line and polish the body.
+        instruction = `You are an expert email writing assistant for University of Ottawa students. The user wrote an email message. Generate a professional subject line and polish the body.
 
 Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
 
 User's Message: "${userBody}"
 
 Requirements:
-1. Subject Line: Create a concise subject (under 60 characters) that captures the main point
-2. Email Body: Polish the user's message professionally
+1. Subject Line:
+   - Create a concise subject (under 60 characters) that captures the main point
+   - Make it specific and professional
+
+2. Email Body:
+   - Use the user's message as the core content
+   - Format it professionally with greeting and closing
    - Keep the user's intent and main points
-   - Format with proper greeting and closing
+   - Polish grammar and clarity
+   - Keep it concise (3-5 sentences)
    - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
    - Closing: "Best regards,\\n${userFullName.trim()}"
-   - Keep it concise (3-5 sentences)
 
 Generate subject and polish the email body.`;
       } else {
         // User provided neither - use chat message or generate generic
-        const userRequest = chatMessage || 'I wanted to reach out regarding our course';
+        const userRequest = chatMessage || '[Generate a simple, professional inquiry]';
         instruction = `You are an expert email writing assistant for University of Ottawa students. Generate a professional email based on the user's request.
 
 Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
@@ -368,7 +457,11 @@ Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fe
 User's Request: "${userRequest}"
 
 Requirements:
-1. Subject Line: Keep it under 60 characters, specific to the request, professional
+1. Subject Line:
+   - Keep it under 60 characters
+   - Make it specific to the request
+   - Be direct and professional
+
 2. Email Body (3-5 sentences):
    - Be professional and concise
    - Vary your structure - don't follow the same pattern every time
@@ -391,27 +484,78 @@ Generate a professional email that addresses this request.`;
       let parsed: any = null;
       try { parsed = JSON.parse(jsonText); } catch { }
 
-      // Use AI-generated content or fallback
-      const draftedSubject: string = (parsed && typeof parsed.subject === 'string' && parsed.subject.trim())
-        ? parsed.subject.trim()
-        : (userSubject || await generateAISubject(chatMessage || userBody, professorName));
-      const draftedBody: string = (parsed && typeof parsed.body === 'string' && parsed.body.trim())
-        ? parsed.body.trim()
-        : (userBody || await generateAIEmailBody(chatMessage || userSubject, professorName, userFullName));
+      // Use AI-generated content or fallback to AI individual functions, then templates
+      let draftedSubject: string;
+      let draftedBody: string;
+      
+      if (parsed && typeof parsed.subject === 'string' && parsed.subject.trim()) {
+        draftedSubject = parsed.subject.trim();
+      } else if (userSubject) {
+        draftedSubject = userSubject;
+      } else {
+        // Try individual AI generation as fallback
+        try {
+          draftedSubject = await generateAISubject(chatMessage || userBody || 'Email request', professorName);
+        } catch (error) {
+          draftedSubject = generateSubject(chatMessage || userBody, professorName);
+        }
+      }
+      
+      if (parsed && typeof parsed.body === 'string' && parsed.body.trim()) {
+        draftedBody = parsed.body.trim();
+      } else if (userBody) {
+        draftedBody = userBody;
+      } else {
+        // Try individual AI generation as fallback
+        try {
+          draftedBody = await generateAIEmailBody(chatMessage || userSubject || 'Email request', professorName, userFullName);
+        } catch (error) {
+          draftedBody = buildEmailBody(chatMessage || userSubject, professorName, userFullName);
+        }
+      }
 
       setSubject(draftedSubject);
       setBody(draftedBody);
       setJustGenerated(true);
 
+      // Store for feedback tracking
+      setLastGeneratedEmail({
+        subject: draftedSubject,
+        body: draftedBody,
+        userInput: chatMessage || userBody || userSubject || 'Email generation request',
+        professorName: professorName,
+        professorEmail: recipients[0], // First recipient
+        userModifiedSubject: userSubject !== draftedSubject,
+        userModifiedBody: userBody !== draftedBody,
+      });
+
       // Compose immediately using overrides to avoid stale state
       await handleEmailChat({ subject: draftedSubject, body: draftedBody });
     } catch (e) {
       console.error('AI drafting error:', e);
-      // Fallback to simple generation
+      // Fallback to individual AI functions, then simple generation
       const professorName = getGreetingProfessorName();
-      const fallbackPrompt = userBody || chatMessage || userSubject;
-      const fbSubject = userSubject || generateSubject(fallbackPrompt, professorName);
-      const fbBody = userBody || buildEmailBody(fallbackPrompt, professorName, userFullName);
+      const fallbackPrompt = userBody || chatMessage || userSubject || 'Email request';
+      
+      let fbSubject = userSubject;
+      let fbBody = userBody;
+      
+      if (!fbSubject) {
+        try {
+          fbSubject = await generateAISubject(fallbackPrompt, professorName);
+        } catch (error) {
+          fbSubject = generateSubject(fallbackPrompt, professorName);
+        }
+      }
+      
+      if (!fbBody) {
+        try {
+          fbBody = await generateAIEmailBody(fallbackPrompt, professorName, userFullName);
+        } catch (error) {
+          fbBody = buildEmailBody(fallbackPrompt, professorName, userFullName);
+        }
+      }
+      
       setSubject(fbSubject);
       setBody(fbBody);
       await handleEmailChat({ subject: fbSubject, body: fbBody });
@@ -424,10 +568,15 @@ Generate a professional email that addresses this request.`;
 
   const filteredProfs = useMemo(() => professors, [professors]);
 
-  const subjectText = useMemo(() => subject.trim() || generateSubject(currentMessage, ''), [subject, currentMessage]);
+  const subjectText = useMemo(() => {
+    if (subject.trim()) return subject.trim();
+    return generateSubject(currentMessage, ''); // Fallback for preview
+  }, [subject, currentMessage]);
+  
   const bodyText = useMemo(() => {
-    return buildEmailBody(currentMessage, getGreetingProfessorName(), userFullName);
-  }, [currentMessage, professors, recipients, newProfName, userFullName]);
+    if (body.trim()) return body.trim();
+    return buildEmailBody(currentMessage, getGreetingProfessorName(), userFullName); // Fallback for preview
+  }, [body, currentMessage, professors, recipients, newProfName, userFullName]);
   const composeUrl = useMemo(() => `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(toParam)}&subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`, [toParam, subjectText, bodyText]);
 
   const addProfessor = (p: { name: string; email: string }) => {
@@ -473,7 +622,7 @@ Generate a professional email that addresses this request.`;
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">Smart Mail</div>
-                <div className="hidden sm:block text-xs text-gray-500 dark:text-gray-400">• AI-powered</div>
+                <div className="hidden sm:block text-xs text-gray-500 dark:text-gray-400">• uOttawa only</div>
               </div>
               <button
                 type="button"
@@ -522,6 +671,38 @@ Generate a professional email that addresses this request.`;
               </div>
 
               <div className="flex items-center gap-2 mb-2.5 sm:mb-3">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (!currentMessage.trim() && !subject.trim() && !body.trim()) {
+                      alert('Please enter a message or some content first');
+                      return;
+                    }
+                    
+                    const profName = getGreetingProfessorName();
+                    const inputText = currentMessage.trim() || subject.trim() || body.trim();
+                    
+                    try {
+                      setIsDrafting(true);
+                      const [aiSubject, aiBody] = await Promise.all([
+                        generateAISubject(inputText, profName),
+                        generateAIEmailBody(inputText, profName, userFullName)
+                      ]);
+                      setSubject(aiSubject);
+                      setBody(aiBody);
+                      setJustGenerated(true);
+                    } catch (error) {
+                      console.error('Error generating AI content:', error);
+                      alert('Failed to generate AI content. Please try again.');
+                    } finally {
+                      setIsDrafting(false);
+                    }
+                  }}
+                  disabled={isDrafting || !userFullName.trim()}
+                  className="px-3 py-1.5 rounded-lg bg-blue-600 disabled:bg-blue-400 text-white text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors"
+                >
+                  {isDrafting ? 'Generating...' : 'Generate with AI'}
+                </button>
                 <button
                   type="button"
                   onClick={() => {
@@ -784,32 +965,13 @@ Generate a professional email that addresses this request.`;
                 disabled={!hasRecipients || !hasName || isDrafting}
                 className="mt-3 w-full rounded bg-blue-600 disabled:bg-blue-600/50 text-white text-xs font-semibold py-1.5 sm:py-2 hover:bg-blue-700"
               >
-                {isDrafting ? 'Drafting with AI…' : 'Draft with AI & Send'}
+                {isDrafting ? 'Drafting with AI…' : 'Draft with AI (polish)'}
               </button>
-              <div className="mt-1.5 text-[9px] sm:text-[10px] text-blue-600 dark:text-blue-400 flex items-center gap-1">
+              <div className="mt-1.5 text-[9px] sm:text-[10px] text-red-600 dark:text-red-400 flex items-center gap-1">
                 <Info className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
-                <span>AI will intelligently read your message and generate a professional email.</span>
+                <span>Please review the draft before sending. AI may make mistakes.</span>
               </div>
-              
-              {/* Quick Feedback for Generated Email */}
-              {justGenerated && lastGeneratedEmail && (
-                <div className="mt-2 p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-600 dark:text-gray-400">
-                      How was the AI-generated email?
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <QuickFeedback
-                        feedbackType="email"
-                        userInput={lastGeneratedEmail.userInput}
-                        aiResponse={`Subject: ${lastGeneratedEmail.subject}\n\nBody: ${lastGeneratedEmail.body}`}
-                        onDetailedFeedback={() => setShowFeedbackModal(true)}
-                        className="flex items-center gap-1"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}              <a
+              <a
                 href="https://outlook.office.com/mail/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -822,7 +984,7 @@ Generate a professional email that addresses this request.`;
                 <div className="mt-1 text-[10px] text-gray-500">Add at least one recipient to enable sending.</div>
               )}
               {!hasName && (
-                <div className="mt-1 text-[10px] text-red-500">Please enter your full name.</div>
+                <div className="mt-1 text-[10px] text-red-500"></div>
               )}
               {!hasMessage && (
                 <div className="mt-1 text-[10px] text-gray-500">Write a message to enable sending.</div>
@@ -831,8 +993,30 @@ Generate a professional email that addresses this request.`;
           </div>
         </div>
       )}
+
+      {/* Feedback Modal */}
+      {showFeedbackModal && lastGeneratedEmail && (
+        <FeedbackModal
+          isOpen={showFeedbackModal}
+          onClose={() => setShowFeedbackModal(false)}
+          feedbackType="email"
+          userInput={lastGeneratedEmail.userInput}
+          aiResponse={`Subject: ${lastGeneratedEmail.subject}\n\nBody: ${lastGeneratedEmail.body}`}
+          emailDetails={{
+            generatedSubject: lastGeneratedEmail.subject,
+            generatedBody: lastGeneratedEmail.body,
+            professorName: lastGeneratedEmail.professorName,
+            professorEmail: lastGeneratedEmail.professorEmail,
+            userModifiedSubject: lastGeneratedEmail.userModifiedSubject,
+            userModifiedBody: lastGeneratedEmail.userModifiedBody,
+            finalSubjectSent: subject,
+            finalBodySent: body,
+          }}
+        />
+      )}
     </div>
   );
 };
 
 export default ChatEmailButton;
+
