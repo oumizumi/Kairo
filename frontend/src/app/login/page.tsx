@@ -213,7 +213,7 @@ function LoginForm() {
                 </div>
 
                 <div className="text-center text-sm text-gray-500 dark:text-gray-400 mt-5">
-                    Don't have an account?{' '}
+                    Don&apos;t have an account?{' '}
                     <Link href={redirectTo !== getDeviceSpecificRoute() ? `/signup?redirect=${encodeURIComponent(redirectTo)}` : '/signup'} className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:underline transition">Sign up</Link>
                 </div>
                 </div>

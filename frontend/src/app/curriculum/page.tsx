@@ -82,7 +82,7 @@ const CurriculumPage = () => {
             {/* Guest Mode Banner */}
             <div className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-3 text-center font-mono text-sm">
                 <span className="mr-2">👤</span>
-                Guest Mode - Your changes won't be saved. <a href="/signup" className="underline hover:text-emerald-200 ml-2">Sign up to save your schedule</a>
+                Guest Mode - Your changes won&apos;t be saved. <a href="/signup" className="underline hover:text-emerald-200 ml-2">Sign up to save your schedule</a>
             </div>
             
             {/* Main Calendar Interface */}

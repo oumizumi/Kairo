@@ -328,7 +328,7 @@ export default function Features() {
                         <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
                           <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">You ask:</div>
                           <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
-                            "What are the prerequisites for CSI 3105?"
+                            &quot;What are the prerequisites for CSI 3105?&quot;
                           </div>
                         </div>
 
@@ -378,7 +378,7 @@ export default function Features() {
                         <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
                           <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">Your input:</div>
                           <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
-                            "Can I get an extension on the assignment?"
+                            &quot;Can I get an extension on the assignment?&quot;
                           </div>
                         </div>
 

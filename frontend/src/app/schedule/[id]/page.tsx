@@ -107,7 +107,7 @@ export default function SharedSchedulePage() {
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div>
-                <p className="text-sm opacity-90">You're viewing a shared schedule by</p>
+                <p className="text-sm opacity-90">You&apos;re viewing a shared schedule by</p>
                 <p className="font-semibold">{sharedSchedule.owner}</p>
               </div>
             </div>

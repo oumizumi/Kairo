@@ -39,6 +39,9 @@ export default function StatsMarquee({
   rowClassName,
   wrapperClassName,
 }: StatsMarqueeProps) {
+  const row = useMemo(() => [...items, ...items], [items]);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   if (variant === "snap") {
     return (
       <SnapCarousel
@@ -51,9 +54,6 @@ export default function StatsMarquee({
       />
     );
   }
-
-  const row = useMemo(() => [...items, ...items], [items]);
-  const prefersReducedMotion = usePrefersReducedMotion();
   const disableMotion = respectReducedMotion && prefersReducedMotion;
 
   return (

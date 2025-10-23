@@ -388,9 +388,6 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
     const [isLoadingFromDB, setIsLoadingFromDB] = useState(false); // Flag for persistent storage loading
     const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true);
     const [isClient, setIsClient] = useState<boolean>(false);
-    // Unified EVENT_THEMES imported from config
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _importedThemes = EVENT_THEMES;
 
     // Get theme for event
     const getEventTheme = (event: DailyCalendarEvent) => {
@@ -4325,10 +4322,6 @@ function KairollComponent() {
         }
     }, [isMobile, selectedTerm, selectedSectionEventsByTerm, localCourses]);
 
-    // Unified EVENT_THEMES imported from config for mobile as well
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _importedThemesMobile = EVENT_THEMES;
-
     const courseColors = Object.keys(EVENT_THEMES);
     const courseColorMap = useRef(new Map<string, string>());
     const colorIndex = useRef(0);
@@ -5235,9 +5228,9 @@ function KairollComponent() {
                                 ))}
                                 {filteredCourses.length === 0 && !isLoadingCourses && (
                                     <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                                        <div className="mb-2 text-sm sm:text-base">No courses found matching "{searchQuery}"</div>
+                                        <div className="mb-2 text-sm sm:text-base">No courses found matching &quot;{searchQuery}&quot;</div>
                                         <div className="text-xs text-gray-400 dark:text-gray-500">
-                                            Try searching by course code (e.g., "ITI1120"), title, or instructor name
+                                            Try searching by course code (e.g., &quot;ITI1120&quot;), title, or instructor name
                                         </div>
                                     </div>
                                 )}
@@ -5922,7 +5915,7 @@ export default function ChatDashboard() {
                             Welcome to Kairo!
                         </h2>
                         <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
-                            You're now in <span className="font-semibold text-emerald-600 dark:text-emerald-400">guest mode</span>. Explore all features freely. To save your schedule, <a href="/signup" className="underline text-emerald-700 dark:text-emerald-400 hover:opacity-80">sign up</a> or <a href="/login" className="underline text-emerald-700 dark:text-emerald-400 hover:opacity-80">log in</a>.
+                            You&apos;re now in <span className="font-semibold text-emerald-600 dark:text-emerald-400">guest mode</span>. Explore all features freely. To save your schedule, <a href="/signup" className="underline text-emerald-700 dark:text-emerald-400 hover:opacity-80">sign up</a> or <a href="/login" className="underline text-emerald-700 dark:text-emerald-400 hover:opacity-80">log in</a>.
                         </p>
 
                         {/* Subtle 5s auto-dismiss hint (no live timer) */}

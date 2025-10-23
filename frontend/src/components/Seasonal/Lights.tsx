@@ -81,11 +81,6 @@ const Lights: React.FC<LightsProps> = ({
   const envToggle = process.env.NEXT_PUBLIC_CHRISTMAS_LIGHTS === 'true';
   const shouldShowLights = seasonalTheme === 'christmas' || isDecember || envToggle;
 
-  // Don't render if lights are disabled
-  if (!shouldShowLights) {
-    return null;
-  }
-
   // Check for reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -110,6 +105,11 @@ const Lights: React.FC<LightsProps> = ({
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
+
+  // Don't render if lights are disabled
+  if (!shouldShowLights) {
+    return null;
+  }
 
   // Generate bulb data with hero proximity detection
   const generateBulbs = (pathRef: React.RefObject<SVGPathElement>, side: 'left' | 'right' | 'top', count: number): BulbData[] => {

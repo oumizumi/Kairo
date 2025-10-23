@@ -58,7 +58,7 @@ export default function ForgotPasswordPage(): React.JSX.Element {
                 <div className="w-full max-w-md mx-auto relative animate-fadeInUp">
                     <h2 className="text-xl font-bold mb-2 text-center text-gray-900 dark:text-white">Reset Password</h2>
                     <p className="text-gray-600 dark:text-gray-400 text-center mb-6 text-sm">
-                        Enter your email address and we'll send you a link to reset your password.
+                        Enter your email address and we&apos;ll send you a link to reset your password.
                     </p>
 
                     {error && (

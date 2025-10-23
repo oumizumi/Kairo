@@ -89,7 +89,7 @@ const CurriculumInput: React.FC<CurriculumInputProps> = ({ onCoursesFound }) => 
                         Tell me your program, year, and term to see your courses
                     </p>
                     <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                        👤 Guest Mode - Changes won't be saved
+                        👤 Guest Mode - Changes won&apos;t be saved
                     </p>
                 </div>
             </div>

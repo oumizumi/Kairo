@@ -160,7 +160,7 @@ const CurriculumCalendar: React.FC<CurriculumCalendarProps> = ({
             <div className="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
                 <p className="text-sm text-yellow-800">
                     <strong>Note:</strong> This is a placeholder schedule. Actual course times, days, and availability
-                    will be determined when you register for courses through uOttawa's system.
+                    will be determined when you register for courses through uOttawa&apos;s system.
                 </p>
             </div>
         </div>

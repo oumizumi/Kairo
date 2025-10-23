@@ -239,7 +239,7 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({
                       </svg>
                     </div>
                     <div>
-                      <div className="text-xs font-medium text-blue-800 dark:text-blue-200">You're using Guest Mode</div>
+                      <div className="text-xs font-medium text-blue-800 dark:text-blue-200">You&apos;re using Guest Mode</div>
                       <div className="text-xs text-blue-600 dark:text-blue-300 mt-0.5">Sign up to save your schedules permanently</div>
                     </div>
                   </div>

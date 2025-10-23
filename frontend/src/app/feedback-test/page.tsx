@@ -40,7 +40,7 @@ export default function FeedbackTestPage() {
             </h2>
             <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg mb-4">
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                Sample AI Response: "I can help you with that course registration question..."
+                Sample AI Response: &quot;I can help you with that course registration question...&quot;
               </p>
               <QuickFeedback
                 feedbackType="chat"

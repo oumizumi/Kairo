@@ -60,7 +60,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
 
     setIsSubmitting(true);
     try {
-      const feedbackData = {
+      const feedbackData: any = {
         feedback_type: feedbackType,
         user_input: userInput,
         ai_response: aiResponse,
