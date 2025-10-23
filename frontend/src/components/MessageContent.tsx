@@ -57,12 +57,12 @@ const MessageContent: React.FC<MessageContentProps> = ({
     
     // Process each part for bold formatting
     const processTextPart = (text: string) => {
-        // Split by **bold** markers
+        // Split by **bold** markers while capturing them
         const boldParts = text.split(/(\*\*[^*]+\*\*)/g);
         
         return boldParts.map((part, index) => {
             if (part.startsWith('**') && part.endsWith('**')) {
-                // Bold text
+                // Bold text - remove the ** markers
                 const boldText = part.slice(2, -2);
                 return (
                     <strong key={index} className="font-bold">
@@ -70,7 +70,8 @@ const MessageContent: React.FC<MessageContentProps> = ({
                     </strong>
                 );
             }
-            // Regular text
+            // Regular text - filter out empty strings
+            if (part === '') return null;
             return (
                 <span key={index} className="whitespace-pre-wrap">
                     {part}
