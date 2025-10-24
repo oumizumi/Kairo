@@ -4415,6 +4415,7 @@ function KairollComponent() {
             description: `Course: ${formattedCourseCode}\nTitle: ${section.courseTitle || ''}\nSection: ${section.code}\nType: ${sectionType}\nInstructor: ${section.instructor || ''}\nTime: ${slot.day} ${slot.startTime} - ${slot.endTime}\nLocation: TBD`,
             recurrence_pattern: 'weekly' as const,
             theme: courseColor,
+            term: selectedTerm,
             tempKey,
         }));
     }, []);
@@ -4853,6 +4854,7 @@ function KairollComponent() {
                         recurrence_pattern: 'weekly' as const,
                         description: `Course: ${codeForDisplay}\nTitle: ${section.courseTitle || ''}\nSection: ${section.code}\nType: ${sectionType}\nInstructor: ${section.instructor}\nTime: ${timeSlot.day} ${timeSlot.startTime} - ${timeSlot.endTime}\nLocation: TBD`,
                         theme: courseColor,
+                        term: selectedTerm,
                     }
                 };
             }).filter(Boolean) as Array<{ dayOfWeek: string; rawDay: string; eventData: any }>;
@@ -4897,6 +4899,7 @@ function KairollComponent() {
                         recurrence_pattern: pl.eventData.recurrence_pattern,
                         reference_date: pl.eventData.reference_date,
                         theme: pl.eventData.theme,
+                        term: selectedTerm,
                     });
                 }
             }

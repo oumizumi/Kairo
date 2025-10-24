@@ -165,6 +165,9 @@ class CalendarEvent(models.Model):
         ('forest-moss', 'Forest Moss'),
     ]
     theme = models.CharField(max_length=40, choices=THEME_CHOICES, default='lavender-peach', blank=True)
+    
+    # Term field for filtering courses by semester
+    term = models.CharField(max_length=100, blank=True, null=True)  # e.g., "2025 Fall Term", "Fall 2025"
 
     def __str__(self):
         if self.start_date:
