@@ -350,11 +350,14 @@ export default function ProfilePage() {
 
   return (
     <div className="font-mono min-h-screen bg-white dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col">
-      {/* Minimal Profile Navbar: Logo + Contact */}
+      {/* Minimal Profile Navbar: Back to Kairoll + Contact */}
       <header className="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-[rgb(var(--border-color))] bg-white/80 dark:bg-[rgb(var(--secondary-bg))]/80 backdrop-blur-md">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Link href="/" className="hover:opacity-90 transition-opacity" aria-label="Home">
-            <Logo size={44} />
+          <Link href="/chat" className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 group">
+            <svg className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span className="font-mono">Back to Kairoll</span>
           </Link>
           <Link
             href="/contact"

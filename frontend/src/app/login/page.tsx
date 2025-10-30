@@ -84,13 +84,16 @@ function LoginForm() {
 
     return (
         <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative" style={{ fontFamily: 'Monaco, Menlo, "Courier New", monospace' }}>
-            {/* Logo with proper anchoring */}
-            <div className="absolute top-6 left-8 z-10">
+            {/* Back to main page link */}
+            <div className="absolute top-12 left-16 z-10">
                 <Link 
                     href="/" 
-                    className="inline-block drop-shadow-md hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.6)] transition-all duration-200 hover:scale-105"
+                    className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 group"
                 >
-                    <Logo size={56} />
+                    <svg className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span className="font-mono">Back to main page</span>
                 </Link>
             </div>
 
@@ -119,7 +122,7 @@ function LoginForm() {
                             id="identifier"
                             type="text"
                             placeholder="Enter your email or username"
-                            className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
+                            className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
                             value={identifier}
                             onChange={e => setIdentifier(e.target.value)}
                             required
@@ -134,7 +137,7 @@ function LoginForm() {
                                 id="password"
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder="Enter your password"
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 required
@@ -144,7 +147,7 @@ function LoginForm() {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:opacity-80 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#f97316]"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:opacity-80 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-600"
                                 aria-label={showPassword ? 'Hide password' : 'Show password'}
                                 disabled={isLoading || isGuestLoading}
                             >
@@ -171,7 +174,7 @@ function LoginForm() {
                     </div>
                     <button
                         type="submit"
-                        className="bg-gradient-to-r from-[#f97316] to-[#ea580c] hover:from-[#ea580c] hover:to-[#c2410c] text-white font-semibold py-2.5 px-4 rounded w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4 focus:outline-none focus:ring-2 focus:ring-[#f97316] focus:ring-offset-2 focus:ring-offset-[#121212]"
+                        className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-2.5 px-4 rounded w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 focus:ring-offset-[#121212] shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                         disabled={isLoading || isGuestLoading}
                         aria-label="Login to your account"
                     >
@@ -195,7 +198,7 @@ function LoginForm() {
                 {/* Guest Login Button */}
                 <button
                     onClick={handleGuestLogin}
-                    className="bg-transparent border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 font-medium py-2.5 px-4 rounded hover:bg-gray-100 dark:hover:bg-[#1f1f1f] hover:border-gray-500 dark:hover:border-[#333] w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#f97316]"
+                    className="bg-transparent border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 font-medium py-2.5 px-4 rounded hover:bg-gray-100 dark:hover:bg-[#1f1f1f] hover:border-gray-500 dark:hover:border-[#333] w-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                     disabled={isLoading || isGuestLoading}
                     aria-label="Continue as guest"
                 >
