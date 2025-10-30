@@ -142,7 +142,7 @@ export const generateGuestSessionId = (): string => {
             window.crypto.getRandomValues(bytes);
             return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
         }
-    } catch {}
+    } catch { }
     // Fallback
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 };
@@ -203,9 +203,9 @@ api.interceptors.response.use(
 
             // Check if we have a refresh token
             const refreshToken = getRefreshToken();
-        if (refreshToken) {
+            if (refreshToken) {
                 try {
-                    
+
                     const response = await axios.post(`${API_BASE_URL}/api/auth/token/refresh/`, {
                         refresh: refreshToken
                     });
@@ -251,12 +251,12 @@ export const login = async (credentials: LoginCredentials): Promise<AuthResponse
             password: credentials.password
         };
 
-        
+
 
         const response = await api.post('/api/auth/login/', loginData);
         const data = response.data;
 
-        
+
 
         // Django Token auth returns token directly
         const authResponse: AuthResponse = {
@@ -308,11 +308,11 @@ export const login = async (credentials: LoginCredentials): Promise<AuthResponse
 
         return authResponse;
     } catch (error) {
-        
+
         console.error('Raw error:', error);
 
         if (axios.isAxiosError(error)) {
-            
+
 
             const status = error.response?.status;
             const data = error.response?.data;
@@ -353,7 +353,7 @@ export const signup = async (credentials: SignupCredentials): Promise<AuthRespon
             throw new Error('Email and password are required');
         }
 
-        
+
 
         // Format data for Django registration endpoint
         const signupData = {
@@ -366,7 +366,7 @@ export const signup = async (credentials: SignupCredentials): Promise<AuthRespon
         };
 
         const response = await api.post('/api/auth/register/', signupData);
-        
+
 
         // Store funny message and user name from registration response
         if (response.data.funny_message) {
@@ -418,10 +418,10 @@ export const signup = async (credentials: SignupCredentials): Promise<AuthRespon
 
 export const guestLogin = async (): Promise<AuthResponse> => {
     try {
-        
+
 
         // Clear any existing tokens before guest login to prevent sending invalid tokens
-        
+
         removeTokens();
 
         // Use reasonable timeout for guest login
@@ -429,11 +429,11 @@ export const guestLogin = async (): Promise<AuthResponse> => {
             timeout: 15000 // 15 second timeout for guest login
         });
 
-        
+
 
         const data: AuthResponse = response.data;
 
-        
+
 
         // Store access token
         setToken(data.token);
@@ -442,18 +442,18 @@ export const guestLogin = async (): Promise<AuthResponse> => {
         if (data.refresh) {
             setRefreshToken(data.refresh);
         } else {
-            
+
         }
-        
+
         // Store username if available
         if (data.user?.username) {
             setUserName(data.user.username);
         }
-        
+
         // Mark as guest
         setGuestFlag(true);
         setGuestSessionId();
-        
+
         // Migrate existing localStorage data to user-specific keys for guest users too (non-blocking)
         setTimeout(async () => {
             try {
@@ -471,10 +471,10 @@ export const guestLogin = async (): Promise<AuthResponse> => {
                 console.warn('Failed to migrate guest storage:', error);
             }
         }, 100);
-        
+
         return data;
     } catch (error) {
-        
+
         console.error('Guest login error:', error);
         if (axios.isAxiosError(error)) {
             console.error('Response status:', error.response?.status);
@@ -522,19 +522,19 @@ export interface CalendarEvent {
 // Function to get calendar events
 export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
     try {
-        
+
 
         const response = await api.get('/api/calendar/events/');
 
-        
+
 
         return response.data as CalendarEvent[];
     } catch (error) {
-        
+
         console.error('Raw error:', error);
 
         if (axios.isAxiosError(error)) {
-            
+
 
             // Check if it's an authentication error
             if (error.response?.status === 401) {
@@ -554,7 +554,7 @@ export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
 // Function to create a calendar event
 export const createCalendarEvent = async (event: Omit<CalendarEvent, 'id'>): Promise<CalendarEvent> => {
     try {
-        
+
 
         // Check if user is authenticated
         if (!getToken()) {
@@ -584,18 +584,18 @@ export const createCalendarEvent = async (event: Omit<CalendarEvent, 'id'>): Pro
             theme: event.theme || 'lavender-peach'
         };
 
-        
+
 
         const response = await api.post('/api/calendar/events/', eventPayload);
-        
+
 
         return response.data;
     } catch (error) {
-        
+
         console.error('Raw error:', error);
 
         if (axios.isAxiosError(error)) {
-            
+
 
             // Provide specific error messages based on status code
             if (error.response?.status === 404) {
@@ -634,16 +634,16 @@ export const createCalendarEvent = async (event: Omit<CalendarEvent, 'id'>): Pro
 // Function to delete a calendar event
 export const deleteCalendarEvent = async (eventId: number): Promise<void> => {
     try {
-        
+
 
         const response = await api.delete(`/api/calendar/events/${eventId}/`);
-        
+
 
         if (response.status !== 204) {
             throw new Error(`Failed to delete calendar event: ${response.status}`);
         }
     } catch (error: any) {
-        
+
         console.error('Delete error:', error);
         if (error.response) {
             console.error('Error response status:', error.response.status);
@@ -669,17 +669,17 @@ export const deleteCalendarEvent = async (eventId: number): Promise<void> => {
 // Function to update a calendar event
 export const updateCalendarEvent = async (eventId: number, event: Partial<CalendarEvent>): Promise<CalendarEvent> => {
     try {
-        
+
 
         // Use PATCH and remove undefined fields to avoid wiping values unintentionally
         const payload: Record<string, any> = {};
         Object.entries(event).forEach(([key, value]) => {
             if (value !== undefined) payload[key] = value;
         });
-        
+
 
         const response = await api.patch(`/api/calendar/events/${eventId}/`, payload);
-        
+
 
         if (response.status !== 200) {
             throw new Error(`Failed to update calendar event: ${response.status}`);

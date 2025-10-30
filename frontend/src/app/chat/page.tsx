@@ -49,19 +49,19 @@ import { motion, useAnimation } from "framer-motion";
 // Helper function to extract term from event
 const extractTermFromEvent = (event: DailyCalendarEvent): string => {
     // Debug logging
-    console.log('🔍 Extracting term from event:', { 
-        title: event.title, 
-        description: event.description, 
+    console.log('🔍 Extracting term from event:', {
+        title: event.title,
+        description: event.description,
         term: event.term,
         start_date: event.start_date,
         day_of_week: event.day_of_week
     });
-    
+
     // First try to get term from event.term property
     if (event.term) {
         return event.term;
     }
-    
+
     // Try to extract from description
     if (event.description) {
         const termMatch = event.description.match(/(Fall|Winter|Spring|Summer)\s+(\d{4})/i);
@@ -71,7 +71,7 @@ const extractTermFromEvent = (event: DailyCalendarEvent): string => {
             return term;
         }
     }
-    
+
     // Try to extract from title
     if (event.title) {
         const termMatch = event.title.match(/(Fall|Winter|Spring|Summer)\s+(\d{4})/i);
@@ -81,13 +81,13 @@ const extractTermFromEvent = (event: DailyCalendarEvent): string => {
             return term;
         }
     }
-    
+
     // Improved date-based term detection
     if (event.start_date) {
         const eventDate = new Date(event.start_date);
         const year = eventDate.getFullYear();
         const month = eventDate.getMonth(); // 0-based (0 = January)
-        
+
         let term;
         // Academic year logic:
         // Fall: September (8) - December (11)
@@ -105,7 +105,7 @@ const extractTermFromEvent = (event: DailyCalendarEvent): string => {
         console.log('📅 Guessed term from date:', term, 'for month:', month);
         return term;
     }
-    
+
     // For events without dates, try to create variety based on course code
     if (event.title) {
         const courseMatch = event.title.match(/([A-Z]{3}\s*\d{4})/);
@@ -116,14 +116,14 @@ const extractTermFromEvent = (event: DailyCalendarEvent): string => {
                 a = ((a << 5) - a) + b.charCodeAt(0);
                 return a & a;
             }, 0);
-            
+
             const terms = ['Fall 2025', 'Winter 2026', 'Spring 2026', 'Summer 2026'];
             const selectedTerm = terms[Math.abs(hash) % terms.length];
             console.log('🎲 Assigned term based on course hash:', selectedTerm, 'for', courseCode);
             return selectedTerm;
         }
     }
-    
+
     // Final fallback - return Fall 2025 as default
     const fallbackTerm = 'Fall 2025';
     console.log('🎯 Using fallback term:', fallbackTerm);
@@ -143,10 +143,10 @@ interface InteractiveCoursesBadgeProps {
     onTermChange: (term: string) => void;
 }
 
-const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({ 
-    events, 
-    selectedTerm, 
-    onTermChange 
+const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({
+    events,
+    selectedTerm,
+    onTermChange
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -154,53 +154,53 @@ const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({
     // Compute term counts by unique courses (not individual blocks)
     const termCounts = useMemo(() => {
         const coursesByTerm: Record<string, Set<string>> = {};
-        
+
         // If no events, return empty counts
         if (events.length === 0) {
             console.log('📊 No events found');
             return { counts: {}, total: 0 };
         }
-        
+
         for (const event of events) {
             const courseCode = extractCourseCodeFromEvent(event);
             const term = extractTermFromEvent(event);
-            
+
             if (!coursesByTerm[term]) {
                 coursesByTerm[term] = new Set();
             }
             coursesByTerm[term].add(courseCode);
         }
-        
+
         // Convert sets to counts
         const counts: Record<string, number> = {};
         const allCourses = new Set<string>();
-        
+
         for (const [term, courseSet] of Object.entries(coursesByTerm)) {
             counts[term] = courseSet.size;
             courseSet.forEach(course => allCourses.add(course));
         }
-        
+
         const total = allCourses.size;
-        
+
         // Debug logging
-        console.log('📊 Term counts:', { 
-            counts, 
-            total, 
+        console.log('📊 Term counts:', {
+            counts,
+            total,
             coursesByTerm: Object.fromEntries(
                 Object.entries(coursesByTerm).map(([term, set]) => [term, Array.from(set)])
             ),
-            eventsCount: events.length 
+            eventsCount: events.length
         });
-        
+
         // If we only have one term and it's a fallback, let's distribute courses across multiple terms for testing
         const termKeys = Object.keys(counts);
         if (termKeys.length === 1 && total > 1) {
             const singleTerm = termKeys[0];
             const courses = Array.from(coursesByTerm[singleTerm]);
-            
+
             // Clear the single term
             delete counts[singleTerm];
-            
+
             // Distribute courses across multiple terms
             const distributionTerms = ['Fall 2025', 'Winter 2026', 'Spring 2026'];
             distributionTerms.forEach((term, index) => {
@@ -209,10 +209,10 @@ const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({
                     counts[term] = termCourses.length;
                 }
             });
-            
+
             console.log('🔄 Redistributed courses across terms:', counts);
         }
-        
+
         return { counts, total };
     }, [events]);
 
@@ -253,26 +253,26 @@ const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({
 
     // Close handlers
     useEffect(() => {
-        function onKey(e: KeyboardEvent) { 
-            if (e.key === 'Escape') setIsOpen(false); 
+        function onKey(e: KeyboardEvent) {
+            if (e.key === 'Escape') setIsOpen(false);
         }
-        function onClick(e: MouseEvent) { 
-            if (ref.current && !ref.current.contains(e.target as Node)) setIsOpen(false); 
+        function onClick(e: MouseEvent) {
+            if (ref.current && !ref.current.contains(e.target as Node)) setIsOpen(false);
         }
         document.addEventListener('keydown', onKey);
         document.addEventListener('mousedown', onClick);
-        return () => { 
-            document.removeEventListener('keydown', onKey); 
-            document.removeEventListener('mousedown', onClick); 
+        return () => {
+            document.removeEventListener('keydown', onKey);
+            document.removeEventListener('mousedown', onClick);
         };
     }, []);
 
     // Badge label and count
-    const activeCount = selectedTerm === 'All Terms' 
-        ? termCounts.total 
+    const activeCount = selectedTerm === 'All Terms'
+        ? termCounts.total
         : (termCounts.counts[selectedTerm] || 0);
-    
-    const badgeLabel = selectedTerm === 'All Terms' 
+
+    const badgeLabel = selectedTerm === 'All Terms'
         ? `${activeCount} courses`
         : `${activeCount} courses • ${selectedTerm}`;
 
@@ -295,7 +295,7 @@ const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({
             </span>
 
             {isOpen && (
-                <div 
+                <div
                     className="absolute left-0 mt-2 w-56 rounded-xl border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-2 shadow-lg z-50"
                     onMouseLeave={() => setIsOpen(false)}
                 >
@@ -303,9 +303,8 @@ const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({
                         rows.map(({ term, count }) => (
                             <button
                                 key={term}
-                                className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-left ${
-                                    selectedTerm === term ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-medium' : 'text-gray-700 dark:text-gray-200'
-                                }`}
+                                className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-left ${selectedTerm === term ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-medium' : 'text-gray-700 dark:text-gray-200'
+                                    }`}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
@@ -314,9 +313,8 @@ const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({
                                 }}
                             >
                                 <span className="truncate">{term}</span>
-                                <span className={`tabular-nums text-xs ${
-                                    selectedTerm === term ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'
-                                }`}>
+                                <span className={`tabular-nums text-xs ${selectedTerm === term ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'
+                                    }`}>
                                     {count}
                                 </span>
                             </button>
@@ -399,7 +397,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
         if (selectedTerm === 'All Terms') {
             return events;
         }
-        
+
         return events.filter(event => {
             const eventTerm = extractTermFromEvent(event);
             return eventTerm === selectedTerm;
@@ -1517,7 +1515,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
             ...prev,
             [messageId]: prev[messageId] === feedback ? null : feedback
         }));
-        
+
         // TODO: Send feedback to backend for analytics
         console.log(`Feedback for message ${messageId}: ${feedback}`);
     };
@@ -1527,7 +1525,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
         try {
             await navigator.clipboard.writeText(content);
             setCopiedMessages(prev => ({ ...prev, [messageId]: true }));
-            
+
             // Reset copy status after 2 seconds
             setTimeout(() => {
                 setCopiedMessages(prev => ({ ...prev, [messageId]: false }));
@@ -2197,10 +2195,10 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
 
 
             // Prepare the request payload with full conversation context (normal AI flow)
-            const requestPayload: { 
-                message: string; 
+            const requestPayload: {
+                message: string;
                 session_id?: string;
-                conversation_history?: Array<{role: string; content: string; timestamp: string}>;
+                conversation_history?: Array<{ role: string; content: string; timestamp: string }>;
                 context_summary?: string;
             } = {
                 message: userMessage.content
@@ -2232,7 +2230,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     .filter(msg => msg.role === 'user')
                     .map(msg => msg.content)
                     .join(' | ');
-                
+
                 requestPayload.context_summary = `Recent topics discussed: ${topics}`;
             }
 
@@ -2689,7 +2687,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                             isFullSequence={message.isFullSequence}
                                         />
                                     </div>
-                                    
+
                                     {/* Feedback and Copy buttons for curriculum messages */}
                                     {message.role === 'assistant' && (
                                         <div className="flex items-center gap-1 mt-2 ml-3">
@@ -2705,28 +2703,26 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                                     <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
                                                 )}
                                             </button>
-                                            
+
                                             {/* Thumbs up */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'up')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-                                                    messageFeedback[message.id] === 'up' 
-                                                        ? 'text-green-500' 
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'up'
+                                                        ? 'text-green-500'
                                                         : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-                                                }`}
+                                                    }`}
                                                 title="Good response"
                                             >
                                                 <ThumbsUp className="w-3.5 h-3.5" />
                                             </button>
-                                            
+
                                             {/* Thumbs down */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'down')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-                                                    messageFeedback[message.id] === 'down' 
-                                                        ? 'text-red-500' 
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'down'
+                                                        ? 'text-red-500'
                                                         : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-                                                }`}
+                                                    }`}
                                                 title="Bad response"
                                             >
                                                 <ThumbsDown className="w-3.5 h-3.5" />
@@ -2750,7 +2746,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                         winterCourses={message.curriculumData.winterCourses}
                                         structuredData={message.curriculumData.structuredData}
                                     />
-                                    
+
                                     {/* Feedback and Copy buttons for legacy curriculum messages */}
                                     {message.role === 'assistant' && (
                                         <div className="flex items-center gap-1 mt-2 ml-3">
@@ -2766,28 +2762,26 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                                     <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
                                                 )}
                                             </button>
-                                            
+
                                             {/* Thumbs up */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'up')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-                                                    messageFeedback[message.id] === 'up' 
-                                                        ? 'text-green-500' 
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'up'
+                                                        ? 'text-green-500'
                                                         : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-                                                }`}
+                                                    }`}
                                                 title="Good response"
                                             >
                                                 <ThumbsUp className="w-3.5 h-3.5" />
                                             </button>
-                                            
+
                                             {/* Thumbs down */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'down')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-                                                    messageFeedback[message.id] === 'down' 
-                                                        ? 'text-red-500' 
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'down'
+                                                        ? 'text-red-500'
                                                         : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-                                                }`}
+                                                    }`}
                                                 title="Bad response"
                                             >
                                                 <ThumbsDown className="w-3.5 h-3.5" />
@@ -2809,7 +2803,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                             className="text-sm leading-relaxed"
                                         />
                                     </div>
-                                    
+
                                     {/* Feedback and Copy buttons for AI messages */}
                                     {message.role === 'assistant' && (
                                         <div className="flex items-center gap-1 mt-2 ml-3">
@@ -2825,28 +2819,26 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                                     <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
                                                 )}
                                             </button>
-                                            
+
                                             {/* Thumbs up */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'up')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-                                                    messageFeedback[message.id] === 'up' 
-                                                        ? 'text-green-500' 
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'up'
+                                                        ? 'text-green-500'
                                                         : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-                                                }`}
+                                                    }`}
                                                 title="Good response"
                                             >
                                                 <ThumbsUp className="w-3.5 h-3.5" />
                                             </button>
-                                            
+
                                             {/* Thumbs down */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'down')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-                                                    messageFeedback[message.id] === 'down' 
-                                                        ? 'text-red-500' 
+                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'down'
+                                                        ? 'text-red-500'
                                                         : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-                                                }`}
+                                                    }`}
                                                 title="Bad response"
                                             >
                                                 <ThumbsDown className="w-3.5 h-3.5" />
@@ -2871,37 +2863,13 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                         </div>
                     )}
 
-                    {/* K logo with dots thinking indicator */}
+                    {/* Typing indicator - three bouncing dots */}
                     {isLoading && !isTyping && (
                         <div className="flex justify-start px-4 py-2">
-                            <div className="flex items-center space-x-3">
-                                {/* K Logo */}
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="32"
-                                    height="32"
-                                    viewBox="0 0 100 100"
-                                    className="text-gray-600 dark:text-gray-400"
-                                >
-                                    <title>Kairo</title>
-                                    <g transform="translate(50,50)">
-                                        {/* Left stem */}
-                                        <rect x="-22" y="-30" width="6" height="60" fill="currentColor" rx="3" />
-                                        {/* Upper diagonal arm */}
-                                        <polygon points="-16,-4 20,-24 24,-21 -12,-1" fill="currentColor" />
-                                        {/* Lower diagonal arm */}
-                                        <polygon points="-16,4 20,24 24,21 -12,1" fill="currentColor" />
-                                        {/* Connection dot */}
-                                        <circle cx="-16" cy="0" r="3.2" fill="currentColor" />
-                                    </g>
-                                </svg>
-
-                                {/* Animated dots - Smaller and normal speed */}
-                                <div className="flex items-center space-x-0.5">
-                                    <div className="w-1.5 h-1.5 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0s', animationDuration: '1.5s' }}></div>
-                                    <div className="w-1.5 h-1.5 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '1.5s' }}></div>
-                                    <div className="w-1.5 h-1.5 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '1s', animationDuration: '1.5s' }}></div>
-                                </div>
+                            <div className="flex items-center space-x-1">
+                                <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms', animationDuration: '1s' }}></div>
+                                <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '200ms', animationDuration: '1s' }}></div>
+                                <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '400ms', animationDuration: '1s' }}></div>
                             </div>
                         </div>
                     )}
@@ -5815,7 +5783,7 @@ export default function ChatDashboard() {
                 <div className="hidden lg:flex items-center justify-between px-6 py-4">
                     {/* Counter Badges - Center (Only on large screens where desktop calendar is used) */}
                     <div className="flex items-center gap-3">
-                        <InteractiveCoursesBadge 
+                        <InteractiveCoursesBadge
                             events={calendarEvents}
                             selectedTerm={selectedTerm}
                             onTermChange={setSelectedTerm}
