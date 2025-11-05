@@ -862,3 +862,311 @@ img, video, canvas, svg {
     padding: 6px 8px !important;
   }
 }
+/* =====
+=======================================
+   RESPONSIVE CALENDAR STYLES (TABLET/DESKTOP)
+   DO NOT MODIFY MOBILE (< 640px) STYLES
+   ============================================ */
+
+/* Small Tablet (640px - 767px) */
+@media (min-width: 640px) and (max-width: 767px) {
+  .calendar-event-title {
+    font-size: 0.7rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-subtitle {
+    font-size: 0.7rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-detail {
+    font-size: 0.65rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-time-label {
+    font-size: 0.65rem !important;
+  }
+  
+  .calendar-time-slot {
+    height: 80px !important;
+    min-height: 80px !important;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .calendar-event-title {
+    font-size: 0.75rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-subtitle {
+    font-size: 0.75rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-detail {
+    font-size: 0.7rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-time-label {
+    font-size: 0.7rem !important;
+  }
+  
+  .calendar-time-slot {
+    height: 80px !important;
+    min-height: 80px !important;
+  }
+}
+
+/* Laptop (1024px - 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .calendar-event-title {
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-subtitle {
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-detail {
+    font-size: 0.75rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-time-label {
+    font-size: 0.75rem !important;
+  }
+  
+  .calendar-time-slot {
+    height: 80px !important;
+    min-height: 80px !important;
+  }
+}
+
+/* Desktop (1440px - 1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .calendar-event-title {
+    font-size: 0.85rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-subtitle {
+    font-size: 0.85rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-detail {
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-time-label {
+    font-size: 0.8rem !important;
+  }
+  
+  .calendar-time-slot {
+    height: 90px !important;
+    min-height: 90px !important;
+  }
+}
+
+/* Large Desktop (>= 1920px) */
+@media (min-width: 1920px) {
+  .calendar-event-title {
+    font-size: 0.9rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-subtitle {
+    font-size: 0.9rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-event-detail {
+    font-size: 0.85rem !important;
+    line-height: 1.2;
+  }
+  
+  .calendar-time-label {
+    font-size: 0.85rem !important;
+  }
+  
+  .calendar-time-slot {
+    height: 100px !important;
+    min-height: 100px !important;
+  }
+}
+
+/* Overflow prevention for tablet/desktop */
+@media (min-width: 640px) {
+  .weekly-calendar-container {
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .calendar-time-grid {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .calendar-day-column {
+    overflow: hidden !important;
+    position: relative !important;
+  }
+  
+  .calendar-event-block {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
+
+/* Smooth transitions for responsive changes */
+@media (min-width: 640px) {
+  .calendar-responsive-transition {
+    transition: font-size 0.2s ease, padding 0.2s ease, height 0.2s ease;
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* GPU acceleration for smooth animations */
+.calendar-event-block,
+.event-block {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Contain layout calculations */
+.calendar-day-column {
+  contain: layout style paint;
+}
+
+.calendar-time-slot {
+  contain: layout style;
+}
+
+/* Optimize scrolling performance */
+.calendar-time-grid {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  will-change: scroll-position;
+}
+
+/* Reduce paint areas */
+.weekly-calendar-container {
+  contain: layout style;
+  isolation: isolate;
+}
+
+/* Optimize text rendering */
+.calendar-event-title,
+.calendar-event-subtitle,
+.calendar-event-detail {
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce repaints on hover */
+.event-block:hover {
+  transform: translateZ(0);
+}
+
+/* Optimize animations for low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hardware acceleration for modals */
+.modal-overlay,
+.modal-content {
+  will-change: opacity, transform;
+  transform: translateZ(0);
+}
+
+/* Optimize grid rendering */
+.grid {
+  contain: layout;
+}
+
+/* Reduce layout thrashing */
+.calendar-header {
+  contain: layout style;
+}
+
+/* Optimize backdrop blur */
+@supports (backdrop-filter: blur(10px)) {
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-xl {
+    will-change: backdrop-filter;
+  }
+}
+
+/* Disable expensive effects on low-end devices */
+@media (max-width: 768px) {
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-xl {
+    backdrop-filter: none !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+  }
+  
+  .dark .backdrop-blur-sm,
+  .dark .backdrop-blur-md,
+  .dark .backdrop-blur-xl {
+    background-color: rgba(0, 0, 0, 0.95) !important;
+  }
+}
+
+/* Optimize shadow rendering */
+.shadow-sm,
+.shadow-md,
+.shadow-lg,
+.shadow-xl {
+  will-change: box-shadow;
+}
+
+/* Reduce complexity on mobile */
+@media (max-width: 640px) {
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+  }
+}
+
+/* Optimize transitions */
+.transition-all {
+  transition-property: transform, opacity;
+}
+
+/* Prevent layout shift */
+.calendar-container {
+  content-visibility: auto;
+}
+
+/* Optimize image loading */
+img {
+  content-visibility: auto;
+}

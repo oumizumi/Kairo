@@ -11,6 +11,7 @@ import { exportCalendarAsICS, hasEventsToExport } from '@/services/icsExportServ
 import DownloadScheduleModal from './DownloadScheduleModal';
 import { shareSchedule, generateShareableSchedule, copyToClipboard, hasScheduleContent, getSharedSchedule } from '@/services/scheduleShareService';
 import { EVENT_THEMES } from '@/config/eventThemes';
+import { getGridConfig, getGridTemplateColumns } from '@/config/calendar.grid.config';
 
 // Using unified event themes from config
 
@@ -1618,17 +1619,30 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     // Generate the 7 days of the week
     const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
-    // Track screen width for responsive positioning
+    // Track screen width for responsive positioning with debouncing
     useEffect(() => {
-    
+        let timeoutId: NodeJS.Timeout;
+        
         const updateScreenWidth = () => {
-            const newWidth = window.innerWidth;
+            // Clear any pending timeout
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
             
-            setScreenWidth(newWidth);
+            // Debounce resize events to 300ms
+            timeoutId = setTimeout(() => {
+                const newWidth = window.innerWidth;
+                setScreenWidth(newWidth);
+            }, 300);
         };
 
         window.addEventListener('resize', updateScreenWidth);
-        return () => window.removeEventListener('resize', updateScreenWidth);
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            window.removeEventListener('resize', updateScreenWidth);
+        };
     }, []);
 
     // Listen for export calendar event from mobile view
@@ -4158,12 +4172,24 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             </div>
 
             {/* Weekly grid container - HIGH-END POLISHED DARK INTERFACE */}
-            <div className={`flex flex-col ${themeStyles.containerBg} border-2 ${themeStyles.containerBorder} rounded-lg shadow-lg overflow-hidden mx-4 mt-4 h-[calc(100vh-120px)] transition-colors duration-300 ${isAnimating
-                ? `animating ${animationDirection === 'next' ? 'slide-next' : 'slide-prev'}`
-                : ''
-                }`}>
+            <div 
+                className={`flex flex-col ${themeStyles.containerBg} border-2 ${themeStyles.containerBorder} rounded-lg shadow-lg overflow-hidden mx-4 mt-4 h-[calc(100vh-120px)] transition-colors duration-300 ${isAnimating
+                    ? `animating ${animationDirection === 'next' ? 'slide-next' : 'slide-prev'}`
+                    : ''
+                }`}
+                style={{
+                    width: '100%',
+                    maxWidth: '100%',
+                    boxSizing: 'border-box'
+                }}
+            >
                 {/* Days header */}
-                <div className={`grid grid-cols-[50px_repeat(5,1fr)] sm:grid-cols-[64px_repeat(5,1fr)_100px_100px] ${themeStyles.dayHeaderBg} border-b-2 ${themeStyles.containerBorder} sticky top-0 z-20`}>
+                <div 
+                    className={`grid ${themeStyles.dayHeaderBg} border-b-2 ${themeStyles.containerBorder} sticky top-0 z-20`}
+                    style={{
+                        gridTemplateColumns: getGridTemplateColumns(screenWidth)
+                    }}
+                >
                     {/* Time column header */}
                     <div className={`border-r-2 ${themeStyles.containerBorder} transition-colors duration-300 flex items-center justify-center ${themeStyles.timeLabelBg}`}>
                         <div className={`text-xs ${themeStyles.timeLabelText} font-semibold`}>
@@ -4247,23 +4273,23 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             let leftPosition;
                             let columnWidth;
 
+                            const gridConfig = getGridConfig(screenWidth);
+                            const timeColumnWidth = gridConfig.timeColumnWidth;
+                            const weekendColumnWidth = gridConfig.weekendColumnWidth || 100;
+
                             if (screenWidth < 640) {
-                                // Mobile: grid-cols-[50px_repeat(5,1fr)] - 5 equal columns after time
-                                // Each day column gets equal space after the 50px time column
-                                const timeColumnWidth = 50;
+                                // Mobile: time column + 5 equal weekday columns
                                 const totalColumns = 5;
                                 
                                 // Use CSS calc to match grid-template-columns exactly
-                                // The available width is (100% - 50px), divided by 5 columns
+                                // The available width is (100% - timeColumnWidth), divided by 5 columns
                                 const singleColumnWidth = `calc((100% - ${timeColumnWidth}px) / ${totalColumns})`;
                                 
                                 // Position: time column width + (column width * day index)
                                 columnWidth = singleColumnWidth;
                                 leftPosition = `calc(${timeColumnWidth}px + (${singleColumnWidth} * ${dayIndex}))`;
                             } else {
-                                // Desktop: grid-cols-[64px_repeat(5,1fr)_100px_100px]
-                                const timeColumnWidth = 64;
-                                const weekendColumnWidth = 100;
+                                // Tablet/Desktop: time column + 5 equal weekday columns + 2 fixed weekend columns
 
                                 if (dayIndex <= 4) {
                                     // Monday-Friday: Equal flexible columns using CSS Grid fr units
@@ -4316,8 +4342,8 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                                     height: position.height,
                                                     left: '4px', // Consistent left margin for all events
                                                     width: 'calc(100% - 8px)', // Consistent width with margins
-                                                    padding: screenWidth < 480 ? '4px 6px' : '6px 8px',
-                                                    fontSize: screenWidth < 480 ? '0.65rem' : '0.75rem',
+                                                    padding: getGridConfig(screenWidth).spacing.eventPadding,
+                                                    fontSize: getGridConfig(screenWidth).fontSize.eventTitle,
                                                     minHeight: '30px',
                                                     margin: '0',
                                                     boxSizing: 'border-box',
@@ -4407,7 +4433,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
                     {/* Time slots */}
                     {timeSlots.map((slot, index) => (
-                        <div key={slot.hour} className="relative grid grid-cols-[50px_repeat(5,1fr)] sm:grid-cols-[64px_repeat(5,1fr)_100px_100px] mobile-time-slot min-h-[80px] h-20">
+                        <div 
+                            key={slot.hour} 
+                            className="relative grid mobile-time-slot min-h-[80px] h-20"
+                            style={{
+                                gridTemplateColumns: getGridTemplateColumns(screenWidth)
+                            }}
+                        >
                             {/* CLEAN horizontal separator line under each hour */}
                             {screenWidth < 640 ? (
                                 <div
