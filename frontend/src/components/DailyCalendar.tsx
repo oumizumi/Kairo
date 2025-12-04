@@ -1986,7 +1986,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
     // Function to calculate EXACT event position alignment with new grid system
 
-    const getEventPosition = (event: Event, dayEvents: Event[], eventIndex: number, currentScreenWidth: number = screenWidth) => {
+    const getEventPosition = (event: Event, dayEvents: Event[], eventIndex: number, currentScreenWidth: number = screenWidth, dayIndex: number = 0) => {
         const normalizedEvent = normalizeEventProperties(event);
 
         // Validate that we have proper time properties
@@ -2044,8 +2044,9 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
         let widthCalc = 'calc(100% - 4px)'; // Account for left/right margins
         let zIndex = 10;
 
-        // Simplified responsive positioning - consistent across all screen sizes
-        const isDesktop = currentScreenWidth >= 640;
+        // Desktop vs Mobile/Tablet positioning
+        const isDesktop = currentScreenWidth >= 1024; // Desktop is 1024px+
+        const isMobile = currentScreenWidth < 640; // Mobile is < 640px
 
         if (hasOverlaps && hasOverlaps.length > 0) {
             const overlapGroup = new Set([eventIndex, ...hasOverlaps]);
@@ -2061,21 +2062,56 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             const totalInGroup = sortedGroup.length;
 
             if (isDesktop) {
-                // Desktop: Side-by-side layout for overlapping events
+                // Desktop: Side-by-side layout for overlapping events with special handling for Wed/Thu/Fri
                 const eventWidth = Math.floor(100 / totalInGroup);
-                leftOffset = `${positionInGroup * eventWidth + 0.5}%`;
-                widthCalc = `${eventWidth - 1}%`;
+                const isWednesday = dayIndex === 2;
+                const isThursday = dayIndex === 3;
+                const isFriday = dayIndex === 4;
+                if (isWednesday || isThursday) {
+                    // Wednesday & Thursday: Reduced right stretch by 2px
+                    leftOffset = `calc(${positionInGroup * eventWidth}% + 12px)`;
+                    widthCalc = `calc(${eventWidth}% - 3px)`;
+                } else if (isFriday) {
+                    // Friday: Keep full stretch
+                    leftOffset = `calc(${positionInGroup * eventWidth}% + 12px)`;
+                    widthCalc = `calc(${eventWidth}% - 1px)`;
+                } else {
+                    // Monday, Tuesday, Saturday, Sunday: Keep original positioning
+                    leftOffset = `calc(${positionInGroup * eventWidth}% + 5px)`;
+                    widthCalc = `calc(${eventWidth}% - 6px)`;
+                }
                 zIndex = 10 + positionInGroup;
             } else {
-                // Mobile: Stacked layout for overlapping events
-                leftOffset = '4px';
-                widthCalc = 'calc(100% - 8px)';
+                // Mobile/Tablet: Stacked layout for overlapping events
+                leftOffset = isMobile ? '4px' : '3px';
+                widthCalc = isMobile ? 'calc(100% - 8px)' : 'calc(100% - 6px)';
                 zIndex = 10 + positionInGroup;
             }
         } else {
-            // No overlaps - consistent positioning for all screen sizes
-            leftOffset = '4px';
-            widthCalc = 'calc(100% - 8px)';
+            // No overlaps - different positioning for desktop vs mobile/tablet
+            if (isDesktop) {
+                // Desktop: Special positioning for Wednesday, Thursday and Friday
+                const isWednesday = dayIndex === 2;
+                const isThursday = dayIndex === 3;
+                const isFriday = dayIndex === 4;
+                if (isWednesday || isThursday) {
+                    // Wednesday & Thursday: Reduced right stretch by 2px
+                    leftOffset = '12px';
+                    widthCalc = 'calc(100% - 3px)';
+                } else if (isFriday) {
+                    // Friday: Keep full stretch
+                    leftOffset = '12px';
+                    widthCalc = 'calc(100% - 1px)';
+                } else {
+                    // Monday, Tuesday, Saturday, Sunday: Keep original positioning
+                    leftOffset = '5px';
+                    widthCalc = 'calc(100% - 5px)';
+                }
+            } else {
+                // Mobile/Tablet: Standard margins
+                leftOffset = isMobile ? '4px' : '3px';
+                widthCalc = isMobile ? 'calc(100% - 8px)' : 'calc(100% - 6px)';
+            }
         }
 
         
@@ -4322,7 +4358,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                     }}
                                 >
                                     {dayEvents.map((event, eventIndex) => {
-                                        const position = getEventPosition(event, dayEvents, eventIndex, screenWidth);
+                                        const position = getEventPosition(event, dayEvents, eventIndex, screenWidth, dayIndex);
                                         const colorScheme = getEventThemeStyle(event);
 
                                         // Only show events that are within business hours - use normalized properties
@@ -4340,14 +4376,17 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                                 style={{
                                                     top: position.top,
                                                     height: position.height,
-                                                    left: '4px', // Consistent left margin for all events
-                                                    width: 'calc(100% - 8px)', // Consistent width with margins
+                                                    // Desktop (>= 1024px): Use calculated position for perfect grid alignment
+                                                    // Mobile/Tablet (< 1024px): Use fixed margins to maintain mobile layout
+                                                    left: screenWidth >= 1024 ? position.left : '4px',
+                                                    width: screenWidth >= 1024 ? position.width : 'calc(100% - 8px)',
                                                     padding: getGridConfig(screenWidth).spacing.eventPadding,
                                                     fontSize: getGridConfig(screenWidth).fontSize.eventTitle,
                                                     minHeight: '30px',
                                                     margin: '0',
                                                     boxSizing: 'border-box',
-                                                    overflow: 'hidden'
+                                                    overflow: 'hidden',
+                                                    zIndex: position.zIndex
                                                 }}
                                                 ref={(el) => {
                                                     // Element reference for positioning
@@ -4409,16 +4448,18 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                                                     {displayInfo.professor || 'Staff'}
                                                                 </div>
 
-                                                                {/* Time Range - Below instructor */}
-                                                                <div className={`${colorScheme.text} text-xs opacity-60 leading-tight overflow-hidden`}
-                                                                     style={{
-                                                                         wordBreak: 'break-word'
-                                                                     }}>
-                                                                    {(() => {
-                                                                        const normalizedEvent = normalizeEventProperties(event);
-                                                                        return `${formatTime12Hour(normalizedEvent.startTime)} - ${formatTime12Hour(normalizedEvent.endTime)}`;
-                                                                    })()}
-                                                                </div>
+                                                                {/* Time Range - Only show on large screens where there's enough space */}
+                                                                {screenWidth >= 1440 && (
+                                                                    <div className={`${colorScheme.text} text-xs opacity-60 leading-tight overflow-hidden`}
+                                                                         style={{
+                                                                             wordBreak: 'break-word'
+                                                                         }}>
+                                                                        {(() => {
+                                                                            const normalizedEvent = normalizeEventProperties(event);
+                                                                            return `${formatTime12Hour(normalizedEvent.startTime)} - ${formatTime12Hour(normalizedEvent.endTime)}`;
+                                                                        })()}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     );
