@@ -65,7 +65,7 @@ export default function ResetPasswordConfirmPage({ params }: PageProps): React.J
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative" style={{ fontFamily: 'Monaco, Menlo, "Courier New", monospace' }}>
+        <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
             {/* Logo with proper anchoring */}
             <div className="absolute top-6 left-8 z-10">
                 <Link 

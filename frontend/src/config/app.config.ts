@@ -202,7 +202,7 @@ export const APP_CONFIG = {
             { key: 'kawaii', label: 'Kawaii Mode', emoji: '🎀', hint: 'Extra adorable UI.', overlayClass: 'bg-rose-200/20' },
             { key: 'night-owl', label: 'Night Owl', emoji: '🌙', hint: 'Best after dark.', overlayClass: 'bg-slate-900/30' },
             { key: 'sunny', label: 'Sunny Mode', emoji: '☀️', hint: 'Bright and upbeat.', overlayClass: 'bg-yellow-200/20' },
-            { key: 'none', label: 'None', emoji: '⚙️', hint: 'Default appearance', overlayClass: '' }
+            { key: 'none', label: 'None', emoji: '', hint: 'Default appearance', overlayClass: '' }
         ],
 
         // Removed PROFILE_BADGES (deprecated)

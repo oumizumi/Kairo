@@ -71,7 +71,7 @@ export default function Footer() {
                         {seasonalTheme === 'christmas' ? (
                             <span className="text-emerald-500" aria-hidden="true">❄️</span>
                         ) : (
-                            <span className="text-gray-500" aria-hidden="true">✨</span>
+                            <span className="text-gray-500" aria-hidden="true"></span>
                         )}
                         <span className="w-16 text-center capitalize">{seasonalTheme}</span>
                     </button>
