@@ -208,6 +208,17 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                 control={form.control}
                                 name="theme"
                                 render={({ field, fieldState }) => {
+                                    // Curated list of 7 primary colors
+                                    const primaryColors = [
+                                        'blue-purple-magenta',
+                                        'green-blue',
+                                        'black-deep-bright',
+                                        'twilight-sunset',
+                                        'lavender-peach',
+                                        'warm-brown',
+                                        'classic-black-white'
+                                    ];
+                                    
                                     const selectedTheme = EVENT_THEMES[field.value as keyof typeof EVENT_THEMES];
                                     
                                     return (
@@ -226,15 +237,18 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                                         </SelectValue>
                                                     </SelectTrigger>
 
-                                                    <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 max-h-[300px] overflow-y-auto">
-                                                        {Object.entries(EVENT_THEMES).map(([key, theme]) => (
-                                                            <SelectItem key={key} value={key}>
-                                                                <div className="flex items-center gap-2">
-                                                                    <div className={`size-3.5 rounded-full ${theme.preview}`} />
-                                                                    {theme.name}
-                                                                </div>
-                                                            </SelectItem>
-                                                        ))}
+                                                    <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
+                                                        {primaryColors.map((colorKey) => {
+                                                            const theme = EVENT_THEMES[colorKey as keyof typeof EVENT_THEMES];
+                                                            return (
+                                                                <SelectItem key={colorKey} value={colorKey}>
+                                                                    <div className="flex items-center gap-2">
+                                                                        <div className={`size-3.5 rounded-full ${theme.preview}`} />
+                                                                        {theme.name}
+                                                                    </div>
+                                                                </SelectItem>
+                                                            );
+                                                        })}
                                                     </SelectContent>
                                                 </Select>
                                             </FormControl>
