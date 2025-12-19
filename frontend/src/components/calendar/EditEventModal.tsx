@@ -208,18 +208,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                 control={form.control}
                                 name="theme"
                                 render={({ field, fieldState }) => {
-                                    // Map theme keys to color info for display
-                                    const colorMap: Record<string, { name: string; class: string }> = {
-                                        'blue-purple-magenta': { name: 'Blue', class: 'bg-blue-600' },
-                                        'green-blue': { name: 'Green', class: 'bg-green-600' },
-                                        'black-deep-bright': { name: 'Red', class: 'bg-red-600' },
-                                        'twilight-sunset': { name: 'Yellow', class: 'bg-yellow-600' },
-                                        'lavender-peach': { name: 'Purple', class: 'bg-purple-600' },
-                                        'warm-brown': { name: 'Orange', class: 'bg-orange-600' },
-                                        'classic-black-white': { name: 'Gray', class: 'bg-neutral-600' },
-                                    };
-                                    
-                                    const selectedColor = colorMap[field.value] || { name: 'Select a color', class: '' };
+                                    const selectedTheme = EVENT_THEMES[field.value as keyof typeof EVENT_THEMES];
                                     
                                     return (
                                         <FormItem>
@@ -228,67 +217,29 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                                 <Select value={field.value} onValueChange={field.onChange}>
                                                     <SelectTrigger data-invalid={fieldState.invalid} className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                                                         <SelectValue placeholder="Select a color">
-                                                            <div className="flex items-center gap-2">
-                                                                {selectedColor.class && <div className={`size-3.5 rounded-full ${selectedColor.class}`} />}
-                                                                {selectedColor.name}
-                                                            </div>
+                                                            {selectedTheme && (
+                                                                <div className="flex items-center gap-2">
+                                                                    <div className={`size-3.5 rounded-full ${selectedTheme.preview}`} />
+                                                                    {selectedTheme.name}
+                                                                </div>
+                                                            )}
                                                         </SelectValue>
                                                     </SelectTrigger>
 
-                                                    <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
-                                                    <SelectItem value="blue-purple-magenta">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="size-3.5 rounded-full bg-blue-600" />
-                                                            Blue
-                                                        </div>
-                                                    </SelectItem>
-
-                                                    <SelectItem value="green-blue">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="size-3.5 rounded-full bg-green-600" />
-                                                            Green
-                                                        </div>
-                                                    </SelectItem>
-
-                                                    <SelectItem value="black-deep-bright">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="size-3.5 rounded-full bg-red-600" />
-                                                            Red
-                                                        </div>
-                                                    </SelectItem>
-
-                                                    <SelectItem value="twilight-sunset">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="size-3.5 rounded-full bg-yellow-600" />
-                                                            Yellow
-                                                        </div>
-                                                    </SelectItem>
-
-                                                    <SelectItem value="lavender-peach">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="size-3.5 rounded-full bg-purple-600" />
-                                                            Purple
-                                                        </div>
-                                                    </SelectItem>
-
-                                                    <SelectItem value="warm-brown">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="size-3.5 rounded-full bg-orange-600" />
-                                                            Orange
-                                                        </div>
-                                                    </SelectItem>
-
-                                                    <SelectItem value="classic-black-white">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="size-3.5 rounded-full bg-neutral-600" />
-                                                            Gray
-                                                        </div>
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
+                                                    <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 max-h-[300px] overflow-y-auto">
+                                                        {Object.entries(EVENT_THEMES).map(([key, theme]) => (
+                                                            <SelectItem key={key} value={key}>
+                                                                <div className="flex items-center gap-2">
+                                                                    <div className={`size-3.5 rounded-full ${theme.preview}`} />
+                                                                    {theme.name}
+                                                                </div>
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
                                 );
                             }}
                             />
@@ -337,26 +288,6 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                         <p className="text-xs text-muted-foreground mt-0.5">
                                             Repeats every 2 weeks
                                         </p>
-                                    </FormItem>
-                                )}
-                            />
-                        )}
-
-                        {/* Specific Date (for one-time events) */}
-                        {eventType === 'specific' && (
-                            <FormField
-                                control={form.control}
-                                name="specificDate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Specific Date</FormLabel>
-                                        <FormControl>
-                                            <SingleDayPicker
-                                                value={field.value}
-                                                onSelect={(date) => field.onChange(date as Date)}
-                                                placeholder="Select a date"
-                                            />
-                                        </FormControl>
                                     </FormItem>
                                 )}
                             />
