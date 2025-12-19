@@ -9,7 +9,7 @@ import TypewriterText from '@/components/TypewriterText';
 
 import Logo from '@/components/Logo';
 import AccountDropdown from '@/components/AccountDropdown';
-import { ArrowRight, ArrowUp, Download, Mail, ThumbsUp, ThumbsDown, Copy, Check } from "lucide-react";
+import { ArrowRight, ArrowUp, Download, ThumbsUp, ThumbsDown, Copy, Check } from "lucide-react";
 import ChatEmailButton from '@/components/ChatEmailButton';
 import { exportCalendarForMobile, hasEventsToExport } from "@/services/mobileIcsExport";
 import { exportCalendarAsICS } from "@/services/icsExportService";
@@ -2578,13 +2578,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 </div>
 
                                 {/* Action Bar */}
-                                <div className="flex items-center justify-between px-4 py-3">
-                                    <div className="flex items-center gap-2">
-                                        {/* Mail Icon Only */}
-                                        <div className="group relative">
-                                            <ChatEmailButton currentMessage={inputMessage} />
-                                        </div>
-                                    </div>
+                                <div className="flex items-center justify-end px-4 py-3">
                                     <button
                                         type="submit"
                                         disabled={isLoading}
@@ -2926,13 +2920,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                         </div>
 
                         {/* Action Bar */}
-                        <div className="flex items-center justify-between px-4 py-3">
-                            <div className="flex items-center gap-2">
-                                {/* Mail Icon Only */}
-                                <div className="group relative">
-                                    <ChatEmailButton currentMessage={inputMessage} />
-                                </div>
-                            </div>
+                        <div className="flex items-center justify-end px-4 py-3">
                             <button
                                 type="submit"
                                 disabled={isLoading}

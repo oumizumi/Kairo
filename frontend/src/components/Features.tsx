@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Calendar, BookOpen, MessageSquare, Mail, Play, CheckCircle2, Sparkles, Clock, Shield, Users, ChevronDown } from 'lucide-react';
+import { Calendar, BookOpen, MessageSquare, Play, CheckCircle2, Sparkles, Clock, Shield, Users, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StatsMarquee from '@/components/StatsMarquee';
 
-type FeatureKey = 'schedule' | 'intelligence' | 'assistant' | 'mail';
+type FeatureKey = 'schedule' | 'intelligence' | 'assistant';
 
 const TABS: Array<{
   key: FeatureKey;
@@ -16,7 +16,6 @@ const TABS: Array<{
     { key: 'schedule', title: 'Smart Schedule Generation', subtitle: 'Conflict‑free, section‑aware planning', icon: Calendar },
     { key: 'intelligence', title: 'Course & Section Intelligence', subtitle: 'Real sections and availability', icon: BookOpen },
     { key: 'assistant', title: 'Ask Anything — GPT', subtitle: 'Programs, sequences, prerequisites', icon: MessageSquare },
-    { key: 'mail', title: 'Smart Mail', subtitle: 'AI‑powered professional emails', icon: Mail },
   ];
 
 const HOW_IT_WORKS: Array<{ icon: any; title: string; description: string }> = [
@@ -353,56 +352,6 @@ export default function Features() {
                           <span>✓ Instant answers</span>
                           <span>✓ Course details</span>
                           <span>✓ Program guidance</span>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {active === 'mail' && (
-                  <motion.div
-                    key="mail"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.4 }}
-                    className="relative z-10 h-full"
-                  >
-                    <div className="h-full rounded-2xl border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50/50 dark:bg-[rgb(var(--card-bg))] p-4 sm:p-6 flex flex-col">
-                      <div className="mb-4">
-                        <h4 className="text-lg font-semibold text-gray-900 dark:text-[rgb(var(--text-primary))]">Professional Email Composition</h4>
-                        <p className="text-sm text-gray-600 dark:text-[rgb(var(--text-secondary))]">AI-powered email formatting for professors</p>
-                      </div>
-
-                      <div className="flex-1 space-y-4">
-                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
-                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">Your input:</div>
-                          <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
-                            &quot;Can I get an extension on the assignment?&quot;
-                          </div>
-                        </div>
-
-                        <div className="flex justify-center">
-                          <div className="text-gray-400 dark:text-gray-500 text-xl">
-                            ↓
-                          </div>
-                        </div>
-
-                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-[rgb(var(--card-bg))] p-3">
-                          <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">AI-enhanced result:</div>
-                          <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))] space-y-2">
-                            <div><strong>Dear Professor El Basraoui,</strong></div>
-                            <div>I hope this message finds you well.</div>
-                            <div>I am writing to request a brief extension on the upcoming assignment due to unexpected circumstances. I would be grateful for your consideration.</div>
-                            <div>Thank you for your time and understanding.</div>
-                            <div><strong>Best regards,<br />Student Name</strong></div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))]">
-                          <span>✓ Professional tone</span>
-                          <span>✓ Proper greeting</span>
-                          <span>✓ Courteous closing</span>
                         </div>
                       </div>
                     </div>

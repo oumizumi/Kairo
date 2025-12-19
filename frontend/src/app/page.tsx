@@ -16,14 +16,19 @@ import { MessageSquare, User } from 'lucide-react';
 export default function Home() {
   const [currentPhrase, setCurrentPhrase] = useState(0);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [isChristmas, setIsChristmas] = useState(false);
   const router = useRouter();
   const { seasonalTheme } = useTheme();
 
   const phrases = ["Made by students", "For students"];
 
-  // Check if it's December for automatic Christmas theme
-  const isDecember = new Date().getMonth() === 11; // December is month 11 (0-indexed)
-  const shouldShowChristmasButton = seasonalTheme === 'christmas' || isDecember;
+  // Check if it's Christmas (December 25th) for automatic Christmas theme - client side only
+  useEffect(() => {
+    const today = new Date();
+    setIsChristmas(today.getMonth() === 11 && today.getDate() === 25); // December 25th
+  }, []);
+
+  const shouldShowChristmasButton = seasonalTheme === 'christmas' || isChristmas;
 
   // Switching text animation
   useEffect(() => {
@@ -86,7 +91,7 @@ export default function Home() {
           <TypewriterHeading text="Meet Kairo." />
 
           {/* Animated Switching Text */}
-          <div className="mt-3 h-8 sm:h-9 md:h-10 flex items-center justify-center relative">
+          <div className="mt-3 h-8 sm:h-9 md:h-10 flex items-center justify-center relative" suppressHydrationWarning>
             <AnimatePresence mode="wait">
               <motion.span
                 key={currentPhrase}
@@ -112,11 +117,10 @@ export default function Home() {
             <span className="font-mono px-3 py-1 bg-blue-100 dark:bg-blue-600/15 dark:border dark:border-blue-500/30 text-blue-800 dark:text-blue-200 rounded-full font-medium">Smart Scheduling</span>
             <span className="font-mono px-3 py-1 bg-purple-100 dark:bg-purple-600/15 dark:border dark:border-purple-500/30 text-purple-800 dark:text-purple-200 rounded-full font-medium">AI Assistant</span>
             <span className="font-mono px-3 py-1 bg-green-100 dark:bg-green-600/15 dark:border dark:border-green-500/30 text-green-800 dark:text-green-200 rounded-full font-medium">Course Intelligence</span>
-            <span className="font-mono px-3 py-1 bg-orange-100 dark:bg-orange-600/15 dark:border dark:border-orange-500/30 text-orange-800 dark:text-orange-200 rounded-full font-medium">Smart Mail</span>
           </div>
           
           {/* Get Started Button */}
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex justify-center" suppressHydrationWarning>
             <button
               onClick={() => {
                 setIsNavigating(true);

@@ -44,7 +44,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-fallback-key-f
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DJANGO_DEBUG should be 'False' in production.
-DEBUG = get_env_var_as_boolean('DJANGO_DEBUG', 'False')
+# Auto-enable DEBUG for local SQLite development
+USE_SQLITE_DEV = get_env_var_as_boolean('USE_SQLITE_DEV', 'False')
+DEBUG = get_env_var_as_boolean('DJANGO_DEBUG', 'True' if USE_SQLITE_DEV else 'False')
 
 
 # ALLOWED_HOSTS
@@ -121,7 +123,7 @@ import dj_database_url
 
 # Database URL or optional dev SQLite fallback
 DATABASE_URL = os.environ.get('DATABASE_URL')
-USE_SQLITE_DEV = os.environ.get('USE_SQLITE_DEV', '0') == '1'
+# USE_SQLITE_DEV is defined at the top of this file
 if not DATABASE_URL and not USE_SQLITE_DEV:
     raise RuntimeError('DATABASE_URL is required. For local dev without Postgres, set USE_SQLITE_DEV=1.')
 
@@ -215,7 +217,7 @@ CORS_ALLOW_ALL_ORIGINS = get_env_var_as_boolean('DJANGO_CORS_ALLOW_ALL_ORIGINS',
 
 if DEBUG:
     if not CORS_ALLOWED_ORIGINS:
-        CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+        CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003']
 else:
     if not CORS_ALLOWED_ORIGINS:
         CORS_ALLOWED_ORIGINS = []

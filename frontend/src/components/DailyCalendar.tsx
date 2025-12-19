@@ -1,3 +1,4 @@
+// Updated DailyCalendar with improved UI - Dec 19 2025
 import React, { useState, useEffect, useMemo } from 'react';
 import { format, addWeeks, subWeeks, parseISO, startOfWeek, addDays } from 'date-fns';
 import { ChevronLeft, ChevronRight, Trash2, Calendar, Edit3, X, Sparkles, Plus, Palette, Download, Share2, Clipboard } from 'lucide-react';
@@ -12,6 +13,7 @@ import DownloadScheduleModal from './DownloadScheduleModal';
 import { shareSchedule, generateShareableSchedule, copyToClipboard, hasScheduleContent, getSharedSchedule } from '@/services/scheduleShareService';
 import { EVENT_THEMES } from '@/config/eventThemes';
 import { getGridConfig, getGridTemplateColumns } from '@/config/calendar.grid.config';
+import EditEventModal from './calendar/EditEventModal';
 
 // Using unified event themes from config
 
@@ -51,315 +53,6 @@ interface SwapCourseModalProps {
     onDeleteEvent?: (eventId: number) => void;
     onAddEvent?: (newEvent: Event) => void;
 }
-
-const EditEventModal: React.FC<EditEventModalProps> = ({ event, isOpen, onClose, onSave, isCreating = false, allEvents = [], onDeleteEvent, onAddEvent }: EditEventModalProps) => {
-    const [title, setTitle] = useState(event?.title || '');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
-    const [dayOfWeek, setDayOfWeek] = useState(event?.day_of_week || 'Monday');
-    const [description, setDescription] = useState(event?.description || '');
-    const [professor, setProfessor] = useState(event?.professor || '');
-    const [eventType, setEventType] = useState<'recurring' | 'biweekly' | 'specific'>('recurring');
-    const [specificDate, setSpecificDate] = useState('');
-    const [selectedTheme, setSelectedTheme] = useState(event?.theme || 'lavender-peach');
-
-
-    useEffect(() => {
-        if (event && isOpen) {
-            setTitle(event.title);
-            setDescription(event.description || '');
-            setProfessor(event.professor || '');
-            setDayOfWeek(event.day_of_week || 'Monday');
-            setSelectedTheme(event.theme || 'lavender-peach');
-
-            // Set start and end times directly in 24-hour format
-            setStartTime(event.startTime);
-            setEndTime(event.endTime);
-
-            // Determine event type based on existing data
-            if (event.start_date) {
-                setEventType('specific');
-                setSpecificDate(event.start_date);
-            } else if (event.recurrence_pattern === 'biweekly') {
-                setEventType('biweekly');
-                setSpecificDate(event.reference_date || '');
-            } else {
-                setEventType('recurring');
-            }
-        } else if (isCreating && isOpen) {
-            // Reset form for creating new event
-            setTitle('');
-            setDescription('');
-            setProfessor('');
-            setDayOfWeek('Monday');
-            setEventType('recurring');
-            // Only set date for specific event types
-            setSpecificDate('');
-            setStartTime('09:00');
-            setEndTime('10:00');
-            setSelectedTheme('lavender-peach');
-        }
-    }, [event, isOpen, isCreating]);
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const updatedEvent: Event = {
-            id: isCreating ? undefined : event?.id,
-            title,
-            startTime,
-            endTime,
-            description,
-            professor,
-            theme: selectedTheme,
-        };
-
-        // Set event type specific fields
-        if (eventType === 'recurring') {
-            updatedEvent.day_of_week = dayOfWeek;
-            updatedEvent.recurrence_pattern = 'weekly';
-        } else if (eventType === 'biweekly') {
-            updatedEvent.day_of_week = dayOfWeek;
-            updatedEvent.recurrence_pattern = 'biweekly';
-            updatedEvent.reference_date = specificDate;
-        } else {
-            updatedEvent.start_date = specificDate;
-            updatedEvent.end_date = specificDate;
-            updatedEvent.recurrence_pattern = 'none';
-        }
-
-        onSave(updatedEvent);
-        onClose();
-    };
-
-
-
-    if (!isOpen) return null;
-
-    return (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-1 sm:p-2 lg:p-3">
-            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-lg sm:rounded-xl lg:rounded-2xl shadow-2xl w-full max-w-[260px] sm:max-w-[320px] md:max-w-sm lg:max-w-md xl:max-w-lg max-h-[80vh] border-2 border-purple-300 dark:border-purple-600 animate-vibrant-glow overflow-y-auto">
-                <form onSubmit={handleSubmit} className="p-1.5 sm:p-2.5 lg:p-3.5">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-4">
-                        <h3 className="text-sm sm:text-base lg:text-lg font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
-                            {isCreating ? 'Add New Event' : 'Edit Event'}
-                        </h3>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="p-1 sm:p-1.5 lg:p-2 text-purple-400 hover:text-purple-600 dark:text-purple-300 dark:hover:text-purple-100 rounded hover:bg-purple-100 dark:hover:bg-purple-800/50 transition-all duration-300"
-                        >
-                            <X className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
-                        </button>
-                    </div>
-
-                    {/* Main Content - Responsive Vertical Layout */}
-                    <div className="space-y-1 sm:space-y-1.5 lg:space-y-2">
-                        <div>
-                            <label className="block text-xs sm:text-sm lg:text-base font-medium text-purple-700 dark:text-purple-300 mb-0.5 sm:mb-1">
-                                Event Title
-                            </label>
-                            <input
-                                type="text"
-                                value={title}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-                                className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border-2 border-purple-300 dark:border-purple-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 dark:focus:border-purple-400 bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white transition-all duration-300 backdrop-blur-sm text-xs sm:text-sm lg:text-base"
-                                placeholder="Enter event title"
-                                required
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-xs sm:text-sm lg:text-base font-medium text-purple-700 dark:text-purple-300 mb-0.5 sm:mb-1">
-                                Professor (Optional)
-                            </label>
-                            <input
-                                type="text"
-                                value={professor}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProfessor(e.target.value)}
-                                className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border-2 border-purple-300 dark:border-purple-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 dark:focus:border-purple-400 bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white transition-all duration-300 backdrop-blur-sm text-xs sm:text-sm lg:text-base"
-                                placeholder="Enter professor name"
-                            />
-                        </div>
-
-
-
-                        <div>
-                            <label className="block text-xs sm:text-sm lg:text-base font-medium text-purple-700 dark:text-purple-300 mb-0.5 sm:mb-1 flex items-center gap-1 sm:gap-2">
-                                <Palette className="w-3 h-3 sm:w-4 sm:h-4" />
-                                Event Theme
-                            </label>
-                            <div className="grid grid-cols-5 sm:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
-                                {Object.entries(EVENT_THEMES).map(([themeKey, theme]) => (
-                                    <button
-                                        key={themeKey}
-                                        type="button"
-                                        onClick={() => setSelectedTheme(themeKey)}
-                                        className={`
-                                            group relative aspect-square rounded-full ${theme.preview} transition-all duration-200 ease-out overflow-hidden
-                                            ${selectedTheme === themeKey
-                                                ? 'ring-3 ring-purple-500 dark:ring-purple-400 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 scale-110 shadow-lg'
-                                                : 'ring-2 ring-gray-200 dark:ring-gray-700 hover:ring-gray-300 dark:hover:ring-gray-600 hover:scale-105 shadow-sm'
-                                            }
-                                        `}
-                                        title={theme.name}
-                                    >
-                                        {/* Gradient overlay for depth */}
-                                        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
-
-                                        {/* Selection indicator */}
-                                        {selectedTheme === themeKey && (
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full shadow-md flex items-center justify-center">
-                                                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-500 rounded-full"></div>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* Hover effect */}
-                                        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-xs sm:text-sm lg:text-base font-medium text-gray-700 dark:text-gray-300 mb-0.5 sm:mb-1">
-                                Event Type
-                            </label>
-                            <select
-                                value={eventType}
-                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEventType(e.target.value as 'recurring' | 'biweekly' | 'specific')}
-                                className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border-2 border-purple-300 dark:border-purple-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 dark:focus:border-purple-400 bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white transition-all duration-300 backdrop-blur-sm text-xs sm:text-sm lg:text-base"
-                            >
-                                <option value="recurring">Weekly (Every Week)</option>
-                                <option value="biweekly">Bi-weekly (Every Other Week)</option>
-                                <option value="specific">One-Time Event</option>
-                            </select>
-                        </div>
-
-                        {(eventType === 'recurring' || eventType === 'biweekly') ? (
-                            <div>
-                                <label className="block text-xs sm:text-sm lg:text-base font-medium text-purple-700 dark:text-purple-300 mb-1 sm:mb-2">
-                                    Day of Week
-                                </label>
-                                <select
-                                    value={dayOfWeek}
-                                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDayOfWeek(e.target.value)}
-                                    className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border-2 border-purple-300 dark:border-purple-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 dark:focus:border-purple-400 bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white transition-all duration-300 backdrop-blur-sm text-xs sm:text-sm lg:text-base"
-                                >
-                                    {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
-                                        <option key={day} value={day}>{day}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        ) : null}
-
-                        {eventType === 'biweekly' && (
-                            <div>
-                                <label className="block text-xs sm:text-sm lg:text-base font-medium text-purple-700 dark:text-purple-300 mb-1 sm:mb-2">
-                                    Starting Date (Reference)
-                                </label>
-                                <input
-                                    type="date"
-                                    value={specificDate}
-                                    onChange={(e) => setSpecificDate(e.target.value)}
-                                    className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border-2 border-purple-300 dark:border-purple-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 dark:focus:border-purple-400 bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white transition-all duration-300 backdrop-blur-sm text-xs sm:text-sm lg:text-base"
-                                    required
-                                />
-                                <p className="text-xs sm:text-sm text-purple-600 dark:text-purple-400 mt-0.5 sm:mt-1">
-                                    Repeats every other week from this date
-                                </p>
-                            </div>
-                        )}
-
-                        {eventType === 'specific' && (
-                            <div>
-                                <label className="block text-xs sm:text-sm lg:text-base font-medium text-purple-700 dark:text-purple-300 mb-1 sm:mb-2">
-                                    Specific Date
-                                </label>
-                                <input
-                                    type="date"
-                                    value={specificDate}
-                                    onChange={(e) => setSpecificDate(e.target.value)}
-                                    className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border-2 border-purple-300 dark:border-purple-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 dark:focus:border-purple-400 bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white transition-all duration-300 backdrop-blur-sm text-xs sm:text-sm lg:text-base"
-                                    required
-                                />
-                            </div>
-                        )}
-
-                        {/* Time Inputs */}
-                        <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
-                            <div>
-                                <label className="block text-xs sm:text-sm lg:text-base font-medium text-gray-700 dark:text-gray-300 mb-1 sm:mb-2">
-                                    Start Time
-                                </label>
-                                <input
-                                    type="time"
-                                    value={startTime}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStartTime(e.target.value)}
-                                    className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border border-gray-300 dark:border-gray-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white text-xs sm:text-sm lg:text-base"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs sm:text-sm lg:text-base font-medium text-gray-700 dark:text-gray-300 mb-1 sm:mb-2">
-                                    End Time
-                                </label>
-                                <input
-                                    type="time"
-                                    value={endTime}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEndTime(e.target.value)}
-                                    className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border border-gray-300 dark:border-gray-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white text-xs sm:text-sm lg:text-base"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-xs sm:text-sm lg:text-base font-medium text-gray-700 dark:text-gray-300 mb-1 sm:mb-2">
-                                Description (Optional)
-                            </label>
-                            <textarea
-                                value={description}
-                                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
-                                className="w-full px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 border border-gray-300 dark:border-gray-600 rounded sm:rounded-md lg:rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white text-xs sm:text-sm lg:text-base"
-                                placeholder="Add event description"
-                                rows={2}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-2 sm:gap-3 lg:gap-4 mt-2 sm:mt-3 lg:mt-4 pt-2 sm:pt-2 lg:pt-3 border-t border-gray-200 dark:border-gray-700">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="flex-1 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-2.5 text-purple-700 dark:text-purple-300 bg-gradient-to-r from-purple-100 to-purple-200 dark:from-purple-800/50 dark:to-purple-700/50 rounded sm:rounded-md lg:rounded-lg hover:from-purple-200 hover:to-purple-300 dark:hover:from-purple-700/70 dark:hover:to-purple-600/70 transition-all duration-300 shadow-sm hover:shadow-md text-xs sm:text-sm lg:text-base"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            className="flex-1 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-2.5 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white rounded sm:rounded-md lg:rounded-lg transition-all duration-300 font-medium group relative overflow-hidden shadow-sm hover:shadow-md transform hover:scale-105 text-xs sm:text-sm lg:text-base"
-                        >
-                            {/* Animated background */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                            {/* Button content */}
-                            <div className="relative flex items-center justify-center">
-                                <span className="relative">{isCreating ? 'Create Event' : 'Save Changes'}</span>
-                            </div>
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-
-        </div>
-    );
-};
 
 // Swap Course Modal for selecting alternative sections
 interface SwapCourseModalProps {
@@ -4735,11 +4428,16 @@ interface DeleteEventsModalProps {
 }
 
 const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, events, onDeleteEvent }) => {
-    const [selectedEvents, setSelectedEvents] = useState<number[]>([]);
-    const [courseToDelete, setCourseToDelete] = useState<string>('');
-    const [deletionMode, setDeletionMode] = useState<'events' | 'course'>('events');
+    const [selectedCourses, setSelectedCourses] = useState<Set<string>>(new Set());
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const [pendingDeletion, setPendingDeletion] = useState<string[] | null>(null);
 
-    if (!isOpen) return null;
+    // Reset selections when modal opens
+    useEffect(() => {
+        if (isOpen) {
+            setSelectedCourses(new Set());
+        }
+    }, [isOpen]);
 
     // Helper function to normalize event properties for backward compatibility
     const normalizeEventProperties = (event: any): Event => {
@@ -4750,177 +4448,100 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
         };
     };
 
-    const handleSelectEvent = (eventId: number) => {
-        setSelectedEvents(prev =>
-            prev.includes(eventId)
-                ? prev.filter(id => id !== eventId)
-                : [...prev, eventId]
-        );
+    // Extract course code from event
+    const extractCourseCode = (event: Event): string | null => {
+        const titleMatch = event.title.match(/([A-Z]{3}\s*\d{4})/);
+        if (titleMatch) {
+            return titleMatch[1].replace(/\s+/g, ' ').trim();
+        }
+        if (event.description) {
+            const descMatch = event.description.match(/Course:\s*([A-Z]{3}\s*\d{4})/i);
+            if (descMatch) {
+                return descMatch[1].replace(/\s+/g, ' ').trim();
+            }
+        }
+        return null;
+    };
+
+    // Group events by course
+    const eventsByCourse = useMemo(() => {
+        const grouped = new Map<string, Event[]>();
+        events.forEach(event => {
+            const courseCode = extractCourseCode(event);
+            if (courseCode) {
+                if (!grouped.has(courseCode)) {
+                    grouped.set(courseCode, []);
+                }
+                grouped.get(courseCode)!.push(event);
+            }
+        });
+        return grouped;
+    }, [events]);
+
+    if (!isOpen) return null;
+
+    const handleSelectCourse = (courseCode: string) => {
+        setSelectedCourses(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(courseCode)) {
+                newSet.delete(courseCode);
+            } else {
+                newSet.add(courseCode);
+            }
+            return newSet;
+        });
     };
 
     const handleSelectAll = () => {
-        if (selectedEvents.length === events.length) {
-            setSelectedEvents([]);
+        if (selectedCourses.size === eventsByCourse.size) {
+            setSelectedCourses(new Set());
         } else {
-            setSelectedEvents(events.map(event => event.id!).filter(id => id !== undefined));
-        }
-    };
-
-    const handleDeleteCourse = async () => {
-        if (!courseToDelete.trim()) return;
-
-        try {
-            // Use centralized deletion service
-            const { deletionService } = await import('@/services/deletionService');
-
-            const confirmMessage = `Delete all sections of ${courseToDelete.toUpperCase()}? This will remove ALL lectures, labs, tutorials, etc. for this course.`;
-
-            if (confirm(confirmMessage)) {
-                const result = await deletionService.handleDeletionRequest({
-                    type: 'course',
-                    target: courseToDelete.toUpperCase()
-                });
-
-                // Show result
-                    if (result && result.message) {
-                    if (result.success) {
-                        // Refresh the events list by dispatching a global event
-                        window.dispatchEvent(new CustomEvent('bulkCalendarDeletion', {
-                            detail: {
-                                courseCode: courseToDelete.toUpperCase(),
-                                deletedCount: result.deletedCount,
-                                failedCount: 0
-                            }
-                        }));
-                    } else {
-                        alert(result.message);
-                    }
-                }
-
-                // Clear input and close modal
-                setCourseToDelete('');
-                onClose();
-            }
-
-        } catch (error) {
-            console.error('❌ Error deleting course:', error);
-            alert('Failed to delete course. Please try again.');
+            setSelectedCourses(new Set(eventsByCourse.keys()));
         }
     };
 
     const handleDeleteSelected = async () => {
-        if (selectedEvents.length === 0) return;
+        if (selectedCourses.size === 0) return;
+
+        // Show confirmation dialog
+        const courseArray = Array.from(selectedCourses);
+        setPendingDeletion(courseArray);
+        setShowConfirmDialog(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!pendingDeletion) return;
 
         try {
-            // Use centralized deletion service
             const { deletionService } = await import('@/services/deletionService');
 
-            // Extract course code from the event
-            const extractCourseCode = (event: Event): string | null => {
-                // Try to extract from title first (e.g., "CSI 2110 - Instructor")
-                const titleMatch = event.title.match(/([A-Z]{3}\s*\d{4})/);
-                if (titleMatch) {
-                    return titleMatch[1].replace(/\s+/g, ' ').trim(); // Normalize spacing
-                }
-
-                // Try to extract from description
-                if (event.description) {
-                    const descMatch = event.description.match(/Course:\s*([A-Z]{3}\s*\d{4})/i);
-                    if (descMatch) {
-                        return descMatch[1].replace(/\s+/g, ' ').trim();
-                    }
-                }
-
-                return null;
-            };
-
-            // Analyze selected events to see if they belong to specific courses
-            const selectedEventsData = events.filter(event => event.id && selectedEvents.includes(event.id));
-            const courseCodes = new Set<string>();
-
-            selectedEventsData.forEach(event => {
-                const courseCode = extractCourseCode(event);
-                if (courseCode) {
-                    courseCodes.add(courseCode);
-                }
-            });
-
-            let result;
-
-            if (courseCodes.size > 0) {
-                // Handle course-based deletion
-                const courseList = Array.from(courseCodes).join(', ');
-                const confirmMessage = `Delete all sections of ${courseList}? This will remove ALL lectures, labs, tutorials, etc. for ${courseCodes.size === 1 ? 'this course' : 'these courses'}.`;
-
-                if (confirm(confirmMessage)) {
-                    // Delete all selected courses using centralized service
-                    const courseArray = Array.from(courseCodes);
-                    if (courseArray.length === 1) {
-                        result = await deletionService.handleDeletionRequest({
-                            type: 'course',
-                            target: courseArray[0]
-                        });
-                    } else {
-                        result = await deletionService.handleDeletionRequest({
-                            type: 'course',
-                            message: `Remove courses: ${courseArray.join(', ')}`
-                        });
-                    }
-                } else {
-                    return; // User cancelled
-                }
-            } else {
-                // Handle individual event deletion
-                const confirmMessage = selectedEvents.length === 1
-                    ? "Delete this event?"
-                    : `Delete ${selectedEvents.length} events?`;
-
-                if (confirm(confirmMessage)) {
-                    // Delete selected events individually using centralized service
-                    let successCount = 0;
-                    let errorCount = 0;
-
-                    for (const eventId of selectedEvents) {
-                        const eventResult = await deletionService.handleDeletionRequest({
-                            type: 'event',
-                            target: eventId.toString()
-                        });
-
-                        if (eventResult.success) {
-                            successCount++;
-                            onDeleteEvent(eventId);
-                        } else {
-                            errorCount++;
-                        }
-                    }
-
-                    result = {
-                        success: successCount > 0,
-                        message: `Deleted ${successCount}/${selectedEvents.length} events${errorCount > 0 ? ` (${errorCount} failed)` : ''}`,
-                        deletedCount: successCount,
-                        errors: []
-                    };
-                } else {
-                    return; // User cancelled
-                }
+            for (const courseCode of pendingDeletion) {
+                await deletionService.handleDeletionRequest({
+                    type: 'course',
+                    target: courseCode
+                });
             }
 
-            // Show result
-            if (result && result.message) {
-                if (result.success) {
-                } else {
-                    alert(result.message);
-                }
-            }
-
-            // Clear selection and close modal
-            setSelectedEvents([]);
-            onClose();
+            // Clear selection first to show unchecked state
+            setSelectedCourses(new Set());
+            setShowConfirmDialog(false);
+            setPendingDeletion(null);
+            
+            // Small delay to let user see the checkboxes clear before closing modal
+            setTimeout(() => {
+                onClose();
+            }, 300);
 
         } catch (error) {
-            console.error('❌ Error deleting events:', error);
-            alert('Failed to delete events. Please try again.');
+            console.error('❌ Error deleting courses:', error);
+            alert('Failed to delete courses. Please try again.');
+            setShowConfirmDialog(false);
         }
+    };
+
+    const cancelDelete = () => {
+        setShowConfirmDialog(false);
+        setPendingDeletion(null);
     };
 
     const formatTime12Hour = (timeString: string): string => {
@@ -4976,13 +4597,13 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-4">
-            <div className="bg-gray-800 rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-2xl max-h-[95vh] overflow-hidden border-2 border-purple-500/30">
+            <div className="bg-white dark:bg-[#1a1a1a] rounded-lg shadow-2xl w-full max-w-xs sm:max-w-2xl max-h-[95vh] overflow-hidden border-2 border-gray-300 dark:border-gray-700">
                 {/* Header */}
-                <div className="flex items-center justify-between p-3 sm:p-6 border-b border-gray-700">
-                    <h2 className="text-lg sm:text-xl font-semibold text-white">Delete Events</h2>
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Delete Events</h2>
                     <button
                         onClick={onClose}
-                        className="text-gray-400 hover:text-white transition-colors p-1"
+                        className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors p-1"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -4991,65 +4612,12 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                 </div>
 
                 {/* Content */}
-                <div className="p-3 sm:p-6">
-                    {/* Deletion Mode Tabs */}
-                    <div className="flex mb-4 sm:mb-6 border-b border-gray-700">
-                        <button
-                            onClick={() => setDeletionMode('events')}
-                            className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-b-2 transition-colors ${deletionMode === 'events'
-                                ? 'border-purple-500 text-purple-400'
-                                : 'border-transparent text-gray-400 hover:text-gray-300'
-                                }`}
-                        >
-                            Delete Selected Events
-                        </button>
-                        <button
-                            onClick={() => setDeletionMode('course')}
-                            className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-b-2 transition-colors ${deletionMode === 'course'
-                                ? 'border-purple-500 text-purple-400'
-                                : 'border-transparent text-gray-400 hover:text-gray-300'
-                                }`}
-                        >
-                            Delete by Course Code
-                        </button>
-                    </div>
-
-                    {deletionMode === 'course' ? (
-                        /* Course Deletion Mode */
-                        <div className="space-y-4">
-                            <div className="text-gray-300 text-sm">
-                                Enter a course code to delete all sections of that course (e.g., CSI 2110, MAT 1341):
-                            </div>
-                            <div className="flex gap-2">
-                                <input
-                                    type="text"
-                                    value={courseToDelete}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseToDelete(e.target.value)}
-                                    placeholder="e.g., CSI 2110"
-                                    className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none text-sm"
-                                    onKeyPress={(e) => {
-                                        if (e.key === 'Enter') {
-                                            handleDeleteCourse();
-                                        }
-                                    }}
-                                />
-                                <button
-                                    onClick={handleDeleteCourse}
-                                    disabled={!courseToDelete.trim()}
-                                    className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors text-sm font-medium"
-                                >
-                                    Delete Course
-                                </button>
-                            </div>
-                            <div className="text-gray-500 text-xs">
-                                ⚠️ This will delete ALL sections (lectures, labs, tutorials) for the specified course.
-                            </div>
-                        </div>
-                    ) : events.length === 0 ? (
+                <div className="p-4 sm:p-6">
+                    {events.length === 0 ? (
                         <div className="text-center py-6 sm:py-12">
                             <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">📅</div>
-                            <div className="text-gray-300 text-lg sm:text-xl mb-1 sm:mb-2">No events to delete</div>
-                            <div className="text-gray-500 text-xs sm:text-sm">
+                            <div className="text-gray-900 dark:text-gray-300 text-lg sm:text-xl mb-1 sm:mb-2">No events to delete</div>
+                            <div className="text-gray-600 dark:text-gray-500 text-xs sm:text-sm">
                                 Create some events first to see them here.
                             </div>
                         </div>
@@ -5059,84 +4627,62 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 mb-4 sm:mb-6">
                                 <button
                                     onClick={handleSelectAll}
-                                    className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors border border-gray-600"
+                                    className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm bg-white dark:bg-[#2a2a2a] hover:bg-gray-50 dark:hover:bg-[#333333] rounded-lg transition-colors border border-gray-300 dark:border-gray-600"
                                 >
                                     <input
                                         type="checkbox"
-                                        checked={selectedEvents.length === events.length && events.length > 0}
+                                        checked={selectedCourses.size === eventsByCourse.size && eventsByCourse.size > 0}
                                         onChange={(e) => { e.stopPropagation(); handleSelectAll(); }}
                                         onClick={(e) => e.stopPropagation()}
-                                        className="w-3 sm:w-4 h-3 sm:h-4 text-purple-500 rounded"
+                                        className="w-3 sm:w-4 h-3 sm:h-4 text-emerald-500 rounded"
                                     />
-                                    <span className="text-gray-300">
-                                        Select All ({events.length})
+                                    <span className="text-gray-900 dark:text-gray-300">
+                                        Select All Courses ({eventsByCourse.size})
                                     </span>
                                 </button>
 
-                                {selectedEvents.length > 0 && (
+                                {selectedCourses.size > 0 && (
                                     <button
                                         onClick={handleDeleteSelected}
-                                        className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-1.5 sm:py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-xs sm:text-sm font-medium"
+                                        className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-1.5 sm:py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md text-xs sm:text-sm font-medium"
                                     >
                                         <svg className="w-3 sm:w-4 h-3 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
-                                        <span className="hidden lg:inline">Delete Selected ({selectedEvents.length})</span>
-                                        <span className="lg:hidden">Delete ({selectedEvents.length})</span>
+                                        <span className="hidden lg:inline">Delete Selected ({selectedCourses.size})</span>
+                                        <span className="lg:hidden">Delete ({selectedCourses.size})</span>
                                     </button>
                                 )}
                             </div>
 
-                            {/* Events List */}
-                            <div className="max-h-64 sm:max-h-96 overflow-y-auto space-y-2 sm:space-y-3 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-                                {events.map((event) => {
-                                    const isSelected = selectedEvents.includes(event.id!);
-                                    const eventInfo = getEventDisplayInfo(event);
-
-                                    // Create a simple color scheme based on event title hash
-                                    const getSimpleColorScheme = (title: string) => {
-                                        const hash = title.split('').reduce((a, b) => {
-                                            a = ((a << 5) - a) + b.charCodeAt(0);
-                                            return a & a;
-                                        }, 0);
-                                        const vibrantGradients = [
-                                            'linear-gradient(135deg, #fb923c 0%, #ef4444 100%)', // Orange to Red
-                                            'linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%)', // Cyan to Blue
-                                            'linear-gradient(135deg, #4ade80 0%, #14b8a6 100%)', // Green to Teal
-                                            'linear-gradient(135deg, #e879f9 0%, #f43f5e 100%)', // Fuchsia to Rose
-                                            'linear-gradient(135deg, #facc15 0%, #f97316 100%)', // Yellow to Orange
-                                            'linear-gradient(135deg, #2dd4bf 0%, #06b6d4 100%)', // Teal to Cyan
-                                            'linear-gradient(135deg, #c084fc 0%, #6366f1 100%)', // Purple to Indigo
-                                            'linear-gradient(135deg, #a3e635 0%, #eab308 100%)', // Lime to Yellow
-                                        ];
-                                        const colorIndex = Math.abs(hash) % vibrantGradients.length;
-                                        return { gradientCSS: vibrantGradients[colorIndex] };
-                                    };
-
-                                    const colorScheme = getSimpleColorScheme(event.title);
+                            {/* Courses List */}
+                            <div className="max-h-64 sm:max-h-96 overflow-y-auto space-y-2 sm:space-y-3 [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-gray-200 dark:[&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-400 dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-thumb]:rounded-full">
+                                {Array.from(eventsByCourse.entries()).map(([courseCode, courseEvents]) => {
+                                    const isSelected = selectedCourses.has(courseCode);
+                                    const firstEvent = courseEvents[0];
+                                    const eventInfo = getEventDisplayInfo(firstEvent);
 
                                     return (
                                         <div
-                                            key={event.id}
-                                            onClick={() => handleSelectEvent(event.id!)}
+                                            key={courseCode}
+                                            onClick={() => handleSelectCourse(courseCode)}
                                             className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${isSelected
-                                                ? 'border-purple-500 bg-purple-500/10'
-                                                : 'border-gray-600 hover:border-gray-500 bg-gray-700/50'
+                                                ? 'border-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/20'
+                                                : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 bg-white dark:bg-[#2a2a2a]'
                                                 }`}
                                         >
                                             <input
                                                 type="checkbox"
                                                 checked={isSelected}
-                                                onChange={(e) => { e.stopPropagation(); handleSelectEvent(event.id!); }}
+                                                onChange={(e) => { e.stopPropagation(); handleSelectCourse(courseCode); }}
                                                 onClick={(e) => e.stopPropagation()}
-                                                className="w-5 h-5 text-purple-500 rounded"
+                                                className="w-5 h-5 text-emerald-500 rounded"
                                             />
 
-                                            {/* Event Color Indicator */}
+                                            {/* Course Color Indicator */}
                                             <div
                                                 className={`w-5 h-5 rounded-full flex-shrink-0 ${(() => {
-                                                    // Simple theme color logic for modal
-                                                    const themeName = event.theme || 'lavender-peach';
+                                                    const themeName = firstEvent.theme || 'lavender-peach';
                                                     const themeColors: { [key: string]: { bg: string; border: string } } = {
                                                         'lavender-peach': { bg: 'bg-purple-400/60', border: 'border-purple-400' },
                                                         'indigo-sunset': { bg: 'bg-indigo-400/60', border: 'border-indigo-400' },
@@ -5147,162 +4693,47 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                                                         'midnight-ivory': { bg: 'bg-slate-400/60', border: 'border-slate-400' },
                                                         'cosmic-galaxy': { bg: 'bg-violet-400/60', border: 'border-violet-400' },
                                                         'twilight-sunset': { bg: 'bg-violet-400/60', border: 'border-violet-400' },
-    'midnight-light-blue': { bg: 'bg-blue-400/60', border: 'border-blue-400' },
-    'midnight-indigo-blue-cyan': { bg: 'bg-cyan-400/60', border: 'border-cyan-400' },
-    'black-deep-bright': { bg: 'bg-red-400/60', border: 'border-red-400' },
-    'green-blue': { bg: 'bg-emerald-400/60', border: 'border-emerald-400' },
-    'warm-brown': { bg: 'bg-orange-400/60', border: 'border-orange-400' },
-    'lime-green': { bg: 'bg-yellow-400/60', border: 'border-yellow-400' },
-    'mint-teal': { bg: 'bg-sky-400/60', border: 'border-sky-400' }
+                                                        'midnight-light-blue': { bg: 'bg-blue-400/60', border: 'border-blue-400' },
+                                                        'midnight-indigo-blue-cyan': { bg: 'bg-cyan-400/60', border: 'border-cyan-400' },
+                                                        'black-deep-bright': { bg: 'bg-red-400/60', border: 'border-red-400' },
+                                                        'green-blue': { bg: 'bg-emerald-400/60', border: 'border-emerald-400' },
+                                                        'warm-brown': { bg: 'bg-orange-400/60', border: 'border-orange-400' },
+                                                        'lime-green': { bg: 'bg-yellow-400/60', border: 'border-yellow-400' },
+                                                        'mint-teal': { bg: 'bg-sky-400/60', border: 'border-sky-400' }
                                                     };
                                                     const theme = themeColors[themeName] || themeColors['lavender-peach'];
                                                     return `${theme.bg} ${theme.border}`;
                                                 })()}`}
                                             ></div>
 
-                                            {/* Event Details */}
+                                            {/* Course Details */}
                                             <div className="flex-1 min-w-0">
                                                 {/* Course Code */}
-                                                <div className="font-semibold text-white text-base mb-1">
-                                                    {eventInfo.courseCode}
+                                                <div className="font-semibold text-gray-900 dark:text-white text-base mb-1">
+                                                    {courseCode}
                                                 </div>
 
                                                 {/* Course Name */}
                                                 {eventInfo.courseName && (
-                                                    <div className="text-gray-300 text-sm mb-2 line-clamp-1">
+                                                    <div className="text-gray-700 dark:text-gray-300 text-sm mb-2 line-clamp-1">
                                                         {eventInfo.courseName}
                                                     </div>
                                                 )}
 
-                                                {/* Schedule Info */}
-                                                <div className="text-gray-400 text-sm mb-1">
-                                                    {event.day_of_week ? (
-                                                        <>
-                                                            <span className="font-medium">{event.day_of_week}s</span>
-                                                            <span className="mx-2">•</span>
-                                                            {(() => {
-                                                                const normalizedEvent = normalizeEventProperties(event);
-                                                                return <span>{formatTime12Hour(normalizedEvent.startTime)} - {formatTime12Hour(normalizedEvent.endTime)}</span>;
-                                                            })()}
-                                                            {event.recurrence_pattern === 'biweekly' && (
-                                                                <>
-                                                                    <span className="mx-2">•</span>
-                                                                    <span className="text-yellow-400">Bi-weekly</span>
-                                                                </>
-                                                            )}
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <span className="font-medium">{event.start_date}</span>
-                                                            <span className="mx-2">•</span>
-                                                            {(() => {
-                                                                const normalizedEvent = normalizeEventProperties(event);
-                                                                return <span>{formatTime12Hour(normalizedEvent.startTime)} - {formatTime12Hour(normalizedEvent.endTime)}</span>;
-                                                            })()}
-                                                        </>
-                                                    )}
+                                                {/* Sections Count */}
+                                                <div className="text-gray-600 dark:text-gray-400 text-sm mb-1">
+                                                    <span className="font-medium">{courseEvents.length} section{courseEvents.length > 1 ? 's' : ''}</span>
+                                                    <span className="mx-2">•</span>
+                                                    <span>All lectures, labs, tutorials</span>
                                                 </div>
 
                                                 {/* Professor */}
                                                 {eventInfo.professor && eventInfo.professor !== 'Staff' && (
-                                                    <div className="text-blue-400 text-sm">
+                                                    <div className="text-emerald-600 dark:text-emerald-400 text-sm">
                                                         <span className="font-medium">Professor:</span> {eventInfo.professor}
                                                     </div>
                                                 )}
                                             </div>
-
-                                            {/* Quick Delete Button */}
-                                            <button
-                                                onClick={async (e) => {
-                                                    e.stopPropagation();
-
-                                                    // Extract course code from the event
-                                                    const extractCourseCode = (event: Event): string | null => {
-                                                        // Try to extract from title first (e.g., "CSI 2110 - Instructor")
-                                                        const titleMatch = event.title.match(/([A-Z]{3}\s*\d{4})/);
-                                                        if (titleMatch) {
-                                                            return titleMatch[1].replace(/\s+/g, ' ').trim(); // Normalize spacing
-                                                        }
-
-                                                        // Try to extract from description
-                                                        if (event.description) {
-                                                            const descMatch = event.description.match(/Course:\s*([A-Z]{3}\s*\d{4})/i);
-                                                            if (descMatch) {
-                                                                return descMatch[1].replace(/\s+/g, ' ').trim();
-                                                            }
-                                                        }
-
-                                                        return null;
-                                                    };
-
-                                                    const courseCode = extractCourseCode(event);
-                                                    const confirmText = courseCode
-                                                        ? `Delete all sections of ${courseCode}? This will remove ALL lectures, labs, tutorials, etc. for this course.`
-                                                        : `Delete "${eventInfo.courseCode}"?${eventInfo.professor ? `\nProfessor: ${eventInfo.professor}` : ''}`;
-
-                                                    if (confirm(confirmText)) {
-                                                        try {
-                                                            // Delete from backend if authenticated
-                                                            const isAuthenticated = typeof window !== 'undefined' && localStorage.getItem('token');
-                                                            if (isAuthenticated) {
-                                                                const { deleteCalendarEvent, getCalendarEvents } = await import('@/lib/api');
-
-                                                                // If we have a course code, delete all related events
-                                                                if (courseCode) {
-                                                                    // Get all current events first
-                                                                    const allEvents = await getCalendarEvents();
-
-                                                                    // Find all events for the same course
-                                                                    const courseEvents = allEvents.filter(evt => {
-                                                                        const eventCourseCode = extractCourseCode({
-                                                                            title: evt.title,
-                                                                            description: evt.description
-                                                                        } as Event);
-                                                                        return eventCourseCode === courseCode;
-                                                                    });
-
-                                                                    
-
-                                                                    // Delete all course events
-                                                                    for (const courseEvent of courseEvents) {
-                                                                        try {
-                                                                            if (courseEvent.id) {
-                                                                                await deleteCalendarEvent(courseEvent.id);
-                                                                                 
-
-                                                                                // Also call the passed handler
-                                                                                onDeleteEvent(courseEvent.id);
-                                                                            }
-                                                                        } catch (error) {
-                                                                            console.error(`❌ Error deleting course event ${courseEvent.id}:`, error);
-                                                                        }
-                                                                    }
-
-                                                                    
-                                                                } else {
-                                                                    // Just delete the single event if no course code found
-                                                                    await deleteCalendarEvent(event.id!);
-
-                                                                    // Also call the passed handler
-                                                                    onDeleteEvent(event.id!);
-                                                                }
-                                                            } else {
-                                                                // Not authenticated, just call the passed handler
-                                                                onDeleteEvent(event.id!);
-                                                            }
-                                                        } catch (error) {
-                                                            console.error(`❌ Error deleting event ${event.id}:`, error);
-                                                            alert('Failed to delete event. Please try again.');
-                                                        }
-                                                    }
-                                                }}
-                                                className="p-2 text-purple-400 hover:text-purple-300 hover:bg-purple-500/20 rounded-lg transition-colors flex-shrink-0"
-                                                title="Delete all sections of this course"
-                                            >
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
                                         </div>
                                     );
                                 })}
@@ -5312,15 +4743,56 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                 </div>
 
                 {/* Footer */}
-                <div className="flex justify-end gap-3 p-6 border-t border-gray-700">
+                <div className="flex justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2 text-gray-300 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors font-medium"
+                        className="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-[#2a2a2a] hover:bg-gray-100 dark:hover:bg-[#333333] border border-gray-300 dark:border-gray-600 rounded-lg transition-colors font-medium shadow-sm"
                     >
                         Close
                     </button>
                 </div>
             </div>
+
+            {/* Confirmation Dialog */}
+            {showConfirmDialog && pendingDeletion && (
+                <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60]">
+                    <div className="bg-white dark:bg-[#1a1a1a] rounded-lg shadow-2xl w-full max-w-md p-6 border-2 border-gray-300 dark:border-gray-700 m-4">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                            Confirm Deletion
+                        </h3>
+                        <p className="text-gray-700 dark:text-gray-300 mb-4">
+                            Are you sure you want to delete {pendingDeletion.length > 1 ? 'these courses' : 'this course'}?
+                        </p>
+                        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 mb-4">
+                            <p className="text-red-800 dark:text-red-300 text-sm font-medium mb-2">
+                                {pendingDeletion.length > 1 ? 'Courses' : 'Course'} to be deleted:
+                            </p>
+                            <ul className="text-red-700 dark:text-red-400 text-sm space-y-1">
+                                {pendingDeletion.map((code) => (
+                                    <li key={code} className="font-mono">• {code}</li>
+                                ))}
+                            </ul>
+                            <p className="text-red-600 dark:text-red-400 text-xs mt-2">
+                                ⚠️ This will remove ALL lectures, labs, tutorials, etc. for {pendingDeletion.length > 1 ? 'these courses' : 'this course'}.
+                            </p>
+                        </div>
+                        <div className="flex gap-3 justify-end">
+                            <button
+                                onClick={cancelDelete}
+                                className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-[#2a2a2a] hover:bg-gray-100 dark:hover:bg-[#333333] border border-gray-300 dark:border-gray-600 rounded-lg transition-colors font-medium"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmDelete}
+                                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium shadow-sm hover:shadow-md"
+                            >
+                                Delete {pendingDeletion.length > 1 ? `${pendingDeletion.length} Courses` : 'Course'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
