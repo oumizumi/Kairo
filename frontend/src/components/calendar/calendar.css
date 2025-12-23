@@ -48,22 +48,59 @@
     border-color: rgb(var(--border-color));
 }
 
-/* Grid layout with narrow time column */
+/* Grid layout with narrow time column - responsive for all desktop sizes */
+/* Breakpoints MUST match frontend/src/config/calendar.grid.config.ts */
 .grid-cols-8-narrow {
-    display: grid;
-    grid-template-columns: 60px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: grid !important;
+    /* Default/base - used for xs (<640px) but hidden on mobile anyway */
+    grid-template-columns: 50px repeat(7, minmax(0, 1fr));
+}
+
+/* Small tablet: 640px - 767px (sm) */
+@media (min-width: 640px) and (max-width: 767px) {
+    .grid-cols-8-narrow {
+        grid-template-columns: 55px repeat(7, minmax(0, 1fr));
+    }
+}
+
+/* Tablet: 768px - 1023px (md) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .grid-cols-8-narrow {
+        grid-template-columns: 60px repeat(7, minmax(0, 1fr));
+    }
+}
+
+/* Laptop: 1024px - 1439px (lg) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+    .grid-cols-8-narrow {
+        grid-template-columns: 70px repeat(7, minmax(0, 1fr));
+    }
+}
+
+/* Desktop: 1440px - 1919px (xl) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+    .grid-cols-8-narrow {
+        grid-template-columns: 80px repeat(7, minmax(0, 1fr));
+    }
+}
+
+/* Large desktop: >= 1920px (xxl) */
+@media (min-width: 1920px) {
+    .grid-cols-8-narrow {
+        grid-template-columns: 90px repeat(7, minmax(0, 1fr));
+    }
 }
 
 /* Mobile-only grid layout with weekdays only (Monday-Friday) */
 .grid-cols-6-mobile {
     display: grid;
-    grid-template-columns: 50px 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 50px repeat(5, minmax(0, 1fr));
 }
 
 /* Mobile responsive grid switching */
 @media (max-width: 640px) {
     .grid-cols-8-narrow {
-        display: none;
+        display: none !important;
     }
     
     .grid-cols-6-mobile {
@@ -74,7 +111,7 @@
 /* Desktop view - hide mobile grid */
 @media (min-width: 769px) {
     .grid-cols-8-narrow {
-        display: grid;
+        display: grid !important;
     }
     
     .grid-cols-6-mobile {
@@ -83,7 +120,6 @@
 }
 
 .days-header {
-    display: flex;
     border-bottom: 2px solid transparent;
     background: rgb(var(--secondary-bg));
     position: sticky;
@@ -149,7 +185,6 @@
 }
 
 .time-slot {
-    display: flex;
     border-bottom: 1px solid transparent;
     min-height: 60px;
     height: 60px;
@@ -172,7 +207,6 @@
 }
 
 .time-label {
-    width: 60px;
     padding: 0.5rem;
     text-align: center;
     font-size: 0.7rem;
@@ -182,10 +216,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     transition: all 0.3s ease;
-    position: sticky;
-    left: 0;
     z-index: 15;
     backdrop-filter: blur(8px);
     font-weight: 500;
@@ -198,14 +229,11 @@
 }
 
 .day-column {
-    flex: 1;
     position: relative;
     border-right: 1px solid transparent;
     transition: all 0.3s ease;
     min-width: 0;
     height: 60px;
-    display: flex;
-    align-items: stretch;
     background: rgb(var(--background-rgb));
 }
 
@@ -276,7 +304,6 @@
     }
 
     .time-label {
-        width: 50px;
         padding: 0.5rem 0.25rem;
         font-size: 0.65rem;
         display: flex;
@@ -299,7 +326,6 @@
     .time-slot {
         min-height: 80px;
         height: 80px;
-        display: flex;
         border-bottom: 1px solid transparent;
         align-items: stretch;
     }
@@ -309,10 +335,10 @@
     }
 
     .day-column {
-        flex: 1;
         position: relative;
         border-right: 1px solid transparent;
         height: 80px;
+        min-width: 0;
         background: rgb(var(--card-bg));
     }
 
@@ -342,7 +368,6 @@
     .days-header {
         flex-shrink: 0;
         height: 70px;
-        display: flex;
         align-items: center;
         border-bottom: 2px solid #e5e7eb;
         background: #f9fafb;
@@ -357,7 +382,6 @@
     }
 
     .time-label {
-        width: 85px;
         padding: 1rem 0.75rem;
         font-size: 0.85rem;
         display: flex;
@@ -380,7 +404,6 @@
     .time-slot {
         min-height: 70px;
         height: 70px;
-        display: flex;
         border-bottom: 1px solid #e5e7eb;
         align-items: stretch;
     }
@@ -390,10 +413,10 @@
     }
 
     .day-column {
-        flex: 1;
         position: relative;
         border-right: 1px solid #e5e7eb;
         height: 70px;
+        min-width: 0;
         background: rgb(var(--card-bg));
         padding: 3px;
     }
