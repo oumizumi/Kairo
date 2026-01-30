@@ -20,29 +20,29 @@ Stay organized, optimize your schedule, and get instant answers about courses an
 [![Backend](https://img.shields.io/badge/Django-REST-green?logo=django)](https://www.djangoproject.com/)
 [![AI](https://img.shields.io/badge/OpenAI-GPT--4-blue?logo=openai)](https://openai.com/)
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Tech Stack](#-tech-stack) • [Deployment](#-deployment)
+[Features](#features) | [Quick Start](#quick-start) | [Tech Stack](#tech-stack) | [CI/CD](#cicd) | [Deployment](#deployment)
 
 </div>
 
 ---
 
-## ✨ Features
+## Features
 
-### 🤖 **AI-Powered Schedule Generation**
+### AI-Powered Schedule Generation
 Automatically generate optimized course schedules based on your preferences, constraints, and course availability.
 
-### 📚 **Comprehensive Course Information**
+### Comprehensive Course Information
 Access detailed information about courses, professors, and curriculum requirements in real-time.
 
-### 💬 **Natural Language Queries**
+### Natural Language Queries
 Ask questions in plain English and get instant, accurate answers about your academic planning.
 
-### 🎯 **Smart Recommendations**
+### Smart Recommendations
 Get personalized suggestions for courses and professors based on reviews, ratings, and your academic goals.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -54,14 +54,14 @@ Get personalized suggestions for courses and professors based on reviews, rating
 
 ### Local Development
 
-#### 1️⃣ Clone the Repository
+#### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/oumizumi/kairo_clean.git
 cd kairo_clean
 ```
 
-#### 2️⃣ Backend Setup
+#### 2. Backend Setup
 
 ```bash
 cd backend
@@ -84,7 +84,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-#### 3️⃣ Frontend Setup
+#### 3. Frontend Setup
 
 ```bash
 cd frontend
@@ -106,7 +106,7 @@ Your app should now be running at:
 
 ---
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Framework**: Next.js 14 with App Router
@@ -124,7 +124,7 @@ Your app should now be running at:
 - **Deployment**: Railway / Render
 - **Language**: Python
 
-### AI & Data
+### AI and Data
 - **AI Model**: OpenAI GPT-4
 - **Data Scraping**: Node.js with Playwright
 - **Course Data**: Real-time scraping from university catalogs
@@ -137,10 +137,10 @@ Your app should now be running at:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-kairo_clean/
+kairo/
 ├── backend/              # Django REST API
 │   ├── api/              # API endpoints, models, services
 │   ├── kairo/            # Django settings & configuration
@@ -157,24 +157,60 @@ kairo_clean/
 │   ├── public/           # Static assets & course data
 │   └── package.json
 │
-├── scrapers/             # Course data scrapers
-│   ├── src/              # TypeScript scraper code
-│   ├── data/             # Generated course JSON (source of truth)
-│   └── render.yaml       # Render deployment config
+├── services/             # Data scrapers
+│   ├── course_scraper/   # Course catalogue scraper
+│   └── rmp_scraper/      # RateMyProfessors scraper
 │
-├── scripts/              # Deployment & utility scripts
-│   ├── backend/          # Backend deployment helpers
-│   ├── scrapers/         # Scraper deployment scripts
-│   └── database/         # Database utilities
+├── infrastructure/       # Docker and deployment configs
+│   ├── docker/           # Dockerfiles
+│   └── scripts/          # Deployment scripts
 │
-├── k6/                   # Load testing scripts
-├── rmp_scraper/          # RateMyProfessors data scraper
-└── docker-compose.yml    # Local Docker setup
+├── .github/workflows/    # CI/CD pipelines
+│   ├── frontend.yml      # Frontend CI
+│   ├── backend.yml       # Backend CI
+│   └── services.yml      # Services CI
+│
+└── k6/                   # Load testing scripts
 ```
 
 ---
 
-## 🌐 Deployment
+## CI/CD
+
+This project uses GitHub Actions for continuous integration. Workflows run automatically on pull requests and pushes to the `main` branch.
+
+### Workflows
+
+| Workflow | Trigger | Checks |
+|----------|---------|--------|
+| **Frontend CI** | Changes in `frontend/` | Lint (ESLint), Build (Next.js) |
+| **Backend CI** | Changes in `backend/` | Lint (flake8), Django system check |
+| **Services CI** | Changes in `services/` | TypeScript compilation |
+
+### Status
+
+Workflows use path filtering to only run when relevant files change. Each workflow:
+
+- Caches dependencies for faster runs
+- Runs on `ubuntu-latest`
+- Uses Node.js 20 (frontend/services) or Python 3.11 (backend)
+
+### Running Checks Locally
+
+```bash
+# Frontend
+cd frontend && npm run lint && npm run build
+
+# Backend
+cd backend && pip install flake8 && flake8 . && python manage.py check
+
+# Services
+cd services/course_scraper && npm run build
+```
+
+---
+
+## Deployment
 
 ### Production Environment Variables
 
@@ -245,7 +281,7 @@ render blueprint deploy
 
 ---
 
-## 🔧 Advanced Configuration
+## Advanced Configuration
 
 ### Docker Setup
 
@@ -301,7 +337,7 @@ k6 run -e BASE_URL=http://localhost:8000 k6/k6_ai_enqueue.js
 
 ---
 
-## 🛠️ Development Scripts
+## Development Scripts
 
 ### Backend Scripts
 
@@ -325,7 +361,7 @@ node scripts/update_kairoll_data.js
 
 ---
 
-## 📊 Performance & Scaling
+## Performance and Scaling
 
 ### Current Production Setup
 
@@ -343,13 +379,13 @@ Current configuration supports:
 |--------------|------------------|-------|
 | AI workloads (write-heavy) | ~400 | Tested with p95 < 800ms |
 | Cached reads | ~2,000 | Heavily cached API responses |
-| Synchronous HTTP | ~16–50 | Depends on request duration |
+| Synchronous HTTP | ~16-50 | Depends on request duration |
 
 **Configuration:**
 - Gunicorn workers: 4 (`WEB_CONCURRENCY`)
 - Threads per worker: 4 (`WEB_THREADS`)
 - Celery concurrency: 16 (`CELERY_CONCURRENCY`)
-- Total HTTP capacity: **16 concurrent requests** (4 × 4)
+- Total HTTP capacity: **16 concurrent requests** (4 x 4)
 
 ### Capacity Constraints
 
@@ -396,11 +432,11 @@ CELERY_CONCURRENCY=32    # Scale background tasks
 - Consider Redis cluster for horizontal scaling
 
 #### Monitoring Checklist
-- [ ] Track p95/p99 response times for AI vs cached endpoints
-- [ ] Monitor DB/Redis connection pool utilization
-- [ ] Watch for connection exhaustion errors in logs
-- [ ] Track memory and CPU usage under load
-- [ ] Run load tests before and after scaling changes
+- Track p95/p99 response times for AI vs cached endpoints
+- Monitor DB/Redis connection pool utilization
+- Watch for connection exhaustion errors in logs
+- Track memory and CPU usage under load
+- Run load tests before and after scaling changes
 
 ### Health Monitoring
 
@@ -409,7 +445,7 @@ CELERY_CONCURRENCY=32    # Scale background tasks
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This is a private project. If you have access and want to contribute:
 
@@ -420,13 +456,13 @@ This is a private project. If you have access and want to contribute:
 
 ---
 
-## 📝 License
+## License
 
 Private project - All rights reserved.
 
 ---
 
-## 🆘 Support
+## Support
 
 For issues or questions, please contact the development team.
 
@@ -434,6 +470,6 @@ For issues or questions, please contact the development team.
 
 <div align="center">
 
-**Made for university students 🎓✨**
+**Made for university students**
 
 </div>

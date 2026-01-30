@@ -1,0 +1,56 @@
+name: Services CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'services/**'
+      - '.github/workflows/services.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'services/**'
+      - '.github/workflows/services.yml'
+
+jobs:
+  build-course-scraper:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/course_scraper
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build TypeScript
+        run: npm run build
+
+  build-rmp-scraper:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/rmp_scraper
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check for package.json
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          fi
