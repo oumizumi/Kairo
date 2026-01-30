@@ -161,9 +161,6 @@ export default function ProfilePage() {
   const [bannerStyle, setBannerStyle] = useState<string>("");
   const [savingBanner, setSavingBanner] = useState(false);
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
-  const [profileMode, setProfileMode] = useState<string>("");
-  const [savingMode, setSavingMode] = useState(false);
-  const [modeMessage, setModeMessage] = useState<string | null>(null);
 
   // Dispatch a lightweight preview event so other pages (e.g., header) update without saving
   const dispatchPreview = (partial: Partial<ProfileData>) => {
@@ -188,7 +185,6 @@ export default function ProfilePage() {
         setNewProgram((res.data as ProfileData).program || "");
         setIsGuestUser(isGuest());
         setBannerStyle((res.data as ProfileData).banner_style || "");
-        setProfileMode((res.data as ProfileData).profile_mode || "");
       } catch (e: any) {
         setError("Failed to load profile");
       } finally {
@@ -379,7 +375,6 @@ export default function ProfilePage() {
             <div className={`absolute inset-0 bg-gradient-to-r ${
               (APP_CONFIG.UI.PROFILE_BANNERS.find(b => b.key === (bannerStyle || ''))?.className) || ''
             }`} />
-            {/* Removed mode overlay to avoid tinting banner colors on selection */}
             <div className="relative p-4">
               <UserAvatar 
                 user={{
@@ -392,21 +387,11 @@ export default function ProfilePage() {
                 className="w-full"
                 showKawaiiBadge={false}
               />
-              {(() => {
-                const mode = APP_CONFIG.UI.PROFILE_MODES.find(m => m.key === (profileMode || ''));
-                if (!mode || mode.key === 'none') return null;
-                return (
-                  <div className="absolute top-4 right-4 inline-flex items-center gap-1 rounded-full bg-cream/80 dark:bg-gray-900/70 px-2.5 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-white/10 shadow-sm">
-                    <span className="text-base leading-none">{mode.emoji}</span>
-                    <span>{mode.label}</span>
-                  </div>
-                );
-              })()}
             </div>
           </div>
 
           {/* Banner picker */}
-          <div className="border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-lg p-4 mb-4">
+          <div className="border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-lg p-4 mb-6">
             <div className="flex items-start justify-between">
               <div className="w-full">
                 <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">Profile Banner</div>
@@ -458,55 +443,6 @@ export default function ProfilePage() {
                   )}
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Mode picker */}
-          <div className="border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-lg p-4 mb-6">
-            <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">Profile Mode</div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {APP_CONFIG.UI.PROFILE_MODES.map(m => (
-                <button
-                  key={m.key}
-                  onClick={() => { const val = m.key === 'none' ? '' : m.key; setProfileMode(val); dispatchPreview({ profile_mode: val }); }}
-                  className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm border-2 transition-colors ${
-                    (profileMode || '') === (m.key === 'none' ? '' : m.key)
-                      ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-900/10'
-                      : 'border-gray-200 dark:border-[rgb(var(--border-color))] hover:border-emerald-300'
-                  }`}
-                >
-                  <span className="text-base">{m.emoji}</span>
-                  <span className="text-gray-800 dark:text-gray-200 font-medium">{m.label}</span>
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-2 mt-3">
-              <button
-                onClick={async () => {
-                  setModeMessage(null);
-                  setSavingMode(true);
-                  try {
-                    const res = await api.patch('/api/profile/', { profile_mode: profileMode || null });
-                    const updated = res.data as ProfileData;
-                    setProfile(updated);
-                    setModeMessage('Mode updated.');
-                    if (typeof window !== 'undefined') {
-                      window.dispatchEvent(new CustomEvent('userProfileUpdated', { detail: updated }));
-                    }
-                  } catch (e: any) {
-                    setModeMessage(e?.response?.data?.detail || 'Failed to update mode');
-                  } finally {
-                    setSavingMode(false);
-                  }
-                }}
-                disabled={savingMode}
-                className="font-mono text-xs font-medium px-3 py-1.5 rounded-md bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50"
-              >
-                {savingMode ? 'Saving...' : 'Save mode'}
-              </button>
-              {modeMessage && (
-                <span className="text-xs text-emerald-600 dark:text-emerald-400">{modeMessage}</span>
-              )}
             </div>
           </div>
 
@@ -892,5 +828,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-
-

@@ -40,7 +40,7 @@ DJANGO_CSRF_COOKIE_SECURE=True
 
 ### OpenAI API
 ```bash
-OPENAI_API_KEY=sk-your-openai-api-key-here
+OPENAI_API_KEY=
 ```
 
 ### Celery (Optional)
@@ -74,4 +74,3 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 - [ ] Configure ALLOWED_HOSTS and CORS_ALLOWED_ORIGINS
 - [ ] Set OPENAI_API_KEY
 - [ ] Verify all domains are correct
-
