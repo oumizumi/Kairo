@@ -59,3 +59,5 @@ venv/
 # Cache
 .cache/
 .parcel-cache/
+# Local DBs
+backend/db.sqlite3
