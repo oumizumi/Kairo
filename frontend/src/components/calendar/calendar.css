@@ -16,7 +16,7 @@
 .calendar-header {
     padding: 1.5rem 2rem;
     border-bottom: 1px solid transparent;
-    background: #f9fafb;
+    background: #fff8e7;
     flex-shrink: 0;
     transition: all 0.3s ease;
     min-height: 80px;
@@ -88,6 +88,47 @@
 @media (min-width: 1920px) {
     .grid-cols-8-narrow {
         grid-template-columns: 90px repeat(7, minmax(0, 1fr));
+    }
+}
+
+/* Weekdays-only grid layout (Monday-Friday) - for toggle button */
+.grid-cols-6-weekdays {
+    display: grid !important;
+    grid-template-columns: 50px repeat(5, minmax(0, 1fr));
+}
+
+/* Small tablet: 640px - 767px (sm) */
+@media (min-width: 640px) and (max-width: 767px) {
+    .grid-cols-6-weekdays {
+        grid-template-columns: 55px repeat(5, minmax(0, 1fr));
+    }
+}
+
+/* Tablet: 768px - 1023px (md) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .grid-cols-6-weekdays {
+        grid-template-columns: 60px repeat(5, minmax(0, 1fr));
+    }
+}
+
+/* Laptop: 1024px - 1439px (lg) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+    .grid-cols-6-weekdays {
+        grid-template-columns: 70px repeat(5, minmax(0, 1fr));
+    }
+}
+
+/* Desktop: 1440px - 1919px (xl) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+    .grid-cols-6-weekdays {
+        grid-template-columns: 80px repeat(5, minmax(0, 1fr));
+    }
+}
+
+/* Large desktop: >= 1920px (xxl) */
+@media (min-width: 1920px) {
+    .grid-cols-6-weekdays {
+        grid-template-columns: 90px repeat(5, minmax(0, 1fr));
     }
 }
 
@@ -310,7 +351,7 @@
         align-items: center;
         justify-content: center;
         font-weight: 600;
-        background: #f9fafb;
+        background: #fff8e7;
         border-right: 1px solid transparent;
         color: #6b7280;
         text-align: center;
@@ -369,8 +410,8 @@
         flex-shrink: 0;
         height: 70px;
         align-items: center;
-        border-bottom: 2px solid #e5e7eb;
-        background: #f9fafb;
+        border-bottom: 2px solid #f0e6d3;
+        background: #fff8e7;
         position: sticky;
         top: 0;
         z-index: 20;
@@ -388,8 +429,8 @@
         align-items: center;
         justify-content: center;
         font-weight: 600;
-        background: #f9fafb;
-        border-right: 1px solid #e5e7eb;
+        background: #fff8e7;
+        border-right: 1px solid #f0e6d3;
         color: #6b7280;
         text-align: center;
         min-height: 60px;
@@ -404,7 +445,7 @@
     .time-slot {
         min-height: 70px;
         height: 70px;
-        border-bottom: 1px solid #e5e7eb;
+        border-bottom: 1px solid #f0e6d3;
         align-items: stretch;
     }
 
@@ -414,7 +455,7 @@
 
     .day-column {
         position: relative;
-        border-right: 1px solid #e5e7eb;
+        border-right: 1px solid #f0e6d3;
         height: 70px;
         min-width: 0;
         background: rgb(var(--card-bg));

@@ -85,7 +85,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} min-h-screen bg-white dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] antialiased`}>
+      <body className={`${inter.className} min-h-screen bg-cream dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] antialiased`}>
         <ThemeProvider>
           <AuthProvider>
             <main className="flex min-h-screen flex-col">

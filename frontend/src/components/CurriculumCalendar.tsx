@@ -95,7 +95,7 @@ const CurriculumCalendar: React.FC<CurriculumCalendarProps> = ({
             </div>
 
             {/* Calendar Grid */}
-            <div className="bg-white dark:bg-[#121212] rounded-lg shadow-lg dark:shadow-[0_0_4px_rgba(255,255,255,0.05)] overflow-hidden border-2 border-gray-300 dark:border-white/5">
+            <div className="bg-cream dark:bg-[#121212] rounded-lg shadow-lg dark:shadow-[0_0_4px_rgba(255,255,255,0.05)] overflow-hidden border-2 border-gray-300 dark:border-white/5">
                 {/* Days Header */}
                 <div className="grid grid-cols-6 bg-gray-50 dark:bg-gradient-to-b dark:from-[#1e1e1e] dark:to-[#1a1a1a] border-b-2 border-gray-300 dark:border-white/5">
                     <div className="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200 border-r-2 border-gray-300 dark:border-gray-600 text-center flex items-center justify-center bg-gray-100 dark:bg-gray-700">Time</div>
@@ -118,7 +118,7 @@ const CurriculumCalendar: React.FC<CurriculumCalendarProps> = ({
                         {days.map(day => {
                             const course = schedule[day][time];
                             return (
-                                <div key={`${day}-${time}`} className="p-2 border-r border-gray-200 dark:border-white/5 last:border-r-0 min-h-[80px] flex items-stretch bg-white dark:bg-[#121212]">
+                                <div key={`${day}-${time}`} className="p-2 border-r border-gray-200 dark:border-white/5 last:border-r-0 min-h-[80px] flex items-stretch bg-cream dark:bg-[#121212]">
                                     {course && (
                                         <div className={`${getCourseColor(course)} rounded-lg p-3 border-2 w-full flex flex-col justify-center shadow-sm`}>
                                             <div className="text-xs font-bold text-gray-800 mb-1">

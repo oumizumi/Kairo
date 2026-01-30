@@ -61,6 +61,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     const [shareUrl, setShareUrl] = useState('');
     const [shareLoading, setShareLoading] = useState(false);
     const [backendEvents, setBackendEvents] = useState<Event[]>([]);
+    const [showWeekdaysOnly, setShowWeekdaysOnly] = useState(false);
 
     // Get theme from ThemeProvider
     const { actualTheme } = useTheme();
@@ -170,8 +171,15 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
         }
     }, [allEvents, onStatsChange]);
 
-    // Generate the 7 days of the week
-    const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+    // Generate the days of the week (7 days or 5 weekdays only)
+    const weekDays = useMemo(() => {
+        const allDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+        if (showWeekdaysOnly) {
+            // Filter out Saturday (index 5) and Sunday (index 6)
+            return allDays.filter((_, index) => index < 5);
+        }
+        return allDays;
+    }, [weekStart, showWeekdaysOnly]);
 
     // Track screen width for responsive positioning with debouncing
     useEffect(() => {
@@ -414,7 +422,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         </button>
                         
                         <h2 className="text-xl font-semibold">
-                            {format(weekStart, 'MMM d')} - {format(addDays(weekStart, 6), 'MMM d, yyyy')}
+                            {format(weekStart, 'MMM d')} - {format(addDays(weekStart, showWeekdaysOnly ? 4 : 6), 'MMM d, yyyy')}
                         </h2>
                         
                         <button
@@ -430,6 +438,17 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                         >
                             Today
+                        </button>
+
+                        <button
+                            onClick={() => setShowWeekdaysOnly(!showWeekdaysOnly)}
+                            className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                                showWeekdaysOnly
+                                    ? 'bg-purple-500 text-white hover:bg-purple-600'
+                                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                            }`}
+                        >
+                            {showWeekdaysOnly ? 'Weekdays' : 'All Days'}
                         </button>
                     </div>
                     
@@ -450,7 +469,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             {/* Calendar Grid */}
             <div className="weekly-grid-container">
                 {/* Days Header */}
-                <div className="days-header grid-cols-8-narrow">
+                <div className={`days-header ${showWeekdaysOnly ? 'grid-cols-6-weekdays' : 'grid-cols-8-narrow'}`}>
                     <div className="time-label">Time</div>
                     {weekDays.map((day, index) => (
                         <div key={index} className="text-center font-medium p-4">
@@ -467,7 +486,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 {/* Time Grid */}
                 <div className="time-grid">
                     {timeSlots.map((timeSlot) => (
-                        <div key={timeSlot.hour} className="time-slot grid-cols-8-narrow">
+                        <div key={timeSlot.hour} className={`time-slot ${showWeekdaysOnly ? 'grid-cols-6-weekdays' : 'grid-cols-8-narrow'}`}>
                             <div className="time-label">
                                 {timeSlot.display}
                             </div>

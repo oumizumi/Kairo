@@ -9,12 +9,12 @@
 }
 
 :root {
-  /* Light mode colors - More vibrant */
+  /* Light mode colors - Cream theme */
   --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
-  --primary-bg: 255, 255, 255;
-  --secondary-bg: 248, 250, 252;
-  --card-bg: 255, 255, 255;
+  --background-rgb: 255, 253, 245; /* Warm cream */
+  --primary-bg: 255, 253, 245; /* Warm cream */
+  --secondary-bg: 255, 248, 231; /* Slightly darker cream */
+  --card-bg: 255, 251, 240; /* Card cream */
   --border-color: 196, 181, 253; /* More vibrant purple border */
   --text-primary: 17, 24, 39;
   --text-secondary: 88, 28, 135; /* More vibrant purple text */
@@ -149,10 +149,10 @@
   }
 
   body {
-    @apply text-black dark:text-white bg-white min-h-screen transition-colors duration-300;
-    background: linear-gradient(135deg, 
-      rgba(255, 255, 255, 1) 0%, 
-      rgba(248, 250, 252, 1) 100%);
+    @apply text-black dark:text-white min-h-screen transition-colors duration-300;
+    background: linear-gradient(135deg,
+      rgba(255, 253, 245, 1) 0%,
+      rgba(255, 248, 231, 1) 100%);
     overflow-x: hidden;
   }
 
@@ -196,10 +196,10 @@ img, video, canvas, svg {
   }
 
   .card {
-    @apply bg-white border border-purple-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm;
+    @apply border border-purple-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm;
     background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(248, 250, 252, 0.9) 100%);
+      rgba(255, 251, 240, 0.95) 0%,
+      rgba(255, 248, 231, 0.95) 100%);
   }
 
   .dark .card {
@@ -210,7 +210,8 @@ img, video, canvas, svg {
   }
 
   .input {
-    @apply block w-full rounded-lg border-2 border-purple-300 bg-white/80 px-4 py-2 text-gray-900 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 backdrop-blur-sm;
+    @apply block w-full rounded-lg border-2 border-purple-300 px-4 py-2 text-gray-900 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 backdrop-blur-sm;
+    background: rgba(255, 251, 240, 0.8);
   }
 
   .dark .input {
@@ -289,9 +290,9 @@ img, video, canvas, svg {
   }
 
   .bg-card {
-    background: linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.95) 0%, 
-      rgba(248, 250, 252, 0.95) 100%);
+    background: linear-gradient(135deg,
+      rgba(255, 251, 240, 0.95) 0%,
+      rgba(255, 248, 231, 0.95) 100%);
     backdrop-filter: blur(10px);
   }
 
@@ -1129,9 +1130,9 @@ img, video, canvas, svg {
   .backdrop-blur-md,
   .backdrop-blur-xl {
     backdrop-filter: none !important;
-    background-color: rgba(255, 255, 255, 0.95) !important;
+    background-color: rgba(255, 251, 240, 0.95) !important;
   }
-  
+
   .dark .backdrop-blur-sm,
   .dark .backdrop-blur-md,
   .dark .backdrop-blur-xl {

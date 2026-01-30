@@ -75,7 +75,7 @@ const CurriculumInput: React.FC<CurriculumInputProps> = ({ onCoursesFound }) => 
     ];
 
     return (
-        <div className="curriculum-input-container bg-white dark:bg-[#121212] rounded-xl border border-gray-200 dark:border-white/5 p-6 shadow-lg dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
+        <div className="curriculum-input-container bg-cream dark:bg-[#121212] rounded-xl border border-gray-200 dark:border-white/5 p-6 shadow-lg dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
             {/* Header */}
             <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
@@ -106,7 +106,7 @@ const CurriculumInput: React.FC<CurriculumInputProps> = ({ onCoursesFound }) => 
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="e.g., I'm a first year fall Computer Science student"
-                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-cream dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                         disabled={isLoading}
                     />
                 </div>

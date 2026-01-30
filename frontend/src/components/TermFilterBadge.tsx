@@ -133,7 +133,7 @@ const TermFilterBadge: React.FC<TermFilterBadgeProps> = ({
                 <div
                     ref={panelRef}
                     onMouseLeave={() => setIsOpen(false)}
-                    className="absolute top-full left-0 mt-2 min-w-[200px] bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden"
+                    className="absolute top-full left-0 mt-2 min-w-[200px] bg-cream dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden"
                     role="menu"
                 >
                     {/* All Terms option */}

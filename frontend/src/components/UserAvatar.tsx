@@ -104,7 +104,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
           <span className="select-none">{getInitials()}</span>
         )}
         {showKawaiiBadge && (
-          <span className="absolute -bottom-1 -right-1 rounded-full bg-white dark:bg-gray-900 text-base leading-none p-0.5 shadow ring-1 ring-black/5 dark:ring-white/10">
+          <span className="absolute -bottom-1 -right-1 rounded-full bg-cream dark:bg-gray-900 text-base leading-none p-0.5 shadow ring-1 ring-black/5 dark:ring-white/10">
             {getKawaiiEmoji()}
           </span>
         )}

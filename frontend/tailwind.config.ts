@@ -10,6 +10,10 @@ const config: Config = {
     ],
     safelist: [
         'bg-white',
+        'bg-cream',
+        'bg-cream-50',
+        'bg-cream-100',
+        'bg-cream-200',
         'dark:bg-black',
         'text-black',
         'dark:text-white',
@@ -34,6 +38,13 @@ const config: Config = {
                 'mono': ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', '"Courier New"', 'monospace'],
             },
             colors: {
+                cream: {
+                    DEFAULT: '#fffdf5',
+                    50: '#fffdf5',
+                    100: '#fffbf0',
+                    200: '#fff8e7',
+                    300: '#f0e6d3',
+                },
                 primary: {
                     50: '#fef2f2',
                     100: '#fee2e2',
@@ -53,9 +64,9 @@ const config: Config = {
                     border: '#404040',
                 },
                 light: {
-                    bg: '#ffffff',
-                    card: '#ffffff',
-                    border: '#e5e7eb',
+                    bg: '#fffdf5',
+                    card: '#fffbf0',
+                    border: '#f0e6d3',
                 }
             },
             typography: {

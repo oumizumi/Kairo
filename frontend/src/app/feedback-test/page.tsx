@@ -34,7 +34,7 @@ export default function FeedbackTestPage() {
         {/* Test Components */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Quick Feedback Test */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Quick Feedback Component
             </h2>
@@ -52,7 +52,7 @@ export default function FeedbackTestPage() {
           </div>
 
           {/* Detailed Feedback Test */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Detailed Feedback Modal
             </h2>
@@ -69,7 +69,7 @@ export default function FeedbackTestPage() {
         </div>
 
         {/* Analytics Dashboard */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <FeedbackDashboard />
         </div>
 

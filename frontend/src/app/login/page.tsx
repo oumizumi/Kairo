@@ -83,7 +83,7 @@ function LoginForm() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
+        <div className="min-h-screen flex flex-col bg-cream dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
             {/* Back to main page link */}
             <div className="absolute top-12 left-16 z-10">
                 <Link 
@@ -122,7 +122,7 @@ function LoginForm() {
                             id="identifier"
                             type="text"
                             placeholder="Enter your email or username"
-                            className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
+                            className="rounded border border-gray-300 dark:border-[#333] bg-cream dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
                             value={identifier}
                             onChange={e => setIdentifier(e.target.value)}
                             required
@@ -137,7 +137,7 @@ function LoginForm() {
                                 id="password"
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder="Enter your password"
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-cream dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 required
@@ -233,7 +233,7 @@ function LoginForm() {
 export default function LoginPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
+            <div className="min-h-screen flex flex-col bg-cream dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
                 {/* Logo with proper anchoring */}
                 <div className="absolute top-6 left-8 z-10">
                     <Link 

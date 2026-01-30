@@ -124,7 +124,7 @@ export default function SharedSchedulePage() {
               
               <button
                 onClick={handleCloneAndEdit}
-                className="px-3 py-1.5 bg-white text-blue-600 hover:bg-gray-100 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-1.5"
+                className="px-3 py-1.5 bg-cream text-blue-600 hover:bg-gray-100 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-1.5"
                 title="Clone and customize this schedule"
               >
                 <ExternalLink className="w-4 h-4" />
@@ -135,7 +135,7 @@ export default function SharedSchedulePage() {
         </div>
 
         {/* Schedule Title */}
-        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-4 px-4">
+        <div className="bg-cream dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-4 px-4">
           <div className="max-w-7xl mx-auto">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
               {sharedSchedule.shared_schedule.title}

@@ -34,7 +34,7 @@ export default function Footer() {
                         href="https://github.com/oumizumi/Kairo.git"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-white/10 shadow-lg backdrop-blur-sm bg-white/80 dark:bg-white/10 border border-gray-300 dark:border-gray-700"
+                        className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-cream/10 shadow-lg backdrop-blur-sm bg-cream/80 dark:bg-cream/10 border border-gray-300 dark:border-gray-700"
                         aria-label="GitHub Repository"
                     >
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -45,7 +45,7 @@ export default function Footer() {
                         type="button"
                         onClick={toggleTheme}
                         aria-pressed={isDark}
-                        className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-white/80 dark:bg-white/10"
+                        className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-cream/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-cream/80 dark:bg-cream/10"
                     >
                     {isDark ? (
                         // Moon for dark mode
@@ -64,7 +64,7 @@ export default function Footer() {
                     <button
                         type="button"
                         onClick={handleSeasonalToggle}
-                        className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-white/80 dark:bg-white/10"
+                        className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-cream/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-cream/80 dark:bg-cream/10"
                         aria-label="Toggle seasonal theme"
                         title="Seasonal theme"
                     >

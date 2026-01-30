@@ -78,10 +78,10 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
     // Type guard check and render appropriate format
     if (isCourseGrouped(course)) {
         return (
-            <div className="w-full bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
+            <div className="w-full bg-gray-100 dark:bg-cream/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
                 {/* Course Header - Grouped Format */}
                 <div
-                    className="p-3 sm:p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-white/[0.12] transition-colors"
+                    className="p-3 sm:p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-cream/[0.12] transition-colors"
                     onClick={() => setIsExpanded(!isExpanded)}
                 >
                     <div className="flex items-center justify-between mb-2">
@@ -158,7 +158,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                     <div key={prefix} className="border-b border-gray-200 dark:border-white/10 last:border-b-0">
                                         {/* Main section header */}
                                         <div
-                                            className="p-2 sm:p-3 hover:bg-gray-50 dark:hover:bg-white/[0.03] transition-colors cursor-pointer touch-manipulation"
+                                            className="p-2 sm:p-3 hover:bg-gray-50 dark:hover:bg-cream/[0.03] transition-colors cursor-pointer touch-manipulation"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 toggleSectionExpansion(prefix);
@@ -196,7 +196,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
 
                                         {/* Detailed sections (expandable) */}
                                         {isDetailExpanded && (
-                                            <div className="bg-gray-50 dark:bg-white/[0.02] border-t border-gray-200 dark:border-white/5">
+                                            <div className="bg-gray-50 dark:bg-cream/[0.02] border-t border-gray-200 dark:border-white/5">
                                                 {/* Lecture Section */}
                                                 {group.lecture && (
                                                     <>
@@ -467,9 +467,9 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
     } else {
         // Legacy format - fallback for old course structure
         return (
-            <div className="bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
+            <div className="bg-gray-100 dark:bg-cream/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
                 <div
-                    className="p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-white/[0.12] transition-colors"
+                    className="p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-cream/[0.12] transition-colors"
                     onClick={() => setIsExpanded(!isExpanded)}
                 >
                     <div className="flex items-center justify-between mb-2">

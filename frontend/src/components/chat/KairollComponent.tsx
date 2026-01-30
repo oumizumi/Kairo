@@ -886,7 +886,7 @@ export function KairollComponent() {
     };
 
     return (
-        <div className="font-mono w-full bg-white dark:bg-[rgb(var(--secondary-bg))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col h-full transition-colors duration-300">
+        <div className="font-mono w-full bg-cream dark:bg-[rgb(var(--secondary-bg))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col h-full transition-colors duration-300">
             {/* Header */}
             <div className={`w-full p-4 sm:p-5 lg:p-6 border-b border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 ${isDeviceMobileFn() ? 'overflow-hidden' : ''}`}>
                 <h1 className="text-base sm:text-lg lg:text-xl font-bold text-black dark:text-[rgb(var(--text-primary))] mb-3 sm:mb-4 transition-colors duration-300">Course Enrollment</h1>
@@ -903,7 +903,7 @@ export function KairollComponent() {
                         className="w-full bg-gray-100 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-black dark:text-[rgb(var(--text-primary))] focus:ring-2 focus:ring-[rgb(var(--accent-color))] focus:border-[rgb(var(--accent-color))] appearance-none transition-colors duration-300"
                     >
                         {terms.map(term => (
-                            <option key={term} value={term} className="bg-white dark:bg-gray-800 text-black dark:text-white">{term}</option>
+                            <option key={term} value={term} className="bg-cream dark:bg-gray-800 text-black dark:text-white">{term}</option>
                         ))}
                     </select>
                     <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -923,7 +923,7 @@ export function KairollComponent() {
                             placeholder="Search for courses, professors, and course codes..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 pr-10 text-sm sm:text-base text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300"
+                            className="w-full bg-gray-100 dark:bg-cream/[0.06] border border-gray-200 dark:border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 pr-10 text-sm sm:text-base text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300"
                         />
                         {searchQuery && (
                             <button
@@ -950,7 +950,7 @@ export function KairollComponent() {
                     <button
                         onClick={() => setSearchQuery('')}
                         disabled={!searchQuery}
-                        className="flex-1 bg-gray-100 dark:bg-white/[0.06] hover:bg-gray-200 dark:hover:bg-white/[0.12] border border-gray-200 dark:border-white/10 text-black dark:text-white px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 bg-gray-100 dark:bg-cream/[0.06] hover:bg-gray-200 dark:hover:bg-cream/[0.12] border border-gray-200 dark:border-white/10 text-black dark:text-white px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                     >Clear Search</button>
                     <button
                         onClick={handleResetCourses}
@@ -1060,7 +1060,7 @@ export function KairollComponent() {
                         </div>
                     )}
                     {isMobile && (
-                        <div className="w-full bg-white dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-lg border border-gray-200 dark:border-white/5 dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
+                        <div className="w-full bg-cream dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-lg border border-gray-200 dark:border-white/5 dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
                             <div className="no-scrollbar">
                                 <div className="overflow-x-auto">
                                     {/* Day Headers */}
@@ -1080,8 +1080,8 @@ export function KairollComponent() {
                                             const timeStr = hour > 12 ? `${hour - 12}:00` : `${hour}:00`;
                                             const period = hour >= 12 ? 'PM' : 'AM';
                                             return (
-                                                <div key={hour} className="flex border-b border-gray-200 dark:border-white/5 bg-white dark:bg-[#121212] w-full" style={{ height: '48px' }}>
-                                                    <div className="p-1 text-xs text-black dark:text-[#aaaaaa] bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/5 flex items-center justify-center flex-shrink-0 w-[60px]">
+                                                <div key={hour} className="flex border-b border-gray-200 dark:border-white/5 bg-cream dark:bg-[#121212] w-full" style={{ height: '48px' }}>
+                                                    <div className="p-1 text-xs text-black dark:text-[#aaaaaa] bg-cream dark:bg-[#121212] border-r border-gray-200 dark:border-white/5 flex items-center justify-center flex-shrink-0 w-[60px]">
                                                         <div className="flex flex-col items-center">
                                                             <span className="text-xs font-medium">{timeStr}</span>
                                                             <span className="text-[10px] text-gray-700 dark:text-gray-500">{period}</span>

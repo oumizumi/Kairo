@@ -201,7 +201,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="font-mono min-h-screen bg-white dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] flex items-center justify-center">
+      <div className="font-mono min-h-screen bg-cream dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-2 border-emerald-500 border-t-transparent" />
       </div>
     );
@@ -209,7 +209,7 @@ export default function ProfilePage() {
 
   if (error || !profile) {
     return (
-      <div className="font-mono min-h-screen bg-white dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] flex items-center justify-center px-4">
+      <div className="font-mono min-h-screen bg-cream dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center">
           <h1 className="text-xl font-semibold mb-2">Profile</h1>
           <p className="text-gray-600 dark:text-gray-400">{error || "No profile data available."}</p>
@@ -349,9 +349,9 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="font-mono min-h-screen bg-white dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col">
+    <div className="font-mono min-h-screen bg-cream dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col">
       {/* Minimal Profile Navbar: Back to Kairoll + Contact */}
-      <header className="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-[rgb(var(--border-color))] bg-white/80 dark:bg-[rgb(var(--secondary-bg))]/80 backdrop-blur-md">
+      <header className="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-[rgb(var(--border-color))] bg-cream/80 dark:bg-[rgb(var(--secondary-bg))]/80 backdrop-blur-md">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/chat" className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 group">
             <svg className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -373,7 +373,7 @@ export default function ProfilePage() {
           <p className="font-mono text-gray-600 dark:text-gray-400 mt-1">Manage your account information</p>
         </div>
 
-        <div className="bg-white dark:bg-[rgb(var(--secondary-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-xl p-6">
+        <div className="bg-cream dark:bg-[rgb(var(--secondary-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-xl p-6">
           <div className="mb-6 relative overflow-hidden rounded-xl">
             {/* Live banner preview behind avatar */}
             <div className={`absolute inset-0 bg-gradient-to-r ${
@@ -396,7 +396,7 @@ export default function ProfilePage() {
                 const mode = APP_CONFIG.UI.PROFILE_MODES.find(m => m.key === (profileMode || ''));
                 if (!mode || mode.key === 'none') return null;
                 return (
-                  <div className="absolute top-4 right-4 inline-flex items-center gap-1 rounded-full bg-white/80 dark:bg-gray-900/70 px-2.5 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-white/10 shadow-sm">
+                  <div className="absolute top-4 right-4 inline-flex items-center gap-1 rounded-full bg-cream/80 dark:bg-gray-900/70 px-2.5 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-white/10 shadow-sm">
                     <span className="text-base leading-none">{mode.emoji}</span>
                     <span>{mode.label}</span>
                   </div>
@@ -525,7 +525,7 @@ export default function ProfilePage() {
                         type="text"
                         value={newUsername}
                         onChange={(e) => { setNewUsername(e.target.value); dispatchPreview({ username: e.target.value }); }}
-                        className={`w-full rounded-lg border-2 bg-white dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all ${usernameError ? 'border-red-400 dark:border-red-500' : 'border-gray-300 dark:border-[rgb(var(--border-color))]'}`}
+                        className={`w-full rounded-lg border-2 bg-cream dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all ${usernameError ? 'border-red-400 dark:border-red-500' : 'border-gray-300 dark:border-[rgb(var(--border-color))]'}`}
                         placeholder="Enter username"
                         autoFocus
                       />
@@ -545,7 +545,7 @@ export default function ProfilePage() {
                       {!isGuestUser ? (
                         <button
                           onClick={handleStartEditUsername}
-                          className="font-mono text-xs font-medium px-3 py-1.5 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-[rgb(var(--border-color))] hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                          className="font-mono text-xs font-medium px-3 py-1.5 rounded-md bg-cream dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-[rgb(var(--border-color))] hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
                         >
                           Edit
                         </button>
@@ -591,7 +591,7 @@ export default function ProfilePage() {
                         type="email"
                         value={newEmail}
                         onChange={(e) => setNewEmail(e.target.value)}
-                        className={`w-full rounded-lg border-2 bg-white dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all ${emailError ? 'border-red-400 dark:border-red-500' : 'border-gray-300 dark:border-[rgb(var(--border-color))]'}`}
+                        className={`w-full rounded-lg border-2 bg-cream dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all ${emailError ? 'border-red-400 dark:border-red-500' : 'border-gray-300 dark:border-[rgb(var(--border-color))]'}`}
                         placeholder="you@example.com"
                         autoFocus
                       />
@@ -611,7 +611,7 @@ export default function ProfilePage() {
                       {!isGuestUser ? (
                         <button
                           onClick={handleStartEditEmail}
-                          className="font-mono text-xs font-medium px-3 py-1.5 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-[rgb(var(--border-color))] hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                          className="font-mono text-xs font-medium px-3 py-1.5 rounded-md bg-cream dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-[rgb(var(--border-color))] hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
                         >
                           Edit
                         </button>
@@ -657,7 +657,7 @@ export default function ProfilePage() {
                         type="text"
                         value={newProgram}
                         onChange={(e) => setNewProgram(e.target.value)}
-                        className={`w-full rounded-lg border-2 bg-white dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all ${programError ? 'border-red-400 dark:border-red-500' : 'border-gray-300 dark:border-[rgb(var(--border-color))]'}`}
+                        className={`w-full rounded-lg border-2 bg-cream dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all ${programError ? 'border-red-400 dark:border-red-500' : 'border-gray-300 dark:border-[rgb(var(--border-color))]'}`}
                         placeholder="e.g., Computer Science BSc"
                         autoFocus
                       />
@@ -715,7 +715,7 @@ export default function ProfilePage() {
                   <button
                     disabled={isGuestUser}
                     onClick={() => { if (!isGuestUser) { setEditingPassword(true); setPwMsg(null); setPwErr(null);} }}
-                    className="font-mono text-xs font-medium px-3 py-1.5 rounded-md bg-gray-900 dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="font-mono text-xs font-medium px-3 py-1.5 rounded-md bg-gray-900 dark:bg-cream text-white dark:text-black hover:bg-gray-800 dark:hover:bg-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Edit
                   </button>
@@ -732,7 +732,7 @@ export default function ProfilePage() {
                       value={newPw}
                       onChange={(e) => setNewPw(e.target.value)}
                       placeholder="New password"
-                      className="w-full rounded-lg border-2 bg-white dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all border-gray-300 dark:border-[rgb(var(--border-color))] pr-10"
+                      className="w-full rounded-lg border-2 bg-cream dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all border-gray-300 dark:border-[rgb(var(--border-color))] pr-10"
                     />
                     <button
                       type="button"
@@ -753,7 +753,7 @@ export default function ProfilePage() {
                       value={confirmPw}
                       onChange={(e) => setConfirmPw(e.target.value)}
                       placeholder="Confirm new password"
-                      className="w-full rounded-lg border-2 bg-white dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all border-gray-300 dark:border-[rgb(var(--border-color))] pr-10"
+                      className="w-full rounded-lg border-2 bg-cream dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-[rgb(var(--text-primary))] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-400 dark:focus:border-white/20 transition-all border-gray-300 dark:border-[rgb(var(--border-color))] pr-10"
                     />
                     <button
                       type="button"
@@ -840,7 +840,7 @@ export default function ProfilePage() {
                     </button>
                   ) : (
                     <div className="space-y-4">
-                      <div className="p-4 bg-white dark:bg-gray-800 border border-red-200 dark:border-red-700 rounded-lg">
+                      <div className="p-4 bg-cream dark:bg-gray-800 border border-red-200 dark:border-red-700 rounded-lg">
                         <h4 className="font-medium text-gray-900 dark:text-white mb-2">Are you absolutely sure?</h4>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                           This will permanently delete your account, including:

@@ -62,7 +62,7 @@ export default function ThemeToggle({ variant = 'fixed' }: ThemeToggleProps) {
         <div className={containerClass}>
             <div className="flex items-center gap-3">
                 <div
-                    className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-white/10 shadow-lg backdrop-blur-sm bg-white/80 dark:bg-white/10 border border-gray-300 dark:border-gray-700"
+                    className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-cream/10 shadow-lg backdrop-blur-sm bg-cream/80 dark:bg-cream/10 border border-gray-300 dark:border-gray-700"
                     aria-label="GitHub"
                 >
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -73,7 +73,7 @@ export default function ThemeToggle({ variant = 'fixed' }: ThemeToggleProps) {
                     type="button"
                     onClick={handleToggle}
                     aria-pressed={isDark}
-                    className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-white/80 dark:bg-white/10"
+                    className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-cream/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-cream/80 dark:bg-cream/10"
                 >
                     {isDark ? (
                         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" className="opacity-90 text-gray-300">
@@ -90,7 +90,7 @@ export default function ThemeToggle({ variant = 'fixed' }: ThemeToggleProps) {
                 <button
                     type="button"
                     onClick={handleSeasonalToggle}
-                    className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-white/80 dark:bg-white/10"
+                    className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-cream/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 shadow-lg backdrop-blur-sm bg-cream/80 dark:bg-cream/10"
                     aria-label="Toggle seasonal theme"
                     title="Seasonal theme"
                 >

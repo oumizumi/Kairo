@@ -73,7 +73,7 @@ const FeedbackDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow">
+      <div className="p-6 bg-cream dark:bg-gray-900 rounded-lg shadow">
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -89,7 +89,7 @@ const FeedbackDashboard: React.FC = () => {
 
   if (error || !stats) {
     return (
-      <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow">
+      <div className="p-6 bg-cream dark:bg-gray-900 rounded-lg shadow">
         <div className="text-center text-red-600 dark:text-red-400">
           {error || 'No feedback data available'}
         </div>
@@ -106,7 +106,7 @@ const FeedbackDashboard: React.FC = () => {
     trend?: 'up' | 'down';
     color?: string;
   }) => (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+    <div className="bg-cream dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
@@ -141,7 +141,7 @@ const FeedbackDashboard: React.FC = () => {
         <select
           value={timeRange}
           onChange={(e) => setTimeRange(Number(e.target.value))}
-          className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="rounded-lg border border-gray-300 dark:border-gray-600 bg-cream dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
           <option value={7}>Last 7 days</option>
           <option value={30}>Last 30 days</option>
@@ -180,7 +180,7 @@ const FeedbackDashboard: React.FC = () => {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Daily Feedback Trend */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
             Daily Feedback Trend
           </h3>
@@ -203,7 +203,7 @@ const FeedbackDashboard: React.FC = () => {
         </div>
 
         {/* Feedback by Type */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
             Feedback by Type
           </h3>
@@ -231,7 +231,7 @@ const FeedbackDashboard: React.FC = () => {
 
       {/* Email Metrics */}
       {stats.email_metrics.total_email_feedback > 0 && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
             Email Generation Metrics
           </h3>
@@ -280,7 +280,7 @@ const FeedbackDashboard: React.FC = () => {
       {/* Recent Feedback Samples */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Positive Feedback */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-green-500" />
             Recent Positive Feedback
@@ -305,7 +305,7 @@ const FeedbackDashboard: React.FC = () => {
         </div>
 
         {/* Negative Feedback */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
             <TrendingDown className="h-5 w-5 text-red-500" />
             Recent Negative Feedback

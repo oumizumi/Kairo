@@ -67,15 +67,15 @@ export default function Home() {
 
 
   return (
-    <main className="font-mono min-h-screen flex flex-col bg-white dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] transition-colors duration-300">
+    <main className="font-mono min-h-screen flex flex-col bg-cream dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] transition-colors duration-300">
       <TopNavigation />
       <Navbar />
 
       {/* Hero Section - Light Mode Clean, Dark Mode Refined */}
-      <section className="flex-1 flex items-center py-16 sm:py-24 bg-white dark:refined-dark-grid square-grid-bg-light relative overflow-hidden min-h-[80vh]">
+      <section className="flex-1 flex items-center py-16 sm:py-24 bg-cream dark:refined-dark-grid square-grid-bg-light relative overflow-hidden min-h-[80vh]">
         {/* Light Mode: Original clean gradient effects */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-transparent to-purple-50/60 dark:from-transparent dark:via-transparent dark:to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent dark:from-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-cream/80 via-transparent to-transparent dark:from-transparent"></div>
 
         {/* Dark Mode: Subtle ambient center glow */}
         <div className="absolute inset-0 flex items-center justify-center">

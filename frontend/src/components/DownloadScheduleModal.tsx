@@ -41,7 +41,7 @@ const DownloadScheduleModal: React.FC<DownloadScheduleModalProps> = ({
                 w-full max-w-md rounded-2xl shadow-2xl border-2 overflow-hidden
                 ${actualTheme === 'dark' 
                     ? 'bg-gradient-to-b from-[#111111]/95 to-[#0f0f0f]/95 border-white/5' 
-                    : 'bg-white/95 border-gray-200'
+                    : 'bg-cream/95 border-gray-200'
                 }
                 backdrop-blur-xl animate-in fade-in-0 zoom-in-95 duration-200
             `}>
@@ -86,7 +86,7 @@ const DownloadScheduleModal: React.FC<DownloadScheduleModalProps> = ({
                                     focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500
                                     ${actualTheme === 'dark'
                                         ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:bg-gray-750'
-                                        : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500 focus:bg-white'
+                                        : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500 focus:bg-cream'
                                     }
                                 `}
                                 placeholder="Enter filename"

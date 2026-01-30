@@ -296,7 +296,7 @@ const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = ({
 
             {isOpen && (
                 <div
-                    className="absolute left-0 mt-2 w-56 rounded-xl border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-2 shadow-lg z-50"
+                    className="absolute left-0 mt-2 w-56 rounded-xl border border-gray-200 dark:border-neutral-800 bg-cream dark:bg-neutral-900 p-2 shadow-lg z-50"
                     onMouseLeave={() => setIsOpen(false)}
                 >
                     {rows.length > 0 ? (
@@ -928,14 +928,14 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
     if (!isClient) {
         // Prevent hydration issues - show loading state
         return (
-            <div className="h-full w-full bg-white dark:bg-[#121212] transition-colors duration-300 flex items-center justify-center">
+            <div className="h-full w-full bg-cream dark:bg-[#121212] transition-colors duration-300 flex items-center justify-center">
                 <div className="text-gray-500">Loading calendar...</div>
             </div>
         );
     }
 
     return (
-        <div className="h-full w-full bg-white dark:bg-[#121212] transition-colors duration-300 flex flex-col">
+        <div className="h-full w-full bg-cream dark:bg-[#121212] transition-colors duration-300 flex flex-col">
             {/* Desktop Calendar for Large Screens */}
             {isLargeScreen && (
                 <WeeklyCalendar
@@ -2515,7 +2515,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
     // Show welcome screen when conversation hasn't started
     if (!hasStartedConversation && !isLoadingHistory) {
         return (
-            <div className="font-mono h-full w-full flex flex-col items-center justify-center p-4 sm:p-6 bg-white dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
+            <div className="font-mono h-full w-full flex flex-col items-center justify-center p-4 sm:p-6 bg-cream dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
                 {/* Centered Content */}
                 <div className="flex flex-col items-center justify-center flex-1 max-w-2xl w-full">
                     {/* Typewriter Text */}
@@ -2532,7 +2532,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     <div className="w-full max-w-3xl px-4">
                         <form onSubmit={sendMessage} className="w-full">
                             {/* Main Input Container */}
-                            <div className="bg-white dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
+                            <div className="bg-cream dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
                                 {/* Text Input Area */}
                                 <div className="p-4 pb-0">
                                     <div className="flex-1 relative">
@@ -2606,7 +2606,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
 
     // Show full chat interface when conversation has started
     return (
-        <div className="font-mono h-full w-full flex flex-col p-4 sm:p-6 bg-white dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
+        <div className="font-mono h-full w-full flex flex-col p-4 sm:p-6 bg-cream dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
             {/* Header */}
             <div className="mb-4 sm:mb-6 flex justify-between items-center">
                 <div className="flex items-center gap-2 sm:gap-3">
@@ -2788,7 +2788,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 <div className={`${message.role === 'user' ? 'ml-auto' : 'mr-auto'} max-w-[90%] sm:max-w-[70%]`}>
                                     <div
                                         className={`${message.role === 'user'
-                                            ? 'bg-gray-100 dark:bg-white/10 rounded-lg p-2 text-gray-900 dark:text-white mb-2 transition-colors duration-300'
+                                            ? 'bg-gray-100 dark:bg-cream/10 rounded-lg p-2 text-gray-900 dark:text-white mb-2 transition-colors duration-300'
                                             : 'bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-900 dark:text-neutral-300 p-3 rounded-lg transition-colors duration-300'
                                             }`}
                                     >
@@ -2875,7 +2875,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
             {/* Input Form with Cursor-style Design */}
             <div className="w-full">
                 <form onSubmit={sendMessage} className="w-full">
-                    <div className="bg-white dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
+                    <div className="bg-cream dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
                         {/* Text Input Area */}
                         <div className="p-4 pb-0">
                             <div className="flex-1 relative">
@@ -3055,7 +3055,7 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
             {/* Dropdown Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full bg-white dark:bg-[#1e1e1e] border border-gray-300 dark:border-white/5 rounded px-3 py-2 text-black dark:text-[#e0e0e0] text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300 text-left flex items-center justify-between"
+                className="w-full bg-cream dark:bg-[#1e1e1e] border border-gray-300 dark:border-white/5 rounded px-3 py-2 text-black dark:text-[#e0e0e0] text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300 text-left flex items-center justify-between"
             >
                 <span className={selectedSections.length === 0 ? "text-gray-500 dark:text-gray-400" : ""}>
                     {displayText}
@@ -3067,7 +3067,7 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-lg max-h-64 overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-cream dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-lg max-h-64 overflow-y-auto">
                     {sectionOptions.map((option) => (
                         <div
                             key={option.value}
@@ -3220,10 +3220,10 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
     // Type guard check and render appropriate format
     if (isCourseGrouped(course)) {
         return (
-            <div className="w-full bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
+            <div className="w-full bg-gray-100 dark:bg-cream/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
                 {/* Course Header - Grouped Format */}
                 <div
-                    className="p-3 sm:p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-white/[0.12] transition-colors"
+                    className="p-3 sm:p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-cream/[0.12] transition-colors"
                     onClick={() => setIsExpanded(!isExpanded)}
                 >
                     <div className="flex items-center justify-between mb-2">
@@ -3305,7 +3305,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                     <div key={prefix} className="border-b border-gray-200 dark:border-white/10 last:border-b-0">
                                         {/* Main section header */}
                                         <div
-                                            className="p-2 sm:p-3 hover:bg-gray-50 dark:hover:bg-white/[0.03] transition-colors cursor-pointer touch-manipulation"
+                                            className="p-2 sm:p-3 hover:bg-gray-50 dark:hover:bg-cream/[0.03] transition-colors cursor-pointer touch-manipulation"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 toggleSectionExpansion(prefix);
@@ -3344,7 +3344,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
 
                                         {/* Detailed sections (expandable) */}
                                         {isDetailExpanded && (
-                                            <div className="bg-gray-50 dark:bg-white/[0.02] border-t border-gray-200 dark:border-white/5">
+                                            <div className="bg-gray-50 dark:bg-cream/[0.02] border-t border-gray-200 dark:border-white/5">
                                                 {/* Lecture Section */}
                                                 {group.lecture && (
                                                     <>
@@ -3630,9 +3630,9 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
     } else {
         // Legacy format - fallback for old course structure
         return (
-            <div className="bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
+            <div className="bg-gray-100 dark:bg-cream/[0.06] border border-gray-200 dark:border-white/10 rounded-lg transition-colors">
                 <div
-                    className="p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-white/[0.12] transition-colors"
+                    className="p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-cream/[0.12] transition-colors"
                     onClick={() => setIsExpanded(!isExpanded)}
                 >
                     <div className="flex items-center justify-between mb-2">
@@ -3697,7 +3697,7 @@ function SocialComponent() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-white dark:bg-[#121212] flex items-center justify-center">
+            <div className="min-h-screen bg-cream dark:bg-[#121212] flex items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
             </div>
         );
@@ -3706,7 +3706,7 @@ function SocialComponent() {
     const isGuest = !user || user.isGuest || !user.id;
 
     return (
-        <div className="min-h-screen bg-white dark:bg-[#121212]">
+        <div className="min-h-screen bg-cream dark:bg-[#121212]">
             <div className="p-8 text-center">
                 <h1 className="text-2xl font-bold mb-4">Feature Removed</h1>
                 <p>This feature has been removed from the application.</p>
@@ -3819,7 +3819,7 @@ function FeatureCarousel({ isOpen, onClose, onSignup, onLogin, isMobile }: Featu
             transition={{ duration: 0.3 }}
         >
             <motion.div
-                className="relative bg-white dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-xl shadow-xl w-full max-w-sm h-[480px] overflow-hidden border border-gray-200 dark:border-white/5"
+                className="relative bg-cream dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-xl shadow-xl w-full max-w-sm h-[480px] overflow-hidden border border-gray-200 dark:border-white/5"
                 initial={{ scale: 0.9, y: 50, opacity: 0 }}
                 animate={{ scale: 1, y: 0, opacity: 1 }}
                 exit={{ scale: 0.9, y: 50, opacity: 0 }}
@@ -3957,7 +3957,7 @@ function FeatureCarousel({ isOpen, onClose, onSignup, onLogin, isMobile }: Featu
                             key={index}
                             onClick={() => goToSlide(index)}
                             className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${currentSlide === index
-                                ? 'bg-black dark:bg-white scale-110 shadow-lg'
+                                ? 'bg-black dark:bg-cream scale-110 shadow-lg'
                                 : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
@@ -5062,7 +5062,7 @@ function KairollComponent() {
     };
 
     return (
-        <div className="font-mono w-full bg-white dark:bg-[rgb(var(--secondary-bg))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col h-full transition-colors duration-300">
+        <div className="font-mono w-full bg-cream dark:bg-[rgb(var(--secondary-bg))] text-black dark:text-[rgb(var(--text-primary))] flex flex-col h-full transition-colors duration-300">
             {/* Header */}
             <div className={`w-full p-4 sm:p-5 lg:p-6 border-b border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 ${isDeviceMobile() ? 'overflow-hidden' : ''}`}>
                 <h1 className="text-base sm:text-lg lg:text-xl font-bold text-black dark:text-[rgb(var(--text-primary))] mb-3 sm:mb-4 transition-colors duration-300">Course Enrollment</h1>
@@ -5083,7 +5083,7 @@ function KairollComponent() {
                         className="w-full bg-gray-100 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-black dark:text-[rgb(var(--text-primary))] focus:ring-2 focus:ring-[rgb(var(--accent-color))] focus:border-[rgb(var(--accent-color))] appearance-none transition-colors duration-300"
                     >
                         {terms.map(term => (
-                            <option key={term} value={term} className="bg-white dark:bg-gray-800 text-black dark:text-white">{term}</option>
+                            <option key={term} value={term} className="bg-cream dark:bg-gray-800 text-black dark:text-white">{term}</option>
                         ))}
                     </select>
                     <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -5109,7 +5109,7 @@ function KairollComponent() {
                             placeholder="Search for courses, professors, and course codes..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 pr-10 text-sm sm:text-base text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300"
+                            className="w-full bg-gray-100 dark:bg-cream/[0.06] border border-gray-200 dark:border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 pr-10 text-sm sm:text-base text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300"
                         />
                         {/* Clear Search Button */}
                         {searchQuery && (
@@ -5149,7 +5149,7 @@ function KairollComponent() {
                     <button
                         onClick={() => setSearchQuery('')}
                         disabled={!searchQuery}
-                        className="flex-1 bg-gray-100 dark:bg-white/[0.06] hover:bg-gray-200 dark:hover:bg-white/[0.12] border border-gray-200 dark:border-white/10 text-black dark:text-white px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 bg-gray-100 dark:bg-cream/[0.06] hover:bg-gray-200 dark:hover:bg-cream/[0.12] border border-gray-200 dark:border-white/10 text-black dark:text-white px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Clear Search
                     </button>
@@ -5279,7 +5279,7 @@ function KairollComponent() {
                         </div>
                     )}
                     {isMobile && (
-                        <div className="w-full bg-white dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-lg border border-gray-200 dark:border-white/5 dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
+                        <div className="w-full bg-cream dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-lg border border-gray-200 dark:border-white/5 dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
                             {/* Mobile Time Grid Calendar: Outer container for vertical scroll (scrollbar hidden) */}
                             <div className="no-scrollbar">
                                 {/* Inner container for horizontal scroll (scrollbar visible) */}
@@ -5312,10 +5312,10 @@ function KairollComponent() {
                                             const period = hour >= 12 ? 'PM' : 'AM';
 
                                             return (
-                                                <div key={hour} className="flex border-b border-gray-200 dark:border-white/5 bg-white dark:bg-[#121212] w-full" style={{ height: '48px' }}>
+                                                <div key={hour} className="flex border-b border-gray-200 dark:border-white/5 bg-cream dark:bg-[#121212] w-full" style={{ height: '48px' }}>
                                                     {/* Time label */}
                                                     <div
-                                                        className="p-1 text-xs text-black dark:text-[#aaaaaa] bg-white dark:bg-[#121212] border-r border-gray-200 dark:border-white/5 flex items-center justify-center flex-shrink-0 w-[60px]"
+                                                        className="p-1 text-xs text-black dark:text-[#aaaaaa] bg-cream dark:bg-[#121212] border-r border-gray-200 dark:border-white/5 flex items-center justify-center flex-shrink-0 w-[60px]"
                                                     >
                                                         <div className="flex flex-col items-center">
                                                             <span className="text-xs font-medium">{timeStr}</span>
@@ -5740,11 +5740,11 @@ export default function ChatDashboard() {
     };
 
     return (
-        <div className="font-mono min-h-screen bg-white dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] transition-colors duration-300">
+        <div className="font-mono min-h-screen bg-cream dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] transition-colors duration-300">
             {/* Navigation Bar */}
-            <div className="bg-white dark:bg-[rgb(var(--secondary-bg))] border-b border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 sticky top-0 z-50">
+            <div className="bg-cream dark:bg-[rgb(var(--secondary-bg))] border-b border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 sticky top-0 z-50">
                 {/* Mobile Navigation - Clean Top Nav Bar (MOBILE/TABLET) */}
-                <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-white dark:bg-[rgb(var(--secondary-bg))] border-b border-gray-200 dark:border-[rgb(var(--border-color))]">
+                <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-cream dark:bg-[rgb(var(--secondary-bg))] border-b border-gray-200 dark:border-[rgb(var(--border-color))]">
                     <div className="flex items-center gap-3">
                         <Logo size={36} />
                     </div>
@@ -5811,37 +5811,37 @@ export default function ChatDashboard() {
             {view === 'split' && (
                 <div className="hidden sm:flex sm:flex-row h-[calc(100vh-64px)]">{/* subtract desktop header ~64px */}
                     {/* Calendar Panel - 60% width on desktop only */}
-                    <div className="w-3/5 h-full bg-white dark:bg-[rgb(var(--background-rgb))] border-r border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 overflow-hidden">
+                    <div className="w-3/5 h-full bg-cream dark:bg-[rgb(var(--background-rgb))] border-r border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 overflow-hidden">
                         <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={false} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
                     </div>
 
                     {/* Assistant Panel - 40% width on desktop only */}
-                    <div className="w-2/5 h-full bg-white dark:bg-[rgb(var(--secondary-bg))] border-l border-gray-200 dark:border-[rgb(var(--border-color))] shadow-none transition-colors duration-300 overflow-auto">
+                    <div className="w-2/5 h-full bg-cream dark:bg-[rgb(var(--secondary-bg))] border-l border-gray-200 dark:border-[rgb(var(--border-color))] shadow-none transition-colors duration-300 overflow-auto">
                         <AssistantComponent onEventAdded={handleCalendarRefresh} />
                     </div>
                 </div>
             )}
 
             {view === 'calendar' && (
-                <div className="h-[calc(100vh-64px)] bg-white dark:bg-[rgb(var(--background-rgb))] transition-colors duration-300 overflow-hidden">{/* subtract header */}
+                <div className="h-[calc(100vh-64px)] bg-cream dark:bg-[rgb(var(--background-rgb))] transition-colors duration-300 overflow-hidden">{/* subtract header */}
                     {/* CALENDAR ONLY - No assistant content should show here */}
                     <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={true} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
                 </div>
             )}
             {view === 'assistant' && (
-                <div className="h-screen bg-white dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
+                <div className="h-screen bg-cream dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
                     <AssistantComponent onEventAdded={handleCalendarRefresh} />
                 </div>
             )}
             {view === 'kairoll' && (
                 <div className="flex flex-col lg:flex-row lg:h-[calc(100vh-64px)]">{/* subtract header */}
                     {/* Course Selection Panel - Full screen on mobile, 35% on desktop */}
-                    <div className="w-full lg:w-[35%] lg:h-full bg-white dark:bg-[rgb(var(--secondary-bg))] text-black dark:text-[rgb(var(--text-primary))] transition-colors duration-300 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[rgb(var(--border-color))]">
+                    <div className="w-full lg:w-[35%] lg:h-full bg-cream dark:bg-[rgb(var(--secondary-bg))] text-black dark:text-[rgb(var(--text-primary))] transition-colors duration-300 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[rgb(var(--border-color))]">
                         <KairollComponent />
                     </div>
 
                     {/* Calendar Panel - Show on desktop, full-screen calendar view on mobile will be separate */}
-                    <div className="hidden lg:block w-full lg:w-[65%] lg:h-full bg-white dark:bg-[rgb(var(--background-rgb))] transition-colors duration-300 overflow-hidden">
+                    <div className="hidden lg:block w-full lg:w-[65%] lg:h-full bg-cream dark:bg-[rgb(var(--background-rgb))] transition-colors duration-300 overflow-hidden">
                         <CalendarComponent refreshKey={calendarRefreshKey} initialDate={getKairollInitialDate()} onEventAdded={handleCalendarRefresh} showDeleteButton={false} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
                     </div>
                 </div>
@@ -5850,7 +5850,7 @@ export default function ChatDashboard() {
             {/* Guest Mode Welcome Popup */}
             {showGuestPopup && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
-                    <div className="bg-white dark:bg-[#121212] rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center border border-gray-200/20 dark:border-white/10 animate-in slide-in-from-bottom-4 duration-300">
+                    <div className="bg-cream dark:bg-[#121212] rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center border border-gray-200/20 dark:border-white/10 animate-in slide-in-from-bottom-4 duration-300">
                         {/* Close button */}
                         <button
                             onClick={() => setShowGuestPopup(false)}

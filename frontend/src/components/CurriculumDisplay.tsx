@@ -251,7 +251,7 @@ const CurriculumDisplay: React.FC<CurriculumDisplayProps> = ({
     };
 
     return (
-        <div className="curriculum-display bg-white dark:bg-[#121212] rounded-xl border border-gray-200 dark:border-white/5 p-6 shadow-lg dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
+        <div className="curriculum-display bg-cream dark:bg-[#121212] rounded-xl border border-gray-200 dark:border-white/5 p-6 shadow-lg dark:shadow-[0_0_4px_rgba(255,255,255,0.05)]">
             {/* Header */}
             <div className="mb-6">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
