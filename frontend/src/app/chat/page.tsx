@@ -5529,22 +5529,22 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
 
 export default function ChatDashboard() {
     // Get initial view from URL parameter or default to calendar
-    const getInitialView = async (): Promise<'split' | 'calendar' | 'assistant' | 'kairoll'> => {
+    const getInitialView = async (): Promise<'split' | 'calendar' | 'kairoll'> => {
         if (typeof window !== 'undefined') {
             try {
                 const { getUserStorageItem } = await import('@/lib/userStorage');
                 const lastView = getUserStorageItem('lastView');
 
                 if (window.innerWidth < 1024) {
-                    // On mobile/tablet, only allow 'assistant' or 'kairoll'
-                    if (lastView === 'assistant' || lastView === 'kairoll') {
+                    // On mobile/tablet, only allow 'kairoll'
+                    if (lastView === 'kairoll') {
                         return lastView;
                     }
                     return 'kairoll'; // Default for mobile
                 }
                 // For desktop, allow any valid view
-                if (lastView && ['split', 'calendar', 'assistant', 'kairoll'].includes(lastView)) {
-                    return lastView as 'split' | 'calendar' | 'assistant' | 'kairoll';
+                if (lastView && ['split', 'calendar', 'kairoll'].includes(lastView)) {
+                    return lastView as 'split' | 'calendar' | 'kairoll';
                 }
             } catch (error) {
                 console.warn('Failed to get user-specific lastView:', error);
@@ -5561,7 +5561,7 @@ export default function ChatDashboard() {
         initializeView();
     }, []);
 
-    const handleSetView = async (newView: 'split' | 'calendar' | 'assistant' | 'kairoll') => {
+    const handleSetView = async (newView: 'split' | 'calendar' | 'kairoll') => {
         if (typeof window !== 'undefined') {
             // Prevent mobile users from switching to 'calendar' or 'split'
             if (window.innerWidth < 1024 && (newView === 'calendar' || newView === 'split')) {
@@ -5578,7 +5578,7 @@ export default function ChatDashboard() {
     };
 
     const [mounted, setMounted] = useState(false);
-    const [view, setView] = useState<'split' | 'calendar' | 'assistant' | 'kairoll'>('split');
+    const [view, setView] = useState<'split' | 'calendar' | 'kairoll'>('split');
     const [calendarRefreshKey, setCalendarRefreshKey] = useState(0); // Added state for refresh key
     const [showGuestPopup, setShowGuestPopup] = useState(false);
     const [user, setUser] = useState<any>(null);
@@ -5751,10 +5751,9 @@ export default function ChatDashboard() {
                     <div className="flex items-center gap-3">
                         <select
                             value={view}
-                            onChange={(e) => handleSetView(e.target.value as 'assistant' | 'kairoll')}
+                            onChange={(e) => handleSetView(e.target.value as 'kairoll')}
                             className="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm font-medium text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                            <option value="assistant">Assistant</option>
                             <option value="kairoll">Kairoll</option>
                         </select>
                         {mounted && !userLoading && (
@@ -5781,7 +5780,7 @@ export default function ChatDashboard() {
 
                     {/* Right side - Split, Calendar, Assistant, Kairoll, Social, Logout */}
                     <div className="flex items-center gap-6">
-                        {['split', 'calendar', 'assistant', 'kairoll'].map((tab) => (
+                        {['split', 'calendar', 'kairoll'].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setView(tab as typeof view)}
@@ -5810,13 +5809,13 @@ export default function ChatDashboard() {
             {/* Main Content */}
             {view === 'split' && (
                 <div className="hidden sm:flex sm:flex-row h-[calc(100vh-64px)]">{/* subtract desktop header ~64px */}
-                    {/* Calendar Panel - 60% width on desktop only */}
-                    <div className="w-3/5 h-full bg-cream dark:bg-[rgb(var(--background-rgb))] border-r border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 overflow-hidden">
+                    {/* Calendar Panel - 75% width on desktop only */}
+                    <div className="w-3/4 h-full bg-cream dark:bg-[rgb(var(--background-rgb))] border-r border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 overflow-hidden">
                         <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={false} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
                     </div>
 
-                    {/* Assistant Panel - 40% width on desktop only */}
-                    <div className="w-2/5 h-full bg-cream dark:bg-[rgb(var(--secondary-bg))] border-l border-gray-200 dark:border-[rgb(var(--border-color))] shadow-none transition-colors duration-300 overflow-auto">
+                    {/* Assistant Panel - 25% width on desktop only */}
+                    <div className="w-1/4 h-full bg-cream dark:bg-[rgb(var(--secondary-bg))] border-l border-gray-200 dark:border-[rgb(var(--border-color))] shadow-none transition-colors duration-300 overflow-auto">
                         <AssistantComponent onEventAdded={handleCalendarRefresh} />
                     </div>
                 </div>
@@ -5826,11 +5825,6 @@ export default function ChatDashboard() {
                 <div className="h-[calc(100vh-64px)] bg-cream dark:bg-[rgb(var(--background-rgb))] transition-colors duration-300 overflow-hidden">{/* subtract header */}
                     {/* CALENDAR ONLY - No assistant content should show here */}
                     <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={true} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
-                </div>
-            )}
-            {view === 'assistant' && (
-                <div className="h-screen bg-cream dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
-                    <AssistantComponent onEventAdded={handleCalendarRefresh} />
                 </div>
             )}
             {view === 'kairoll' && (
