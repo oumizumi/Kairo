@@ -4100,8 +4100,8 @@ class ScheduleGenerationView(APIView):
         for course_code in sorted(unique_courses):
             # Find the course title from sections
             course_title = None
-            for section in selected_sections:
-                if section['course_code'] == course_code:
+            for section in selected_sections_map.values():
+                if section and section.get('course_code') == course_code:
                     course_title = section.get('title', '')
                     break
             

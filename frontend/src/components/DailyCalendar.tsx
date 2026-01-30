@@ -1241,6 +1241,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     const [showAddEventModal, setShowAddEventModal] = useState(false);
     const [showDownloadModal, setShowDownloadModal] = useState(false);
     const [selectedTerm, setSelectedTerm] = useState<string>('All Terms');
+    const [clickedEventKey, setClickedEventKey] = useState<string | null>(null);
 
 
     const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
@@ -1776,24 +1777,10 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             const totalInGroup = sortedGroup.length;
 
             if (isDesktop) {
-                // Desktop: Side-by-side layout for overlapping events with special handling for Wed/Thu/Fri
+                // Desktop: Side-by-side layout for overlapping events
                 const eventWidth = Math.floor(100 / totalInGroup);
-                const isWednesday = dayIndex === 2;
-                const isThursday = dayIndex === 3;
-                const isFriday = dayIndex === 4;
-                if (isWednesday || isThursday) {
-                    // Wednesday & Thursday: Reduced right stretch by 2px
-                    leftOffset = `calc(${positionInGroup * eventWidth}% + 12px)`;
-                    widthCalc = `calc(${eventWidth}% - 3px)`;
-                } else if (isFriday) {
-                    // Friday: Keep full stretch
-                    leftOffset = `calc(${positionInGroup * eventWidth}% + 12px)`;
-                    widthCalc = `calc(${eventWidth}% - 1px)`;
-                } else {
-                    // Monday, Tuesday, Saturday, Sunday: Keep original positioning
-                    leftOffset = `calc(${positionInGroup * eventWidth}% + 5px)`;
-                    widthCalc = `calc(${eventWidth}% - 6px)`;
-                }
+                leftOffset = `calc(${positionInGroup * eventWidth}% + 4px)`;
+                widthCalc = `calc(${eventWidth}% - 8px)`;
                 zIndex = 10 + positionInGroup;
             } else {
                 // Mobile/Tablet: Stacked layout for overlapping events
@@ -1804,23 +1791,9 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
         } else {
             // No overlaps - different positioning for desktop vs mobile/tablet
             if (isDesktop) {
-                // Desktop: Special positioning for Wednesday, Thursday and Friday
-                const isWednesday = dayIndex === 2;
-                const isThursday = dayIndex === 3;
-                const isFriday = dayIndex === 4;
-                if (isWednesday || isThursday) {
-                    // Wednesday & Thursday: Reduced right stretch by 2px
-                    leftOffset = '12px';
-                    widthCalc = 'calc(100% - 3px)';
-                } else if (isFriday) {
-                    // Friday: Keep full stretch
-                    leftOffset = '12px';
-                    widthCalc = 'calc(100% - 1px)';
-                } else {
-                    // Monday, Tuesday, Saturday, Sunday: Keep original positioning
-                    leftOffset = '5px';
-                    widthCalc = 'calc(100% - 5px)';
-                }
+                // Desktop: consistent margins for all days
+                leftOffset = '4px';
+                widthCalc = 'calc(100% - 8px)';
             } else {
                 // Mobile/Tablet: Standard margins
                 leftOffset = isMobile ? '4px' : '3px';
@@ -2342,19 +2315,35 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     };
 
     // Mobile event details handlers
+    // Generate a unique key for an event based on its properties
+    const getEventKey = (event: Event): string => {
+        return `${event.title}-${event.startTime}-${event.endTime}-${event.day_of_week || event.start_date || ''}`;
+    };
+
     const handleMobileEventClick = (event: Event) => {
         // Don't allow editing in readOnly mode
         if (readOnly) {
             return;
         }
 
-        // On mobile, show event details first
-        if (window.innerWidth < 640) {
-            setMobileEventDetails(event);
-        } else {
-            // On desktop, directly edit
-            handleEditEvent(event);
-        }
+        // Set clicked event key for animation
+        const eventKey = getEventKey(event);
+        setClickedEventKey(eventKey);
+
+        // Use requestAnimationFrame to ensure the animation renders before opening modal
+        requestAnimationFrame(() => {
+            // Wait for animation to complete (250ms for a visible effect)
+            setTimeout(() => {
+                setClickedEventKey(null);
+                // On mobile, show event details first
+                if (window.innerWidth < 640) {
+                    setMobileEventDetails(event);
+                } else {
+                    // On desktop, directly edit
+                    handleEditEvent(event);
+                }
+            }, 250);
+        });
     };
 
     const handleCloseMobileEventDetails = () => {
@@ -4105,11 +4094,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                             return null;
                                         }
 
+                                        const eventKey = getEventKey(event);
+                                        const isClicked = clickedEventKey === eventKey;
+
                                         return (
                                             <div
                                                 key={eventIndex}
-                                                className={`absolute rounded-md pointer-events-auto transition-all duration-300 ${colorScheme.bg} backdrop-blur-md border ${colorScheme.border} shadow-sm dark:shadow-[0_0_4px_rgba(255,255,255,0.05)] z-30 ${readOnly ? 'cursor-default' : `cursor-pointer ${colorScheme.hover} hover:shadow-md dark:hover:shadow-[0_0_8px_rgba(255,255,255,0.1)]`
-                                                    }`}
+                                                className={`absolute rounded-md pointer-events-auto transition-all duration-150 ease-out ${colorScheme.bg} backdrop-blur-md border ${colorScheme.border} shadow-sm dark:shadow-[0_0_4px_rgba(255,255,255,0.05)] z-30 ${readOnly ? 'cursor-default' : `cursor-pointer ${colorScheme.hover} hover:shadow-md dark:hover:shadow-[0_0_8px_rgba(255,255,255,0.1)]`} ${isClicked ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}
                                                 style={{
                                                     top: position.top,
                                                     height: position.height,
@@ -4123,7 +4114,10 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                                     margin: '0',
                                                     boxSizing: 'border-box',
                                                     overflow: 'hidden',
-                                                    zIndex: position.zIndex
+                                                    zIndex: isClicked ? 100 : position.zIndex,
+                                                    transform: isClicked ? 'scale(0.9)' : 'scale(1)',
+                                                    opacity: isClicked ? 0.6 : 1,
+                                                    filter: isClicked ? 'brightness(1.1)' : 'none',
                                                 }}
                                                 ref={(el) => {
                                                     // Element reference for positioning
