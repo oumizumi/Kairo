@@ -101,7 +101,7 @@ function FeatureCarousel({ isOpen, onClose, onSignup, onLogin, isMobile }: Featu
             transition={{ duration: 0.3 }}
         >
             <motion.div
-                className="relative bg-white dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-xl shadow-xl w-full max-w-sm h-[480px] overflow-hidden border border-gray-200 dark:border-white/5"
+                className="relative bg-cream dark:bg-gradient-to-b dark:from-[#111111] dark:to-[#0f0f0f] rounded-xl shadow-xl w-full max-w-sm h-[480px] overflow-hidden border border-gray-200 dark:border-white/5"
                 initial={{ scale: 0.9, y: 50, opacity: 0 }}
                 animate={{ scale: 1, y: 0, opacity: 1 }}
                 exit={{ scale: 0.9, y: 50, opacity: 0 }}
@@ -239,7 +239,7 @@ function FeatureCarousel({ isOpen, onClose, onSignup, onLogin, isMobile }: Featu
                             key={index}
                             onClick={() => goToSlide(index)}
                             className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${currentSlide === index
-                                ? 'bg-black dark:bg-white scale-110 shadow-lg'
+                                ? 'bg-black dark:bg-cream scale-110 shadow-lg'
                                 : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}

@@ -128,7 +128,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto bg-white dark:bg-[#1a1a1a] border-2 border-gray-300 dark:border-gray-700 shadow-2xl [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-gray-200 dark:[&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-400 dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:hover:bg-gray-500 dark:[&::-webkit-scrollbar-thumb]:hover:bg-gray-500">
+            <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto bg-cream dark:bg-[#1a1a1a] border-2 border-gray-300 dark:border-gray-700 shadow-2xl [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-gray-200 dark:[&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-400 dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:hover:bg-gray-500 dark:[&::-webkit-scrollbar-thumb]:hover:bg-gray-500">
                 <DialogHeader className="space-y-2">
                     <DialogTitle>{isCreating ? 'Add New Event' : 'Edit Event'}</DialogTitle>
                     <DialogDescription className="text-xs text-gray-600 dark:text-gray-400">
@@ -152,7 +152,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                                 id="title" 
                                                 placeholder="Event title" 
                                                 data-invalid={fieldState.invalid}
-                                                className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600"
+                                                className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -171,7 +171,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                             <Input 
                                                 id="professor" 
                                                 placeholder="Professor name" 
-                                                className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600"
+                                                className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -190,10 +190,10 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                         <FormLabel>Event Type</FormLabel>
                                         <FormControl>
                                             <Select value={field.value} onValueChange={field.onChange}>
-                                                <SelectTrigger className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
+                                                <SelectTrigger className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                                                     <SelectValue placeholder="Select event type" />
                                                 </SelectTrigger>
-                                                <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
+                                                <SelectContent className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                                                     <SelectItem value="recurring">Weekly</SelectItem>
                                                     <SelectItem value="biweekly">Bi-weekly</SelectItem>
                                                     <SelectItem value="specific">One-Time</SelectItem>
@@ -226,7 +226,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                             <FormLabel>Color</FormLabel>
                                             <FormControl>
                                                 <Select value={field.value} onValueChange={field.onChange}>
-                                                    <SelectTrigger data-invalid={fieldState.invalid} className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
+                                                    <SelectTrigger data-invalid={fieldState.invalid} className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                                                         <SelectValue placeholder="Select a color">
                                                             {selectedTheme && (
                                                                 <div className="flex items-center gap-2">
@@ -237,7 +237,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                                         </SelectValue>
                                                     </SelectTrigger>
 
-                                                    <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
+                                                    <SelectContent className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                                                         {primaryColors.map((colorKey) => {
                                                             const theme = EVENT_THEMES[colorKey as keyof typeof EVENT_THEMES];
                                                             return (
@@ -269,10 +269,10 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                         <FormLabel>Day of Week</FormLabel>
                                         <FormControl>
                                             <Select value={field.value} onValueChange={field.onChange}>
-                                                <SelectTrigger className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
+                                                <SelectTrigger className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                                                     <SelectValue placeholder="Select a day" />
                                                 </SelectTrigger>
-                                                <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
+                                                <SelectContent className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                                                     {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
                                                         <SelectItem key={day} value={day}>{day}</SelectItem>
                                                     ))}
@@ -359,7 +359,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
                                         <Textarea 
                                             placeholder="Add event description"
                                             rows={2}
-                                            className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 text-sm"
+                                            className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 text-sm"
                                             {...field}
                                         />
                                     </FormControl>
@@ -372,7 +372,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
 
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button type="button" variant="outline" className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-[#333333]">
+                        <Button type="button" variant="outline" className="bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-[#333333]">
                             Cancel
                         </Button>
                     </DialogClose>

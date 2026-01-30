@@ -65,7 +65,7 @@ export default function ResetPasswordConfirmPage({ params }: PageProps): React.J
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
+        <div className="min-h-screen flex flex-col bg-cream dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
             {/* Logo with proper anchoring */}
             <div className="absolute top-6 left-8 z-10">
                 <Link 
@@ -108,7 +108,7 @@ export default function ResetPasswordConfirmPage({ params }: PageProps): React.J
                                             id="newPassword"
                                             type={showPassword ? 'text' : 'password'}
                                             placeholder="Enter new password"
-                                            className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
+                                            className="rounded border border-gray-300 dark:border-[#333] bg-cream dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
                                             required
@@ -143,7 +143,7 @@ export default function ResetPasswordConfirmPage({ params }: PageProps): React.J
                                             id="confirmPassword"
                                             type={showConfirmPassword ? 'text' : 'password'}
                                             placeholder="Confirm new password"
-                                            className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
+                                            className="rounded border border-gray-300 dark:border-[#333] bg-cream dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 pr-10 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316] w-full transition-all duration-200"
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)}
                                             required

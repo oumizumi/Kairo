@@ -108,7 +108,7 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
             {/* Dropdown Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full bg-white dark:bg-[#1e1e1e] border border-gray-300 dark:border-white/5 rounded px-3 py-2 text-black dark:text-[#e0e0e0] text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300 text-left flex items-center justify-between"
+                className="w-full bg-cream dark:bg-[#1e1e1e] border border-gray-300 dark:border-white/5 rounded px-3 py-2 text-black dark:text-[#e0e0e0] text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300 text-left flex items-center justify-between"
             >
                 <span className={selectedSections.length === 0 ? "text-gray-500 dark:text-gray-400" : ""}>
                     {displayText}
@@ -120,7 +120,7 @@ function MultiSelectSectionDropdown({ course, onSelectionChange }: MultiSelectSe
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-lg max-h-64 overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-cream dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-lg max-h-64 overflow-y-auto">
                     {sectionOptions.map((option) => (
                         <div
                             key={option.value}

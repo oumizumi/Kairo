@@ -1394,7 +1394,7 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
     // RENDER - Welcome screen
     if (!hasStartedConversation && !isLoadingHistory) {
         return (
-            <div className="font-mono h-full w-full flex flex-col items-center justify-center p-4 sm:p-6 bg-white dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
+            <div className="font-mono h-full w-full flex flex-col items-center justify-center p-4 sm:p-6 bg-cream dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
                 <div className="flex flex-col items-center justify-center flex-1 max-w-2xl w-full">
                     <div className="mb-6 sm:mb-8 text-center px-4">
                         <h2 className="text-gray-900 dark:text-neutral-300 text-lg sm:text-xl font-medium transition-colors duration-300">
@@ -1407,7 +1407,7 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
 
                     <div className="w-full max-w-3xl px-4">
                         <form onSubmit={sendMessage} className="w-full">
-                            <div className="bg-white dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
+                            <div className="bg-cream dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
                                 <div className="p-4 pb-0">
                                     <div className="flex-1 relative">
                                         <textarea
@@ -1478,7 +1478,7 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
 
     // RENDER - Main chat interface
     return (
-        <div className="font-mono h-full w-full flex flex-col p-4 sm:p-6 bg-white dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
+        <div className="font-mono h-full w-full flex flex-col p-4 sm:p-6 bg-cream dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
             {/* Header */}
             <div className="mb-4 sm:mb-6 flex justify-between items-center">
                 <div className="flex items-center gap-2 sm:gap-3">
@@ -1635,7 +1635,7 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 <div className={`${message.role === 'user' ? 'ml-auto' : 'mr-auto'} max-w-[90%] sm:max-w-[70%]`}>
                                     <div
                                         className={`${message.role === 'user'
-                                            ? 'bg-gray-100 dark:bg-white/10 rounded-lg p-2 text-gray-900 dark:text-white mb-2 transition-colors duration-300'
+                                            ? 'bg-gray-100 dark:bg-cream/10 rounded-lg p-2 text-gray-900 dark:text-white mb-2 transition-colors duration-300'
                                             : 'bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-900 dark:text-neutral-300 p-3 rounded-lg transition-colors duration-300'
                                             }`}
                                     >
@@ -1716,7 +1716,7 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
             {/* Input Form */}
             <div className="w-full">
                 <form onSubmit={sendMessage} className="w-full">
-                    <div className="bg-white dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
+                    <div className="bg-cream dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
                         <div className="p-4 pb-0">
                             <div className="flex-1 relative">
                                 <textarea

@@ -80,7 +80,7 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-3 w-72 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border border-gray-200/60 dark:border-gray-600/60 rounded-2xl shadow-xl z-50 overflow-hidden animate-in slide-in-from-top-2 duration-200">
+        <div className="absolute right-0 mt-3 w-72 bg-cream/95 dark:bg-gray-800/95 backdrop-blur-xl border border-gray-200/60 dark:border-gray-600/60 rounded-2xl shadow-xl z-50 overflow-hidden animate-in slide-in-from-top-2 duration-200">
           {/* User Info Header */}
           {!isGuest && user && (
             <div className="px-4 py-5 border-b border-gray-100/80 dark:border-gray-700/80 relative overflow-hidden">
@@ -104,7 +104,7 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({
                   const mode = APP_CONFIG.UI.PROFILE_MODES.find(m => m.key === modeKey);
                   if (!modeKey || !mode) return null;
                   return (
-                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/70 dark:bg-gray-900/60 px-2.5 py-1 text-xs font-medium text-pink-600 dark:text-pink-300 ring-1 ring-pink-200/70 dark:ring-pink-800/40">
+                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-cream/70 dark:bg-gray-900/60 px-2.5 py-1 text-xs font-medium text-pink-600 dark:text-pink-300 ring-1 ring-pink-200/70 dark:ring-pink-800/40">
                       <span>{mode.emoji}</span>
                       <span>{mode.label}</span>
                     </div>

@@ -157,7 +157,7 @@ export const InteractiveCoursesBadge: React.FC<InteractiveCoursesBadgeProps> = (
 
             {isOpen && (
                 <div
-                    className="absolute left-0 mt-2 w-56 rounded-xl border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-2 shadow-lg z-50"
+                    className="absolute left-0 mt-2 w-56 rounded-xl border border-gray-200 dark:border-neutral-800 bg-cream dark:bg-neutral-900 p-2 shadow-lg z-50"
                     onMouseLeave={() => setIsOpen(false)}
                 >
                     {rows.length > 0 ? (

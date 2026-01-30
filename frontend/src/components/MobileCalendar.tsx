@@ -378,7 +378,7 @@ const MobileCalendar: React.FC<MobileCalendarProps> = ({
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="bg-cream dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
             {/* Header */}
             <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-600 to-purple-600">
                 <div className="flex items-center justify-between mb-2">
@@ -390,7 +390,7 @@ const MobileCalendar: React.FC<MobileCalendarProps> = ({
                     </div>
                     <button
                         onClick={goToToday}
-                        className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white rounded-lg text-sm transition-colors"
+                        className="px-3 py-1 bg-cream/20 hover:bg-cream/30 text-white rounded-lg text-sm transition-colors"
                     >
                         Today
                     </button>
@@ -400,7 +400,7 @@ const MobileCalendar: React.FC<MobileCalendarProps> = ({
                 <div className="flex items-center justify-between">
                     <button
                         onClick={goToPreviousWeek}
-                        className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+                        className="p-1 hover:bg-cream/20 rounded-lg transition-colors"
                     >
                         <ChevronLeft className="w-5 h-5 text-white" />
                     </button>
@@ -411,7 +411,7 @@ const MobileCalendar: React.FC<MobileCalendarProps> = ({
 
                     <button
                         onClick={goToNextWeek}
-                        className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+                        className="p-1 hover:bg-cream/20 rounded-lg transition-colors"
                     >
                         <ChevronRight className="w-5 h-5 text-white" />
                     </button>

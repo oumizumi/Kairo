@@ -31,7 +31,7 @@ export default function Navbar() {
                 ? 'shadow-lg shadow-black/10 dark:shadow-black/30' 
                 : ''
         }`}>
-            <div className="bg-white/70 dark:bg-[rgb(var(--background-rgb))]/70 backdrop-blur-md">
+            <div className="bg-cream/70 dark:bg-[rgb(var(--background-rgb))]/70 backdrop-blur-md">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
                     <div className="flex justify-between items-center">
                         {/* Logo */}

@@ -124,7 +124,7 @@ function Row({ items, chipClassName, valueClassName, labelClassName, rowClassNam
 
 function StatChip({ stat, chipClassName, valueClassName, labelClassName }: { stat: Stat; chipClassName?: string; valueClassName?: string; labelClassName?: string; }) {
   return (
-    <div className={chipClassName ?? "flex shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-4 backdrop-blur text-center"}>
+    <div className={chipClassName ?? "flex shrink-0 items-center justify-center rounded-xl border border-white/10 bg-cream/5 px-6 py-4 backdrop-blur text-center"}>
       <div className="leading-tight flex flex-col items-center gap-2">
         <div className={valueClassName ?? "text-lg font-semibold text-black dark:text-white"}>{stat.value}</div>
         <div className={labelClassName ?? "text-xs text-gray-600 dark:text-white/60"}>{stat.label}</div>

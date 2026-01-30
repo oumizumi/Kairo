@@ -18,7 +18,7 @@ const CourseSequenceDisplay: React.FC<CourseSequenceDisplayProps> = ({
   const capitalizedTerm = term.charAt(0).toUpperCase() + term.slice(1);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 my-4">
+    <div className="bg-cream dark:bg-gray-800 rounded-lg shadow-md p-6 my-4">
       <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
         {programName} - Year {year} - {capitalizedTerm} Term
       </h2>

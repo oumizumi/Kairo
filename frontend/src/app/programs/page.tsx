@@ -39,7 +39,7 @@ export default function ProgramsIndexPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#121212] flex items-center justify-center">
+      <div className="min-h-screen bg-cream dark:bg-[#121212] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-[#aaaaaa]">Loading programs...</p>
@@ -50,14 +50,14 @@ export default function ProgramsIndexPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#121212] flex items-center justify-center">
+      <div className="min-h-screen bg-cream dark:bg-[#121212] flex items-center justify-center">
         <p className="text-red-600 dark:text-red-400">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#121212]">
+    <div className="min-h-screen bg-cream dark:bg-[#121212]">
       <div className="max-w-6xl mx-auto p-4 sm:p-6">
         <div className="mb-6">
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Programs</h1>
@@ -68,7 +68,7 @@ export default function ProgramsIndexPage() {
               placeholder="Search by program name, faculty, degree, or code"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full sm:w-96 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#1b1b1b] text-gray-900 dark:text-gray-100 focus:outline-none"
+              className="w-full sm:w-96 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-cream dark:bg-[#1b1b1b] text-gray-900 dark:text-gray-100 focus:outline-none"
             />
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function ProgramsIndexPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map(p => (
             <Link key={p.id} href={`/programs/${p.id}`} className="block group">
-              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-blue-500 transition-colors bg-white dark:bg-[#1b1b1b]">
+              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-blue-500 transition-colors bg-cream dark:bg-[#1b1b1b]">
                 <div className="text-sm text-gray-500 dark:text-gray-400">{p.faculty} • {p.degree}</div>
                 <div className="mt-1 font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600">
                   {p.name}

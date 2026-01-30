@@ -474,14 +474,14 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
 
     if (!isClient) {
         return (
-            <div className="h-full w-full bg-white dark:bg-[#121212] transition-colors duration-300 flex items-center justify-center">
+            <div className="h-full w-full bg-cream dark:bg-[#121212] transition-colors duration-300 flex items-center justify-center">
                 <div className="text-gray-500">Loading calendar...</div>
             </div>
         );
     }
 
     return (
-        <div className="h-full w-full bg-white dark:bg-[#121212] transition-colors duration-300 flex flex-col">
+        <div className="h-full w-full bg-cream dark:bg-[#121212] transition-colors duration-300 flex flex-col">
             {isLargeScreen && (
                 <WeeklyCalendar
                     date={currentDate}

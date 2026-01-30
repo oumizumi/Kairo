@@ -1,5 +1,5 @@
 // Updated DailyCalendar with improved UI - Dec 19 2025
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { format, addWeeks, subWeeks, parseISO, startOfWeek, addDays } from 'date-fns';
 import { ChevronLeft, ChevronRight, Trash2, Calendar, Edit3, X, Sparkles, Plus, Palette, Download, Share2, Clipboard } from 'lucide-react';
 import { APP_CONFIG } from '@/config/app.config';
@@ -683,7 +683,7 @@ const SwapCourseModal: React.FC<SwapCourseModalProps> = ({ event, isOpen, onClos
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-            <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg max-h-[70vh] border border-gray-200 dark:border-gray-700 flex flex-col">
+            <div className="relative bg-cream dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg max-h-[70vh] border border-gray-200 dark:border-gray-700 flex flex-col">
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
                     <h2 className="text-lg font-bold text-gray-900 dark:text-white">
@@ -789,7 +789,7 @@ const SwapCourseModal: React.FC<SwapCourseModalProps> = ({ event, isOpen, onClos
                                                                     }`}>
                                                                     {selectedAlternative === alt && (
                                                                         <div className="w-full h-full flex items-center justify-center">
-                                                                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                                                                            <div className="w-2 h-2 bg-cream rounded-full"></div>
                                                                         </div>
                                                                     )}
                                                                 </div>
@@ -1096,7 +1096,7 @@ const MobileEventDetailsModal: React.FC<MobileEventDetailsModalProps> = ({ event
 
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 lg:hidden">
-            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm mx-4 overflow-hidden">
+            <div className="bg-cream dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm mx-4 overflow-hidden">
                 {/* Header with gradient background */}
                 <div className={`p-6 text-white relative overflow-hidden`} style={{
                     background: 'rgba(255, 255, 255, 0.6)',
@@ -1112,7 +1112,7 @@ const MobileEventDetailsModal: React.FC<MobileEventDetailsModalProps> = ({ event
                             })()}
                         </p>
                     </div>
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-cream/10 rounded-full -translate-y-16 translate-x-16"></div>
                 </div>
 
                 {/* Event Details */}
@@ -1276,6 +1276,9 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     // Backend events state
     const [backendEvents, setBackendEvents] = useState<Event[]>([]);
 
+    // Weekdays only toggle
+    const [showWeekdaysOnly, setShowWeekdaysOnly] = useState(false);
+
     // Combine passed events with backend events (avoiding duplicates)
     const allEvents = useMemo(() => {
         // Only use backend events when explicitly requested
@@ -1309,8 +1312,26 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     const currentDate = parseISO(date);
     const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 }); // Monday = 1
 
-    // Generate the 7 days of the week
-    const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+    // Generate the days of the week (7 days or 5 weekdays only)
+    const weekDays = useMemo(() => {
+        const allDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+        if (showWeekdaysOnly) {
+            // Filter out Saturday (index 5) and Sunday (index 6)
+            return allDays.filter((_, index) => index < 5);
+        }
+        return allDays;
+    }, [weekStart, showWeekdaysOnly]);
+
+    // Get grid template columns based on screen width and weekdays-only mode
+    const getResponsiveGridColumns = useCallback((width: number) => {
+        const baseColumns = getGridTemplateColumns(width);
+        if (showWeekdaysOnly && width >= 640) {
+            // For weekdays only on desktop, use 5 columns instead of 7
+            const config = getGridConfig(width);
+            return `${config.timeColumnWidth}px repeat(5, 1fr)`;
+        }
+        return baseColumns;
+    }, [showWeekdaysOnly]);
 
     // Track screen width for responsive positioning with debouncing
     useEffect(() => {
@@ -1414,25 +1435,25 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 navBg: 'bg-[rgb(var(--secondary-bg))]',
                 navBorder: 'border-[rgb(var(--border-color))]',
                 navText: 'text-[rgb(var(--text-primary))]',
-                navButtonBg: 'bg-white/5 hover:bg-white/10 transition-colors duration-300',
+                navButtonBg: 'bg-cream/5 hover:bg-cream/10 transition-colors duration-300',
                 navButtonText: 'text-[rgb(var(--text-primary))]'
             };
         } else {
             return {
                 // Light mode (white theme)
-                containerBg: 'bg-white',
+                containerBg: 'bg-cream',
                 containerBorder: 'border-gray-300',
-                headerBg: 'bg-white',
+                headerBg: 'bg-cream',
                 headerText: 'text-gray-900',
-                timeSlotBg: 'bg-white',
+                timeSlotBg: 'bg-cream',
                 timeSlotBorder: 'border-gray-300',
                 timeLabelBg: 'bg-gray-100',
                 timeLabelText: 'text-gray-900',
-                dayHeaderBg: 'bg-white',
+                dayHeaderBg: 'bg-cream',
                 dayHeaderText: 'text-gray-900',
                 dayHeaderSubtext: 'text-gray-600',
                 // Navigation theme styles
-                navBg: 'bg-white',
+                navBg: 'bg-cream',
                 navBorder: 'border-gray-200',
                 navText: 'text-gray-900',
                 navButtonBg: 'bg-gray-100 hover:bg-gray-200',
@@ -2799,6 +2820,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             display: flex;
             align-items: stretch;
             background: rgb(var(--background-rgb));
+            overflow: hidden;
         }
 
         .dark .day-column {
@@ -2993,8 +3015,9 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 flex: 1;
                 position: relative;
                 border-right: 1px solid transparent;
-            height: 80px;
-            background: rgb(var(--card-bg));
+                height: 80px;
+                background: rgb(var(--card-bg));
+                overflow: hidden;
             }
 
             .dark .day-column {
@@ -3585,7 +3608,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         {/* Date Range Display */}
                         <div>
                             <span className={`${themeStyles.navText} font-semibold text-sm`}>
-                                {format(weekStart, 'MMM d')}–{format(addDays(weekStart, 6), 'd')},
+                                {format(weekStart, 'MMM d')}–{format(addDays(weekStart, showWeekdaysOnly ? 4 : 6), 'd')},
                             </span>
                             <span className="text-gray-400 dark:text-gray-500 font-semibold text-sm ml-1">
                                 {format(weekStart, 'yyyy')}
@@ -3614,7 +3637,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         {onDateChange && (
                             <button
                                 onClick={goToToday}
-                                className="px-2 py-1 bg-transparent border border-gray-300/50 dark:border-white/8 rounded-md text-gray-600 dark:text-[#aaaaaa] text-xs font-medium hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-800 dark:hover:text-white hover:border-gray-400/60 dark:hover:border-white/15 transition-all duration-300"
+                                className="px-2 py-1 bg-transparent border border-gray-300/50 dark:border-white/8 rounded-md text-gray-600 dark:text-[#aaaaaa] text-xs font-medium hover:bg-gray-100 dark:hover:bg-cream/5 hover:text-gray-800 dark:hover:text-white hover:border-gray-400/60 dark:hover:border-white/15 transition-all duration-300"
                                 title="Go to current week"
                             >
                                 Today
@@ -3628,7 +3651,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     {!readOnly && hasScheduleContent(allEvents) && (
                         <button
                             onClick={handleShareSchedule}
-                            className="group px-2 py-1 bg-transparent border border-[#4a90e2]/20 dark:border-[#4a90e2]/20 rounded-md text-[#4a90e2] dark:text-[#4a90e2] text-xs font-medium hover:bg-[#4a90e2]/10 dark:hover:bg-white/5 hover:text-[#3a7bc8] dark:hover:text-white hover:border-[#4a90e2]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
+                            className="group px-2 py-1 bg-transparent border border-[#4a90e2]/20 dark:border-[#4a90e2]/20 rounded-md text-[#4a90e2] dark:text-[#4a90e2] text-xs font-medium hover:bg-[#4a90e2]/10 dark:hover:bg-cream/5 hover:text-[#3a7bc8] dark:hover:text-white hover:border-[#4a90e2]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
                             title="Share schedule"
                         >
                             <Share2 className="w-3 h-3 text-[#4a90e2] group-hover:text-blue-400 transition-colors duration-300" />
@@ -3638,7 +3661,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     {hasEventsToExport(allEvents) && (
                         <button
                             onClick={handleExportCalendar}
-                            className="group px-2 py-1 bg-transparent border border-[#4caf81]/20 dark:border-[#4caf81]/20 rounded-md text-[#4caf81] dark:text-[#4caf81] text-xs font-medium hover:bg-[#4caf81]/10 dark:hover:bg-white/5 hover:text-[#3d8b5c] dark:hover:text-white hover:border-[#4caf81]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
+                            className="group px-2 py-1 bg-transparent border border-[#4caf81]/20 dark:border-[#4caf81]/20 rounded-md text-[#4caf81] dark:text-[#4caf81] text-xs font-medium hover:bg-[#4caf81]/10 dark:hover:bg-cream/5 hover:text-[#3d8b5c] dark:hover:text-white hover:border-[#4caf81]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
                             title="Export calendar as .ics file"
                         >
                             <Download className="w-3 h-3 text-[#4caf81] group-hover:text-green-400 transition-colors duration-300" />
@@ -3648,7 +3671,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     {!readOnly && hasEventsToExport(allEvents) && (
                         <button
                             onClick={handleDeleteEvents}
-                            className="group px-2 py-1 bg-transparent border border-[#cc4444]/20 dark:border-[#cc4444]/20 rounded-md text-[#cc4444] dark:text-[#cc4444] text-xs font-medium hover:bg-[#cc4444]/10 dark:hover:bg-white/5 hover:text-[#a53333] dark:hover:text-white hover:border-[#cc4444]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
+                            className="group px-2 py-1 bg-transparent border border-[#cc4444]/20 dark:border-[#cc4444]/20 rounded-md text-[#cc4444] dark:text-[#cc4444] text-xs font-medium hover:bg-[#cc4444]/10 dark:hover:bg-cream/5 hover:text-[#a53333] dark:hover:text-white hover:border-[#cc4444]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
                             title="Delete events"
                         >
                             <svg className="w-3 h-3 text-[#cc4444] group-hover:text-red-400 transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
@@ -3662,11 +3685,18 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     )}
                     <button
                         onClick={handleOpenPasteModal}
-                        className="group px-2 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-xs font-medium hover:bg-[#a973d3]/10 dark:hover:bg-white/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
+                        className="group px-2 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-xs font-medium hover:bg-[#a973d3]/10 dark:hover:bg-cream/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
                         title="Paste shared schedule link"
                     >
                         <Clipboard className="w-3 h-3 text-[#a973d3] group-hover:text-purple-400 transition-colors duration-300" />
                         Paste
+                    </button>
+                    <button
+                        onClick={() => setShowWeekdaysOnly(!showWeekdaysOnly)}
+                        className="group px-2 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-xs font-medium hover:bg-[#a973d3]/10 dark:hover:bg-cream/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1"
+                        title={showWeekdaysOnly ? "Click to show weekends" : "Click to show weekdays only"}
+                    >
+                        {showWeekdaysOnly ? 'Weekdays' : 'Weekends'}
                     </button>
                 </div>
             </div>
@@ -3681,7 +3711,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         {/* Date Range */}
                         <div>
                             <span className={`${themeStyles.navText} font-semibold text-lg`}>
-                                {format(weekStart, 'MMM d')}–{format(addDays(weekStart, 6), 'd')},
+                                {format(weekStart, 'MMM d')}–{format(addDays(weekStart, showWeekdaysOnly ? 4 : 6), 'd')},
                             </span>
                             <span className="text-gray-400 dark:text-gray-500 font-semibold text-lg ml-1">
                                 {format(weekStart, 'yyyy')}
@@ -3710,7 +3740,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         {onDateChange && (
                             <button
                                 onClick={goToToday}
-                                className="px-3 py-1 bg-transparent border border-gray-300/50 dark:border-white/8 rounded-md text-gray-600 dark:text-[#aaaaaa] text-sm font-medium hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-800 dark:hover:text-white hover:border-gray-400/60 dark:hover:border-white/15 transition-all duration-300"
+                                className="px-3 py-1 bg-transparent border border-gray-300/50 dark:border-white/8 rounded-md text-gray-600 dark:text-[#aaaaaa] text-sm font-medium hover:bg-gray-100 dark:hover:bg-cream/5 hover:text-gray-800 dark:hover:text-white hover:border-gray-400/60 dark:hover:border-white/15 transition-all duration-300"
                                 title="Go to current week"
                             >
                                 Today
@@ -3721,7 +3751,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     {/* Center: Course and Conflicts Badges - Only show in Kairoll view */}
                     {isKairollView && (
                         <div className="flex items-center gap-3">
-                            <TermFilterBadge 
+                            <TermFilterBadge
                                 events={allEvents}
                                 selectedTerm={selectedTerm}
                                 onTermChange={setSelectedTerm}
@@ -3741,7 +3771,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         {!readOnly && hasScheduleContent(allEvents) && (
                             <button
                                 onClick={handleShareSchedule}
-                                className="group px-3 py-1 bg-transparent border border-[#4a90e2]/20 dark:border-[#4a90e2]/20 rounded-md text-[#4a90e2] dark:text-[#4a90e2] text-sm font-medium hover:bg-[#4a90e2]/10 dark:hover:bg-white/5 hover:text-[#3a7bc8] dark:hover:text-white hover:border-[#4a90e2]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                                className="group px-3 py-1 bg-transparent border border-[#4a90e2]/20 dark:border-[#4a90e2]/20 rounded-md text-[#4a90e2] dark:text-[#4a90e2] text-sm font-medium hover:bg-[#4a90e2]/10 dark:hover:bg-cream/5 hover:text-[#3a7bc8] dark:hover:text-white hover:border-[#4a90e2]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
                                 title="Share schedule"
                             >
                                 <Share2 className="w-3.5 h-3.5 text-[#4a90e2] group-hover:text-blue-400 transition-colors duration-300" />
@@ -3751,7 +3781,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         {hasEventsToExport(allEvents) && (
                             <button
                                 onClick={handleExportCalendar}
-                                className="group px-3 py-1 bg-transparent border border-[#4caf81]/20 dark:border-[#4caf81]/20 rounded-md text-[#4caf81] dark:text-[#4caf81] text-sm font-medium hover:bg-[#4caf81]/10 dark:hover:bg-white/5 hover:text-[#3d8b5c] dark:hover:text-white hover:border-[#4caf81]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                                className="group px-3 py-1 bg-transparent border border-[#4caf81]/20 dark:border-[#4caf81]/20 rounded-md text-[#4caf81] dark:text-[#4caf81] text-sm font-medium hover:bg-[#4caf81]/10 dark:hover:bg-cream/5 hover:text-[#3d8b5c] dark:hover:text-white hover:border-[#4caf81]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
                                 title="Export calendar as .ics file"
                             >
                                 <Download className="w-3.5 h-3.5 text-[#4caf81] group-hover:text-green-400 transition-colors duration-300" />
@@ -3761,7 +3791,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         {!readOnly && hasEventsToExport(allEvents) && (
                             <button
                                 onClick={handleDeleteEvents}
-                                className="group px-3 py-1 bg-transparent border border-[#cc4444]/20 dark:border-[#cc4444]/20 rounded-md text-[#cc4444] dark:text-[#cc4444] text-sm font-medium hover:bg-[#cc4444]/10 dark:hover:bg-white/5 hover:text-[#a53333] dark:hover:text-white hover:border-[#cc4444]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                                className="group px-3 py-1 bg-transparent border border-[#cc4444]/20 dark:border-[#cc4444]/20 rounded-md text-[#cc4444] dark:text-[#cc4444] text-sm font-medium hover:bg-[#cc4444]/10 dark:hover:bg-cream/5 hover:text-[#a53333] dark:hover:text-white hover:border-[#cc4444]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
                                 title="Delete events"
                             >
                                 <svg className="w-3.5 h-3.5 text-[#cc4444] group-hover:text-red-400 transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
@@ -3775,11 +3805,18 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                         )}
                         <button
                             onClick={handleOpenPasteModal}
-                            className="group px-3 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-sm font-medium hover:bg-[#a973d3]/10 dark:hover:bg-white/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                            className="group px-3 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-sm font-medium hover:bg-[#a973d3]/10 dark:hover:bg-cream/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
                             title="Paste shared schedule link"
                         >
                             <Clipboard className="w-3.5 h-3.5 text-[#a973d3] group-hover:text-purple-400 transition-colors duration-300" />
                             Paste
+                        </button>
+                        <button
+                            onClick={() => setShowWeekdaysOnly(!showWeekdaysOnly)}
+                            className="group px-3 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-sm font-medium hover:bg-[#a973d3]/10 dark:hover:bg-cream/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                            title={showWeekdaysOnly ? "Click to show weekends" : "Click to show weekdays only"}
+                        >
+                            {showWeekdaysOnly ? 'Weekdays' : 'Weekends'}
                         </button>
                     </div>
                 </div>
@@ -3790,7 +3827,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     {isKairollView && (
                         <div className="flex flex-wrap items-center justify-center gap-3">
                             <div className="flex items-center gap-3">
-                                <TermFilterBadge 
+                                <TermFilterBadge
                                     events={allEvents}
                                     selectedTerm={selectedTerm}
                                     onTermChange={setSelectedTerm}
@@ -3813,7 +3850,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             {/* Date Range */}
                             <div>
                                 <span className={`${themeStyles.navText} font-semibold`}>
-                                    {format(weekStart, 'MMM d')}–{format(addDays(weekStart, 6), 'd')},
+                                    {format(weekStart, 'MMM d')}–{format(addDays(weekStart, showWeekdaysOnly ? 4 : 6), 'd')},
                                 </span>
                                 <span className="text-gray-400 dark:text-gray-500 font-semibold ml-1">
                                     {format(weekStart, 'yyyy')}
@@ -3842,7 +3879,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             {onDateChange && (
                                 <button
                                     onClick={goToToday}
-                                    className="px-3 py-1 bg-transparent border border-gray-300/50 dark:border-white/8 rounded-md text-gray-600 dark:text-[#aaaaaa] text-sm font-medium hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-800 dark:hover:text-white hover:border-gray-400/60 dark:hover:border-white/15 transition-all duration-300"
+                                    className="px-3 py-1 bg-transparent border border-gray-300/50 dark:border-white/8 rounded-md text-gray-600 dark:text-[#aaaaaa] text-sm font-medium hover:bg-gray-100 dark:hover:bg-cream/5 hover:text-gray-800 dark:hover:text-white hover:border-gray-400/60 dark:hover:border-white/15 transition-all duration-300"
                                     title="Go to current week"
                                 >
                                     Today
@@ -3855,7 +3892,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             {!readOnly && hasScheduleContent(allEvents) && (
                                 <button
                                     onClick={handleShareSchedule}
-                                    className="group px-3 py-1 bg-transparent border border-[#4a90e2]/20 dark:border-[#4a90e2]/20 rounded-md text-[#4a90e2] dark:text-[#4a90e2] text-sm font-medium hover:bg-[#4a90e2]/10 dark:hover:bg-white/5 hover:text-[#3a7bc8] dark:hover:text-white hover:border-[#4a90e2]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                                    className="group px-3 py-1 bg-transparent border border-[#4a90e2]/20 dark:border-[#4a90e2]/20 rounded-md text-[#4a90e2] dark:text-[#4a90e2] text-sm font-medium hover:bg-[#4a90e2]/10 dark:hover:bg-cream/5 hover:text-[#3a7bc8] dark:hover:text-white hover:border-[#4a90e2]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
                                     title="Share schedule"
                                 >
                                     <Share2 className="w-3.5 h-3.5 text-[#4a90e2] group-hover:text-blue-400 transition-colors duration-300" />
@@ -3865,7 +3902,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             {hasEventsToExport(allEvents) && (
                                 <button
                                     onClick={handleExportCalendar}
-                                    className="group px-3 py-1 bg-transparent border border-[#4caf81]/20 dark:border-[#4caf81]/20 rounded-md text-[#4caf81] dark:text-[#4caf81] text-sm font-medium hover:bg-[#4caf81]/10 dark:hover:bg-white/5 hover:text-[#3d8b5c] dark:hover:text-white hover:border-[#4caf81]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                                    className="group px-3 py-1 bg-transparent border border-[#4caf81]/20 dark:border-[#4caf81]/20 rounded-md text-[#4caf81] dark:text-[#4caf81] text-sm font-medium hover:bg-[#4caf81]/10 dark:hover:bg-cream/5 hover:text-[#3d8b5c] dark:hover:text-white hover:border-[#4caf81]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
                                     title="Export calendar as .ics file"
                                 >
                                     <Download className="w-3.5 h-3.5 text-[#4caf81] group-hover:text-green-400 transition-colors duration-300" />
@@ -3875,7 +3912,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             {!readOnly && hasEventsToExport(allEvents) && (
                                 <button
                                     onClick={handleDeleteEvents}
-                                    className="group px-3 py-1 bg-transparent border border-[#cc4444]/20 dark:border-[#cc4444]/20 rounded-md text-[#cc4444] dark:text-[#cc4444] text-sm font-medium hover:bg-[#cc4444]/10 dark:hover:bg-white/5 hover:text-[#a53333] dark:hover:text-white hover:border-[#cc4444]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                                    className="group px-3 py-1 bg-transparent border border-[#cc4444]/20 dark:border-[#cc4444]/20 rounded-md text-[#cc4444] dark:text-[#cc4444] text-sm font-medium hover:bg-[#cc4444]/10 dark:hover:bg-cream/5 hover:text-[#a53333] dark:hover:text-white hover:border-[#cc4444]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
                                     title="Delete events"
                                 >
                                     <svg className="w-3.5 h-3.5 text-[#cc4444] group-hover:text-red-400 transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
@@ -3889,11 +3926,18 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             )}
                             <button
                                 onClick={handleOpenPasteModal}
-                                className="group px-3 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-sm font-medium hover:bg-[#a973d3]/10 dark:hover:bg-white/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                                className="group px-3 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-sm font-medium hover:bg-[#a973d3]/10 dark:hover:bg-cream/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
                                 title="Paste shared schedule link"
                             >
                                 <Clipboard className="w-3.5 h-3.5 text-[#a973d3] group-hover:text-purple-400 transition-colors duration-300" />
                                 Paste
+                            </button>
+                            <button
+                                onClick={() => setShowWeekdaysOnly(!showWeekdaysOnly)}
+                                className="group px-3 py-1 bg-transparent border border-[#a973d3]/20 dark:border-[#a973d3]/20 rounded-md text-[#a973d3] dark:text-[#a973d3] text-sm font-medium hover:bg-[#a973d3]/10 dark:hover:bg-cream/5 hover:text-[#8a5bb8] dark:hover:text-white hover:border-[#a973d3]/40 dark:hover:border-white/15 transition-all duration-300 flex items-center gap-1.5"
+                                title={showWeekdaysOnly ? "Click to show weekends" : "Click to show weekdays only"}
+                            >
+                                {showWeekdaysOnly ? 'Weekdays' : 'Weekends'}
                             </button>
                         </div>
                     </div>
@@ -3916,7 +3960,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 <div 
                     className={`grid ${themeStyles.dayHeaderBg} border-b-2 ${themeStyles.containerBorder} sticky top-0 z-20`}
                     style={{
-                        gridTemplateColumns: getGridTemplateColumns(screenWidth)
+                        gridTemplateColumns: getResponsiveGridColumns(screenWidth)
                     }}
                 >
                     {/* Time column header */}
@@ -3951,7 +3995,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                 {/* Vertical grid line - DESKTOP: extends down through entire calendar */}
                                 {index < (screenWidth < 640 ? 4 : 6) && screenWidth >= 640 && (
                                     <div
-                                        className="dark:bg-white/5 bg-gray-400/70"
+                                        className="dark:bg-cream/5 bg-gray-400/70"
                                         style={{
                                             position: 'absolute',
                                             top: 0,
@@ -3966,7 +4010,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                 {/* Vertical grid line - SMALL SCREENS: extends down through entire calendar */}
                                 {index < 4 && screenWidth < 640 && (
                                     <div
-                                        className="dark:bg-white/5 bg-gray-400/70"
+                                        className="dark:bg-cream/5 bg-gray-400/70"
                                         style={{
                                             position: 'absolute',
                                             top: 0,
@@ -4006,19 +4050,19 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             const timeColumnWidth = gridConfig.timeColumnWidth;
                             const weekendColumnWidth = gridConfig.weekendColumnWidth || 100;
 
-                            if (screenWidth < 640) {
-                                // Mobile: time column + 5 equal weekday columns
+                            if (screenWidth < 640 || showWeekdaysOnly) {
+                                // Mobile OR Weekdays-only mode: time column + 5 equal columns
                                 const totalColumns = 5;
-                                
+
                                 // Use CSS calc to match grid-template-columns exactly
                                 // The available width is (100% - timeColumnWidth), divided by 5 columns
                                 const singleColumnWidth = `calc((100% - ${timeColumnWidth}px) / ${totalColumns})`;
-                                
+
                                 // Position: time column width + (column width * day index)
                                 columnWidth = singleColumnWidth;
                                 leftPosition = `calc(${timeColumnWidth}px + (${singleColumnWidth} * ${dayIndex}))`;
                             } else {
-                                // Tablet/Desktop: time column + 5 equal weekday columns + 2 fixed weekend columns
+                                // Tablet/Desktop with weekends: time column + 5 equal weekday columns + 2 fixed weekend columns
 
                                 if (dayIndex <= 4) {
                                     // Monday-Friday: Equal flexible columns using CSS Grid fr units
@@ -4113,40 +4157,27 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                                     };
 
                                                     return (
-                                                        <div className="h-full flex flex-col p-1">
+                                                        <div className="h-full w-full flex flex-col overflow-hidden">
                                                             {/* Course Information Group - Stays at top */}
-                                                            <div className="flex-none space-y-1">
+                                                            <div className="flex-none space-y-0.5 overflow-hidden">
                                                                 {/* Course Code - Top (bold, small font) */}
-                                                                <div className={`${colorScheme.text} font-bold text-sm leading-tight overflow-hidden`}
-                                                                     style={{
-                                                                         wordBreak: 'break-word',
-                                                                         hyphens: 'auto'
-                                                                     }}>
+                                                                <div className={`${colorScheme.text} font-bold text-sm leading-tight truncate`}>
                                                                     {displayInfo.courseCode}
                                                                 </div>
 
                                                                 {/* Event Type - Simple text */}
-                                                                <div className={`${colorScheme.text} text-sm font-medium leading-tight overflow-hidden`}
-                                                                     style={{
-                                                                         wordBreak: 'break-word'
-                                                                     }}>
+                                                                <div className={`${colorScheme.text} text-sm font-medium leading-tight truncate`}>
                                                                     {getFullSectionType(displayInfo.sectionType)}
                                                                 </div>
 
                                                                 {/* Instructor Name - Grey/muted text */}
-                                                                <div className={`${colorScheme.text} text-xs opacity-75 leading-tight overflow-hidden`}
-                                                                     style={{
-                                                                         wordBreak: 'break-word'
-                                                                     }}>
+                                                                <div className={`${colorScheme.text} text-xs opacity-75 leading-tight truncate`}>
                                                                     {displayInfo.professor || 'Staff'}
                                                                 </div>
 
                                                                 {/* Time Range - Only show on large screens where there's enough space */}
                                                                 {screenWidth >= 1440 && (
-                                                                    <div className={`${colorScheme.text} text-xs opacity-60 leading-tight overflow-hidden`}
-                                                                         style={{
-                                                                             wordBreak: 'break-word'
-                                                                         }}>
+                                                                    <div className={`${colorScheme.text} text-xs opacity-60 leading-tight truncate`}>
                                                                         {(() => {
                                                                             const normalizedEvent = normalizeEventProperties(event);
                                                                             return `${formatTime12Hour(normalizedEvent.startTime)} - ${formatTime12Hour(normalizedEvent.endTime)}`;
@@ -4171,7 +4202,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                             key={slot.hour} 
                             className="relative grid mobile-time-slot min-h-[80px] h-20"
                             style={{
-                                gridTemplateColumns: getGridTemplateColumns(screenWidth)
+                                gridTemplateColumns: getResponsiveGridColumns(screenWidth)
                             }}
                         >
                             {/* CLEAN horizontal separator line under each hour */}
@@ -4204,7 +4235,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                     </span>
                                 </div>
                                 {/* Horizontal separator under hour label */}
-                                <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-400 dark:bg-white/5"></div>
+                                <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-400 dark:bg-cream/5"></div>
                             </div>
 
                             {/* Day columns - CLEAN ALIGNED CELLS */}
@@ -4220,7 +4251,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                 return (
                                     <div key={dayIndex} className={`relative ${themeStyles.timeSlotBg} min-h-[80px] h-full ${isWeekend ? 'hidden sm:block' : ''}`}>
                                         {/* Horizontal separator under hour label extending across day columns */}
-                                        <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-400 dark:bg-white/5"></div>
+                                        <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-400 dark:bg-cream/5"></div>
                                         {/* NO vertical lines in time grid - only in header */}
                                     </div>
                                 );
@@ -4597,7 +4628,7 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-4">
-            <div className="bg-white dark:bg-[#1a1a1a] rounded-lg shadow-2xl w-full max-w-xs sm:max-w-2xl max-h-[95vh] overflow-hidden border-2 border-gray-300 dark:border-gray-700">
+            <div className="bg-cream dark:bg-[#1a1a1a] rounded-lg shadow-2xl w-full max-w-xs sm:max-w-2xl max-h-[95vh] overflow-hidden border-2 border-gray-300 dark:border-gray-700">
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Delete Events</h2>
@@ -4627,7 +4658,7 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 mb-4 sm:mb-6">
                                 <button
                                     onClick={handleSelectAll}
-                                    className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm bg-white dark:bg-[#2a2a2a] hover:bg-gray-50 dark:hover:bg-[#333333] rounded-lg transition-colors border border-gray-300 dark:border-gray-600"
+                                    className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm bg-cream dark:bg-[#2a2a2a] hover:bg-gray-50 dark:hover:bg-[#333333] rounded-lg transition-colors border border-gray-300 dark:border-gray-600"
                                 >
                                     <input
                                         type="checkbox"
@@ -4668,7 +4699,7 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                                             onClick={() => handleSelectCourse(courseCode)}
                                             className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${isSelected
                                                 ? 'border-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/20'
-                                                : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 bg-white dark:bg-[#2a2a2a]'
+                                                : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 bg-cream dark:bg-[#2a2a2a]'
                                                 }`}
                                         >
                                             <input
@@ -4746,7 +4777,7 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                 <div className="flex justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-[#2a2a2a] hover:bg-gray-100 dark:hover:bg-[#333333] border border-gray-300 dark:border-gray-600 rounded-lg transition-colors font-medium shadow-sm"
+                        className="px-6 py-2 text-gray-700 dark:text-gray-300 bg-cream dark:bg-[#2a2a2a] hover:bg-gray-100 dark:hover:bg-[#333333] border border-gray-300 dark:border-gray-600 rounded-lg transition-colors font-medium shadow-sm"
                     >
                         Close
                     </button>
@@ -4756,7 +4787,7 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
             {/* Confirmation Dialog */}
             {showConfirmDialog && pendingDeletion && (
                 <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60]">
-                    <div className="bg-white dark:bg-[#1a1a1a] rounded-lg shadow-2xl w-full max-w-md p-6 border-2 border-gray-300 dark:border-gray-700 m-4">
+                    <div className="bg-cream dark:bg-[#1a1a1a] rounded-lg shadow-2xl w-full max-w-md p-6 border-2 border-gray-300 dark:border-gray-700 m-4">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                             Confirm Deletion
                         </h3>
@@ -4779,7 +4810,7 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                         <div className="flex gap-3 justify-end">
                             <button
                                 onClick={cancelDelete}
-                                className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-[#2a2a2a] hover:bg-gray-100 dark:hover:bg-[#333333] border border-gray-300 dark:border-gray-600 rounded-lg transition-colors font-medium"
+                                className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-cream dark:bg-[#2a2a2a] hover:bg-gray-100 dark:hover:bg-[#333333] border border-gray-300 dark:border-gray-600 rounded-lg transition-colors font-medium"
                             >
                                 Cancel
                             </button>
@@ -4852,7 +4883,7 @@ const ConflictsModal: React.FC<ConflictsModalProps> = ({ isOpen, onClose, confli
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="bg-cream dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
                 <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                         Schedule Conflicts ({conflicts.length})
@@ -4890,7 +4921,7 @@ const ConflictsModal: React.FC<ConflictsModalProps> = ({ isOpen, onClose, confli
 
                                         <div className="grid gap-3 md:grid-cols-2">
                                             {/* Event 1 */}
-                                            <div className="bg-white dark:bg-gray-700 rounded p-3 border border-gray-200 dark:border-gray-600">
+                                            <div className="bg-cream dark:bg-gray-700 rounded p-3 border border-gray-200 dark:border-gray-600">
                                                 <h4 className="font-medium text-gray-900 dark:text-white mb-1">
                                                     {event1Info.title}
                                                 </h4>
@@ -4905,7 +4936,7 @@ const ConflictsModal: React.FC<ConflictsModalProps> = ({ isOpen, onClose, confli
                                             </div>
 
                                             {/* Event 2 */}
-                                            <div className="bg-white dark:bg-gray-700 rounded p-3 border border-gray-200 dark:border-gray-600">
+                                            <div className="bg-cream dark:bg-gray-700 rounded p-3 border border-gray-200 dark:border-gray-600">
                                                 <h4 className="font-medium text-gray-900 dark:text-white mb-1">
                                                     {event2Info.title}
                                                 </h4>
@@ -4964,7 +4995,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, shareUrl, load
 
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div className="bg-cream dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                         <Share2 className="w-5 h-5 text-blue-500" />
@@ -5073,7 +5104,7 @@ const PasteModal: React.FC<PasteModalProps> = ({
 
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div className="bg-cream dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                         <Clipboard className="w-5 h-5 text-purple-500" />
@@ -5100,7 +5131,7 @@ const PasteModal: React.FC<PasteModalProps> = ({
                                     value={pasteUrl}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasteUrl(e.target.value)}
                                     placeholder="https://kairoo.ca/schedule/..."
-                                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-cream dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
                                     disabled={loading}
                                 />
                                 <button

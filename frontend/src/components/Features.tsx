@@ -137,13 +137,13 @@ export default function Features() {
 
         {/* Showcase container */}
         <div
-          className="rounded-3xl overflow-hidden border-2 border-gray-200 dark:border-[rgb(var(--border-color))] bg-white dark:bg-[rgb(var(--secondary-bg))] shadow-xl"
+          className="rounded-3xl overflow-hidden border-2 border-gray-200 dark:border-[rgb(var(--border-color))] bg-cream dark:bg-[rgb(var(--secondary-bg))] shadow-xl"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <div className="grid grid-cols-1 lg:grid-cols-5">
             {/* Tabs */}
-            <div className="col-span-2 p-4 sm:p-6 lg:p-8 bg-slate-50/70 dark:bg-white/[0.02] border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[rgb(var(--border-color))]">
+            <div className="col-span-2 p-4 sm:p-6 lg:p-8 bg-slate-50/70 dark:bg-cream/[0.02] border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[rgb(var(--border-color))]">
               <div className="space-y-3">
                 {TABS.map(({ key, title, subtitle, icon: Icon }) => {
                   const selected = active === key;
@@ -153,12 +153,12 @@ export default function Features() {
                       onMouseEnter={() => handleTabInteraction(key)}
                       onClick={() => handleTabInteraction(key)}
                       className={`w-full text-left rounded-2xl p-4 transition-all border ${selected
-                        ? 'bg-white dark:bg-white/5 border-gray-300 dark:border-[rgb(var(--border-color))] shadow-sm'
-                        : 'bg-white/60 dark:bg-white/[0.02] hover:bg-white dark:hover:bg-white/[0.04] border-gray-200 dark:border-[rgb(var(--border-color))]'
+                        ? 'bg-cream dark:bg-cream/5 border-gray-300 dark:border-[rgb(var(--border-color))] shadow-sm'
+                        : 'bg-cream/60 dark:bg-cream/[0.02] hover:bg-cream dark:hover:bg-cream/[0.04] border-gray-200 dark:border-[rgb(var(--border-color))]'
                         }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center border ${selected ? 'bg-black dark:bg-white' : 'bg-gray-900/90 dark:bg-white/10'} ${selected ? 'border-black/10 dark:border-[rgb(var(--border-color))]' : 'border-gray-200 dark:border-[rgb(var(--border-color))]'}`}>
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center border ${selected ? 'bg-black dark:bg-cream' : 'bg-gray-900/90 dark:bg-cream/10'} ${selected ? 'border-black/10 dark:border-[rgb(var(--border-color))]' : 'border-gray-200 dark:border-[rgb(var(--border-color))]'}`}>
                           <Icon className={`w-5 h-5 ${selected ? 'text-white dark:text-black' : 'text-white dark:text-white/80'}`} />
                         </div>
                         <div className="flex-1">
@@ -181,10 +181,10 @@ export default function Features() {
               {/* Quick hits */}
               <div className="mt-6 grid grid-cols-2 gap-2 text-xs">
                 {[['Zero conflicts', 'Schedule'], ['Real ratings', 'Courses'], ['Instant answers', 'Assistant'], ['Pro formatting', 'Mail']].map(([label, tag]) => (
-                  <div key={label} className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-white/70 dark:bg-white/[0.03] px-2 py-1.5">
+                  <div key={label} className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-cream/70 dark:bg-cream/[0.03] px-2 py-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                     <span className="text-gray-800 dark:text-[rgb(var(--text-primary))]">{label}</span>
-                    <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-[rgb(var(--text-secondary))]">{tag}</span>
+                    <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-cream/10 text-gray-600 dark:text-[rgb(var(--text-secondary))]">{tag}</span>
                   </div>
                 ))}
               </div>
@@ -215,7 +215,7 @@ export default function Features() {
                       </div>
 
                       <div className="flex-1 space-y-4">
-                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-cream/[0.02] p-3">
                           <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">Your courses:</div>
                           <div className="space-y-1 text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
                             <div>• CSI 2110 - Data Structures and Algorithms</div>
@@ -268,7 +268,7 @@ export default function Features() {
                       </div>
 
                       <div className="flex-1 space-y-4">
-                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-cream/[0.02] p-3">
                           <div className="flex items-center justify-between mb-2">
                             <div className="text-sm font-medium text-gray-900 dark:text-[rgb(var(--text-primary))]">CSI 2110 - Data Structures and Algorithms</div>
                             <div className="text-xs bg-green-100 dark:bg-green-600/15 text-green-700 dark:text-green-300 px-2 py-1 rounded">Open</div>
@@ -276,7 +276,7 @@ export default function Features() {
                           <div className="text-xs text-gray-600 dark:text-[rgb(var(--text-secondary))]">Abdelkrim El Basraoui • RMP: 4.0/5</div>
                         </div>
 
-                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-cream/[0.02] p-3">
                           <div className="flex items-center justify-between mb-2">
                             <div className="text-sm font-medium text-gray-900 dark:text-[rgb(var(--text-primary))]">CSI 3105 - Design and Analysis of Algorithms I</div>
                             <div className="text-xs bg-red-100 dark:bg-red-600/15 text-red-700 dark:text-red-300 px-2 py-1 rounded">Closed</div>
@@ -324,7 +324,7 @@ export default function Features() {
                       </div>
 
                       <div className="flex-1 space-y-4">
-                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-white/[0.02] p-3">
+                        <div className="rounded-lg border border-gray-200 dark:border-[rgb(var(--border-color))] bg-gray-50 dark:bg-cream/[0.02] p-3">
                           <div className="text-xs text-gray-500 dark:text-[rgb(var(--text-secondary))] mb-2">You ask:</div>
                           <div className="text-sm text-gray-700 dark:text-[rgb(var(--text-primary))]">
                             &quot;What are the prerequisites for CSI 3105?&quot;
@@ -365,7 +365,7 @@ export default function Features() {
         {/* Secondary badges */}
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
           {['Fast setup', 'No conflicts', 'Real data', 'Privacy-first'].map((label) => (
-            <div key={label} className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.03] py-2">
+            <div key={label} className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 dark:border-white/10 bg-cream/80 dark:bg-cream/[0.03] py-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-500" />
               <span className="text-gray-800 dark:text-gray-200">{label}</span>
             </div>
@@ -377,9 +377,9 @@ export default function Features() {
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white text-center">How it works</h3>
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {HOW_IT_WORKS.map(({ icon: Icon, title, description }) => (
-              <div key={title} className="rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.02] p-5">
+              <div key={title} className="rounded-2xl border border-gray-200 dark:border-white/10 bg-cream dark:bg-cream/[0.02] p-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gray-900 dark:bg-white flex items-center justify-center border border-black/10 dark:border-white/10">
+                  <div className="w-10 h-10 rounded-xl bg-gray-900 dark:bg-cream flex items-center justify-center border border-black/10 dark:border-white/10">
                     <Icon className="w-5 h-5 text-white dark:text-black" />
                   </div>
                   <div className="text-base font-semibold text-gray-900 dark:text-white">{title}</div>
@@ -410,7 +410,7 @@ export default function Features() {
                 ]}
                 wrapperClassName="py-2 px-4 sm:px-6"
                 rowClassName="space-x-6 md:space-x-8"
-                chipClassName="flex shrink-0 items-center justify-center rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.02] px-6 py-5 text-center w-[200px] sm:w-[220px] md:w-[240px] lg:w-[260px] xl:w-[280px] h-[88px]"
+                chipClassName="flex shrink-0 items-center justify-center rounded-2xl border border-gray-200 dark:border-white/10 bg-cream dark:bg-cream/[0.02] px-6 py-5 text-center w-[200px] sm:w-[220px] md:w-[240px] lg:w-[260px] xl:w-[280px] h-[88px]"
                 valueClassName="text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white whitespace-nowrap"
                 labelClassName="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap"
               />
@@ -425,7 +425,7 @@ export default function Features() {
         {/* FAQ */}
         <div className="mt-14 sm:mt-16">
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white text-center">Frequently asked</h3>
-          <div className="mt-6 max-w-3xl mx-auto divide-y divide-gray-200 dark:divide-white/10 rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.02]">
+          <div className="mt-6 max-w-3xl mx-auto divide-y divide-gray-200 dark:divide-white/10 rounded-2xl border border-gray-200 dark:border-white/10 bg-cream dark:bg-cream/[0.02]">
             {FAQS.map(({ q, a }, idx) => {
               const open = openFaq === idx;
               return (

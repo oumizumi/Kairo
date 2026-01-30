@@ -78,7 +78,7 @@ const CurriculumPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white dark:bg-[#121212] transition-colors duration-300 flex flex-col">
+        <div className="min-h-screen bg-cream dark:bg-[#121212] transition-colors duration-300 flex flex-col">
             {/* Guest Mode Banner */}
             <div className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-3 text-center font-mono text-sm">
                 <span className="mr-2">👤</span>

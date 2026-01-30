@@ -99,15 +99,15 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
         // so we use global border color with only left width applied.
         switch (term) {
             case 'Winter':
-                return 'border-l-2 border-violet-500 bg-white dark:bg-white/\[0.04\]';
+                return 'border-l-2 border-violet-500 bg-cream dark:bg-cream/\[0.04\]';
             case 'Fall':
-                return 'border-l-2 border-amber-400 bg-white dark:bg-white/\[0.04\]';
+                return 'border-l-2 border-amber-400 bg-cream dark:bg-cream/\[0.04\]';
             case 'Summer':
-                return 'border-l-2 border-emerald-500 bg-white dark:bg-white/\[0.04\]';
+                return 'border-l-2 border-emerald-500 bg-cream dark:bg-cream/\[0.04\]';
             case 'Spring':
-                return 'border-l-2 border-lime-500 bg-white dark:bg-white/\[0.04\]';
+                return 'border-l-2 border-lime-500 bg-cream dark:bg-cream/\[0.04\]';
             default:
-                return 'border-l-2 border-indigo-400 bg-white dark:bg-white/\[0.04\]';
+                return 'border-l-2 border-indigo-400 bg-cream dark:bg-cream/\[0.04\]';
         }
     };
 
@@ -208,8 +208,8 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
                     key={index}
                     className={`inline-flex items-center px-2 py-1 text-xs font-mono rounded-md transition-colors border ${
                         isElective 
-                            ? 'border-amber-300 dark:border-white/10 text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-white/5' 
-                            : 'border-indigo-300 dark:border-white/10 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-white/5'
+                            ? 'border-amber-300 dark:border-white/10 text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-cream/5' 
+                            : 'border-indigo-300 dark:border-white/10 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-cream/5'
                     }`}
                     title={course.title || course.description}
                 >
@@ -227,16 +227,16 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
                 key={index}
                 className={`group relative ${compactPadding} rounded-lg border transition-all duration-200 shadow-sm ${
                     isElective 
-                        ? 'border-amber-300 dark:border-white/10 bg-amber-50 dark:bg-white/[0.04]' 
-                        : 'border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.04]'
-                } hover:bg-gray-50 dark:hover:bg-white/[0.07]`}
+                        ? 'border-amber-300 dark:border-white/10 bg-amber-50 dark:bg-cream/[0.04]' 
+                        : 'border-gray-200 dark:border-white/10 bg-cream dark:bg-cream/[0.04]'
+                } hover:bg-gray-50 dark:hover:bg-cream/[0.07]`}
                 role="listitem"
             >
                 <div className={`flex items-start ${compactGap}`}>
                     <div className={`flex-shrink-0 ${compactNumberSize} rounded-lg flex items-center justify-center font-bold border ${
                         isElective 
-                            ? 'border-amber-300 dark:border-white/15 text-amber-700 dark:text-amber-300 bg-amber-100/60 dark:bg-white/10' 
-                            : 'border-indigo-300 dark:border-white/15 text-indigo-700 dark:text-indigo-300 bg-indigo-100/60 dark:bg-white/10'
+                            ? 'border-amber-300 dark:border-white/15 text-amber-700 dark:text-amber-300 bg-amber-100/60 dark:bg-cream/10' 
+                            : 'border-indigo-300 dark:border-white/15 text-indigo-700 dark:text-indigo-300 bg-indigo-100/60 dark:bg-cream/10'
                     }`}>
                         {String(index + 1).padStart(2, '0')}
                     </div>
@@ -276,7 +276,7 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
         return (
             <section
                 key={termKey}
-                className={`rounded-lg transition-all duration-200 bg-white dark:bg-white/[0.04] ${getTermColor(term.term)} ${
+                className={`rounded-lg transition-all duration-200 bg-cream dark:bg-cream/[0.04] ${getTermColor(term.term)} ${
                     shouldHighlight 
                         ? 'ring-2 ring-amber-300 shadow-md' 
                         : 'border border-gray-200 dark:border-white/10 shadow-sm'
@@ -287,7 +287,7 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
                 <header>
                     <button
                         onClick={() => toggleTerm(termKey)}
-                        className="w-full p-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors rounded-t-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-white/20"
+                        className="w-full p-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-cream/5 transition-colors rounded-t-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-white/20"
                         aria-expanded={isExpanded}
                         aria-controls={`term-content-${termKey}`}
                         id={`term-header-${termKey}`}
@@ -347,7 +347,7 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
             return (
                 <div key={`${yearData.year}-${term.term}`} className="space-y-4">
                     {/* Direct term rendering for clean display */}
-                    <div className="rounded-lg border shadow-sm bg-white dark:bg-white/[0.04] border-gray-200 dark:border-white/10">
+                    <div className="rounded-lg border shadow-sm bg-cream dark:bg-cream/[0.04] border-gray-200 dark:border-white/10">
                         <div className={`p-3 border-l-4 ${getTermColor(term.term)} rounded-lg`}> 
                             <div className="flex items-center justify-between mb-3">
                                 <div className="flex items-center gap-2">
@@ -382,7 +382,7 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
         return (
             <section
                 key={yearData.year}
-                className={`rounded-lg border transition-all duration-200 bg-white dark:bg-white/[0.04] border-l-4 ${getYearAccentClass(yearData.year)} ${
+                className={`rounded-lg border transition-all duration-200 bg-cream dark:bg-cream/[0.04] border-l-4 ${getYearAccentClass(yearData.year)} ${
                     shouldHighlight 
                         ? 'border-indigo-300 dark:border-white/12 shadow' 
                         : 'border-gray-200 dark:border-white/10'
@@ -394,7 +394,7 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
                     <div className="flex items-center justify-between p-4">
                         <button
                             onClick={() => toggleYear(yearData.year)}
-                            className="flex items-center gap-4 flex-1 text-left hover:bg-black/5 dark:hover:bg-white/5 transition-colors rounded-lg p-2 -m-2 focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-[rgb(var(--accent-color))]"
+                            className="flex items-center gap-4 flex-1 text-left hover:bg-black/5 dark:hover:bg-cream/5 transition-colors rounded-lg p-2 -m-2 focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-[rgb(var(--accent-color))]"
                             aria-expanded={isExpanded}
                             aria-controls={`year-content-${yearData.year}`}
                             id={`year-header-${yearData.year}`}
@@ -469,9 +469,9 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
     const programTypeInfo = getProgramTypeInfo(programSequence.programName);
 
     return (
-        <main className="max-w-4xl mx-auto bg-white dark:bg-[rgb(var(--secondary-bg))] rounded-xl shadow-lg overflow-hidden">
+        <main className="max-w-4xl mx-auto bg-cream dark:bg-[rgb(var(--secondary-bg))] rounded-xl shadow-lg overflow-hidden">
             {/* Enhanced Header */}
-            <header className={`p-3 sm:p-4 bg-white dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-white border-b border-gray-200 dark:border-[rgb(var(--border-color))]`}>
+            <header className={`p-3 sm:p-4 bg-cream dark:bg-[rgb(var(--secondary-bg))] text-gray-900 dark:text-white border-b border-gray-200 dark:border-[rgb(var(--border-color))]`}>
                 {isSpecificTermRequest ? (
                 // Clean, focused header for specific term requests
                 <div className="flex items-center justify-between">
@@ -521,7 +521,7 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
                             <div className="flex flex-wrap gap-2">
                                 <button
                                     onClick={toggleCompactView}
-                                    className="flex items-center gap-2 px-2.5 py-1.5 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/15 rounded-md transition-colors text-xs font-medium text-gray-700 dark:text-white"
+                                    className="flex items-center gap-2 px-2.5 py-1.5 bg-gray-100 dark:bg-cream/10 hover:bg-gray-200 dark:hover:bg-cream/15 rounded-md transition-colors text-xs font-medium text-gray-700 dark:text-white"
                                     aria-pressed={isCompactView}
                                 >
                                     {isCompactView ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
@@ -531,7 +531,7 @@ const ProgramSequenceDisplay: React.FC<ProgramSequenceDisplayProps> = ({
                                 {programSequence.notes && programSequence.notes.length > 0 && (
                                     <button
                                         onClick={() => setShowNotes(!showNotes)}
-                                        className="flex items-center gap-2 px-2.5 py-1.5 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/15 rounded-md transition-colors text-xs font-medium text-gray-700 dark:text-white"
+                                        className="flex items-center gap-2 px-2.5 py-1.5 bg-gray-100 dark:bg-cream/10 hover:bg-gray-200 dark:hover:bg-cream/15 rounded-md transition-colors text-xs font-medium text-gray-700 dark:text-white"
                                         aria-pressed={showNotes}
                                     >
                                         <Info className="w-4 h-4" />

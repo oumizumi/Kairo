@@ -43,19 +43,19 @@ export function SingleDayPicker({ value, onSelect, placeholder = "Pick a date" }
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full justify-start text-left font-normal bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#333333]"
+          className="w-full justify-start text-left font-normal bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#333333]"
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {selectedDate ? formatDate(selectedDate) : <span className="text-muted-foreground">{placeholder}</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-4 bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600" align="start">
+      <PopoverContent className="w-auto p-4 bg-cream dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600" align="start">
         <div className="space-y-2">
           <input
             type="date"
             value={selectedDate ? selectedDate.toISOString().split('T')[0] : ''}
             onChange={handleDateChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-gray-100"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-cream dark:bg-[#2a2a2a] text-gray-900 dark:text-gray-100"
           />
         </div>
       </PopoverContent>

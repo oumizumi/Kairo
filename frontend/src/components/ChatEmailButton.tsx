@@ -617,7 +617,7 @@ Generate a professional email that addresses this request.`;
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
           <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setIsOpen(false)} />
-          <div className="relative w-full max-w-sm sm:max-w-md rounded-xl shadow-2xl border overflow-hidden bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 max-h-[85vh] overflow-y-auto">
+          <div className="relative w-full max-w-sm sm:max-w-md rounded-xl shadow-2xl border overflow-hidden bg-cream dark:bg-gray-900 border-gray-200 dark:border-gray-700 max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between p-2.5 sm:p-4 border-b border-gray-100 dark:border-gray-700">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-blue-600 dark:text-blue-400" />
@@ -642,7 +642,7 @@ Generate a professional email that addresses this request.`;
                     value={userFullName}
                     onChange={(e) => setUserFullName(e.target.value)}
                     placeholder="e.g., Jane Doe"
-                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-cream dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   />
                 </div>
               </div>
@@ -654,7 +654,7 @@ Generate a professional email that addresses this request.`;
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
                     placeholder="e.g., Request to discuss assignment extension"
-                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-cream dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   />
                 </div>
                 <div>
@@ -665,7 +665,7 @@ Generate a professional email that addresses this request.`;
                     placeholder={`Dear Professor [Name],\n\n[Write your request clearly here]\n\nBest regards,\n[Your Full Name]`}
                     rows={3}
                     ref={bodyRef}
-                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-cream dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 sm:py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
                   />
                 </div>
               </div>
@@ -725,7 +725,7 @@ Generate a professional email that addresses this request.`;
                         value={newProfName}
                         onChange={(e) => setNewProfName(e.target.value)}
                         placeholder="Professor name"
-                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2.5 py-1.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-cream dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2.5 py-1.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       />
                     </div>
                     <div className="col-span-3">
@@ -733,7 +733,7 @@ Generate a professional email that addresses this request.`;
                         value={newProfEmail}
                         onChange={(e) => setNewProfEmail(e.target.value)}
                         placeholder={`prof${UOTTAWA_DOMAIN}`}
-                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2.5 py-1.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-cream dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2.5 py-1.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       />
                     </div>
                   </div>
@@ -761,7 +761,7 @@ Generate a professional email that addresses this request.`;
                   <div className="text-[11px] font-medium mb-1 text-gray-700 dark:text-gray-300">Professors</div>
                   <div className="max-h-40 overflow-auto divide-y divide-gray-100 dark:divide-white/10">
                     {professors.map((p, idx) => (
-                      <div key={p.email} className="py-2 px-2 rounded flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5">
+                      <div key={p.email} className="py-2 px-2 rounded flex items-center justify-between hover:bg-gray-50 dark:hover:bg-cream/5">
                         {editingIndex === idx ? (
                           <div className="flex-1 grid grid-cols-5 gap-2 items-center">
                             <input
@@ -771,7 +771,7 @@ Generate a professional email that addresses this request.`;
                                 next[idx] = { ...next[idx], name: e.target.value };
                                 setProfessors(next);
                               }}
-                              className="col-span-2 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
+                              className="col-span-2 rounded border border-gray-300 dark:border-white/10 bg-cream dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
                             />
                             <input
                               defaultValue={p.email}
@@ -782,7 +782,7 @@ Generate a professional email that addresses this request.`;
                                 next[idx] = { ...next[idx], email: normalized };
                                 setProfessors(next);
                               }}
-                              className="col-span-3 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
+                              className="col-span-3 rounded border border-gray-300 dark:border-white/10 bg-cream dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
                             />
                           </div>
                         ) : (
@@ -859,12 +859,12 @@ Generate a professional email that addresses this request.`;
                               <input
                                 value={selectedEditName}
                                 onChange={(e) => setSelectedEditName(e.target.value)}
-                                className="col-span-2 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
+                                className="col-span-2 rounded border border-gray-300 dark:border-white/10 bg-cream dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
                               />
                               <input
                                 value={selectedEditEmail}
                                 onChange={(e) => setSelectedEditEmail(e.target.value)}
-                                className="col-span-3 rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
+                                className="col-span-3 rounded border border-gray-300 dark:border-white/10 bg-cream dark:bg-[#121212] text-gray-900 dark:text-gray-100 px-2 py-1 text-xs"
                               />
                             </div>
                           ) : (
@@ -975,7 +975,7 @@ Generate a professional email that addresses this request.`;
                 href="https://outlook.office.com/mail/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-1.5 inline-flex w-full items-center justify-center rounded border border-gray-300 dark:border-white/10 text-gray-700 dark:text-gray-200 text-xs font-semibold py-1.5 sm:py-2 hover:bg-gray-50 dark:hover:bg-white/5"
+                className="mt-1.5 inline-flex w-full items-center justify-center rounded border border-gray-300 dark:border-white/10 text-gray-700 dark:text-gray-200 text-xs font-semibold py-1.5 sm:py-2 hover:bg-gray-50 dark:hover:bg-cream/5"
               >
                 Open Outlook (Login)
               </a>

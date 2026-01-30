@@ -52,7 +52,7 @@ export default function ContactPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
+        <div className="min-h-screen flex flex-col bg-cream dark:bg-[#121212] text-black dark:text-[#e0e0e0] transition-colors duration-300 relative font-mono">
             {/* Back to main page link */}
             <div className="absolute top-12 left-16 z-10">
                 <Link 
@@ -99,7 +99,7 @@ export default function ContactPage() {
                                 id="fullName"
                                 type="text"
                                 placeholder="Enter your full name"
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-cream dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
                                 value={fullName}
                                 onChange={e => setFullName(e.target.value)}
                                 required
@@ -115,7 +115,7 @@ export default function ContactPage() {
                                 id="email"
                                 type="email"
                                 placeholder="your@email.com"
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-cream dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full transition-all duration-200"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 required
@@ -131,7 +131,7 @@ export default function ContactPage() {
                                 id="message"
                                 placeholder="Type your message here..."
                                 rows={5}
-                                className="rounded border border-gray-300 dark:border-[#333] bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full resize-none transition-all duration-200"
+                                className="rounded border border-gray-300 dark:border-[#333] bg-cream dark:bg-[#1e1e1e] text-gray-900 dark:text-white px-4 py-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 w-full resize-none transition-all duration-200"
                                 value={message}
                                 onChange={e => setMessage(e.target.value)}
                                 required
