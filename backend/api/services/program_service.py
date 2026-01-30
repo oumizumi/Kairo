@@ -629,6 +629,9 @@ Respond in this exact JSON format:
                 import re
                 return [t for t in re.split(r"[^a-z0-9]+", s.lower()) if t]
 
+            # Create token set from user message for fast lookup
+            msg_token_set = set(tokenize(text))
+
             def build_aliases(name: str, code: str) -> List[str]:
                 # Mirror single-detection alias logic (no hardcoded terms)
                 words = tokenize(name)

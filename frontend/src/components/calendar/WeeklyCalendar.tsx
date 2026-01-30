@@ -407,6 +407,12 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
         };
     });
 
+    // Get slot height based on screen width (must match CSS)
+    const slotHeight = useMemo(() => {
+        if (screenWidth < 640) return 80; // Mobile
+        return 70; // Desktop
+    }, [screenWidth]);
+
     return (
         <div className="weekly-calendar">
             {/* Header */}
@@ -470,78 +476,99 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             <div className="weekly-grid-container">
                 {/* Days Header */}
                 <div className={`days-header ${showWeekdaysOnly ? 'grid-cols-6-weekdays' : 'grid-cols-8-narrow'}`}>
-                    <div className="time-label">Time</div>
+                    <div className="time-label"></div>
                     {weekDays.map((day, index) => (
-                        <div key={index} className="text-center font-medium p-4">
-                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                        <div key={index} className="day-header-cell">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                                 {format(day, 'EEE')}
                             </div>
-                            <div className="text-lg">
+                            <div className="text-lg font-semibold">
                                 {format(day, 'd')}
                             </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Time Grid */}
+                {/* Time Grid with Events Overlay */}
                 <div className="time-grid">
-                    {timeSlots.map((timeSlot) => (
-                        <div key={timeSlot.hour} className={`time-slot ${showWeekdaysOnly ? 'grid-cols-6-weekdays' : 'grid-cols-8-narrow'}`}>
-                            <div className="time-label">
-                                {timeSlot.display}
+                    {/* Time slots background */}
+                    <div className="time-slots-container">
+                        {timeSlots.map((timeSlot) => (
+                            <div key={timeSlot.hour} className={`time-slot ${showWeekdaysOnly ? 'grid-cols-6-weekdays' : 'grid-cols-8-narrow'}`}>
+                                <div className="time-label">
+                                    {timeSlot.display}
+                                </div>
+                                {weekDays.map((_, dayIndex) => (
+                                    <div key={dayIndex} className="day-cell" />
+                                ))}
                             </div>
-                            {weekDays.map((day, dayIndex) => {
-                                const dayName = format(day, 'EEEE');
-                                const dayEvents = getEventsForDay(dayName, day);
-                                
-                                return (
-                                    <div key={dayIndex} className="day-column">
-                                        <div className="events-overlay">
-                                            {dayEvents.map((event, eventIndex) => {
-                                                const startHour = parseInt(event.startTime.split(':')[0]);
-                                                const startMinute = parseInt(event.startTime.split(':')[1]);
-                                                const endHour = parseInt(event.endTime.split(':')[0]);
-                                                const endMinute = parseInt(event.endTime.split(':')[1]);
-                                                
-                                                // Calculate position within the time grid
-                                                const startPosition = ((startHour - 7) * 60 + startMinute) / 60;
-                                                const duration = ((endHour - 7) * 60 + endMinute - (startHour - 7) * 60 - startMinute) / 60;
-                                                
-                                                // Only show events that fall within our time range (7 AM - 10 PM)
-                                                if (startHour < 7 || startHour >= 22) return null;
-                                                
-                                                const theme = EVENT_THEMES[event.theme || 'lavender-peach'] || EVENT_THEMES['lavender-peach'];
-                                                
-                                                return (
-                                                    <div
-                                                        key={`${event.id}-${eventIndex}`}
-                                                        className={`event-block ${theme.preview}`}
-                                                        style={{
-                                                            top: `${startPosition * 60}px`,
-                                                            height: `${Math.max(duration * 60, 30)}px`,
-                                                            left: '2px',
-                                                            right: '2px',
-                                                            zIndex: 5
-                                                        }}
-                                                        onMouseEnter={(e) => handleMouseEnter(event, e)}
-                                                        onMouseLeave={handleMouseLeave}
-                                                        onClick={() => !readOnly && handleEditEvent(event)}
-                                                    >
-                                                        <div className="text-xs font-medium truncate">
-                                                            {event.title}
-                                                        </div>
-                                                        <div className="text-xs opacity-90 truncate">
-                                                            {event.startTime} - {event.endTime}
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
+                    {/* Events overlay - positioned on top of time grid */}
+                    <div
+                        className="events-layer"
+                        style={{ height: `${timeSlots.length * slotHeight}px` }}
+                    >
+                        <div
+                            className="time-label-spacer"
+                            style={{ width: `${getGridConfig(screenWidth).timeColumnWidth}px` }}
+                        />
+                        {weekDays.map((day, dayIndex) => {
+                            const dayName = format(day, 'EEEE');
+                            const dayEvents = getEventsForDay(dayName, day);
+
+                            return (
+                                <div
+                                    key={dayIndex}
+                                    className="day-events-column"
+                                    style={{ height: `${timeSlots.length * slotHeight}px` }}
+                                >
+                                    {dayEvents.map((event, eventIndex) => {
+                                        const startHour = parseInt(event.startTime.split(':')[0]);
+                                        const startMinute = parseInt(event.startTime.split(':')[1]);
+                                        const endHour = parseInt(event.endTime.split(':')[0]);
+                                        const endMinute = parseInt(event.endTime.split(':')[1]);
+
+                                        // Calculate position using actual slot height (matches CSS)
+                                        const startMinutesFromBase = (startHour - 7) * 60 + startMinute;
+                                        const endMinutesFromBase = (endHour - 7) * 60 + endMinute;
+                                        const durationMinutes = endMinutesFromBase - startMinutesFromBase;
+
+                                        // Convert to pixels using slot height (1 slot = 1 hour)
+                                        const topPosition = (startMinutesFromBase / 60) * slotHeight;
+                                        const eventHeight = (durationMinutes / 60) * slotHeight;
+
+                                        // Only show events that fall within our time range (7 AM - 10 PM)
+                                        if (startHour < 7 || startHour >= 22) return null;
+
+                                        const theme = EVENT_THEMES[event.theme || 'lavender-peach'] || EVENT_THEMES['lavender-peach'];
+
+                                        return (
+                                            <div
+                                                key={`${event.id}-${eventIndex}`}
+                                                className={`event-block ${theme.preview}`}
+                                                style={{
+                                                    top: `${topPosition}px`,
+                                                    height: `${Math.max(eventHeight - 4, 24)}px`,
+                                                }}
+                                                onMouseEnter={(e) => handleMouseEnter(event, e)}
+                                                onMouseLeave={handleMouseLeave}
+                                                onClick={() => !readOnly && handleEditEvent(event)}
+                                            >
+                                                <div className="event-title">
+                                                    {event.title}
+                                                </div>
+                                                <div className="event-time">
+                                                    {event.startTime} - {event.endTime}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
 
