@@ -20,7 +20,7 @@ from rest_framework import serializers, status, generics
 from rest_framework.views import APIView
 
 # Import models at the top to avoid import issues
-from .models import UserProfile
+from .models import UserProfile, UserPreferences
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets, filters
