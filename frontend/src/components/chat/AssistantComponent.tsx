@@ -10,8 +10,6 @@ import api, {
     getFunnyMessage 
 } from '@/lib/api';
 import { parseNaturalLanguage, isNaturalLanguage } from '@/lib/naturalLanguageParser';
-import { aiCourseService } from '@/services/aiCourseService';
-import { scheduleGeneratorService } from '@/services/scheduleGeneratorService';
 import { persistentCalendarService } from '@/services/persistentCalendarService';
 import { handle_kairo_query, routeToLogic, legacyKeywordBasedRouting } from '@/lib/kairoIntentRouter';
 import TypewriterText from '@/components/TypewriterText';
@@ -461,40 +459,11 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
-    // Load session and conversation history on component mount
+    // Clear any old session data on component mount
     useEffect(() => {
-        const loadSession = async () => {
-            const savedSessionId = sessionStorage.getItem('kairo_session_id');
-
-            if (savedSessionId) {
-                setIsLoadingHistory(true);
-                try {
-                    const response = await api.get(`/api/ai/chat/?session_id=${savedSessionId}`);
-
-                    if (response.data && response.data.length > 0) {
-                        const loadedMessages: ChatMessage[] = response.data.map((msg: BackendMessage) => ({
-                            id: msg.id.toString(),
-                            content: msg.content,
-                            role: msg.role as 'user' | 'assistant',
-                            timestamp: new Date(msg.timestamp)
-                        }));
-
-                        setMessages(loadedMessages);
-                        setSessionId(savedSessionId);
-                        setHasStartedConversation(true);
-                    } else {
-                        setSessionId(savedSessionId);
-                    }
-                } catch (error) {
-                    console.error('Error loading conversation history:', error);
-                    sessionStorage.removeItem('kairo_session_id');
-                    setSessionId(null);
-                }
-                setIsLoadingHistory(false);
-            }
-        };
-
-        loadSession();
+        // Clear old AI session data since AI backend was removed
+        sessionStorage.removeItem('kairo_session_id');
+        setSessionId(null);
     }, []);
 
     // Auto-scroll to bottom when new messages arrive
@@ -520,7 +489,6 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
         setSessionId(null);
         setHasStartedConversation(false);
         sessionStorage.removeItem('kairo_session_id');
-        aiCourseService.clearContext();
     };
 
     // Handle message feedback
@@ -819,77 +787,6 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 }
             }
 
-            // Check for individual course changes
-            const changeRequest = scheduleGeneratorService.isRequestingIndividualChange(userMessage.content);
-            if (changeRequest.isChange && changeRequest.courseCode) {
-                try {
-                    const changeResult = await scheduleGeneratorService.changeIndividualCourse(
-                        changeRequest.courseCode,
-                        changeRequest.component || 'course',
-                        scheduleGeneratorService.parseTimePreferences(userMessage.content)
-                    );
-
-                    if (changeResult.success && changeResult.events.length > 0) {
-                        try {
-                            const currentEvents = await getCalendarEvents();
-                            const coursePattern = new RegExp(`\\b${changeRequest.courseCode}\\b`, 'i');
-                            const eventsToDelete = currentEvents.filter(event =>
-                                coursePattern.test(event.title) || coursePattern.test(event.description || '')
-                            );
-
-                            for (const event of eventsToDelete) {
-                                if (event.id) {
-                                    await deleteCalendarEvent(event.id);
-                                }
-                            }
-                        } catch (deleteError) {
-                            console.warn('⚠️ Failed to delete old course events:', deleteError);
-                        }
-
-                        try {
-                            await persistentCalendarService.saveMultipleEvents(
-                                changeResult.events.map(event => ({
-                                    title: event.title,
-                                    startTime: event.start_time,
-                                    endTime: event.end_time,
-                                    day_of_week: event.day_of_week,
-                                    start_date: event.start_date,
-                                    end_date: event.end_date,
-                                    description: event.description,
-                                    theme: event.theme || 'blue-gradient'
-                                }))
-                            );
-                        } catch (error) {
-                            console.error('❌ Failed to save course change events:', error);
-                            for (const event of changeResult.events) {
-                                try {
-                                    await createCalendarEvent(event);
-                                } catch (legacyError) {
-                                    console.error('❌ Failed to create calendar event via legacy API:', legacyError);
-                                }
-                            }
-                        }
-
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-                    }
-
-                    const assistantMessageId = (Date.now() + 1).toString();
-                    typeMessage(changeResult.message, assistantMessageId);
-                    setIsLoading(false);
-                    return;
-
-                } catch (changeError) {
-                    console.error('❌ Individual course change failed:', changeError);
-                    const errorMessage = `I had trouble changing that course section. Please try again or generate a new schedule instead.`;
-                    const assistantMessageId = (Date.now() + 1).toString();
-                    typeMessage(errorMessage, assistantMessageId);
-                    setIsLoading(false);
-                    return;
-                }
-            }
-
             // Check for curriculum questions
             const isCurriculumQ = isCurriculumQuestion(userMessage.content);
 
@@ -935,30 +832,12 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 }
             }
 
-            // Check for "when is course taken" queries
-            if (scheduleGeneratorService.isWhenIsCourseQuery(userMessage.content)) {
-                try {
-                    const whenResult = await scheduleGeneratorService.handleWhenIsCourseQuery(userMessage.content);
-
-                    if (whenResult.success) {
-                        const assistantMessageId = (Date.now() + 1).toString();
-                        typeMessage(whenResult.message, assistantMessageId);
-                        setIsLoading(false);
-                        return;
-                    } else {
-                        const errorMessage = whenResult.message + "\n\n💡 Try asking like: 'When do I take CSI2110 in Software Engineering?' or 'What year is MAT1341 in Computer Science?'";
-                        const assistantMessageId = (Date.now() + 1).toString();
-                        typeMessage(errorMessage, assistantMessageId);
-                        setIsLoading(false);
-                        return;
-                    }
-                } catch (whenError) {
-                    console.error('❌ When is course query failed:', whenError);
-                }
-            }
-
             // Check for course information queries
-            const isCourseQuery = aiCourseService.isCourseInfoQuery(userMessage.content);
+            const isCourseQuery = /\b([A-Z]{3,4})\s*(\d{3,4})\b/i.test(userMessage.content) &&
+                (userMessage.content.toLowerCase().includes('what is') ||
+                 userMessage.content.toLowerCase().includes('tell me about') ||
+                 userMessage.content.toLowerCase().includes('prerequisites') ||
+                 userMessage.content.toLowerCase().includes('credits'));
 
             if (isCourseQuery) {
                 try {
@@ -967,16 +846,17 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     if (courseCodeMatch) {
                         const courseCode = `${courseCodeMatch[1]}${courseCodeMatch[2]}`.toUpperCase();
 
-                        const { aiCourseInfoService } = await import('@/services/aiCourseInfoService');
-                        const courseResponse = await aiCourseInfoService.getCourseInfo(courseCode, userMessage.content);
+                        const { getCourseDetails } = await import('@/services/courseDataService');
+                        const courseData = await getCourseDetails(courseCode);
 
-                        if (courseResponse.success) {
+                        if (courseData) {
+                            const courseResponse = `${courseData.courseCode} - ${courseData.courseTitle}\n\n${courseData.description}\n\nPrerequisites: ${courseData.prerequisites || 'None'}\nCredits: ${courseData.units || '3'} units`;
                             const assistantMessageId = (Date.now() + 1).toString();
-                            typeMessage(courseResponse.message, assistantMessageId);
+                            typeMessage(courseResponse, assistantMessageId);
                             setIsLoading(false);
                             return;
                         } else {
-                            const notFoundMessage = `${courseResponse.message}\n\n💡 **Here are some things I can help you with:**\n\n📚 Ask about course descriptions: "What is CSI 2110 about?"\n📋 Check prerequisites: "What are the prerequisites for MAT 1341?"\n💳 Get credit information: "How many credits is ITI 1120?"\n\n🎯 Make sure to use the correct course code format (e.g., CSI 2110, not CSI2110).`;
+                            const notFoundMessage = `I couldn't find information for ${courseCode.toUpperCase()}. Please check the course code and try again.\n\n💡 **Here are some things I can help you with:**\n\n📚 Ask about course descriptions: "What is CSI 2110 about?"\n📋 Check prerequisites: "What are the prerequisites for MAT 1341?"\n💳 Get credit information: "How many credits is ITI 1120?"\n\n🎯 Make sure to use the correct course code format (e.g., CSI 2110, not CSI2110).`;
 
                             const assistantMessageId = (Date.now() + 1).toString();
                             typeMessage(notFoundMessage, assistantMessageId);
@@ -994,204 +874,10 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 }
             }
 
-            // Check for schedule generation requests
-            const isScheduleGenRequest = await scheduleGeneratorService.isScheduleGenerationRequest(userMessage.content);
-
-            if (isScheduleGenRequest) {
-                const isReplacement = scheduleGeneratorService.isRequestingNewSchedule(userMessage.content);
-                if (isReplacement) {
-                    const replacementMessage = "🔄 Replacing your current schedule with a new one...";
-                    const replacementMessageId = Date.now().toString();
-                    typeMessage(replacementMessage, replacementMessageId);
-
-                    try {
-                        const currentEvents = await getCalendarEvents();
-                        if (currentEvents && currentEvents.length > 0) {
-                            for (const event of currentEvents) {
-                                if (event.id) {
-                                    await deleteCalendarEvent(event.id);
-                                }
-                            }
-                        }
-
-                        try {
-                            await persistentCalendarService.clearUserCalendar();
-                        } catch (persistentError) {
-                            console.warn('⚠️ Failed to clear persistent storage:', persistentError);
-                        }
-
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-
-                    } catch (clearError) {
-                        console.error('❌ Failed to clear existing events:', clearError);
-                        const errorMessage = "⚠️ Had trouble clearing some old events, but creating your new schedule...";
-                        const errorMessageId = Date.now().toString();
-                        typeMessage(errorMessage, errorMessageId);
-                    }
-                }
-
-                try {
-                    const scheduleResult = await scheduleGeneratorService.generateSchedule(userMessage.content);
-
-                    if (scheduleResult.success && scheduleResult.events.length > 0) {
-                        try {
-                            const result = await persistentCalendarService.saveMultipleEvents(
-                                scheduleResult.events.map(event => ({
-                                    title: event.title,
-                                    startTime: event.start_time,
-                                    endTime: event.end_time,
-                                    day_of_week: event.day_of_week,
-                                    start_date: event.start_date,
-                                    end_date: event.end_date,
-                                    description: event.description,
-                                    theme: event.theme || 'blue-gradient'
-                                }))
-                            );
-
-                            if (result.total_errors > 0) {
-                                console.warn('⚠️ Some events failed to save:', result.errors);
-                            }
-                        } catch (error) {
-                            console.error('❌ Failed to save schedule events:', error);
-                            const createdEvents = [];
-                            for (const event of scheduleResult.events) {
-                                try {
-                                    const apiEvent = await createCalendarEvent(event);
-                                    createdEvents.push(apiEvent);
-                                } catch (legacyError) {
-                                    console.error('❌ Failed to create calendar event via legacy API:', legacyError);
-                                }
-                            }
-                        }
-
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-                    }
-
-                    let confirmationMessage = '';
-                    if (scheduleResult.success && scheduleResult.events.length > 0) {
-                        try {
-                            const { dynamicClassificationService } = await import('@/lib/dynamicClassificationService');
-                            const classification = await dynamicClassificationService.classifyMessage(userMessage.content);
-                            const program = classification.program || 'Unknown Program';
-                            const year = typeof classification.year === 'number' ? classification.year : 1;
-                            const responseData = {
-                                events: scheduleResult.events,
-                                matched_courses: scheduleResult.matched_courses || [],
-                                unmatched_courses: scheduleResult.unmatched_courses || [],
-                                program,
-                                year,
-                                user_message: userMessage.content
-                            };
-
-                            const gptResponse = await api.post('/api/ai/schedule-response/', responseData);
-                            confirmationMessage = gptResponse.data.response;
-                            const electiveCount = (scheduleResult.unmatched_courses || []).filter(c => /Elective/i.test(c)).length;
-                            if (electiveCount > 0) {
-                                const variants = [
-                                    (n: number) => `You're missing ${n} elective${n > 1 ? 's' : ''}. Use Kairoll to choose non-conflicting times and add them.`,
-                                    (n: number) => `${n} elective${n > 1 ? 's are' : ' is'} still open — pick a section in Kairoll that doesn't clash and add it.`,
-                                    (n: number) => `Reminder: add ${n} elective${n > 1 ? 's' : ''}. Browse in Kairoll and pick times that don't overlap.`,
-                                ];
-                                const variant = variants[Math.floor(Math.random() * variants.length)](electiveCount);
-                                confirmationMessage = `${confirmationMessage}\n\n${variant}`;
-                            }
-                        } catch (error) {
-                            console.error('❌ Failed to generate GPT response, using fallback:', error);
-                            confirmationMessage = `Generated your schedule with ${scheduleResult.events.length} classes added to your calendar.`;
-                            if (scheduleResult.unmatched_courses.length > 0) {
-                                confirmationMessage += ` Couldn't schedule: ${scheduleResult.unmatched_courses.join(', ')}.`;
-                            }
-                            const variants = [
-                                "You're still missing an elective. Use Kairoll to browse and add one.",
-                                "Looks like an elective slot is open — hop into Kairoll to pick one.",
-                                "You'll need to choose an elective. Kairoll can help you explore and add it.",
-                                "Don't forget an elective to round it out. Search and add via Kairoll.",
-                                "An elective is still pending. Use Kairoll to find and add the best fit."
-                            ];
-                            if (scheduleResult.unmatched_courses.some(c => /Elective/i.test(c))) {
-                                const variant = variants[Math.floor(Math.random() * variants.length)];
-                                confirmationMessage += ` ${variant}`;
-                            }
-                        }
-                    } else {
-                        confirmationMessage = scheduleResult.message;
-                    }
-
-                    const assistantMessageId = (Date.now() + 1).toString();
-                    typeMessage(confirmationMessage, assistantMessageId);
-                    setIsLoading(false);
-                    return;
-
-                } catch (scheduleError) {
-                    console.error('❌ Schedule generation failed:', scheduleError);
-                }
-            }
-
-            // Normal AI flow - prepare request payload
-            const requestPayload: {
-                message: string;
-                session_id?: string;
-                conversation_history?: Array<{ role: string; content: string; timestamp: string }>;
-                context_summary?: string;
-            } = {
-                message: userMessage.content
-            };
-
-            if (sessionId) {
-                requestPayload.session_id = sessionId;
-            }
-
-            const recentMessages = messages.slice(-10).map(msg => ({
-                role: msg.role,
-                content: msg.content,
-                timestamp: msg.timestamp.toISOString()
-            }));
-
-            recentMessages.push({
-                role: userMessage.role,
-                content: userMessage.content,
-                timestamp: userMessage.timestamp.toISOString()
-            });
-
-            requestPayload.conversation_history = recentMessages;
-
-            if (messages.length > 5) {
-                const topics = messages.slice(-10)
-                    .filter(msg => msg.role === 'user')
-                    .map(msg => msg.content)
-                    .join(' | ');
-
-                requestPayload.context_summary = `Recent topics discussed: ${topics}`;
-            }
-
-            const response = await api.post('/api/ai/chat/', requestPayload);
-
-            if (response.data.session_id) {
-                const newSessionId = response.data.session_id;
-                if (newSessionId !== sessionId) {
-                    setSessionId(newSessionId);
-                    sessionStorage.setItem('kairo_session_id', newSessionId);
-                }
-            }
-
-            if (response.data.message && !response.data.content) {
-                clearConversation();
-                setSessionId(response.data.session_id);
-                sessionStorage.setItem('kairo_session_id', response.data.session_id);
-
-                const resetMessageId = (Date.now() + 1).toString();
-                typeMessage(response.data.message, resetMessageId);
-                return;
-            }
-
-            let displayContent = response.data.content;
-            let createdEvents: ApiCalendarEvent[] = [];
-
+            // Try to handle natural language calendar events locally
             const userMessageContent = userMessage.content;
+            let createdEvents: ApiCalendarEvent[] = [];
+            let displayContent = '';
 
             try {
                 if (isNaturalLanguage(userMessageContent)) {
@@ -1208,15 +894,13 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 });
                                 createdEvents.push(apiEvent);
                             } catch (createError) {
-                                console.error('✗ Failed to create event:', createError);
+                                console.error('Failed to create event:', createError);
                             }
                         }
 
                         if (parseResult.confirmation) {
                             displayContent = parseResult.confirmation;
                         }
-                    } else if (!parseResult.success && parseResult.error) {
-                        displayContent = response.data.content;
                     }
                 } else {
                     const events = await parseAndCreateCalendarEvents(userMessageContent);
@@ -1225,88 +909,11 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     }
                 }
             } catch (error) {
-                if (error instanceof Error && error.message.includes('401')) {
-                    displayContent = `${response.data.content}\n\n❌ **Authentication Error:** Please try logging out and logging back in.`;
-                } else if (error instanceof Error && error.message.includes('403')) {
-                    displayContent = `${response.data.content}\n\n❌ **Permission Error:** You don't have permission to add calendar events.`;
-                }
-            }
-
-            const jsonPattern = /```json\s*([\s\S]*?)\s*```/g;
-            let match;
-
-            while ((match = jsonPattern.exec(response.data.content)) !== null) {
-                try {
-                    const jsonData = JSON.parse(match[1]);
-                    if (jsonData.action === 'create_calendar_event' && jsonData.params) {
-                        displayContent = displayContent.replace(match[0], '').trim();
-
-                        const jsonString = JSON.stringify(jsonData);
-                        const events = await parseAndCreateCalendarEvents(jsonString);
-                        createdEvents.push(...events);
-                    } else if (jsonData.action === 'remove_calendar_event' && jsonData.params) {
-                        displayContent = displayContent.replace(match[0], '').trim();
-
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-                    } else if (jsonData.action === 'remove_all_calendar_events') {
-                        displayContent = displayContent.replace(match[0], '').trim();
-
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-                    }
-                } catch (parseError) {
-                    console.warn('Failed to parse JSON from AI response:', parseError);
-                }
-            }
-
-            if (createdEvents.length === 0) {
-                const plainJsonPattern = /\{[^}]*"action"\s*:\s*"create_calendar_event"[^}]*\}/g;
-                let plainMatch;
-
-                while ((plainMatch = plainJsonPattern.exec(response.data.content)) !== null) {
-                    try {
-                        const jsonData = JSON.parse(plainMatch[0]);
-                        if (jsonData.action === 'create_calendar_event' && jsonData.params) {
-                            displayContent = displayContent.replace(plainMatch[0], '').trim();
-
-                            const jsonString = JSON.stringify(jsonData);
-                            const events = await parseAndCreateCalendarEvents(jsonString);
-                            createdEvents.push(...events);
-                        }
-                    } catch (parseError) {
-                        console.warn('Failed to parse plain JSON from AI response:', parseError);
-                    }
-                }
-            }
-
-            if (createdEvents.length === 0) {
-                const trimmedContent = response.data.content.trim();
-                if (trimmedContent.startsWith('{') && trimmedContent.endsWith('}')) {
-                    try {
-                        const jsonData = JSON.parse(trimmedContent);
-                        if (jsonData.action === 'create_calendar_event' && jsonData.params) {
-                            displayContent = `I've added "${jsonData.params.title}" to your calendar for ${jsonData.params.day_of_week} from ${jsonData.params.start_time} to ${jsonData.params.end_time}.`;
-
-                            const events = await parseAndCreateCalendarEvents(trimmedContent);
-                            createdEvents.push(...events);
-                        } else if (jsonData.action === 'remove_all_calendar_events') {
-                            displayContent = "I'll remove all events from your calendar.";
-
-                            if (onEventAdded) {
-                                onEventAdded();
-                            }
-                        }
-                    } catch (parseError) {
-                        console.warn('Failed to parse entire response as JSON:', parseError);
-                    }
-                }
+                console.error('Error parsing natural language:', error);
             }
 
             if (createdEvents.length > 0) {
-                if (!displayContent.includes('Added') && !displayContent.includes('added')) {
+                if (!displayContent) {
                     const eventSummary = createdEvents.map(event =>
                         `"${event.title}" on ${event.day_of_week} from ${event.start_time} to ${event.end_time}`
                     ).join(' and ');
@@ -1317,70 +924,22 @@ export function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 if (onEventAdded) {
                     onEventAdded();
                 }
+
+                const assistantMessageId = (Date.now() + 1).toString();
+                typeMessage(displayContent, assistantMessageId);
+            } else {
+                // Fallback response when no specific handler matched
+                const fallbackResponse = "I can help you with:\n\n" +
+                    "📚 **Course information** - Ask about specific courses (e.g., 'What is CSI2101?')\n" +
+                    "📅 **Calendar events** - Add events like 'Add meeting on Monday at 2pm'\n" +
+                    "🗑️ **Clear calendar** - Say 'clear my calendar' or 'delete all events'\n" +
+                    "📋 **Course sequences** - Ask about program curricula\n" +
+                    "👨‍🏫 **Professor ratings** - Look up RateMyProfessors data\n\n" +
+                    "Try being more specific with your request!";
+
+                const assistantMessageId = (Date.now() + 1).toString();
+                typeMessage(fallbackResponse, assistantMessageId);
             }
-
-            const deletionPatterns = [
-                /cleared all \d+ events/i,
-                /removed \d+ events?/i,
-                /deleted \d+ events?/i,
-                /I cleared all/i,
-                /I removed/i,
-                /I deleted/i,
-                /🗑️.*cleared/i,
-                /🗑️.*removed/i,
-                /🗑️.*deleted/i,
-                /🗑️.*I cleared/i,
-                /Your calendar is.*empty/i,
-                /calendar.*cleared/i,
-                /calendar.*empty/i,
-                /all events.*removed/i,
-                /everything.*cleared/i,
-                /wiped.*calendar/i,
-                /emptied.*calendar/i,
-                /reset.*calendar/i,
-                /cleaned.*calendar/i,
-                /calendar.*already.*empty/i,
-                /no events.*found/i,
-                /calendar.*now.*empty/i
-            ];
-
-            const isDeletionResponse = deletionPatterns.some(pattern => pattern.test(displayContent));
-
-            if (isDeletionResponse) {
-                const countMatch = displayContent.match(/(\d+)\s+events?/i);
-                const deletedCount = countMatch ? parseInt(countMatch[1]) : 1;
-
-                window.dispatchEvent(new CustomEvent('aiCalendarDeletion', {
-                    detail: { type: 'ai_response', count: deletedCount }
-                }));
-
-                if (onEventAdded) {
-                    onEventAdded();
-                }
-            }
-
-            const finalHonestCheck = shouldProvideHonestResponse(userMessage.content);
-            if (finalHonestCheck.shouldRespond && finalHonestCheck.response) {
-                const aiResponseLower = displayContent.toLowerCase();
-                const nonAcademicIndicators = [
-                    'i don\'t have access to', 'i cannot provide', 'i\'m not able to',
-                    'as an ai', 'i\'m an ai', 'i don\'t know', 'i\'m not sure',
-                    'general knowledge', 'outside my expertise', 'beyond my capabilities'
-                ];
-
-                const containsNonAcademicResponse = nonAcademicIndicators.some(indicator =>
-                    aiResponseLower.includes(indicator)
-                );
-
-                if (containsNonAcademicResponse) {
-                    const assistantMessageId = (Date.now() + 1).toString();
-                    typeMessage(finalHonestCheck.response, assistantMessageId);
-                    return;
-                }
-            }
-
-            const assistantMessageId = (Date.now() + 1).toString();
-            typeMessage(displayContent, assistantMessageId);
 
         } catch (error) {
             console.error('Error sending message:', error);

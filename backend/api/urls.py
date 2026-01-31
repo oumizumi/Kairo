@@ -6,33 +6,26 @@ from rest_framework_simplejwt.views import (
 )
 from .views import (
     UserRegistrationView,
-    UserLoginView,  # Add UserLoginView import
+    UserLoginView,
     UserProfileView,
     UserProfileUpdateView,
     PasswordResetRequestView,
     PasswordResetConfirmView,
-    MessageView, # Add MessageView import
-    IntentDetectionView, # Add IntentDetectionView import
-    AIClassificationView, # Add AI Classification import
-    ProfessorSyncView, # Add Professor Sync import
-    ProfessorAutoSyncView, # Add Professor Auto Sync import
-    HealthCheckView, # Add this import
-    GuestLoginView, # Add GuestLoginView import
-    CalendarEventListCreateView, # Changed from CalendarEventListView
-    CalendarEventRetrieveUpdateDestroyView, # Add this import
+    ProfessorSyncView,
+    ProfessorAutoSyncView,
+    HealthCheckView,
+    GuestLoginView,
+    CalendarEventListCreateView,
+    CalendarEventRetrieveUpdateDestroyView,
     ImportantDateViewSet,
     ExamEventViewSet,
-    CourseViewSet, # Add CourseViewSet import
-    ContactEmailView, # Add ContactEmailView import
-    CourseDataView, # Add CourseDataView import
-    professor_rmp_data, # Add RMP endpoints
+    CourseViewSet,
+    ContactEmailView,
+    CourseDataView,
+    professor_rmp_data,
     professor_search,
     rmp_stats,
-    ScheduleGenerationView, # Add ScheduleGenerationView import (legacy)
-    AutoScheduleBuilderView, # Add new auto schedule builder
-    ScheduleAdjustmentView, # Add schedule adjustment view
-    ScheduleDataVersionView, # Add data version check view
-    UserPreferencesView, # Add UserPreferencesView import
+    UserPreferencesView,
 )
 from .views_feedback import (
     AIResponseFeedbackCreateView,
@@ -42,8 +35,6 @@ from .views_feedback import (
     feedback_stats_public
 )
 from .calendar_views import UserCalendarViewSet, export_ics, SharedScheduleViewSet, get_shared_schedule
-from .views import ai_enqueue, ai_status
-from .views_ai import ai_router
 
 app_name = 'api'
 
@@ -72,21 +63,7 @@ urlpatterns = [
     path('auth/profile/update/', UserProfileUpdateView.as_view(), name='profile-update'),
     path('auth/password-reset/request/', PasswordResetRequestView.as_view(), name='password-reset-request'),
     path('auth/password-reset/confirm/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
-    # AI Chat URL - handle both with and without ID
-    path('ai/chat/', MessageView.as_view(), name='ai-chat'),
-    path('ai/chat/<int:id>/', MessageView.as_view(), name='ai-chat-with-id'),
-    # AI Intent Detection URL
-    path('ai/intent/', IntentDetectionView.as_view(), name='ai-intent'),
-    # AI Classification URL
-    path('ai/classify/', AIClassificationView.as_view(), name='ai-classify'),
-    # Auto Schedule Builder URLs (new system)
-    path('auto-schedule/', AutoScheduleBuilderView.as_view(), name='auto-schedule-builder'),
-    path('auto-schedule/adjust/<uuid:schedule_id>/', ScheduleAdjustmentView.as_view(), name='schedule-adjustment'),
-    path('auto-schedule/version/', ScheduleDataVersionView.as_view(), name='schedule-data-version'),
-    
-    # Legacy Schedule Generation URL (backward compatibility)
-    path('schedule/generate/', ScheduleGenerationView.as_view(), name='schedule-generate'),
-    path('health-check/', HealthCheckView.as_view(), name='health-check-dup'), # Add this line
+    path('health-check/', HealthCheckView.as_view(), name='health-check-dup'),
     path('health-check', HealthCheckView.as_view(), name='health-check-no-slash'),
     # Calendar Events URL
     path('calendar/events/', CalendarEventListCreateView.as_view(), name='calendar-events'),
@@ -99,13 +76,7 @@ urlpatterns = [
     path('contact/send/', ContactEmailView.as_view(), name='contact-send'),
     # Course Data API
     path('data/courses-complete/', CourseDataView.as_view(), name='courses-complete'),
-    # Unified AI Router (fast path + background upgrade + limits)
-    path('ai/router', ai_router, name='ai-router'),
-    # AI async endpoints
-    path('ai/enqueue', ai_enqueue, name='ai-enqueue-no-slash'),
-    path('ai/enqueue/', ai_enqueue, name='ai-enqueue'),
-    path('ai/status/<str:task_id>/', ai_status, name='ai-status'),
-    
+
     # RMP Data APIs
     path('professors/rmp/', professor_rmp_data, name='professor-rmp-data'),
     path('professors/search/', professor_search, name='professor-search'),
