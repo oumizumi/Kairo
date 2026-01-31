@@ -21,9 +21,7 @@ import api from '@/lib/api';
 import MessageContent from '@/components/MessageContent';
 import { parseNaturalLanguage, isNaturalLanguage } from '@/lib/naturalLanguageParser';
 
-import { scheduleGeneratorService } from '@/services/scheduleGeneratorService';
 import { EVENT_THEMES } from '@/config/eventThemes';
-import { aiCourseService, AICourseService } from '@/services/aiCourseService';
 
 import { conversationService } from '@/services/conversationService';
 import { persistentCalendarService, CalendarEvent as PersistentCalendarEvent } from '@/services/persistentCalendarService';
@@ -1503,10 +1501,6 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
         setSessionId(null);
         setHasStartedConversation(false);
         sessionStorage.removeItem('kairo_session_id');
-
-        // Clear all conversation context
-        aiCourseService.clearContext();
-
     };
 
     // Handle message feedback
@@ -1833,85 +1827,6 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 }
             }
 
-            // NEW: Check for individual course changes BEFORE course info queries
-            const changeRequest = scheduleGeneratorService.isRequestingIndividualChange(userMessage.content);
-            if (changeRequest.isChange && changeRequest.courseCode) {
-
-                try {
-                    const changeResult = await scheduleGeneratorService.changeIndividualCourse(
-                        changeRequest.courseCode,
-                        changeRequest.component || 'course',
-                        scheduleGeneratorService.parseTimePreferences(userMessage.content)
-                    );
-
-
-                    if (changeResult.success && changeResult.events.length > 0) {
-                        // Remove old events for this course from calendar
-                        try {
-                            const currentEvents = await getCalendarEvents();
-                            const coursePattern = new RegExp(`\\b${changeRequest.courseCode}\\b`, 'i');
-                            const eventsToDelete = currentEvents.filter(event =>
-                                coursePattern.test(event.title) || coursePattern.test(event.description || '')
-                            );
-
-                            for (const event of eventsToDelete) {
-                                if (event.id) {
-                                    await deleteCalendarEvent(event.id);
-                                }
-                            }
-                        } catch (deleteError) {
-                            console.warn('⚠️ Failed to delete old course events:', deleteError);
-                        }
-
-                        // Create new calendar events for the changed course using persistent storage
-                        try {
-                            const result = await persistentCalendarService.saveMultipleEvents(
-                                changeResult.events.map(event => ({
-                                    title: event.title,
-                                    startTime: event.start_time,
-                                    endTime: event.end_time,
-                                    day_of_week: event.day_of_week,
-                                    start_date: event.start_date,
-                                    end_date: event.end_date,
-                                    description: event.description,
-                                    theme: event.theme || 'blue-gradient'
-                                }))
-                            );
-
-                        } catch (error) {
-                            console.error('❌ Failed to save course change events:', error);
-                            // Fallback to legacy API if persistent storage fails
-                            for (const event of changeResult.events) {
-                                try {
-                                    const apiEvent = await createCalendarEvent(event);
-                                } catch (legacyError) {
-                                    console.error('❌ Failed to create calendar event via legacy API:', legacyError);
-                                }
-                            }
-                        }
-
-                        // Trigger calendar refresh
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-                    }
-
-                    // Send change response
-                    const assistantMessageId = (Date.now() + 1).toString();
-                    typeMessage(changeResult.message, assistantMessageId);
-                    setIsLoading(false);
-                    return; // Exit early, change complete
-
-                } catch (changeError) {
-                    console.error('❌ Individual course change failed:', changeError);
-                    const errorMessage = `I had trouble changing that course section. Please try again or generate a new schedule instead.`;
-                    const assistantMessageId = (Date.now() + 1).toString();
-                    typeMessage(errorMessage, assistantMessageId);
-                    setIsLoading(false);
-                    return;
-                }
-            }
-
             // Check for curriculum questions FIRST (before course info queries)
             const isCurriculumQ = isCurriculumQuestion(userMessage.content);
 
@@ -1963,33 +1878,12 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 }
             }
 
-            // Check for "when is course taken" queries
-            if (scheduleGeneratorService.isWhenIsCourseQuery(userMessage.content)) {
-
-                try {
-                    const whenResult = await scheduleGeneratorService.handleWhenIsCourseQuery(userMessage.content);
-
-                    if (whenResult.success) {
-                        const assistantMessageId = (Date.now() + 1).toString();
-                        typeMessage(whenResult.message, assistantMessageId);
-                        setIsLoading(false);
-                        return; // Exit early, don't send to AI
-                    } else {
-                        // Provide helpful error message
-                        const errorMessage = whenResult.message + "\n\n💡 Try asking like: 'When do I take CSI2110 in Software Engineering?' or 'What year is MAT1341 in Computer Science?'";
-                        const assistantMessageId = (Date.now() + 1).toString();
-                        typeMessage(errorMessage, assistantMessageId);
-                        setIsLoading(false);
-                        return; // Exit early, don't send to AI
-                    }
-                } catch (whenError) {
-                    console.error('❌ When is course query failed:', whenError);
-                    // Fall through to normal AI processing if query fails
-                }
-            }
-
             // Check for course information queries (AFTER curriculum questions)
-            const isCourseQuery = aiCourseService.isCourseInfoQuery(userMessage.content);
+            const isCourseQuery = /\b([A-Z]{3,4})\s*(\d{3,4})\b/i.test(userMessage.content) &&
+                (userMessage.content.toLowerCase().includes('what is') ||
+                 userMessage.content.toLowerCase().includes('tell me about') ||
+                 userMessage.content.toLowerCase().includes('prerequisites') ||
+                 userMessage.content.toLowerCase().includes('credits'));
 
             if (isCourseQuery) {
 
@@ -2000,26 +1894,25 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     if (courseCodeMatch) {
                         const courseCode = `${courseCodeMatch[1]}${courseCodeMatch[2]}`.toUpperCase();
 
-                        // Use AI elaboration service for intelligent explanations
-                        const { aiCourseInfoService } = await import('@/services/aiCourseInfoService');
-                        const courseResponse = await aiCourseInfoService.getCourseInfo(courseCode, userMessage.content);
+                        // Use course data service
+                        const { getCourseDetails } = await import('@/services/courseDataService');
+                        const courseData = await getCourseDetails(courseCode);
 
-                        if (courseResponse.success) {
+                        if (courseData) {
+                            const courseResponse = `${courseData.courseCode} - ${courseData.courseTitle}\n\n${courseData.description}\n\nPrerequisites: ${courseData.prerequisites || 'None'}\nCredits: ${courseData.units || '3'} units`;
                             const assistantMessageId = (Date.now() + 1).toString();
-                            typeMessage(courseResponse.message, assistantMessageId);
+                            typeMessage(courseResponse, assistantMessageId);
                             setIsLoading(false);
-                            return; // Exit early, don't send to AI
+                            return; // Exit early
                         } else {
                             // Course not found, provide helpful response
-                            const notFoundMessage = `${courseResponse.message}\n\n💡 **Here are some things I can help you with:**\n\n📚 Ask about course descriptions: "What is CSI 2110 about?"\n📋 Check prerequisites: "What are the prerequisites for MAT 1341?"\n💳 Get credit information: "How many credits is ITI 1120?"\n\n🎯 Make sure to use the correct course code format (e.g., CSI 2110, not CSI2110).`;
+                            const notFoundMessage = `I couldn't find information for ${courseCode.toUpperCase()}. Please check the course code and try again.\n\n💡 **Here are some things I can help you with:**\n\n📚 Ask about course descriptions: "What is CSI 2110 about?"\n📋 Check prerequisites: "What are the prerequisites for MAT 1341?"\n💳 Get credit information: "How many credits is ITI 1120?"\n\n🎯 Make sure to use the correct course code format (e.g., CSI 2110, not CSI2110).`;
 
                             const assistantMessageId = (Date.now() + 1).toString();
                             typeMessage(notFoundMessage, assistantMessageId);
                             setIsLoading(false);
-                            return; // Exit early, don't send to AI
+                            return; // Exit early
                         }
-                    } else {
-                        // No course code found, let it fall through to normal AI processing
                     }
                 } catch (courseError) {
                     console.error('❌ Course query failed:', courseError);
@@ -2031,168 +1924,6 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     return; // Exit early, don't send to AI
                 }
             }
-
-            // Check for schedule generation requests
-            const isScheduleGenRequest = await scheduleGeneratorService.isScheduleGenerationRequest(userMessage.content);
-
-            if (isScheduleGenRequest) {
-
-                // Check if this is a request to replace an existing schedule
-                const isReplacement = scheduleGeneratorService.isRequestingNewSchedule(userMessage.content);
-                if (isReplacement) {
-
-                    // Show replacement message
-                    const replacementMessage = "🔄 Replacing your current schedule with a new one...";
-                    const replacementMessageId = Date.now().toString();
-                    typeMessage(replacementMessage, replacementMessageId);
-
-                    // Clear existing calendar events
-                    try {
-                        // Get current events to delete them
-                        const currentEvents = await getCalendarEvents();
-                        if (currentEvents && currentEvents.length > 0) {
-                            for (const event of currentEvents) {
-                                if (event.id) {
-                                    await deleteCalendarEvent(event.id);
-                                }
-                            }
-                        }
-
-                        // Also clear persistent storage
-                        try {
-                            await persistentCalendarService.clearUserCalendar();
-                        } catch (persistentError) {
-                            console.warn('⚠️ Failed to clear persistent storage:', persistentError);
-                        }
-
-                        // Trigger calendar refresh to show cleared state
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-
-                    } catch (clearError) {
-                        console.error('❌ Failed to clear existing events:', clearError);
-                        // Show a brief error message but continue with schedule generation
-                        const errorMessage = "⚠️ Had trouble clearing some old events, but creating your new schedule...";
-                        const errorMessageId = Date.now().toString();
-                        typeMessage(errorMessage, errorMessageId);
-                    }
-                }
-
-                try {
-                    const scheduleResult = await scheduleGeneratorService.generateSchedule(userMessage.content);
-
-
-
-                    if (scheduleResult.success && scheduleResult.events.length > 0) {
-                        // Create calendar events using persistent storage
-                        try {
-                            const result = await persistentCalendarService.saveMultipleEvents(
-                                scheduleResult.events.map(event => ({
-                                    title: event.title,
-                                    startTime: event.start_time,
-                                    endTime: event.end_time,
-                                    day_of_week: event.day_of_week,
-                                    start_date: event.start_date,
-                                    end_date: event.end_date,
-                                    description: event.description,
-                                    theme: event.theme || 'blue-gradient'
-                                }))
-                            );
-
-
-                            if (result.total_errors > 0) {
-                                console.warn('⚠️ Some events failed to save:', result.errors);
-                            }
-                        } catch (error) {
-                            console.error('❌ Failed to save schedule events:', error);
-                            // Fallback to legacy API if persistent storage fails
-                            const createdEvents = [];
-                            for (const event of scheduleResult.events) {
-                                try {
-                                    const apiEvent = await createCalendarEvent(event);
-                                    createdEvents.push(apiEvent);
-                                } catch (legacyError) {
-                                    console.error('❌ Failed to create calendar event via legacy API:', legacyError);
-                                }
-                            }
-                        }
-
-                        // Trigger calendar refresh after schedule generation
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-                    }
-
-                    // Generate GPT-powered confirmation message
-                    let confirmationMessage = '';
-                    if (scheduleResult.success && scheduleResult.events.length > 0) {
-                        try {
-                            // Extract program and year from user message using dynamic AI
-                            const { dynamicClassificationService } = await import('@/lib/dynamicClassificationService');
-                            const classification = await dynamicClassificationService.classifyMessage(userMessage.content);
-                            const program = classification.program || 'Unknown Program';
-                            const year = typeof classification.year === 'number' ? classification.year : 1;
-                            // Call the new backend endpoint for dynamic response generation
-                            const responseData = {
-                                events: scheduleResult.events,
-                                matched_courses: scheduleResult.matched_courses || [],
-                                unmatched_courses: scheduleResult.unmatched_courses || [],
-                                program,
-                                year,
-                                user_message: userMessage.content
-                            };
-
-                            const gptResponse = await api.post('/api/ai/schedule-response/', responseData);
-                            confirmationMessage = gptResponse.data.response;
-                            // If electives are unmatched, append elective count and nudge to use Kairoll
-                            const electiveCount = (scheduleResult.unmatched_courses || []).filter(c => /Elective/i.test(c)).length;
-                            if (electiveCount > 0) {
-                                const variants = [
-                                    (n: number) => `You're missing ${n} elective${n > 1 ? 's' : ''}. Use Kairoll to choose non-conflicting times and add them.`,
-                                    (n: number) => `${n} elective${n > 1 ? 's are' : ' is'} still open — pick a section in Kairoll that doesn't clash and add it.`,
-                                    (n: number) => `Reminder: add ${n} elective${n > 1 ? 's' : ''}. Browse in Kairoll and pick times that don't overlap.`,
-                                ];
-                                const variant = variants[Math.floor(Math.random() * variants.length)](electiveCount);
-                                confirmationMessage = `${confirmationMessage}\n\n${variant}`;
-                            }
-                        } catch (error) {
-                            console.error('❌ Failed to generate GPT response, using fallback:', error);
-                            // Fallback to simple message without emojis
-                            confirmationMessage = `Generated your schedule with ${scheduleResult.events.length} classes added to your calendar.`;
-                            if (scheduleResult.unmatched_courses.length > 0) {
-                                confirmationMessage += ` Couldn't schedule: ${scheduleResult.unmatched_courses.join(', ')}.`;
-                            }
-                            // Add a varied, LLM-style nudge about electives and Kairoll
-                            const variants = [
-                                "You're still missing an elective. Use Kairoll to browse and add one.",
-                                "Looks like an elective slot is open — hop into Kairoll to pick one.",
-                                "You'll need to choose an elective. Kairoll can help you explore and add it.",
-                                "Don't forget an elective to round it out. Search and add via Kairoll.",
-                                "An elective is still pending. Use Kairoll to find and add the best fit."
-                            ];
-                            if (scheduleResult.unmatched_courses.some(c => /Elective/i.test(c))) {
-                                const variant = variants[Math.floor(Math.random() * variants.length)];
-                                confirmationMessage += ` ${variant}`;
-                            }
-                        }
-                    } else {
-                        confirmationMessage = scheduleResult.message;
-                    }
-
-                    // Send schedule generation response
-                    const assistantMessageId = (Date.now() + 1).toString();
-                    typeMessage(confirmationMessage, assistantMessageId);
-                    setIsLoading(false);
-                    return; // Exit early, don't send to AI
-
-                } catch (scheduleError) {
-                    console.error('❌ Schedule generation failed:', scheduleError);
-                    // Fall through to normal AI processing if schedule generation fails
-                }
-            }
-
-
 
             // Prepare the request payload with full conversation context (normal AI flow)
             const requestPayload: {

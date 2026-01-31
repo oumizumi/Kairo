@@ -4,7 +4,6 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
 import logging
-import openai
 from django.conf import settings
 from django.contrib.auth.models import User
 from ..models import UserProfile
@@ -380,108 +379,22 @@ class ProgramService:
     @classmethod
     async def detect_program_name(cls, user_message: str) -> Tuple[Optional[str], float]:
         """
-        Use GPT to detect program name from user message
-        
+        Detect program name from user message using offline detection
+
         Args:
             user_message: The user's natural language message
-            
+
         Returns:
             Tuple of (program_name, confidence_score)
             program_name is None if confidence < 0.5
         """
         try:
-            # Get all available program names
-            program_names = cls.get_all_program_names()
-            
-            if not program_names:
-                logger.warning("No programs available for detection")
-                return None, 0.0
-            
-            # Build the GPT prompt using the existing configuration system
-            programs_with_keywords = cls._get_programs_with_keywords()
-            programs_list = "\n".join([f"- {name}" for name in program_names])
-            
-            prompt = f"""You are helping detect which academic program a student is referring to from their natural language message.
-
-Available Programs at University of Ottawa:
-{programs_list}
-
-{programs_with_keywords}
-
-User Message: "{user_message}"
-
-Your task:
-1. Analyze the message to identify if the user is asking about a specific academic program
-2. Use the keywords and aliases provided to match informal language to official program names
-3. Find the EXACT program name match from the list above
-4. Return a confidence score (0.0 to 1.0) based on how certain you are
-
-Rules:
-- Only return program names that EXACTLY match the list above
-- Use the provided keywords to handle variations and slang
-- If confidence < 0.5, the program_name should be null
-- Be strict about matching - don't guess if unclear
-
-Respond in this exact JSON format:
-{{
-    "program_name": "EXACT_PROGRAM_NAME_FROM_LIST_OR_NULL",
-    "confidence": 0.8,
-    "reasoning": "Brief explanation of your decision"
-}}"""
-
-            # If no OpenAI key, use robust offline detection
-            openai_api_key = getattr(settings, 'OPENAI_API_KEY', None) or os.getenv('OPENAI_API_KEY')
-            if not openai_api_key:
-                logger.error("OpenAI API key not found")
-                offline_name, offline_conf = cls.detect_program_name_offline(user_message)
-                return offline_name, offline_conf
-            
-            client = openai.OpenAI(api_key=openai_api_key)
-            
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": "You are an academic program detection assistant."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.1,
-                max_tokens=300
-            )
-            
-            response_text = response.choices[0].message.content.strip()
-            
-            # Parse JSON response
-            try:
-                result = json.loads(response_text)
-                program_name = result.get('program_name')
-                confidence = float(result.get('confidence', 0.0))
-                reasoning = result.get('reasoning', '')
-                
-                logger.info(f"Program detection result: {program_name} (confidence: {confidence}) - {reasoning}")
-                
-                # Validate program name exists in our list
-                if program_name and program_name not in program_names:
-                    logger.warning(f"GPT returned invalid program name: {program_name}")
-                    return None, 0.0
-                
-                # Return None if confidence is too low
-                if confidence < 0.5:
-                    return None, confidence
-                    
-                return program_name, confidence
-                
-            except json.JSONDecodeError as e:
-                logger.error(f"Failed to parse GPT response: {e}")
-                return None, 0.0
-                
+            # Use offline detection
+            offline_name, offline_conf = cls.detect_program_name_offline(user_message)
+            return offline_name, offline_conf
         except Exception as e:
             logger.error(f"Error in program detection: {e}")
-            # Fallback to offline detection on any error
-            try:
-                offline_name, offline_conf = cls.detect_program_name_offline(user_message)
-                return offline_name, offline_conf
-            except Exception:
-                return None, 0.0
+            return None, 0.0
 
     @classmethod
     def detect_program_name_offline(cls, user_message: str) -> Tuple[Optional[str], float]:

@@ -440,37 +440,25 @@ class ConversationService {
 
         switch (type) {
             case 'prerequisites':
-                // Use AI course info service for intelligent prerequisite explanations
-                const { aiCourseInfoService } = await import('@/services/aiCourseInfoService');
-                const prereqResponse = await aiCourseInfoService.getCourseInfo(courseCode, `What are the prerequisites for ${courseCode}?`);
-
                 return {
                     type: 'prerequisites',
-                    message: prereqResponse.success ? prereqResponse.message : `Prerequisites for ${courseCode}: ${courseDetails.prerequisites || 'None'}`,
+                    message: `Prerequisites for ${courseCode}: ${courseDetails.prerequisites || 'None'}`,
                     data: courseDetails,
                     followUp: [`What is ${courseCode} about?`, `When is ${courseCode} offered?`]
                 };
 
             case 'description':
-                // Use AI course info service for intelligent course descriptions
-                const { aiCourseInfoService: descService } = await import('@/services/aiCourseInfoService');
-                const descResponse = await descService.getCourseInfo(courseCode, `What is ${courseCode} about?`);
-
                 return {
                     type: 'description',
-                    message: descResponse.success ? descResponse.message : `${courseDetails.courseCode} - ${courseDetails.courseTitle}: ${courseDetails.description}`,
+                    message: `${courseDetails.courseCode} - ${courseDetails.courseTitle}: ${courseDetails.description}`,
                     data: courseDetails,
                     followUp: [`What are the prerequisites for ${courseCode}?`, `When is ${courseCode} offered?`]
                 };
 
             default:
-                // Use AI course info service for general course information
-                const { aiCourseInfoService: generalService } = await import('@/services/aiCourseInfoService');
-                const generalResponse = await generalService.getCourseInfo(courseCode, `Tell me about ${courseCode}`);
-
                 return {
                     type: 'course_info',
-                    message: generalResponse.success ? generalResponse.message : `${courseDetails.courseCode} - ${courseDetails.courseTitle}: ${courseDetails.description}. Prerequisites: ${courseDetails.prerequisites || 'None'}`,
+                    message: `${courseDetails.courseCode} - ${courseDetails.courseTitle}: ${courseDetails.description}. Prerequisites: ${courseDetails.prerequisites || 'None'}`,
                     data: courseDetails,
                     followUp: [`When is ${courseCode} offered?`, `Find similar courses`]
                 };

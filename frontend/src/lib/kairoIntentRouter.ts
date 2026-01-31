@@ -11,15 +11,7 @@ interface GPTResponse {
 const INTENT_MAP: Record<string, string> = {
     "when_is_course_taken": "course_timing_query",
     "course_info": "course_info",
-    "build_schedule": "auto_schedule_builder",
-    "generate_schedule": "auto_schedule_builder",
-    "schedule_generation": "auto_schedule_builder",
-    "auto_schedule": "auto_schedule_builder",
-    "schedule_adjustment": "schedule_adjustment",
-    "modify_schedule": "schedule_adjustment",
-    "adjust_schedule": "schedule_adjustment",
     "reset_chat": "reset_chat",
-    "schedule_builder": "auto_schedule_builder", // Future-proof example
     "course_timing": "course_timing_query",
     "course_details": "course_info",
     "program_sequence": "program_sequence",
@@ -129,10 +121,6 @@ export function routeToLogic(intent: string, course_codes: string[], userMessage
             return handleCoreqCheck(course_codes, userMessage);
         case 'course_list':
             return handleCourseList(course_codes, userMessage);
-        case 'auto_schedule_builder':
-            return handleAutoScheduleBuilder(userMessage);
-        case 'schedule_adjustment':
-            return handleScheduleAdjustment(userMessage);
         case 'program_sequence':
             return handleProgramSequence(userMessage);
         case 'reset_chat':
@@ -142,104 +130,48 @@ export function routeToLogic(intent: string, course_codes: string[], userMessage
     }
 }
 
-// Auto Schedule Builder handlers
-async function handleAutoScheduleBuilder(userMessage: string) {
-    try {
-        const { autoScheduleBuilderService } = await import('@/services/autoScheduleBuilderService');
-        
-        // Parse time preferences from the message
-        const preferences = autoScheduleBuilderService.parseTimePreferences(userMessage);
-        
-        // Build the schedule
-        const result = await autoScheduleBuilderService.buildSchedule({
-            message: userMessage,
-            preferences
-        });
-        
-        if (result.success) {
-            const totalCourses = result.schedules.reduce((total, schedule) => total + schedule.total_courses, 0);
-            const termsList = result.schedules.map(s => s.term_display).join(' and ');
-            
-            return {
-                type: 'auto_schedule_success',
-                message: `✅ ${result.message}\n\nBuilt schedules for ${termsList} with ${totalCourses} total courses.\n\nYou can view your schedule in the calendar or make adjustments by saying things like:\n• "Remove CSI 2110"\n• "No Friday classes"\n• "Avoid 8am classes"\n• "Prefer Prof. Smith"`,
-                schedules: result.schedules,
-                events: autoScheduleBuilderService.convertToCalendarEvents(result.schedules)
-            };
-        } else {
-            return {
-                type: 'auto_schedule_error',
-                message: `❌ ${result.message}\n\nTry being more specific, like:\n• "Build my Fall schedule"\n• "Generate Winter schedule for Software Engineering Year 2"\n• "Create my schedule with no 8am classes"`
-            };
-        }
-    } catch (error) {
-        console.error('Error in auto schedule builder:', error);
-        return {
-            type: 'error',
-            message: 'Sorry, I encountered an error while building your schedule. Please try again.'
-        };
-    }
-}
-
-async function handleScheduleAdjustment(userMessage: string) {
-    try {
-        const { autoScheduleBuilderService } = await import('@/services/autoScheduleBuilderService');
-        
-        // Get current schedules first
-        const currentSchedules = await autoScheduleBuilderService.getCurrentSchedules();
-        
-        if (!currentSchedules.success || currentSchedules.schedules.length === 0) {
-            return {
-                type: 'schedule_adjustment_error',
-                message: "❌ No active schedules found to adjust. Please build a schedule first by saying something like 'Build my Fall schedule'."
-            };
-        }
-        
-        // For now, apply adjustment to the first schedule
-        // TODO: Could be enhanced to detect which schedule to adjust
-        const scheduleId = currentSchedules.schedules[0].id;
-        
-        const result = await autoScheduleBuilderService.adjustSchedule(scheduleId, userMessage);
-        
-        if (result.success) {
-            // Get updated schedules
-            const updatedSchedules = await autoScheduleBuilderService.getCurrentSchedules();
-            
-            return {
-                type: 'schedule_adjustment_success',
-                message: `✅ ${result.message}\n\nYour schedule has been updated. You can make more adjustments or view the changes in your calendar.`,
-                schedules: updatedSchedules.success ? updatedSchedules.schedules : [],
-                events: updatedSchedules.success ? autoScheduleBuilderService.convertToCalendarEvents(updatedSchedules.schedules) : []
-            };
-        } else {
-            return {
-                type: 'schedule_adjustment_error',
-                message: `❌ ${result.message}\n\nTry adjustments like:\n• "Remove CSI 2110"\n• "No Friday labs"\n• "Avoid 8am classes"`
-            };
-        }
-    } catch (error) {
-        console.error('Error in schedule adjustment:', error);
-        return {
-            type: 'error',
-            message: 'Sorry, I encountered an error while adjusting your schedule. Please try again.'
-        };
-    }
-}
-
-// Placeholder handler functions - these will be implemented later
+// Handler function for course information
 async function handleCourseInfo(course_codes: string[], userMessage: string) {
     try {
-        // Import the AI course info service
-        const { aiCourseInfoService } = await import('../services/aiCourseInfoService');
+        // Import the course data service
+        const { getCourseDetails } = await import('../services/courseDataService');
+
+        // Helper function to format course details as a response
+        const formatCourseResponse = (courseData: any): string => {
+            if (!courseData) return '';
+
+            let response = `${courseData.courseCode} - ${courseData.courseTitle}\n\n`;
+
+            if (courseData.description) {
+                response += `${courseData.description}\n\n`;
+            }
+
+            if (courseData.prerequisites && courseData.prerequisites.trim() && courseData.prerequisites !== 'None') {
+                response += `Prerequisites: ${courseData.prerequisites}\n`;
+            } else {
+                response += `Prerequisites: None\n`;
+            }
+
+            response += `Credits: ${courseData.units || '3'} units`;
+
+            return response;
+        };
 
         // If we have course codes from classification, use the first one
         if (course_codes.length > 0) {
             const courseCode = course_codes[0];
-            const result = await aiCourseInfoService.getCourseInfo(courseCode, userMessage);
+            const courseData = await getCourseDetails(courseCode);
+
+            if (courseData) {
+                return {
+                    message: formatCourseResponse(courseData),
+                    success: true
+                };
+            }
 
             return {
-                message: result.message,
-                success: result.success
+                message: `I couldn't find information for ${courseCode.toUpperCase()}. Please check the course code and try again.`,
+                success: false
             };
         }
 
@@ -264,11 +196,18 @@ async function handleCourseInfo(course_codes: string[], userMessage: string) {
 
         if (courseCode) {
             console.log(`🔍 [handleCourseInfo] Extracted course code: ${courseCode} from message: "${userMessage}"`);
-            const result = await aiCourseInfoService.getCourseInfo(courseCode, userMessage);
+            const courseData = await getCourseDetails(courseCode);
+
+            if (courseData) {
+                return {
+                    message: formatCourseResponse(courseData),
+                    success: true
+                };
+            }
 
             return {
-                message: result.message,
-                success: result.success
+                message: `I couldn't find information for ${courseCode.toUpperCase()}. Please check the course code and try again.`,
+                success: false
             };
         }
 
@@ -288,24 +227,18 @@ async function handleCourseInfo(course_codes: string[], userMessage: string) {
 }
 
 async function handleCourseTimingQuery(course_codes: string[], userMessage: string) {
-    try {
-        // Import the schedule generator service
-        const { scheduleGeneratorService } = await import('../services/scheduleGeneratorService');
-
-        // Use the enhanced "when is course taken" query handler
-        const result = await scheduleGeneratorService.handleWhenIsCourseQuery(userMessage);
-
+    // Course timing query - provide helpful information about when courses are typically offered
+    if (course_codes.length > 0) {
+        const courseCode = course_codes[0];
         return {
-            message: result.message,
-            success: result.success
-        };
-    } catch (error) {
-        console.error('Error in handleCourseTimingQuery:', error);
-        return {
-            message: `Sorry, I encountered an error while looking up course timing information. Please try again.`,
-            success: false
+            message: `To find when ${courseCode} is offered, please check the uOttawa course catalogue or Kairoll for the most up-to-date section times and availability.`,
+            success: true
         };
     }
+    return {
+        message: "Please specify a course code to check its timing (e.g., 'When is CSI 2110 offered?').",
+        success: false
+    };
 }
 
 async function handleSkipConsequence(course_codes: string[], userMessage: string) {
@@ -322,12 +255,6 @@ async function handleCoreqCheck(course_codes: string[], userMessage: string) {
 
 async function handleCourseList(course_codes: string[], userMessage: string) {
     return { message: `Course list query detected for: ${course_codes.join(', ')}` };
-}
-
-// Legacy schedule builder - deprecated, redirects to new auto schedule builder
-async function handleBuildSchedule(userMessage: string) {
-    console.warn('[DEPRECATED] handleBuildSchedule called - redirecting to auto schedule builder');
-    return await handleAutoScheduleBuilder(userMessage);
 }
 
 async function handleProgramSequence(userMessage: string) {
