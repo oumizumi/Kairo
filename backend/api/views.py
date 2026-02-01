@@ -904,18 +904,36 @@ def professor_search(request):
         
         with open(enhanced_file, 'r', encoding='utf-8') as f:
             professors_data = json.load(f)
-
-        # Filter professors based on query parameters
-        filtered_professors = []
-
-        for prof in professors_data:
-            # Name filter
-            if name_query and name_query not in prof['name'].lower():
-                continue
-
-            # Department filter
-            if department_query and department_query not in (prof['department'] or '').lower():
-                continue
+        
+        # Default: Use AI to extract meaningful title or fallback to simple extraction
+        openai_api_key = os.getenv('OPENAI_API_KEY')
+        if openai_api_key:
+            try:
+                import openai
+                client = openai.OpenAI(api_key=openai_api_key)
+                
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": "Extract the main event/task title from this message. Return only the title, nothing else."},
+                        {"role": "user", "content": message}
+                    ],
+                    max_tokens=50,
+                    temperature=0.0
+                )
+                
+                ai_title = response.choices[0].message.content.strip()
+                if ai_title and len(ai_title) > 3:
+                    return ai_title
+            except:
+                pass
+        
+        # Simple fallback - take the message as is if AI fails
+        words = message.split()
+        if len(words) >= 2:
+            return ' '.join(words[:5])  # Take first 5 words as title
+        
+        return "New Event"
 
             # RMP data filter
             if has_rmp is not None:
@@ -3043,12 +3061,57 @@ class ScheduleGenerationView(APIView):
                 detected_program = self.ai_extract_program_from_message(message)
                 if detected_program:
                     print(f"🤖 AI extracted program from message: {detected_program}")
-
-            return detected_program, detected_year, detected_term
-
-        except Exception as e:
-            print(f"❌ Error in detect_program_year_term: {e}")
-            return program_name, year, term
+            
+            # Department filter
+            if department_query and department_query not in (prof['department'] or '').lower():
+                continue
+            
+            # RMP data filter
+            if has_rmp is not None:
+                has_rmp_bool = has_rmp.lower() in ['true', '1', 'yes']
+                if prof.get('has_rmp_data', False) != has_rmp_bool:
+                    continue
+            
+            # Minimum rating filter
+            if min_rating is not None:
+                try:
+                    min_rating_float = float(min_rating)
+                    prof_rating = prof.get('rmp_rating')
+                    if not prof_rating or float(prof_rating) < min_rating_float:
+                        continue
+                except (ValueError, TypeError):
+                    continue
+            
+            filtered_professors.append({
+                'name': prof['name'],
+                'department': prof['department'],
+                'title': prof['title'],
+                'email': prof['email'],
+                'has_rmp_data': prof.get('has_rmp_data', False),
+                'rmp_id': prof.get('rmp_id'),
+                'rmp_rating': prof.get('rmp_rating'),
+                'rmp_difficulty': prof.get('rmp_difficulty'),
+                'rmp_department': prof.get('rmp_department'),
+                'rmp_would_take_again': prof.get('rmp_would_take_again')
+            })
+        
+        return Response({
+            'success': True,
+            'count': len(filtered_professors),
+            'professors': filtered_professors,
+            'filters_applied': {
+                'name': name_query if name_query else None,
+                'department': department_query if department_query else None,
+                'has_rmp': has_rmp,
+                'min_rating': min_rating
+            }
+        })
+        
+    except Exception as e:
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=500)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -3194,6 +3257,28 @@ class ProfessorAutoSyncView(APIView):
                 'auto_sync_status': status
             }, status=200)
             
+            if result['success']:
+                return Response({
+                    'status': 'success',
+                    'message': result['message'],
+                    'details': {
+                        'professors_processed': result['professors_processed'],
+                        'professors_added': result['professors_added'],
+                        'professors_updated': result['professors_updated'],
+                        'total_professors': result.get('total_professors', 0)
+                    }
+                }, status=200)
+            else:
+                return Response({
+                    'status': 'error',
+                    'message': result['message'],
+                    'details': {
+                        'professors_processed': result['professors_processed'],
+                        'professors_added': result['professors_added'],
+                        'professors_updated': result['professors_updated']
+                    }
+                }, status=400)
+                
         except Exception as e:
             logger.error(f"Error getting auto-sync status: {e}")
             return Response({
