@@ -346,9 +346,6 @@ DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_DEFAULT_FROM_EMAIL', 'noreply@kairo.
 CONTACT_EMAIL = os.environ.get('DJANGO_CONTACT_EMAIL', 'your-email@example.com')  # Your email to receive contact messages
 SERVER_EMAIL = os.environ.get('DJANGO_SERVER_EMAIL', 'root@localhost')  # For error emails to admins
 
-# Ensure the OPENAI_API_KEY is managed securely and not hardcoded.
-# It's accessed via os.environ.get('OPENAI_API_KEY') in views.py.
-
 # At the end of the file, you might want to add conditional local settings import for development
 # if not os.environ.get('DJANGO_SETTINGS_MODULE'): # Or some other production indicator
 #     try:
@@ -404,11 +401,6 @@ SIMPLE_JWT = {
 
 # CORS settings - These are overridden by the environment variable configuration above
 # The settings above in the CORS Configuration section take precedence
-
-# OpenAI API Key - MUST be set in environment variables
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-if not OPENAI_API_KEY:
-    print("WARNING: OPENAI_API_KEY environment variable is not set. AI features will not work.")
 
 # --- Caching (Redis) ---
 # Expect REDIS_CACHE_URL env var. Example: redis://:password@host:6379/1

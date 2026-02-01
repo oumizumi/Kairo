@@ -55,27 +55,8 @@ export class DynamicClassificationService {
             this.conversationHistory.shift(); // Keep last 10 messages
         }
 
-        // Build dynamic context from conversation
-        const context = this.buildDynamicContext(message);
-
-        // Use lightweight AI classification with context
-        const prompt = this.buildMinimalPrompt(message, context);
-
-        try {
-            const response = await api.post('/api/ai/classify/', {
-                message: message,
-                prompt: prompt,
-                context: context,
-                programs: this.programs.map(p => ({ name: p.name, code: p.code }))
-            });
-
-            const result = this.parseAndLearn(response.data.classification, message);
-            return result;
-
-        } catch (error) {
-            console.error('AI classification failed:', error);
-            return this.smartFallback(message);
-        }
+        // Use rule-based classification (AI disabled)
+        return this.smartFallback(message);
     }
 
     // Build context from conversation patterns instead of hardcoded rules

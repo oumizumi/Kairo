@@ -3,7 +3,7 @@ interface IntentResponse {
     course_codes: string[];
 }
 
-interface GPTResponse {
+interface ClassificationResponse {
     intent: string;
 }
 
@@ -61,7 +61,7 @@ function extractJSON(text: string): string {
 }
 
 export async function handle_kairo_query(message: string): Promise<IntentResponse> {
-    console.log(' Enhanced AI: Analyzing message with GPT classification:', message);
+    console.log('Analyzing message:', message);
 
     try {
         // Import the dynamic classification service  

@@ -35,7 +35,7 @@ const QuickFeedback: React.FC<QuickFeedbackProps> = ({
         ai_response: aiResponse,
         thumbs_up: thumbsUp,
         session_id: sessionId,
-        model: 'gpt-4o-mini'
+        model: 'rule-based'
       });
       
       setFeedback(thumbsUp ? 'up' : 'down');

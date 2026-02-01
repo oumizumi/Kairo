@@ -532,7 +532,7 @@ class ProgramSequenceService {
     }
 
     /**
-     * Use AI to interpret the user's query
+     * Interpret the user's query using rule-based parsing
      */
     private async interpretQuery(query: string): Promise<{
         programName: string | null;
@@ -540,62 +540,8 @@ class ProgramSequenceService {
         term: string | null;
         intent: string;
     }> {
-        try {
-            // Inject live catalog to avoid hardcoded mappings
-            if (!this.programIndex) {
-                await this.loadProgramIndex();
-            }
-            const available = (this.programIndex?.programs || []).filter((p: any) => p.hasContent);
-            const catalogList = available
-                .map((p: any) => `- ${p.name} | ${p.code} | ${p.faculty} | ${p.degree}`)
-                .join('\n');
-
-            const response = await api.post('/api/ai/classify/', {
-                message: query,
-                prompt: `Analyze this query about university program course sequences. Extract:
-
-1. Program name (choose ONLY from the provided catalog by exact name)
-2. Year number (1, 2, 3, 4, 5, or null if asking for full program)
-3. Term ("Fall", "Winter", "Summer", or null if asking for full year)
-4. Intent (e.g., "full_sequence", "specific_year", "specific_term")
-
-Catalog of available programs (name | code | faculty | degree):
-${catalogList}
-
-Rules:
-- programName must be EXACTLY one of the names in the catalog above; if none clearly fits, set programName to null.
-- Do not invent or guess program names that are not in the catalog.
-
-Examples:
-- "show me computer science" → program: "Honours BSc in Computer Science", year: null, term: null, intent: "full_sequence"
-- "CS year 2 winter" → program: "Honours BSc in Computer Science", year: 2, term: "Winter", intent: "specific_term"  
-- "health sci 3rd year fall" → program: "Honours Bachelor of Health Sciences", year: 3, term: "Fall", intent: "specific_term"
-
-Return JSON format: {"programName": "...", "year": number|null, "term": "..."|null, "intent": "..."}`,
-                model: 'gpt-4o-mini',
-                temperature: 0.1,
-                max_tokens: 200
-            });
-
-            const result = response.data.classification || response.data.raw_content;
-            
-            try {
-                const parsed = JSON.parse(result);
-                return {
-                    programName: parsed.programName,
-                    year: parsed.year,
-                    term: parsed.term,
-                    intent: parsed.intent || 'full_sequence'
-                };
-            } catch (parseError) {
-                // Fallback parsing
-                return await this.fallbackQueryParsing(query);
-            }
-
-        } catch (error) {
-            console.error('AI query interpretation failed:', error);
-            return await this.fallbackQueryParsing(query);
-        }
+        // Use rule-based fallback parsing (AI disabled)
+        return await this.fallbackQueryParsing(query);
     }
 
     /**

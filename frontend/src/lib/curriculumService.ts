@@ -373,7 +373,7 @@ class CurriculumService {
         return bestName;
     }
 
-    // Parse natural language input using GPT classification
+    // Parse natural language input using rule-based classification
     async parseInput(input: string): Promise<{ program: string; year: number | 'full' | string; term: string } | null> {
         try {
             const result = await dynamicClassificationService.classifyMessage(input);
@@ -388,7 +388,7 @@ class CurriculumService {
 
             return null;
         } catch (error) {
-            console.error('Failed to parse input with GPT:', error);
+            console.error('Failed to parse input:', error);
 
             // Fallback to simple parsing
             const normalizedInput = input.toLowerCase().trim();
@@ -437,7 +437,7 @@ class CurriculumService {
         try {
             await this.loadProgramIndex();
 
-            // Use fallback program matching (no longer hardcoded to specific GPT service)
+            // Use fallback program matching
             const matchedProgram = this.findBestProgramMatchFallback(programName);
 
             if (!matchedProgram) {
@@ -495,52 +495,8 @@ class CurriculumService {
         }
     }
 
-    // Generate intelligent timing response using AI instead of hardcoded templates
+    // Generate timing response
     private async generateIntelligentTimingResponse(courseCode: string, program: string, year: number, term: string): Promise<WhenIsCourseResult> {
-        try {
-            // Use AI to generate context-aware timing explanation
-            const response = await fetch('/api/ai/classify/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: `Generate an intelligent explanation for when ${courseCode} should be taken in ${program} program. It's typically taken in Year ${year}, ${term} term.`,
-                    prompt: `You are an academic advisor explaining course timing. Generate a natural, helpful response about when to take ${courseCode} in the ${program} program. Include context about why this timing makes sense (prerequisites, course sequence, etc.). Keep it conversational and informative.
-
-Examples:
-- "In ${program}, you'll typically take ${courseCode} in Year ${year} during the ${term} term. This timing works well because..."
-- "${courseCode} is scheduled for Year ${year} ${term} in the ${program} program, which gives you time to..."
-
-Be specific about the program and year, and explain the academic reasoning behind this timing.`,
-                    context: {
-                        recentMessages: [],
-                        detectedPatterns: ['course_timing', 'academic_planning'],
-                        userPreferences: {
-                            preferredPrograms: [program],
-                            commonIntents: ['when_is_course_taken'],
-                            conversationStyle: 'academic_advisor'
-                        }
-                    }
-                })
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                return {
-                    found: true,
-                    course: courseCode,
-                    program: program,
-                    year: year,
-                    term: term,
-                    message: result.classification?.reasoning || `In ${program}, ${courseCode} is typically taken in Year ${year}, ${term} term.`
-                };
-            }
-        } catch (error) {
-            console.error('AI timing response failed:', error);
-        }
-
-        // Fallback to basic but still better than hardcoded response
         return {
             found: true,
             course: courseCode,
