@@ -1,0 +1,165 @@
+
+> kairo-ui@0.1.0 dev
+> next dev --webpack
+
+▲ Next.js 16.2.0-canary.23 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.2.45:3000
+✓ Ready in 320ms
+⚠ Invalid next.config.mjs options detected: 
+⚠     Unrecognized key(s) in object: 'swcMinify'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+Warning: Custom Cache-Control headers detected for the following routes:
+  - /_next/static/:path*
+
+Setting a custom Cache-Control header can break Next.js development behavior.
+- Experiments (use with caution):
+  · optimizePackageImports
+
+○ Compiling /chat ...
+📊 No events found
+ GET /chat/?view=split 200 in 7.5s (compile: 6.8s, render: 766ms)
+📊 No events found
+ GET /chat/?view=split 200 in 176ms (compile: 32ms, render: 144ms)
+📊 No events found
+ GET /chat/?view=split 200 in 95ms (compile: 17ms, render: 78ms)
+ GET / 200 in 1241ms (compile: 1215ms, render: 27ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] NEXT_PUBLIC_API_URL is not defined. Cannot test backend connection. 
+react_stack_bottom_frame@
+runWithFiberInDEV@
+commitHookEffectListMount@
+commitHookPassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+recursivelyTraversePassiveMountEffects@
+commitPassiveMountOnFiber@
+[browser] NEXT_PUBLIC_API_URL is not defined. Cannot test backend connection. 
+react_stack_bottom_frame@
+runWithFiberInDEV@
+commitHookEffectListMount@
+commitHookPassiveMountEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+recursivelyTraverseReconnectPassiveEffects@
+reconnectPassiveEffects@
+doubleInvokeEffectsOnFiber@
+runWithFiberInDEV@
+recursivelyTraverseAndDoubleInvokeEffectsInDEV@
+recursivelyTraverseAndDoubleInvokeEffectsInDEV@
+recursivelyTraverseAndDoubleInvokeEffectsInDEV@
+recursivelyTraverseAndDoubleInvokeEffectsInDEV@
+recursivelyTraverseAndDoubleInvokeEffectsInDEV@
+recursivelyTraverseAndDoubleInvokeEffectsInDEV@
+ GET /chat/?view=split 200 in 71ms (compile: 51ms, render: 20ms)
+📊 No events found
+ GET /chat/?view=split 200 in 317ms (compile: 8ms, render: 309ms)
+[browser] === UPDATE CALENDAR EVENT ERROR DEBUG === 
+
+[browser] Update error: AxiosError: Request failed with status code 404
+settle@
+onloadend@
+request@
+[browser] Error response status: 404 
+
+[browser] Error response data: { detail: [32m'Not found.'[39m } 
+
+📊 No events found
+ GET /chat/?view=split 200 in 73ms (compile: 14ms, render: 59ms)
+⚠ Found a change in next.config.mjs. Restarting the server to apply the changes...
+▲ Next.js 16.2.0-canary.23 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.2.45:3000
+✓ Ready in 33.9min
+⚠ Invalid next.config.mjs options detected: 
+⚠     Unrecognized key(s) in object: 'swcMinify'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+Warning: Custom Cache-Control headers detected for the following routes:
+  - /_next/static/:path*
+
+Setting a custom Cache-Control header can break Next.js development behavior.
+- Experiments (use with caution):
+  · optimizePackageImports
+
+⚠ Found a change in next.config.mjs. Restarting the server to apply the changes...
+▲ Next.js 16.2.0-canary.23 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.2.45:3000
+✓ Ready in 34.6min
+Warning: Custom Cache-Control headers detected for the following routes:
+  - /_next/static/:path*
+
+Setting a custom Cache-Control header can break Next.js development behavior.
+- Experiments (use with caution):
+  · optimizePackageImports
+

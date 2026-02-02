@@ -881,265 +881,6 @@ def professor_rmp_data(request):
             'error': str(e)
         }, status=500)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def professor_search(request):
-    """
-    Search for professors with optional RMP data filtering
-    """
-    try:
-        name_query = request.GET.get('name', '').lower()
-        department_query = request.GET.get('department', '').lower()
-        has_rmp = request.GET.get('has_rmp')
-        min_rating = request.GET.get('min_rating')
-        
-        # Load enhanced professors data
-        enhanced_file = os.path.join(os.path.dirname(__file__), 'data', 'professors_enhanced.json')
-        
-        if not os.path.exists(enhanced_file):
-            return Response({
-                'success': False,
-                'error': 'Enhanced professors data not found'
-            }, status=404)
-        
-        with open(enhanced_file, 'r', encoding='utf-8') as f:
-            professors_data = json.load(f)
-        
-        # Default: Use AI to extract meaningful title or fallback to simple extraction
-        openai_api_key = os.getenv('OPENAI_API_KEY')
-        if openai_api_key:
-            try:
-                import openai
-                client = openai.OpenAI(api_key=openai_api_key)
-                
-                response = client.chat.completions.create(
-                    model="gpt-4o-mini",
-                    messages=[
-                        {"role": "system", "content": "Extract the main event/task title from this message. Return only the title, nothing else."},
-                        {"role": "user", "content": message}
-                    ],
-                    max_tokens=50,
-                    temperature=0.0
-                )
-                
-                ai_title = response.choices[0].message.content.strip()
-                if ai_title and len(ai_title) > 3:
-                    return ai_title
-            except:
-                pass
-        
-        # Simple fallback - take the message as is if AI fails
-        words = message.split()
-        if len(words) >= 2:
-            return ' '.join(words[:5])  # Take first 5 words as title
-        
-        return "New Event"
-
-    def _extract_event_date(self, message):
-        """Extract the event date from the message"""
-        import re
-        from datetime import datetime, date, timedelta
-        from dateutil import parser
-        
-        message_lower = message.lower()
-        current_year = datetime.now().year
-        today = date.today()
-        
-        # Month name patterns (enhanced for better matching)
-        month_patterns = {
-            'january': 1, 'jan': 1,
-            'february': 2, 'feb': 2,
-            'march': 3, 'mar': 3,
-            'april': 4, 'apr': 4,
-            'may': 5,
-            'june': 6, 'jun': 6,
-            'july': 7, 'jul': 7,
-            'august': 8, 'aug': 8,
-            'september': 9, 'sep': 9, 'sept': 9,
-            'october': 10, 'oct': 10,
-            'november': 11, 'nov': 11,
-            'december': 12, 'dec': 12
-        }
-        
-        # First priority: "Month Day" patterns (e.g., "June 4", "June 4th")
-        for month_name, month_num in month_patterns.items():
-            # Enhanced pattern to match more flexibly
-            patterns = [
-                rf'(?:for|on)\s+{month_name}\s+(\d{{1,2}})(?:st|nd|rd|th)?',  # "for june 4"
-                rf'{month_name}\s+(\d{{1,2}})(?:st|nd|rd|th)?',  # "june 4"
-                rf'(\d{{1,2}})(?:st|nd|rd|th)?\s+{month_name}',  # "4 june" (reversed)
-            ]
-            
-            for pattern in patterns:
-                match = re.search(pattern, message_lower)
-                if match:
-                    day = int(match.group(1))
-                    try:
-                        parsed_date = date(current_year, month_num, day)
-                        # If the date is in the past, assume next year
-                        if parsed_date < today:
-                            parsed_date = date(current_year + 1, month_num, day)
-                        print(f"[KAIRO DEBUG] Extracted date: {parsed_date} from pattern '{pattern}' with month '{month_name}' day '{day}'")
-                        return parsed_date
-                    except ValueError:
-                        continue
-        
-        # NEW: Weekday patterns
-        weekday_patterns = {
-            'monday': 0, 'tuesday': 1, 'wednesday': 2, 'thursday': 3,
-            'friday': 4, 'saturday': 5, 'sunday': 6
-        }
-        
-        # Check for weekdays
-        for day_name, day_num in weekday_patterns.items():
-            if day_name in message_lower:
-                # Calculate the next occurrence of this weekday
-                days_ahead = day_num - today.weekday()
-                if days_ahead <= 0:  # Target day already happened this week
-                    days_ahead += 7
-                return today + timedelta(days_ahead)
-        
-        # Pattern: "today", "tomorrow"
-        if 'today' in message_lower:
-            return today
-        elif 'tomorrow' in message_lower:
-            return today + timedelta(days=1)
-        
-        # Pattern: "MM/DD" or "MM-DD"
-        match = re.search(r'(\d{1,2})[/-](\d{1,2})', message)
-        if match:
-            month, day = int(match.group(1)), int(match.group(2))
-            try:
-                parsed_date = date(current_year, month, day)
-                # If the date is in the past, assume next year
-                if parsed_date < today:
-                    parsed_date = date(current_year + 1, month, day)
-                return parsed_date
-            except ValueError:
-                pass
-        
-        # Fallback: try dateutil parser on the whole message
-        try:
-            parsed_date = parser.parse(message, fuzzy=True, default=datetime.now())
-            result_date = parsed_date.date()
-            # If the date is in the past, assume next year
-            if result_date < today:
-                result_date = date(result_date.year + 1, result_date.month, result_date.day)
-            return result_date
-        except:
-            pass
-        
-        return None
-
-    def _extract_times_from_message(self, message):
-        """Extract start and end times from message like 'from 2:30 pm to 3:50 pm' or '7pm-8:20pm'"""
-        import re
-        from datetime import time
-        
-        # Pattern 1: "from [TIME] to [TIME]"
-        pattern1 = r'from\s+(\d{1,2}):?(\d{0,2})\s*(am|pm)?\s+to\s+(\d{1,2}):?(\d{0,2})\s*(am|pm)?'
-        match1 = re.search(pattern1, message.lower())
-        
-        if match1:
-            start_hour = int(match1.group(1))
-            start_min = int(match1.group(2)) if match1.group(2) else 0
-            start_ampm = match1.group(3)
-            
-            end_hour = int(match1.group(4))
-            end_min = int(match1.group(5)) if match1.group(5) else 0
-            end_ampm = match1.group(6)
-            
-            # Convert to 24-hour format
-            if start_ampm == 'pm' and start_hour != 12:
-                start_hour += 12
-            elif start_ampm == 'am' and start_hour == 12:
-                start_hour = 0
-                
-            if end_ampm == 'pm' and end_hour != 12:
-                end_hour += 12
-            elif end_ampm == 'am' and end_hour == 12:
-                end_hour = 0
-            
-            try:
-                start_time = time(start_hour, start_min)
-                end_time = time(end_hour, end_min)
-                return start_time, end_time
-            except ValueError:
-                return None, None
-        
-        # Pattern 2: "from [TIME]-[TIME]" (e.g., "from 7pm-8:20pm")
-        pattern2 = r'from\s+(\d{1,2}):?(\d{0,2})\s*(am|pm)?\s*[-–—]\s*(\d{1,2}):?(\d{0,2})\s*(am|pm)?'
-        match2 = re.search(pattern2, message.lower())
-        
-        if match2:
-            start_hour = int(match2.group(1))
-            start_min = int(match2.group(2)) if match2.group(2) else 0
-            start_ampm = match2.group(3)
-            
-            end_hour = int(match2.group(4))
-            end_min = int(match2.group(5)) if match2.group(5) else 0
-            end_ampm = match2.group(6)
-            
-            # If start doesn't have am/pm but end does, apply end's am/pm to start
-            if not start_ampm and end_ampm:
-                start_ampm = end_ampm
-            
-            # Convert to 24-hour format
-            if start_ampm == 'pm' and start_hour != 12:
-                start_hour += 12
-            elif start_ampm == 'am' and start_hour == 12:
-                start_hour = 0
-                
-            if end_ampm == 'pm' and end_hour != 12:
-                end_hour += 12
-            elif end_ampm == 'am' and end_hour == 12:
-                end_hour = 0
-            
-            try:
-                start_time = time(start_hour, start_min)
-                end_time = time(end_hour, end_min)
-                return start_time, end_time
-            except ValueError:
-                return None, None
-        
-        # Pattern 3: Simple range "[TIME]-[TIME]" anywhere in message
-        pattern3 = r'(\d{1,2}):?(\d{0,2})\s*(am|pm)?\s*[-–—]\s*(\d{1,2}):?(\d{0,2})\s*(am|pm)?'
-        match3 = re.search(pattern3, message.lower())
-        
-        if match3:
-            start_hour = int(match3.group(1))
-            start_min = int(match3.group(2)) if match3.group(2) else 0
-            start_ampm = match3.group(3)
-            
-            end_hour = int(match3.group(4))
-            end_min = int(match3.group(5)) if match3.group(5) else 0
-            end_ampm = match3.group(6)
-            
-            # If start doesn't have am/pm but end does, apply end's am/pm to start
-            if not start_ampm and end_ampm:
-                start_ampm = end_ampm
-            
-            # Convert to 24-hour format
-            if start_ampm == 'pm' and start_hour != 12:
-                start_hour += 12
-            elif start_ampm == 'am' and start_hour == 12:
-                start_hour = 0
-                
-            if end_ampm == 'pm' and end_hour != 12:
-                end_hour += 12
-            elif end_ampm == 'am' and end_hour == 12:
-                end_hour = 0
-            
-            try:
-                start_time = time(start_hour, start_min)
-                end_time = time(end_hour, end_min)
-                return start_time, end_time
-            except ValueError:
-                return None, None
-        
-        return None, None
-
-
 # --- Intent Detection ---
 
 class IntentDetectionSerializer(serializers.Serializer):
@@ -1152,102 +893,13 @@ class IntentDetectionSerializer(serializers.Serializer):
     max_tokens = serializers.IntegerField(required=False, default=200)  # Optimized for faster classification
 
 class AIClassificationView(APIView):
-    permission_classes = [AllowAny]  # Allow unauthenticated access for classification
-    
+    permission_classes = [AllowAny]
+
     def post(self, request, *args, **kwargs):
-        serializer = IntentDetectionSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        message = serializer.validated_data['message']
-        prompt = serializer.validated_data.get('prompt')
-        programs = serializer.validated_data.get('programs', [])
-        system_prompt = serializer.validated_data.get('system_prompt')
-        model = serializer.validated_data.get('model', 'gpt-4o-mini')
-        temperature = serializer.validated_data.get('temperature', 0.1)
-        max_tokens = serializer.validated_data.get('max_tokens', 200)  # Optimized for faster responses
-        
-        try:
-            # Use the prompt if provided, otherwise use system_prompt
-            final_prompt = prompt if prompt else system_prompt
-            
-            if not final_prompt:
-                return Response({
-                    "error": "Either 'prompt' or 'system_prompt' must be provided"
-                }, status=status.HTTP_400_BAD_REQUEST)
-            
-            # Get OpenAI API key
-            openai_api_key = os.environ.get('OPENAI_API_KEY')
-            if not openai_api_key:
-                # Fallback to Django settings
-                openai_api_key = getattr(settings, 'OPENAI_API_KEY', None)
-                
-            if not openai_api_key:
-                logger.error("OPENAI_API_KEY environment variable not set")
-                return Response({
-                    "error": "OpenAI API key not configured"
-                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            
-            # Create OpenAI client (correct v1.0+ syntax)
-            client = openai.OpenAI(api_key=openai_api_key)
-            
-            # Make the API call to OpenAI
-            completion = client.chat.completions.create(
-                model=model,
-                messages=[
-                    {"role": "system", "content": final_prompt},
-                    {"role": "user", "content": message}
-                ],
-                temperature=temperature,
-                max_tokens=max_tokens
-            )
-            
-            # Extract the response content
-            content = completion.choices[0].message.content.strip()
-            
-            # Try to parse as JSON for structured classification
-            classification_result = None
-            try:
-                classification_result = json.loads(content)
-            except json.JSONDecodeError:
-                # If it's not JSON, return as plain text
-                classification_result = content
-            
-            return Response({
-                "classification": classification_result,
-                "model": model,
-                "usage": {
-                    "prompt_tokens": completion.usage.prompt_tokens if hasattr(completion, 'usage') else 0,
-                    "completion_tokens": completion.usage.completion_tokens if hasattr(completion, 'usage') else 0,
-                    "total_tokens": completion.usage.total_tokens if hasattr(completion, 'usage') else 0
-                } if hasattr(completion, 'usage') else None
-            }, status=status.HTTP_200_OK)
-            
-        except openai.APIConnectionError as e:
-            logger.error(f"OpenAI APIConnectionError in classification: {e}")
-            return Response({
-                "error": "Unable to connect to AI service"
-            }, status=status.HTTP_503_SERVICE_UNAVAILABLE)
-        except openai.RateLimitError as e:
-            logger.error(f"OpenAI RateLimitError in classification: {e}")
-            return Response({
-                "error": "AI service rate limit exceeded. Please try again later."
-            }, status=status.HTTP_429_TOO_MANY_REQUESTS)
-        except openai.APIStatusError as e:
-            logger.error(f"OpenAI APIStatusError in classification: {e}")
-            return Response({
-                "error": "AI service error"
-            }, status=status.HTTP_502_BAD_GATEWAY)
-        except json.JSONDecodeError as e:
-            logger.error(f"JSON decode error in classification: {e}")
-            return Response({
-                "error": "Invalid response format from AI service"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        except Exception as e:
-            logger.error(f"Unexpected error in AI classification: {e}")
-            return Response({
-                "error": "Internal server error"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        """AI classification is currently disabled"""
+        return Response({
+            "error": "AI classification service is currently disabled"
+        }, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
 
 # Legacy IntentDetectionView for backward compatibility
@@ -1793,7 +1445,7 @@ def professor_search(request):
                 continue
             
             # Department filter
-            if department_query and department_query not in (prof['department'] or '').lower():
+            if department_query and department_query not in (prof.get('department') or '').lower():
                 continue
             
             # RMP data filter
@@ -1814,9 +1466,9 @@ def professor_search(request):
             
             filtered_professors.append({
                 'name': prof['name'],
-                'department': prof['department'],
-                'title': prof['title'],
-                'email': prof['email'],
+                'department': prof.get('department'),
+                'title': prof.get('title'),
+                'email': prof.get('email'),
                 'has_rmp_data': prof.get('has_rmp_data', False),
                 'rmp_id': prof.get('rmp_id'),
                 'rmp_rating': prof.get('rmp_rating'),
@@ -1843,73 +1495,8 @@ def professor_search(request):
             'error': str(e)
         }, status=500)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def rmp_stats(request):
-    """
-    Get RMP coverage statistics
-    """
-    try:
-        # Load enhanced professors data
-        enhanced_file = os.path.join(os.path.dirname(__file__), 'data', 'professors_enhanced.json')
-        
-        if not os.path.exists(enhanced_file):
-            return Response({
-                'success': False,
-                'error': 'Enhanced professors data not found'
-            }, status=404)
-        
-        with open(enhanced_file, 'r', encoding='utf-8') as f:
-            professors_data = json.load(f)
-        
-        # Calculate statistics
-        total_professors = len(professors_data)
-        with_rmp = sum(1 for prof in professors_data if prof.get('has_rmp_data', False))
-        without_rmp = total_professors - with_rmp
-        
-        # Department breakdown
-        dept_stats = {}
-        for prof in professors_data:
-            dept = prof['department'] or 'Unknown'
-            if dept not in dept_stats:
-                dept_stats[dept] = {'total': 0, 'with_rmp': 0}
-            
-            dept_stats[dept]['total'] += 1
-            if prof.get('has_rmp_data', False):
-                dept_stats[dept]['with_rmp'] += 1
-        
-        # Format department stats
-        dept_breakdown = []
-        for dept, stats in dept_stats.items():
-            coverage = (stats['with_rmp'] / stats['total'] * 100) if stats['total'] > 0 else 0
-            dept_breakdown.append({
-                'department': dept,
-                'total_professors': stats['total'],
-                'with_rmp': stats['with_rmp'],
-                'without_rmp': stats['total'] - stats['with_rmp'],
-                'coverage_rate': round(coverage, 1)
-            })
-        
-        # Sort by coverage rate
-        dept_breakdown.sort(key=lambda x: x['coverage_rate'], reverse=True)
-        
-        return Response({
-            'success': True,
-            'overall_stats': {
-                'total_professors': total_professors,
-                'with_rmp_data': with_rmp,
-                'without_rmp_data': without_rmp,
-                'coverage_rate': round((with_rmp / total_professors * 100), 1) if total_professors > 0 else 0
-            },
-            'department_breakdown': dept_breakdown
-        })
-        
-    except Exception as e:
-        return Response({
-            'success': False,
-            'error': str(e)
-        }, status=500)
 
+# Celery imports with fallback for development
 try:
     from celery.result import AsyncResult
 except Exception:  # pragma: no cover
@@ -3310,56 +2897,12 @@ class ScheduleGenerationView(APIView):
                 if detected_program:
                     print(f"🤖 AI extracted program from message: {detected_program}")
             
-            # Department filter
-            if department_query and department_query not in (prof['department'] or '').lower():
-                continue
+            return detected_program, detected_year, detected_term
             
-            # RMP data filter
-            if has_rmp is not None:
-                has_rmp_bool = has_rmp.lower() in ['true', '1', 'yes']
-                if prof.get('has_rmp_data', False) != has_rmp_bool:
-                    continue
-            
-            # Minimum rating filter
-            if min_rating is not None:
-                try:
-                    min_rating_float = float(min_rating)
-                    prof_rating = prof.get('rmp_rating')
-                    if not prof_rating or float(prof_rating) < min_rating_float:
-                        continue
-                except (ValueError, TypeError):
-                    continue
-            
-            filtered_professors.append({
-                'name': prof['name'],
-                'department': prof['department'],
-                'title': prof['title'],
-                'email': prof['email'],
-                'has_rmp_data': prof.get('has_rmp_data', False),
-                'rmp_id': prof.get('rmp_id'),
-                'rmp_rating': prof.get('rmp_rating'),
-                'rmp_difficulty': prof.get('rmp_difficulty'),
-                'rmp_department': prof.get('rmp_department'),
-                'rmp_would_take_again': prof.get('rmp_would_take_again')
-            })
-        
-        return Response({
-            'success': True,
-            'count': len(filtered_professors),
-            'professors': filtered_professors,
-            'filters_applied': {
-                'name': name_query if name_query else None,
-                'department': department_query if department_query else None,
-                'has_rmp': has_rmp,
-                'min_rating': min_rating
-            }
-        })
-        
-    except Exception as e:
-        return Response({
-            'success': False,
-            'error': str(e)
-        }, status=500)
+        except Exception as e:
+            print(f"❌ Error in detect_program_year_term: {e}")
+            return program_name, year, term
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -3504,7 +3047,7 @@ class ProfessorAutoSyncView(APIView):
                 'status': 'success',
                 'auto_sync_status': status
             }, status=200)
-            
+                
         except Exception as e:
             logger.error(f"Error getting auto-sync status: {e}")
             return Response({

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { ClipboardList, Download, X } from 'lucide-react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { 
     isAuthenticated,
     getCalendarEvents, 
@@ -1095,6 +1095,7 @@ export function KairollComponent() {
                                         })}
 
                                         {/* Events */}
+                                        <AnimatePresence mode="popLayout">
                                         {calendarEvents.map((event, index) => {
                                             if (!event.day_of_week || !event.startTime || !event.endTime) return null;
                                             const top = timeToPosition(event.startTime);
@@ -1110,10 +1111,13 @@ export function KairollComponent() {
                                             const sectionType = titleMatch ? titleMatch[2] : '';
                                             const professor = event.professor || '';
 
+                                            // Create stable unique key
+                                            const stableKey = event.id ? `event-${event.id}` : `${event.title}-${event.startTime}-${event.endTime}-${event.day_of_week}`;
+
                                             return (
-                                                <div
-                                                    key={event.id || index}
-                                                    className={`absolute rounded-md p-1.5 text-white overflow-hidden leading-tight cursor-pointer transition-all duration-200 bg-gradient-to-r ${theme.bg}`}
+                                                <motion.div
+                                                    key={stableKey}
+                                                    className={`absolute rounded-md p-1.5 text-white overflow-hidden leading-tight cursor-pointer bg-gradient-to-r ${theme.bg}`}
                                                     style={{
                                                         top: `${top}px`,
                                                         left: `calc(60px + ${colIndex * 16.666}%)`,
@@ -1122,6 +1126,11 @@ export function KairollComponent() {
                                                         boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
                                                         border: '1px solid rgba(255,255,255,0.15)',
                                                     }}
+                                                    initial={{ opacity: 0, scale: 0.9, y: 15 }}
+                                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                    exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                                                    whileTap={{ scale: 0.97 }}
+                                                    transition={{ duration: 0.25, ease: "easeOut" }}
                                                     onClick={(e) => handleMobileEventClick(event, e)}
                                                     onTouchEnd={(e) => { e.preventDefault(); handleMobileEventClick(event, e); }}
                                                 >
@@ -1129,9 +1138,10 @@ export function KairollComponent() {
                                                     <p className="text-[11px] opacity-90 truncate">{sectionType}</p>
                                                     <p className="text-[10px] opacity-80 truncate">{professor}</p>
                                                     <p className="text-[10px] opacity-80 truncate">{`${formatTime12Hour(event.startTime)} - ${formatTime12Hour(event.endTime)}`}</p>
-                                                </div>
+                                                </motion.div>
                                             );
                                         })}
+                                        </AnimatePresence>
                                     </div>
                                 </div>
                             </div>
@@ -1140,13 +1150,15 @@ export function KairollComponent() {
                 </div>
             </div>
 
-            {showEventModal && selectedEvent && (
-                <MobileEventInfoModal
-                    event={selectedEvent}
-                    onClose={handleCloseEventModal}
-                    position={popupPosition}
-                />
-            )}
+            <AnimatePresence>
+                {showEventModal && selectedEvent && (
+                    <MobileEventInfoModal
+                        event={selectedEvent}
+                        onClose={handleCloseEventModal}
+                        position={popupPosition}
+                    />
+                )}
+            </AnimatePresence>
         </div>
     );
 }

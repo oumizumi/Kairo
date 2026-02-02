@@ -19,7 +19,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
 
     // Get theme for event
     const getEventTheme = (event: DailyCalendarEvent) => {
-        return EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['lavender-peach'];
+        return EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['purple'];
     };
 
     // Filter events based on selected term
@@ -381,7 +381,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
                 professor: newEvent.professor || '',
                 recurrence_pattern: newEvent.recurrence_pattern || 'weekly',
                 reference_date: newEvent.reference_date,
-                theme: newEvent.theme || 'lavender-peach',
+                theme: newEvent.theme || 'purple',
             };
 
             const createdEventFromApi = await createCalendarEvent(eventData);
@@ -398,7 +398,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
                 professor: createdEventFromApi.professor,
                 recurrence_pattern: createdEventFromApi.recurrence_pattern,
                 reference_date: createdEventFromApi.reference_date,
-                theme: createdEventFromApi.theme || 'lavender-peach',
+                theme: createdEventFromApi.theme || 'purple',
             };
 
             setEvents(prevEvents => [...prevEvents, newEventForState]);

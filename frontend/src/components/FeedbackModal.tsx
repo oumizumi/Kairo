@@ -71,7 +71,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
         is_professional: isProfessional,
         is_relevant: isRelevant,
         session_id: sessionId,
-        model_used: 'gpt-4o-mini',
+        model_used: 'rule-based',
         prompt_version: 'v2.0',
       };
 

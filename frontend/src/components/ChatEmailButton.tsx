@@ -135,66 +135,13 @@ const ChatEmailButton: React.FC<ChatEmailButtonProps> = ({ currentMessage }) => 
     return `${greeting}\n\n${body}\n\n${closing}`;
   };
 
-  // AI-powered email generation functions
+  // Email generation functions (using fallback templates)
   const generateAISubject = async (message: string, professorName: string): Promise<string> => {
-    try {
-      const instruction = `Generate a professional email subject line (under 60 characters) for a University of Ottawa student writing to ${professorName ? `Professor ${professorName}` : 'a professor'}.
-
-User's message/request: "${message}"
-
-Return ONLY the subject line, no quotes, no extra text. Make it specific, professional, and concise.
-
-Examples:
-- "Question about Assignment 2 deadline"
-- "Request for office hours meeting"
-- "Clarification on course prerequisites"
-- "Extension request for final project"`;
-
-      const response = await api.post('/api/ai/chat/', { message: instruction });
-      const content = (response.data && (response.data.content || response.data.message)) || '';
-      
-      // Clean up the response
-      const subject = content.trim().replace(/^["']|["']$/g, '').trim();
-      return subject.length > 0 && subject.length <= 80 ? subject : generateFallbackSubject(message, professorName);
-    } catch (error) {
-      console.error('Error generating AI subject:', error);
-      return generateFallbackSubject(message, professorName);
-    }
+    return generateFallbackSubject(message, professorName);
   };
 
   const generateAIEmailBody = async (message: string, professorName: string, studentName: string): Promise<string> => {
-    try {
-      const instruction = `You are an expert email writing assistant for University of Ottawa students. Generate a professional, natural email body.
-
-Context:
-- Student: ${studentName}
-- Professor: ${professorName ? `Professor ${professorName}` : 'Professor'}
-- Student's request: "${message}"
-
-Requirements:
-1. Professional but natural tone
-2. 3-5 sentences maximum
-3. Vary your structure - don't always use the same pattern
-4. Be specific to the student's request
-5. Use appropriate greeting and closing
-6. Don't add assumptions or extra steps
-
-Return ONLY the complete email body with greeting and closing. No quotes, no extra formatting.
-
-Structure:
-- Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
-- Body: Address their specific request naturally
-- Closing: "Best regards,\\n${studentName}"`;
-
-      const response = await api.post('/api/ai/chat/', { message: instruction });
-      const content = (response.data && (response.data.content || response.data.message)) || '';
-      
-      const emailBody = content.trim();
-      return emailBody.length > 0 ? emailBody : generateFallbackEmailBody(message, professorName, studentName);
-    } catch (error) {
-      console.error('Error generating AI email body:', error);
-      return generateFallbackEmailBody(message, professorName, studentName);
-    }
+    return generateFallbackEmailBody(message, professorName, studentName);
   };
 
   const generateSubject = (message: string, name: string): string => {
@@ -374,145 +321,11 @@ Structure:
 
     try {
       const professorName = getGreetingProfessorName();
+      const fallbackPrompt = userBody || chatMessage || userSubject || 'Email request';
 
-      // Create intelligent AI instruction based on user input
-      let instruction = '';
-      let needsSubject = !userSubject;
-      let needsBody = !userBody;
-
-      if (!needsSubject && !needsBody) {
-        // User provided both - AI should polish/improve them
-        instruction = `You are Kairo, an intelligent email writing assistant for University of Ottawa students. Analyze and enhance the user's email while preserving their intent and voice.
-
-Context: Student writing to ${professorName ? `Professor ${professorName}` : 'a professor'} at uOttawa.
-
-User's Subject: "${userSubject}"
-User's Message: "${userBody}"
-${chatMessage ? `Additional Context: "${chatMessage}"` : ''}
-
-Task: Polish and improve this email while maintaining the student's authentic voice and intent.
-
-Return ONLY valid JSON: {"subject": string, "body": string}
-
-Requirements:
-- Subject: Professional, concise (under 60 chars), captures main point
-- Body: Well-structured, respectful tone, clear purpose, proper academic etiquette
-- Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
-- Closing: "Best regards,\\n${userFullName.trim()}"
-- Preserve student's specific requests and concerns
-- Use natural, conversational academic language
-- Be specific and actionable when possible`;
-      } else if (!needsSubject && needsBody) {
-        // User provided subject only - generate body based on subject
-        instruction = `You are an expert email writing assistant for University of Ottawa students. The user provided a subject line. Generate a professional email body that matches this subject.
-
-Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
-
-User's Subject: "${userSubject}"
-${chatMessage ? `Additional Context: "${chatMessage}"` : ''}
-
-Requirements:
-1. Subject Line:
-   - Return the same subject (or slightly polished version): "${userSubject}"
-
-2. Email Body (3-5 sentences):
-   - Write content that directly relates to the subject
-   - Be professional, concise, and specific
-   - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
-   - Closing: "Best regards,\\n${userFullName.trim()}"
-   - Match the tone to the subject (urgent, formal, casual question, etc.)
-   - Vary your structure - don't always follow the same pattern
-
-Generate a professional email body for this subject.`;
-      } else if (needsSubject && !needsBody) {
-        // User provided body only - generate subject based on body
-        instruction = `You are an expert email writing assistant for University of Ottawa students. The user wrote an email message. Generate a professional subject line and polish the body.
-
-Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
-
-User's Message: "${userBody}"
-
-Requirements:
-1. Subject Line:
-   - Create a concise subject (under 60 characters) that captures the main point
-   - Make it specific and professional
-
-2. Email Body:
-   - Use the user's message as the core content
-   - Format it professionally with greeting and closing
-   - Keep the user's intent and main points
-   - Polish grammar and clarity
-   - Keep it concise (3-5 sentences)
-   - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
-   - Closing: "Best regards,\\n${userFullName.trim()}"
-
-Generate subject and polish the email body.`;
-      } else {
-        // User provided neither - use chat message or generate generic
-        const userRequest = chatMessage || '[Generate a simple, professional inquiry]';
-        instruction = `You are an expert email writing assistant for University of Ottawa students. Generate a professional email based on the user's request.
-
-Return STRICT JSON: {"subject": string, "body": string}. NO markdown, NO code fences, just raw JSON.
-
-User's Request: "${userRequest}"
-
-Requirements:
-1. Subject Line:
-   - Keep it under 60 characters
-   - Make it specific to the request
-   - Be direct and professional
-
-2. Email Body (3-5 sentences):
-   - Be professional and concise
-   - Vary your structure - don't follow the same pattern every time
-   - Be SPECIFIC to the user's request
-   - Match the tone appropriately
-   - Greeting: "Dear ${professorName ? `Professor ${professorName}` : 'Professor'},"
-   - Closing: "Best regards,\\n${userFullName.trim()}"
-
-Generate a professional email that addresses this request.`;
-      }
-
-      const response = await api.post('/api/ai/chat/', { message: instruction });
-      let content: string = (response.data && (response.data.content || response.data.message)) || '';
-
-      // Try to extract JSON from content
-      let jsonText = content;
-      const codeBlockMatch = content.match(/\{[\s\S]*\}/);
-      if (codeBlockMatch) jsonText = codeBlockMatch[0];
-
-      let parsed: any = null;
-      try { parsed = JSON.parse(jsonText); } catch { }
-
-      // Use AI-generated content or fallback to AI individual functions, then templates
-      let draftedSubject: string;
-      let draftedBody: string;
-      
-      if (parsed && typeof parsed.subject === 'string' && parsed.subject.trim()) {
-        draftedSubject = parsed.subject.trim();
-      } else if (userSubject) {
-        draftedSubject = userSubject;
-      } else {
-        // Try individual AI generation as fallback
-        try {
-          draftedSubject = await generateAISubject(chatMessage || userBody || 'Email request', professorName);
-        } catch (error) {
-          draftedSubject = generateSubject(chatMessage || userBody, professorName);
-        }
-      }
-      
-      if (parsed && typeof parsed.body === 'string' && parsed.body.trim()) {
-        draftedBody = parsed.body.trim();
-      } else if (userBody) {
-        draftedBody = userBody;
-      } else {
-        // Try individual AI generation as fallback
-        try {
-          draftedBody = await generateAIEmailBody(chatMessage || userSubject || 'Email request', professorName, userFullName);
-        } catch (error) {
-          draftedBody = buildEmailBody(chatMessage || userSubject, professorName, userFullName);
-        }
-      }
+      // Use fallback generation directly (AI disabled)
+      const draftedSubject = userSubject || generateSubject(fallbackPrompt, professorName);
+      const draftedBody = userBody || buildEmailBody(fallbackPrompt, professorName, userFullName);
 
       setSubject(draftedSubject);
       setBody(draftedBody);
@@ -524,38 +337,21 @@ Generate a professional email that addresses this request.`;
         body: draftedBody,
         userInput: chatMessage || userBody || userSubject || 'Email generation request',
         professorName: professorName,
-        professorEmail: recipients[0], // First recipient
+        professorEmail: recipients[0],
         userModifiedSubject: userSubject !== draftedSubject,
         userModifiedBody: userBody !== draftedBody,
       });
 
-      // Compose immediately using overrides to avoid stale state
+      // Compose immediately
       await handleEmailChat({ subject: draftedSubject, body: draftedBody });
     } catch (e) {
-      console.error('AI drafting error:', e);
-      // Fallback to individual AI functions, then simple generation
+      console.error('Email drafting error:', e);
       const professorName = getGreetingProfessorName();
       const fallbackPrompt = userBody || chatMessage || userSubject || 'Email request';
-      
-      let fbSubject = userSubject;
-      let fbBody = userBody;
-      
-      if (!fbSubject) {
-        try {
-          fbSubject = await generateAISubject(fallbackPrompt, professorName);
-        } catch (error) {
-          fbSubject = generateSubject(fallbackPrompt, professorName);
-        }
-      }
-      
-      if (!fbBody) {
-        try {
-          fbBody = await generateAIEmailBody(fallbackPrompt, professorName, userFullName);
-        } catch (error) {
-          fbBody = buildEmailBody(fallbackPrompt, professorName, userFullName);
-        }
-      }
-      
+
+      const fbSubject = userSubject || generateSubject(fallbackPrompt, professorName);
+      const fbBody = userBody || buildEmailBody(fallbackPrompt, professorName, userFullName);
+
       setSubject(fbSubject);
       setBody(fbBody);
       await handleEmailChat({ subject: fbSubject, body: fbBody });

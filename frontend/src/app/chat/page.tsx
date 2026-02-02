@@ -23,7 +23,6 @@ import { parseNaturalLanguage, isNaturalLanguage } from '@/lib/naturalLanguagePa
 
 import { EVENT_THEMES } from '@/config/eventThemes';
 
-import { conversationService } from '@/services/conversationService';
 import { persistentCalendarService, CalendarEvent as PersistentCalendarEvent } from '@/services/persistentCalendarService';
 import { handle_kairo_query, routeToLogic, legacyKeywordBasedRouting } from '@/lib/kairoIntentRouter';
 import CurriculumDisplay from '@/components/CurriculumDisplay';
@@ -387,7 +386,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
 
     // Get theme for event
     const getEventTheme = (event: DailyCalendarEvent) => {
-        return EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['lavender-peach'];
+        return EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['purple'];
     };
 
     // Filter events based on selected term
@@ -808,7 +807,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
                 professor: newEvent.professor || '',
                 recurrence_pattern: newEvent.recurrence_pattern || 'weekly',
                 reference_date: newEvent.reference_date,
-                theme: newEvent.theme || 'lavender-peach',
+                theme: newEvent.theme || 'purple',
             };
 
 
@@ -828,7 +827,7 @@ function CalendarComponent({ refreshKey, initialDate, onEventAdded, showDeleteBu
                 professor: createdEventFromApi.professor,
                 recurrence_pattern: createdEventFromApi.recurrence_pattern,
                 reference_date: createdEventFromApi.reference_date,
-                theme: createdEventFromApi.theme || 'lavender-peach', // Ensure theme is set
+                theme: createdEventFromApi.theme || 'purple', // Ensure theme is set
             };
 
             setEvents(prevEvents => {
@@ -1268,7 +1267,7 @@ function shouldProvideHonestResponse(userInput: string): { shouldRespond: boolea
                 /(?:who|what).*are.*you/i.test(normalizedInput)) {
                 return {
                     shouldRespond: true,
-                    response: "I'm Kairo! 🎓 I'm your AI academic assistant here to help you navigate your uOttawa journey. Whether you need help with course scheduling, finding the perfect program, or planning your degree, I'm here to make your academic life easier and more organized! ✨\n\nWhat can I help you with today?"
+                    response: "I'm Kairo. I help with course scheduling and academic planning."
                 };
             }
 
@@ -1276,21 +1275,14 @@ function shouldProvideHonestResponse(userInput: string): { shouldRespond: boolea
             if (/(?:what.*can.*you.*do|how.*can.*you.*help|what.*are.*you.*for)/i.test(normalizedInput)) {
                 return {
                     shouldRespond: true,
-                    response: "Hey! I'm Kairo, and I'm here to make your uOttawa academic experience amazing! 🎓✨\n\n" +
-                        "Here's what I can help you with:\n" +
-                        "• **Smart scheduling** - Create optimized schedules that work with your life\n" +
-                        "• **Course discovery** - Find courses, check prerequisites, and read descriptions\n" +
-                        "• **Program guidance** - Navigate degree requirements and curriculum sequences\n" +
-                        "• **Calendar management** - Keep track of classes, exams, and important dates\n" +
-                        "• **Academic planning** - Plan your entire degree pathway\n\n" +
-                        "Just ask me anything about courses, schedules, or your academic journey!"
+                    response: "I can help with scheduling, course info, prerequisites, and academic planning."
                 };
             }
 
             // Handle basic greetings
             return {
                 shouldRespond: true,
-                response: "Hey there! I'm Kairo, your friendly academic assistant! 🎓 Ready to help you with course planning, scheduling, or anything else related to your uOttawa journey. What's on your mind?"
+                response: "Hey! How can I help you with your schedule?"
             };
         }
     }
@@ -1390,14 +1382,7 @@ function shouldProvideHonestResponse(userInput: string): { shouldRespond: boolea
     if (seemsLikeComplexQuestion) {
         return {
             shouldRespond: true,
-            response: "I'm not sure about that specific question - I'd recommend doing your own research to get the most accurate information.\n\n" +
-                "We're actively working on adding more comprehensive data to help answer a wider range of questions. In the meantime, I can definitely help you with:\n\n" +
-                "• Course scheduling and planning\n" +
-                "• Degree requirements and curriculum sequences\n" +
-                "• Course descriptions and prerequisites\n" +
-                "• Building optimized schedules \n\n" +
-                "For questions outside my current knowledge base, please consult official uOttawa resources, your academic advisor, or do independent research to ensure you get reliable information.\n\n" +
-                "Is there anything related to academic planning or course selection I can help you with instead? 🎓"
+            response: "I can't help with that. I'm focused on course scheduling and academic planning."
         };
     }
 
@@ -1420,9 +1405,6 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const messagesContainerRef = useRef<HTMLDivElement>(null);
     const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
-    const [isInputFocused, setIsInputFocused] = useState(false);
-
-    const { displayText, isVisible } = useAnimatedPlaceholder();
 
     // Track screen size for mobile navigation
     useEffect(() => {
@@ -1442,33 +1424,8 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
             const savedSessionId = sessionStorage.getItem('kairo_session_id');
 
             if (savedSessionId) {
-                setIsLoadingHistory(true);
-                try {
-                    // Load conversation history for this session
-                    const response = await api.get(`/api/ai/chat/?session_id=${savedSessionId}`);
-
-                    if (response.data && response.data.length > 0) {
-                        // Convert backend messages to frontend format
-                        const loadedMessages: ChatMessage[] = response.data.map((msg: BackendMessage) => ({
-                            id: msg.id.toString(),
-                            content: msg.content,
-                            role: msg.role as 'user' | 'assistant',
-                            timestamp: new Date(msg.timestamp)
-                        }));
-
-                        setMessages(loadedMessages);
-                        setSessionId(savedSessionId);
-                        setHasStartedConversation(true);
-                    } else {
-                        // Session exists but no messages, keep the session
-                        setSessionId(savedSessionId);
-                    }
-                } catch (error) {
-                    console.error('Error loading conversation history:', error);
-                    // If there's an error loading history, start fresh
-                    sessionStorage.removeItem('kairo_session_id');
-                    setSessionId(null);
-                }
+                // AI chat history loading disabled - start fresh
+                setSessionId(savedSessionId);
                 setIsLoadingHistory(false);
             }
         };
@@ -1700,7 +1657,7 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                             description: event.description,
                                             professor: event.instructor || '',
                                             recurrence_pattern: 'weekly' as const,
-                                            theme: event.theme || 'blue-purple-magenta'
+                                            theme: event.theme || 'blue'
                                         };
                                         const apiEvent = await createCalendarEvent(calendarEventData);
                                         createdEvents.push(apiEvent);
@@ -1965,279 +1922,16 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 requestPayload.context_summary = `Recent topics discussed: ${topics}`;
             }
 
-            const response = await api.post('/api/ai/chat/', requestPayload);
+            // AI chat is disabled - provide helpful fallback response
+            const fallbackResponse = "Ask me about courses, programs, or schedules.";
 
-            // Handle session_id from response (for new sessions or session updates)
-            if (response.data.session_id) {
-                const newSessionId = response.data.session_id;
-                if (newSessionId !== sessionId) {
-                    setSessionId(newSessionId);
-                    sessionStorage.setItem('kairo_session_id', newSessionId);
-                }
-            }
-
-            // Handle session reset response (has 'message' instead of 'content')
-            if (response.data.message && !response.data.content) {
-                // This is a session reset response
-                clearConversation();
-                setSessionId(response.data.session_id);
-                sessionStorage.setItem('kairo_session_id', response.data.session_id);
-
-                const resetMessageId = (Date.now() + 1).toString();
-                typeMessage(response.data.message, resetMessageId);
-                return;
-            }
-
-            // Check if the response contains JSON for calendar event creation
-            let displayContent = response.data.content;
-            let createdEvents: ApiCalendarEvent[] = [];
-
-            // Also check if the USER's message contains calendar event JSON
-            const userMessageContent = userMessage.content;
-
-            // Try to parse and create events from the user's message
-            try {
-
-                // First check if it's natural language
-                if (isNaturalLanguage(userMessageContent)) {
-                    const parseResult = parseNaturalLanguage(userMessageContent);
-
-
-                    if (parseResult.success && parseResult.events.length > 0) {
-
-                        // Create events using the API
-                        for (const event of parseResult.events) {
-
-                            try {
-                                const apiEvent = await createCalendarEvent({
-                                    title: event.title,
-                                    day_of_week: event.day_of_week,
-                                    start_time: event.start_time,
-                                    end_time: event.end_time
-                                });
-                                createdEvents.push(apiEvent);
-                            } catch (createError) {
-                                console.error('✗ Failed to create event:', createError);
-                                // Continue with other events even if one fails
-                            }
-                        }
-
-                        // Override the display content with the natural language confirmation
-                        if (parseResult.confirmation) {
-                            displayContent = parseResult.confirmation;
-                        }
-                    } else if (!parseResult.success && parseResult.error) {
-                        // Add helpful error message to the AI response
-                        displayContent = response.data.content;
-                    }
-                } else {
-                    // Try JSON parsing
-                    const events = await parseAndCreateCalendarEvents(userMessageContent);
-                    if (events.length > 0) {
-                        createdEvents.push(...events);
-                    }
-                }
-            } catch (error) {
-                // Add helpful message if there was an authentication or API error
-                if (error instanceof Error && error.message.includes('401')) {
-                    displayContent = `${response.data.content}\n\n❌ **Authentication Error:** Please try logging out and logging back in.`;
-                } else if (error instanceof Error && error.message.includes('403')) {
-                    displayContent = `${response.data.content}\n\n❌ **Permission Error:** You don't have permission to add calendar events.`;
-                }
-            }
-
-            // Check if the AI response contains JSON for calendar event creation
-            const jsonPattern = /```json\s*([\s\S]*?)\s*```/g;
-            let match;
-
-            // Process all JSON blocks in the response
-            while ((match = jsonPattern.exec(response.data.content)) !== null) {
-                try {
-                    const jsonData = JSON.parse(match[1]);
-                    if (jsonData.action === 'create_calendar_event' && jsonData.params) {
-                        // Remove the JSON block from the displayed content
-                        displayContent = displayContent.replace(match[0], '').trim();
-
-                        // Create the calendar event using parseAndCreateCalendarEvents
-                        const jsonString = JSON.stringify(jsonData);
-                        const events = await parseAndCreateCalendarEvents(jsonString);
-                        createdEvents.push(...events);
-                    } else if (jsonData.action === 'remove_calendar_event' && jsonData.params) {
-                        // Remove the JSON block from the displayed content
-                        displayContent = displayContent.replace(match[0], '').trim();
-
-                        // For remove events, trigger calendar refresh
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-                    } else if (jsonData.action === 'remove_all_calendar_events') {
-                        // Remove the JSON block from the displayed content
-                        displayContent = displayContent.replace(match[0], '').trim();
-
-                        // For remove all events, trigger calendar refresh
-                        if (onEventAdded) {
-                            onEventAdded();
-                        }
-                    }
-                } catch (parseError) {
-                    console.warn('Failed to parse JSON from AI response:', parseError);
-                }
-            }
-
-            // If no code blocks found, look for plain JSON objects (multiple)
-            if (createdEvents.length === 0) {
-                const plainJsonPattern = /\{[^}]*"action"\s*:\s*"create_calendar_event"[^}]*\}/g;
-                let plainMatch;
-
-                while ((plainMatch = plainJsonPattern.exec(response.data.content)) !== null) {
-                    try {
-                        const jsonData = JSON.parse(plainMatch[0]);
-                        if (jsonData.action === 'create_calendar_event' && jsonData.params) {
-                            // Remove the JSON object from the displayed content
-                            displayContent = displayContent.replace(plainMatch[0], '').trim();
-
-                            // Create the calendar event using parseAndCreateCalendarEvents
-                            const jsonString = JSON.stringify(jsonData);
-                            const events = await parseAndCreateCalendarEvents(jsonString);
-                            createdEvents.push(...events);
-                        }
-                    } catch (parseError) {
-                        console.warn('Failed to parse plain JSON from AI response:', parseError);
-                    }
-                }
-            }
-
-            // Fallback: try to parse the entire response as JSON if it looks like one
-            if (createdEvents.length === 0) {
-                const trimmedContent = response.data.content.trim();
-                if (trimmedContent.startsWith('{') && trimmedContent.endsWith('}')) {
-                    try {
-                        const jsonData = JSON.parse(trimmedContent);
-                        if (jsonData.action === 'create_calendar_event' && jsonData.params) {
-                            // For pure JSON responses, provide a friendly message
-                            displayContent = `I've added "${jsonData.params.title}" to your calendar for ${jsonData.params.day_of_week} from ${jsonData.params.start_time} to ${jsonData.params.end_time}.`;
-
-                            // Create the calendar event using parseAndCreateCalendarEvents
-                            const events = await parseAndCreateCalendarEvents(trimmedContent);
-                            createdEvents.push(...events);
-                        } else if (jsonData.action === 'remove_all_calendar_events') {
-                            // For pure JSON responses for remove all, provide a friendly message
-                            displayContent = "I'll remove all events from your calendar.";
-
-                            // Trigger calendar refresh to show all events removed
-                            if (onEventAdded) {
-                                onEventAdded();
-                            }
-                        }
-                    } catch (parseError) {
-                        console.warn('Failed to parse entire response as JSON:', parseError);
-                    }
-                }
-            }
-
-            // If events were created, create a success message
-            if (createdEvents.length > 0) {
-
-                // If we already have a natural language confirmation, use it
-                if (!displayContent.includes('Added') && !displayContent.includes('added')) {
-                    const eventSummary = createdEvents.map(event =>
-                        `"${event.title}" on ${event.day_of_week} from ${event.start_time} to ${event.end_time}`
-                    ).join(' and ');
-
-                    displayContent = `I've added ${eventSummary} to your calendar.`;
-                }
-
-                // Trigger calendar refresh - IMPORTANT!
-                if (onEventAdded) {
-                    onEventAdded();
-                }
-            } else {
-            }
-
-            // Append uOZone link for professor comparison questions
-            // Disabled automatic link appending to avoid spam
-            // if (isProfessorComparisonQuestion(userMessage.content)) {
-            //     const courseCode = extractCourseCode(userMessage.content);
-            //     if (courseCode) {
-            //         displayContent = `${displayContent}\nYou can also check uOZone for the latest professor and section info:\nhttps://uo.zone/course/${courseCode}`;
-            //     }
-            // }
-
-            // Check if the AI response indicates calendar deletion for visual feedback
-            const deletionPatterns = [
-                /cleared all \d+ events/i,
-                /removed \d+ events?/i,
-                /deleted \d+ events?/i,
-                /I cleared all/i,
-                /I removed/i,
-                /I deleted/i,
-                /🗑️.*cleared/i,
-                /🗑️.*removed/i,
-                /🗑️.*deleted/i,
-                /🗑️.*I cleared/i,
-                /Your calendar is.*empty/i,
-                /calendar.*cleared/i,
-                /calendar.*empty/i,
-                /all events.*removed/i,
-                /everything.*cleared/i,
-                /wiped.*calendar/i,
-                /emptied.*calendar/i,
-                /reset.*calendar/i,
-                /cleaned.*calendar/i,
-                /calendar.*already.*empty/i,
-                /no events.*found/i,
-                /calendar.*now.*empty/i
-            ];
-
-            const isDeletionResponse = deletionPatterns.some(pattern => pattern.test(displayContent));
-
-            if (isDeletionResponse) {
-
-                // Extract number of deleted events if possible
-                const countMatch = displayContent.match(/(\d+)\s+events?/i);
-                const deletedCount = countMatch ? parseInt(countMatch[1]) : 1;
-
-                // Dispatch event to trigger visual feedback and immediate refresh
-                window.dispatchEvent(new CustomEvent('aiCalendarDeletion', {
-                    detail: { type: 'ai_response', count: deletedCount }
-                }));
-
-                // ALSO trigger an immediate calendar refresh to show the changes
-                if (onEventAdded) {
-                    onEventAdded(); // This increments refreshKey which forces a full refresh
-                }
-            }
-
-            // Final check: if the AI response seems to be answering something outside Kairo's scope, provide an honest response instead
-            const finalHonestCheck = shouldProvideHonestResponse(userMessage.content);
-            if (finalHonestCheck.shouldRespond && finalHonestCheck.response) {
-                // Check if the AI response contains generic knowledge or non-academic content
-                const aiResponseLower = displayContent.toLowerCase();
-                const nonAcademicIndicators = [
-                    'i don\'t have access to', 'i cannot provide', 'i\'m not able to',
-                    'as an ai', 'i\'m an ai', 'i don\'t know', 'i\'m not sure',
-                    'general knowledge', 'outside my expertise', 'beyond my capabilities'
-                ];
-
-                const containsNonAcademicResponse = nonAcademicIndicators.some(indicator =>
-                    aiResponseLower.includes(indicator)
-                );
-
-                if (containsNonAcademicResponse) {
-                    const assistantMessageId = (Date.now() + 1).toString();
-                    typeMessage(finalHonestCheck.response, assistantMessageId);
-                    return;
-                }
-            }
-
-            // Start typing animation for the assistant's message
-            const assistantMessageId = (Date.now() + 1).toString();
-            typeMessage(displayContent, assistantMessageId);
+            const assistantMsgId = (Date.now() + 1).toString();
+            typeMessage(fallbackResponse, assistantMsgId);
 
         } catch (error) {
             console.error('Error sending message:', error);
-            const errorMessageId = (Date.now() + 1).toString();
-            typeMessage('Sorry, I encountered an error. Please try again.', errorMessageId);
+            const errorMsgId = (Date.now() + 1).toString();
+            typeMessage('Sorry, I encountered an error. Please try again.', errorMsgId);
         } finally {
             setIsLoading(false);
         }
@@ -2246,90 +1940,58 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
     // Show welcome screen when conversation hasn't started
     if (!hasStartedConversation && !isLoadingHistory) {
         return (
-            <div className="font-mono h-full w-full flex flex-col items-center justify-center p-4 sm:p-6 bg-cream dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
-                {/* Centered Content */}
-                <div className="flex flex-col items-center justify-center flex-1 max-w-2xl w-full">
-                    {/* Typewriter Text */}
-                    <div className="mb-6 sm:mb-8 text-center px-4">
-                        <h2 className="text-gray-900 dark:text-neutral-300 text-lg sm:text-xl font-medium transition-colors duration-300">
-                            <TypewriterText
-                                text={getFunnyMessage() || "Kairo's awake after 5. Unlike your prof."}
-                                speed={70}
+            <div className="font-mono h-full w-full flex flex-col bg-[#f5f5f5] dark:bg-[#1a1a1a] transition-colors duration-300">
+                {/* Header */}
+                <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700 bg-white/50 dark:bg-neutral-900/50">
+                    <h2 className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">Kairo Agent</h2>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">AI schedule assistant</p>
+                </div>
+
+                {/* Empty Message Area */}
+                <div className="flex-1 overflow-y-auto px-4 py-4"></div>
+
+                {/* Input Section */}
+                <div className="border-t border-neutral-100 dark:border-neutral-800 bg-[#fafafa] dark:bg-[#141414] px-4 py-3">
+                    {/* Model Selector */}
+                    <div className="flex items-center mb-2">
+                        <span className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-neutral-500 dark:text-neutral-400 cursor-pointer hover:text-neutral-700 dark:hover:text-neutral-300">
+                            Kairo v1
+                            <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </div>
+
+                    {/* Input Container */}
+                    <form onSubmit={sendMessage} className="w-full">
+                        <div className="relative flex items-center bg-neutral-200/60 dark:bg-neutral-800 rounded-full border-0">
+                            <input
+                                type="text"
+                                value={inputMessage}
+                                onChange={(e) => setInputMessage(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        sendMessage(e);
+                                    }
+                                }}
+                                placeholder="Message Kairo..."
+                                className="flex-1 h-[42px] px-4 text-sm bg-transparent text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 outline-none border-0 focus:outline-none focus:ring-0"
                             />
-                        </h2>
-                    </div>
-
-                    {/* Input Form with Improved Design */}
-                    <div className="w-full max-w-3xl px-4">
-                        <form onSubmit={sendMessage} className="w-full">
-                            {/* Main Input Container */}
-                            <div className="bg-cream dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
-                                {/* Text Input Area */}
-                                <div className="p-4 pb-0">
-                                    <div className="flex-1 relative">
-                                        <textarea
-                                            value={inputMessage}
-                                            onChange={(e) => setInputMessage(e.target.value)}
-                                            onFocus={() => setIsInputFocused(true)}
-                                            onBlur={() => setIsInputFocused(false)}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter' && !e.shiftKey) {
-                                                    e.preventDefault();
-                                                    sendMessage(e);
-                                                }
-                                            }}
-                                            rows={1}
-                                            className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 resize-none min-h-[32px] leading-7 text-[15px]"
-                                            style={{
-                                                height: 'auto',
-                                                minHeight: '32px',
-                                                maxHeight: '120px'
-                                            }}
-                                            onInput={(e) => {
-                                                const target = e.target as HTMLTextAreaElement;
-                                                target.style.height = 'auto';
-                                                target.style.height = Math.min(target.scrollHeight, 120) + 'px';
-                                            }}
-                                            placeholder=""
-                                            autoFocus
-                                        />
-                                        {!inputMessage && !isInputFocused && (
-                                            <div className="absolute inset-0 flex items-start pt-[8px] overflow-hidden pointer-events-none">
-                                                <div
-                                                    className={`text-gray-400 dark:text-neutral-500 transition-all duration-500 text-[15px] ${isVisible
-                                                        ? 'opacity-100'
-                                                        : 'opacity-0'
-                                                        }`}
-                                                >
-                                                    {displayText}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Action Bar */}
-                                <div className="flex items-center justify-end px-4 py-3">
-                                    <button
-                                        type="submit"
-                                        disabled={isLoading}
-                                        className={`w-9 h-9 rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${inputMessage.trim()
-                                            ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md'
-                                            : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                                            }`}
-                                        aria-label="Send message"
-                                    >
-                                        {inputMessage.trim() ? (
-                                            <ArrowUp className="w-4 h-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
-                                        ) : (
-                                            <ArrowRight className="w-4 h-4 rotate-90" />
-                                        )}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
+                            <button
+                                type="submit"
+                                disabled={isLoading || !inputMessage.trim()}
+                                className={`group mr-1.5 p-1.5 rounded-full text-white dark:text-neutral-300 transition-all duration-200 ease-out ${
+                                    inputMessage.trim()
+                                        ? 'bg-neutral-800 dark:bg-neutral-500 scale-100 opacity-100 hover:bg-neutral-700 dark:hover:bg-neutral-400 active:scale-95'
+                                        : 'bg-neutral-300 dark:bg-neutral-700 scale-75 opacity-50 cursor-not-allowed'
+                                }`}
+                                aria-label="Send"
+                            >
+                                <ArrowUp className={`w-4 h-4 transition-transform duration-200 ${inputMessage.trim() ? 'translate-y-0 group-hover:-translate-y-0.5' : 'translate-y-0.5'}`} />
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         );
@@ -2337,53 +1999,22 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
 
     // Show full chat interface when conversation has started
     return (
-        <div className="font-mono h-full w-full flex flex-col p-4 sm:p-6 bg-cream dark:bg-[rgb(var(--secondary-bg))] transition-colors duration-300">
+        <div className="font-mono h-full w-full flex flex-col bg-[#f5f5f5] dark:bg-[#1a1a1a] transition-colors duration-300">
             {/* Header */}
-            <div className="mb-4 sm:mb-6 flex justify-between items-center">
-                <div className="flex items-center gap-2 sm:gap-3">
-                    <h2 className="text-gray-900 dark:text-neutral-300 text-lg sm:text-xl font-medium transition-colors duration-300">
-                        Chat with Kairo
-                    </h2>
-                    {sessionId && (
-                        <div className="flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-500/20 rounded-full transition-colors duration-300">
-                            <div className="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full"></div>
-                            <span className="text-xs text-green-700 dark:text-green-400 transition-colors duration-300">Enhanced Memory</span>
-                        </div>
-                    )}
-                </div>
+            <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700 bg-white/50 dark:bg-neutral-900/50">
+                <h2 className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">Kairo Agent</h2>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">AI schedule assistant</p>
             </div>
 
             {/* Loading indicator for conversation history */}
             {isLoadingHistory && (
-                <div className="flex justify-center items-center py-8">
-                    <div className="relative w-6 h-6">
-                        {/* Central Dot */}
-                        <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-600 dark:bg-[rgb(var(--accent-color))] rounded-full -translate-x-1/2 -translate-y-1/2 animate-pulse shadow-[0_0_6px_rgba(59,130,246,0.6)]" />
-
-                        {/* Orbiting Dots */}
-                        <div className="absolute w-full h-full animate-spin-slow">
-                            {/* Cyan dot at 0° */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translate(-50%, -50%) rotate(0deg) translateX(10px)' }}>
-                                <div className="w-1 h-1 bg-cyan-500 dark:bg-cyan-400 rounded-full animate-bob" />
-                            </div>
-
-                            {/* Indigo dot at 90° */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translate(-50%, -50%) rotate(90deg) translateX(10px)' }}>
-                                <div className="w-1 h-1 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-bob" style={{ animationDelay: '0.375s' }} />
-                            </div>
-
-                            {/* Purple dot at 180° */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translate(-50%, -50%) rotate(180deg) translateX(10px)' }}>
-                                <div className="w-1 h-1 bg-purple-500 dark:bg-purple-400 rounded-full animate-bob" style={{ animationDelay: '0.75s' }} />
-                            </div>
-
-                            {/* Blue dot at 270° */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translate(-50%, -50%) rotate(270deg) translateX(10px)' }}>
-                                <div className="w-1 h-1 bg-blue-400 dark:bg-blue-300 rounded-full animate-bob" style={{ animationDelay: '1.125s' }} />
-                            </div>
-                        </div>
+                <div className="flex justify-center items-center py-6">
+                    <div className="flex items-center space-x-1">
+                        <div className="w-1.5 h-1.5 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-1.5 h-1.5 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                        <div className="w-1.5 h-1.5 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                     </div>
-                    <span className="ml-3 text-gray-600 dark:text-neutral-400 text-sm transition-colors duration-300">Loading conversation history...</span>
+                    <span className="ml-3 text-neutral-500 dark:text-neutral-400 text-xs">Loading...</span>
                 </div>
             )}
 
@@ -2391,7 +2022,8 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
             <div
                 ref={messagesContainerRef}
                 onScroll={handleScroll}
-                className="flex-1 overflow-y-auto mb-4 space-y-3"
+                className="flex-1 overflow-y-auto px-4 py-4 space-y-3"
+                style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4d4d4 transparent' }}
             >
                 <div className="flex flex-col space-y-3">
                     {messages.map((message) => (
@@ -2401,8 +2033,8 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                         >
                             {message.curriculumData && message.curriculumData.programName ? (
                                 // New program sequence rendering
-                                <div className="w-full max-w-4xl">
-                                    <div className="bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-gray-900 dark:text-neutral-300 self-start p-3 rounded-lg transition-colors duration-300">
+                                <div className="w-full max-w-[95%]">
+                                    <div className="bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 px-3 py-2 rounded-2xl rounded-bl-md shadow-sm border border-neutral-100 dark:border-neutral-700 transition-colors duration-300">
                                         <MessageContent
                                             content={message.content}
                                             className="text-sm leading-relaxed"
@@ -2415,42 +2047,42 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
 
                                     {/* Feedback and Copy buttons for curriculum messages */}
                                     {message.role === 'assistant' && (
-                                        <div className="flex items-center gap-1 mt-2 ml-3">
+                                        <div className="flex items-center gap-0.5 mt-1.5 ml-1">
                                             {/* Copy button */}
                                             <button
                                                 onClick={() => handleCopyMessage(message.id, message.content)}
-                                                className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group"
+                                                className="p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors group"
                                                 title="Copy message"
                                             >
                                                 {copiedMessages[message.id] ? (
-                                                    <Check className="w-3.5 h-3.5 text-green-500" />
+                                                    <Check className="w-3 h-3 text-green-500" />
                                                 ) : (
-                                                    <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
+                                                    <Copy className="w-3 h-3 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300" />
                                                 )}
                                             </button>
 
                                             {/* Thumbs up */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'up')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'up'
+                                                className={`p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${messageFeedback[message.id] === 'up'
                                                         ? 'text-green-500'
-                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                        : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
                                                     }`}
                                                 title="Good response"
                                             >
-                                                <ThumbsUp className="w-3.5 h-3.5" />
+                                                <ThumbsUp className="w-3 h-3" />
                                             </button>
 
                                             {/* Thumbs down */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'down')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'down'
+                                                className={`p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${messageFeedback[message.id] === 'down'
                                                         ? 'text-red-500'
-                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                        : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
                                                     }`}
                                                 title="Bad response"
                                             >
-                                                <ThumbsDown className="w-3.5 h-3.5" />
+                                                <ThumbsDown className="w-3 h-3" />
                                             </button>
                                         </div>
                                     )}
@@ -2516,11 +2148,11 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                                 </div>
                             ) : (
                                 // Regular message rendering
-                                <div className={`${message.role === 'user' ? 'ml-auto' : 'mr-auto'} max-w-[90%] sm:max-w-[70%]`}>
+                                <div className={`${message.role === 'user' ? 'ml-auto' : 'mr-auto'} max-w-[85%]`}>
                                     <div
                                         className={`${message.role === 'user'
-                                            ? 'bg-gray-100 dark:bg-cream/10 rounded-lg p-2 text-gray-900 dark:text-white mb-2 transition-colors duration-300'
-                                            : 'bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-900 dark:text-neutral-300 p-3 rounded-lg transition-colors duration-300'
+                                            ? 'bg-neutral-800 dark:bg-neutral-700 text-white px-3 py-2 rounded-2xl rounded-br-md transition-colors duration-300'
+                                            : 'bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 px-3 py-2 rounded-2xl rounded-bl-md shadow-sm border border-neutral-100 dark:border-neutral-700 transition-colors duration-300'
                                             }`}
                                     >
                                         <MessageContent
@@ -2531,42 +2163,42 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
 
                                     {/* Feedback and Copy buttons for AI messages */}
                                     {message.role === 'assistant' && (
-                                        <div className="flex items-center gap-1 mt-2 ml-3">
+                                        <div className="flex items-center gap-0.5 mt-1.5 ml-1">
                                             {/* Copy button */}
                                             <button
                                                 onClick={() => handleCopyMessage(message.id, message.content)}
-                                                className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group"
+                                                className="p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors group"
                                                 title="Copy message"
                                             >
                                                 {copiedMessages[message.id] ? (
-                                                    <Check className="w-3.5 h-3.5 text-green-500" />
+                                                    <Check className="w-3 h-3 text-green-500" />
                                                 ) : (
-                                                    <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
+                                                    <Copy className="w-3 h-3 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300" />
                                                 )}
                                             </button>
 
                                             {/* Thumbs up */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'up')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'up'
+                                                className={`p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${messageFeedback[message.id] === 'up'
                                                         ? 'text-green-500'
-                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                        : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
                                                     }`}
                                                 title="Good response"
                                             >
-                                                <ThumbsUp className="w-3.5 h-3.5" />
+                                                <ThumbsUp className="w-3 h-3" />
                                             </button>
 
                                             {/* Thumbs down */}
                                             <button
                                                 onClick={() => handleMessageFeedback(message.id, 'down')}
-                                                className={`p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${messageFeedback[message.id] === 'down'
+                                                className={`p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${messageFeedback[message.id] === 'down'
                                                         ? 'text-red-500'
-                                                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                                        : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
                                                     }`}
                                                 title="Bad response"
                                             >
-                                                <ThumbsDown className="w-3.5 h-3.5" />
+                                                <ThumbsDown className="w-3 h-3" />
                                             </button>
                                         </div>
                                     )}
@@ -2578,23 +2210,25 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                     {/* Typing message */}
                     {isTyping && typingMessage && (
                         <div className="flex justify-start">
-                            <div className="bg-gray-50 dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] text-gray-900 dark:text-neutral-300 self-start p-3 rounded-lg max-w-[90%] sm:max-w-[70%] transition-colors duration-300">
+                            <div className="max-w-[85%] bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 px-3 py-2 rounded-2xl rounded-bl-md shadow-sm border border-neutral-100 dark:border-neutral-700 transition-colors duration-300">
                                 <MessageContent
                                     content={typingMessage}
                                     className="text-sm leading-relaxed"
                                 />
-                                <span className="inline-block w-0.5 h-4 bg-gray-900 dark:bg-neutral-300 ml-0.5 animate-pulse opacity-75"></span>
+                                <span className="inline-block w-0.5 h-4 bg-neutral-800 dark:bg-neutral-200 ml-0.5 animate-pulse opacity-75"></span>
                             </div>
                         </div>
                     )}
 
                     {/* Typing indicator - three bouncing dots */}
                     {isLoading && !isTyping && (
-                        <div className="flex justify-start px-4 py-2">
-                            <div className="flex items-center space-x-1">
-                                <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms', animationDuration: '1s' }}></div>
-                                <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '200ms', animationDuration: '1s' }}></div>
-                                <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '400ms', animationDuration: '1s' }}></div>
+                        <div className="flex justify-start">
+                            <div className="bg-white dark:bg-neutral-800 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-neutral-100 dark:border-neutral-700">
+                                <div className="flex items-center space-x-1">
+                                    <div className="w-1.5 h-1.5 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                    <div className="w-1.5 h-1.5 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                    <div className="w-1.5 h-1.5 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -2603,74 +2237,48 @@ function AssistantComponent({ onEventAdded }: AssistantComponentProps) {
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Form with Cursor-style Design */}
-            <div className="w-full">
-                <form onSubmit={sendMessage} className="w-full">
-                    <div className="bg-cream dark:bg-[rgb(var(--card-bg))] border border-gray-200 dark:border-[rgb(var(--border-color))] rounded-2xl shadow-sm hover:shadow-md dark:hover:border-white/20 transition-all duration-300 relative overflow-hidden">
-                        {/* Text Input Area */}
-                        <div className="p-4 pb-0">
-                            <div className="flex-1 relative">
-                                <textarea
-                                    value={inputMessage}
-                                    onChange={(e) => setInputMessage(e.target.value)}
-                                    onFocus={() => setIsInputFocused(true)}
-                                    onBlur={() => setIsInputFocused(false)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' && !e.shiftKey) {
-                                            e.preventDefault();
-                                            sendMessage(e);
-                                        }
-                                    }}
-                                    rows={1}
-                                    className="w-full bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 text-gray-900 dark:text-white disabled:opacity-50 relative z-10 transition-colors duration-300 resize-none min-h-[32px] leading-7 text-[15px]"
-                                    style={{
-                                        height: 'auto',
-                                        minHeight: '32px',
-                                        maxHeight: '120px'
-                                    }}
-                                    onInput={(e) => {
-                                        const target = e.target as HTMLTextAreaElement;
-                                        target.style.height = 'auto';
-                                        target.style.height = Math.min(target.scrollHeight, 120) + 'px';
-                                    }}
-                                    placeholder=""
-                                />
-                                {!inputMessage && !isInputFocused && (
-                                    <div className="absolute inset-0 flex items-start pt-[8px] overflow-hidden pointer-events-none">
-                                        <div
-                                            className={`text-gray-400 dark:text-neutral-500 transition-all duration-500 text-[15px] ${isVisible
-                                                ? 'opacity-100'
-                                                : 'opacity-0'
-                                                }`}
-                                        >
-                                            {displayText}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+            {/* Input Section */}
+            <div className="border-t border-neutral-100 dark:border-neutral-800 bg-[#fafafa] dark:bg-[#141414] px-4 py-3">
+                {/* Model Selector */}
+                <div className="flex items-center mb-2">
+                    <span className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-neutral-500 dark:text-neutral-400 cursor-pointer hover:text-neutral-700 dark:hover:text-neutral-300">
+                        Kairo v1
+                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </div>
 
-                        {/* Action Bar */}
-                        <div className="flex items-center justify-end px-4 py-3">
-                            <button
-                                type="submit"
-                                disabled={isLoading}
-                                className={`w-9 h-9 rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center group focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${inputMessage.trim()
-                                    ? 'bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 hover:from-gray-800 hover:to-gray-700 dark:hover:from-gray-100 dark:hover:to-white text-white dark:text-gray-900 shadow-md'
-                                    : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                                    }`}
-                                aria-label="Send message"
-                            >
-                                {inputMessage.trim() ? (
-                                    <ArrowUp className="w-5 h-5 transition-transform duration-200 group-hover:-translate-y-0.5" />
-                                ) : (
-                                    <ArrowRight className="w-5 h-5 rotate-90" />
-                                )}
-                            </button>
-                        </div>
+                {/* Input Container */}
+                <form onSubmit={sendMessage} className="w-full">
+                    <div className="relative flex items-center bg-neutral-200/60 dark:bg-neutral-800 rounded-full border-0">
+                        <input
+                            type="text"
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    sendMessage(e);
+                                }
+                            }}
+                            placeholder="Message Kairo..."
+                            className="flex-1 h-[42px] px-4 text-sm bg-transparent text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 outline-none border-0 focus:outline-none focus:ring-0"
+                        />
+                        <button
+                            type="submit"
+                            disabled={isLoading || !inputMessage.trim()}
+                            className={`group mr-1.5 p-1.5 rounded-full text-white dark:text-neutral-300 transition-all duration-200 ease-out ${
+                                inputMessage.trim()
+                                    ? 'bg-neutral-800 dark:bg-neutral-500 scale-100 opacity-100 hover:bg-neutral-700 dark:hover:bg-neutral-400 active:scale-95'
+                                    : 'bg-neutral-300 dark:bg-neutral-700 scale-75 opacity-50 cursor-not-allowed'
+                            }`}
+                            aria-label="Send"
+                        >
+                            <ArrowUp className={`w-4 h-4 transition-transform duration-200 ${inputMessage.trim() ? 'translate-y-0 group-hover:-translate-y-0.5' : 'translate-y-0.5'}`} />
+                        </button>
                     </div>
                 </form>
-
             </div>
         </div>
     );
@@ -5076,7 +4684,7 @@ function KairollComponent() {
                                             const colIndex = dayToIndex(dayShorthand);
                                             if (colIndex === -1) return null;
 
-                                            const theme = EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['lavender-peach'];
+                                            const theme = EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['purple'];
                                             if (!theme) return null; // Defensive check
 
                                             const titleMatch = event.title.match(/([A-Z]{3}\s\d{4})\s\((.*?)\)/);
@@ -5540,13 +5148,13 @@ export default function ChatDashboard() {
             {/* Main Content */}
             {view === 'split' && (
                 <div className="hidden sm:flex sm:flex-row h-[calc(100vh-64px)]">{/* subtract desktop header ~64px */}
-                    {/* Calendar Panel - 75% width on desktop only */}
-                    <div className="w-3/4 h-full bg-cream dark:bg-[rgb(var(--background-rgb))] border-r border-gray-200 dark:border-[rgb(var(--border-color))] transition-colors duration-300 overflow-hidden">
+                    {/* Calendar Panel - flex-1 to take remaining space */}
+                    <div className="flex-1 h-full bg-cream dark:bg-[rgb(var(--background-rgb))] transition-colors duration-300 overflow-hidden">
                         <CalendarComponent refreshKey={calendarRefreshKey} onEventAdded={handleCalendarRefresh} showDeleteButton={false} onStatsChange={handleStatsChange} courseCount={courseCount} conflictsCount={conflictsCount} selectedTerm={selectedTerm} />
                     </div>
 
-                    {/* Assistant Panel - 25% width on desktop only */}
-                    <div className="w-1/4 h-full bg-cream dark:bg-[rgb(var(--secondary-bg))] border-l border-gray-200 dark:border-[rgb(var(--border-color))] shadow-none transition-colors duration-300 overflow-auto">
+                    {/* Assistant Panel - 400px fixed width */}
+                    <div className="w-[400px] h-full bg-[#f5f5f5] dark:bg-[#1a1a1a] border-l border-neutral-200 dark:border-neutral-800 transition-colors duration-300 overflow-hidden">
                         <AssistantComponent onEventAdded={handleCalendarRefresh} />
                     </div>
                 </div>

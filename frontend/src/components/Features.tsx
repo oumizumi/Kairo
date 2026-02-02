@@ -15,7 +15,7 @@ const TABS: Array<{
 }> = [
     { key: 'schedule', title: 'Smart Schedule Generation', subtitle: 'Conflict‑free, section‑aware planning', icon: Calendar },
     { key: 'intelligence', title: 'Course & Section Intelligence', subtitle: 'Real sections and availability', icon: BookOpen },
-    { key: 'assistant', title: 'Ask Anything — GPT', subtitle: 'Programs, sequences, prerequisites', icon: MessageSquare },
+    { key: 'assistant', title: 'Ask Anything', subtitle: 'Programs, sequences, prerequisites', icon: MessageSquare },
   ];
 
 const HOW_IT_WORKS: Array<{ icon: any; title: string; description: string }> = [
