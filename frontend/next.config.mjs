@@ -4,9 +4,6 @@ const nextConfig = {
     // output: 'export', // Temporarily disabled for dynamic routes
     trailingSlash: true,
     
-    // Performance optimizations
-    swcMinify: true,
-    
     // Enable CSS optimization
     transpilePackages: ['@fullcalendar'],
     
@@ -36,6 +33,9 @@ const nextConfig = {
     experimental: {
         optimizePackageImports: ['lucide-react', 'date-fns'],
     },
+    
+    // Turbopack configuration (empty to silence migration warning)
+    turbopack: {},
     
     // Webpack optimizations
     webpack: (config, { dev, isServer }) => {

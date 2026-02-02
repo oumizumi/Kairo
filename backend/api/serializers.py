@@ -136,7 +136,6 @@ class CreateUserCalendarSerializer(serializers.ModelSerializer):
         if 'end_date' in data and data['end_date'] == '':
             data['end_date'] = None
         return super().to_internal_value(data)
-        return value
     
     def create(self, validated_data):
         # Automatically associate with the current user
