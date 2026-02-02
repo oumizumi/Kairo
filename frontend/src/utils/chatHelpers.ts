@@ -328,13 +328,13 @@ export async function checkCourseAvailability(courseCode: string, term?: string)
             return {
                 available: true,
                 availableTerms,
-                message: `Yes! **${courseCode}** is available in: **${termsList}**.\n\n🎯 **Want to see sections and schedules?** Head over to **Kairoll** to explore detailed course information, check professor ratings, and add it to your schedule!\n\n*Click the "Kairoll" tab above to get started!*`
+                message: `**${courseCode}** is available in: **${termsList}**. Check Kairoll for sections and schedules.`
             };
         } else {
             return {
                 available: false,
                 availableTerms: [],
-                message: `I couldn't find **${courseCode}** in our current course offerings. This could mean:\n\n• The course isn't offered in Fall 2025, Winter 2026, or Spring/Summer 2025\n• The course code might be incorrect\n• It might be a new course not yet in our database\n\n💡 **Try checking in Kairoll** for the most up-to-date course listings, or double-check the course code!`
+                message: `**${courseCode}** not found in current offerings (Fall 2025, Winter 2026, Spring/Summer 2025). Check Kairoll for updated listings.`
             };
         }
     } catch (error) {
@@ -342,7 +342,7 @@ export async function checkCourseAvailability(courseCode: string, term?: string)
         return {
             available: false,
             availableTerms: [],
-            message: `I'm having trouble accessing the course database right now. Please try checking **Kairoll** directly for the most current course information!`
+            message: `Unable to access course database. Check Kairoll directly.`
         };
     }
 }
@@ -372,27 +372,20 @@ export function shouldProvideHonestResponse(userInput: string): { shouldRespond:
                 /(?:who|what).*are.*you/i.test(normalizedInput)) {
                 return {
                     shouldRespond: true,
-                    response: "I'm Kairo! 🎓 I'm your AI academic assistant here to help you navigate your uOttawa journey. Whether you need help with course scheduling, finding the perfect program, or planning your degree, I'm here to make your academic life easier and more organized! ✨\n\nWhat can I help you with today?"
+                    response: "I'm Kairo. I help with course scheduling and academic planning."
                 };
             }
 
             if (/(?:what.*can.*you.*do|how.*can.*you.*help|what.*are.*you.*for)/i.test(normalizedInput)) {
                 return {
                     shouldRespond: true,
-                    response: "Hey! I'm Kairo, and I'm here to make your uOttawa academic experience amazing! 🎓✨\n\n" +
-                        "Here's what I can help you with:\n" +
-                        "• **Smart scheduling** - Create optimized schedules that work with your life\n" +
-                        "• **Course discovery** - Find courses, check prerequisites, and read descriptions\n" +
-                        "• **Program guidance** - Navigate degree requirements and curriculum sequences\n" +
-                        "• **Calendar management** - Keep track of classes, exams, and important dates\n" +
-                        "• **Academic planning** - Plan your entire degree pathway\n\n" +
-                        "Just ask me anything about courses, schedules, or your academic journey!"
+                    response: "I can help with scheduling, course info, prerequisites, and academic planning."
                 };
             }
 
             return {
                 shouldRespond: true,
-                response: "Hey there! I'm Kairo, your friendly academic assistant! 🎓 Ready to help you with course planning, scheduling, or anything else related to your uOttawa journey. What's on your mind?"
+                response: "Hey! How can I help you with your schedule?"
             };
         }
     }
@@ -467,14 +460,7 @@ export function shouldProvideHonestResponse(userInput: string): { shouldRespond:
     if (seemsLikeComplexQuestion) {
         return {
             shouldRespond: true,
-            response: "I'm not sure about that specific question - I'd recommend doing your own research to get the most accurate information.\n\n" +
-                "We're actively working on adding more comprehensive data to help answer a wider range of questions. In the meantime, I can definitely help you with:\n\n" +
-                "• Course scheduling and planning\n" +
-                "• Degree requirements and curriculum sequences\n" +
-                "• Course descriptions and prerequisites\n" +
-                "• Building optimized schedules \n\n" +
-                "For questions outside my current knowledge base, please consult official uOttawa resources, your academic advisor, or do independent research to ensure you get reliable information.\n\n" +
-                "Is there anything related to academic planning or course selection I can help you with instead? 🎓"
+            response: "I can't help with that. I'm focused on course scheduling and academic planning."
         };
     }
 

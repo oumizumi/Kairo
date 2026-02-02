@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, Text, Edit, X } from "lucide-react";
 import { MobileEventInfoModalProps } from '@/types/chat';
 import { parseEventDescription } from '@/utils/chatHelpers';
@@ -50,13 +51,21 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
     return (
         <>
             {/* Backdrop - centered positioning */}
-            <div
+            <motion.div
                 className="fixed inset-0 z-[59] bg-black/30 backdrop-blur-sm flex items-center justify-center p-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
                 onClick={onClose}
             >
                 {/* Modal - always centered */}
-                <div
-                    className="relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white rounded-2xl shadow-2xl p-4 w-full max-w-[280px] border border-gray-200 dark:border-gray-700 animate-in fade-in-0 zoom-in-95 duration-200"
+                <motion.div
+                    className="relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white rounded-2xl shadow-2xl p-4 w-full max-w-[280px] border border-gray-200 dark:border-gray-700"
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.97, y: 10 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Close Button */}
@@ -130,22 +139,19 @@ const MobileEventInfoModal: React.FC<MobileEventInfoModalProps> = ({ event, onCl
                             </Button>
                         </div>
                     </div>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             {/* Edit Event Modal */}
-            {showEditModal && (
-                <EditEventModal
-                    event={event as Event}
-                    isOpen={showEditModal}
-                    onClose={() => setShowEditModal(false)}
-                    onSave={handleSaveEdit}
-                    isCreating={false}
-                />
-            )}
+            <EditEventModal
+                event={event as Event}
+                isOpen={showEditModal}
+                onClose={() => setShowEditModal(false)}
+                onSave={handleSaveEdit}
+                isCreating={false}
+            />
         </>
     );
 };
 
 export default MobileEventInfoModal;
-

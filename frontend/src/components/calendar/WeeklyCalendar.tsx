@@ -542,7 +542,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                         // Only show events that fall within our time range (7 AM - 10 PM)
                                         if (startHour < 7 || startHour >= 22) return null;
 
-                                        const theme = EVENT_THEMES[event.theme || 'lavender-peach'] || EVENT_THEMES['lavender-peach'];
+                                        const theme = EVENT_THEMES[event.theme || 'purple'] || EVENT_THEMES['purple'];
 
                                         return (
                                             <div

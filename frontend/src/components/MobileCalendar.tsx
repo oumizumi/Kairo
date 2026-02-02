@@ -277,7 +277,7 @@ const MobileCalendar: React.FC<MobileCalendarProps> = ({
     };
 
     const getEventThemeStyle = (event: Event) => {
-        const theme = EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['lavender-peach'];
+        const theme = EVENT_THEMES[event.theme as keyof typeof EVENT_THEMES] || EVENT_THEMES['purple'];
         return {
             background: theme.cssGradient,
             color: 'white'

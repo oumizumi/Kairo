@@ -109,34 +109,33 @@ class UserCalendarSerializer(serializers.ModelSerializer):
 
 class CreateUserCalendarSerializer(serializers.ModelSerializer):
     """Serializer for creating user calendar events"""
-    
+    # Override date fields to accept empty strings
+    reference_date = serializers.DateField(required=False, allow_null=True)
+    start_date = serializers.DateField(required=False, allow_null=True)
+    end_date = serializers.DateField(required=False, allow_null=True)
+
     class Meta:
         model = UserCalendar
         fields = [
             'title', 'start_time', 'end_time', 'day_of_week',
-            'start_date', 'end_date', 'description', 'professor', 
+            'start_date', 'end_date', 'description', 'professor',
             'location', 'recurrence_pattern', 'reference_date', 'theme'
         ]
         extra_kwargs = {
-            'theme': { 'required': False, 'allow_null': True, 'allow_blank': True }
+            'theme': { 'required': False, 'allow_null': True, 'allow_blank': True },
+            'location': { 'required': False, 'allow_blank': True },
+            'professor': { 'required': False, 'allow_blank': True }
         }
-    
-    def validate_reference_date(self, value):
-        """Handle empty string reference_date by converting to None"""
-        if value == '' or value is None:
-            return None
-        return value
-    
-    def validate_start_date(self, value):
-        """Handle empty string start_date by converting to None"""
-        if value == '' or value is None:
-            return None
-        return value
-    
-    def validate_end_date(self, value):
-        """Handle empty string end_date by converting to None"""
-        if value == '' or value is None:
-            return None
+
+    def to_internal_value(self, data):
+        """Convert empty strings to None for date fields before validation"""
+        if 'reference_date' in data and data['reference_date'] == '':
+            data['reference_date'] = None
+        if 'start_date' in data and data['start_date'] == '':
+            data['start_date'] = None
+        if 'end_date' in data and data['end_date'] == '':
+            data['end_date'] = None
+        return super().to_internal_value(data)
         return value
     
     def create(self, validated_data):

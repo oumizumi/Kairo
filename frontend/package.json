@@ -31,7 +31,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^12.12.1",
     "lucide-react": "^0.510.0",
-    "next": "^14.2.33",
+    "next": "^16.2.0-canary.23",
     "postcss": "^8.4.33",
     "react": "^18.2.0",
     "react-aria-components": "^1.13.0",

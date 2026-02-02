@@ -580,7 +580,7 @@ export const createCalendarEvent = async (event: Omit<CalendarEvent, 'id'>): Pro
             professor: event.professor || '',
             recurrence_pattern: event.recurrence_pattern || 'weekly',
             reference_date: event.reference_date || null,
-            theme: event.theme || 'lavender-peach'
+            theme: event.theme || 'purple'
         };
 
 

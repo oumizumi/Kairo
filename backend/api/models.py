@@ -137,34 +137,8 @@ class CalendarEvent(models.Model):
     recurrence_pattern = models.CharField(max_length=10, choices=RECURRENCE_CHOICES, default='weekly', blank=True)
     reference_date = models.DateField(blank=True, null=True)  # Reference date for bi-weekly events
     
-    # Theme field for event colors
-    THEME_CHOICES = [
-        ('lavender-peach', 'Lavender Peach'),
-        ('indigo-sunset', 'Indigo Sunset'),
-        ('cotton-candy', 'Cotton Candy'),
-        ('blue-purple-magenta', 'Blue Purple Magenta'),
-        ('deep-plum-coral', 'Deep Plum Coral'),
-        ('classic-black-white', 'Classic Black White'),
-        ('midnight-ivory', 'Midnight Ivory'),
-        ('cosmic-galaxy', 'Cosmic Galaxy'),
-        ('twilight-sunset', 'Twilight Sunset'),
-        # Blue Gradients - Only keeping 2 as requested
-        ('midnight-light-blue', 'Midnight to Light Blue'),
-        ('midnight-indigo-blue-cyan', 'Midnight to Indigo to Blue to Cyan'),
-        # Red Gradients - Only keeping 1 as requested
-        ('black-deep-bright', 'Black to Deep to Bright Red'),
-        # New Vibrant Gradients - Two-tone combinations
-        ('green-blue', 'Green Blue'),
-        ('warm-brown', 'Warm Brown'),
-        ('lime-green', 'Lime Green'),
-        ('mint-teal', 'Mint Teal'),
-        # Newly added themes (must match frontend EVENT_THEMES)
-        ('peach-mint', 'Peach Mint'),
-        ('sky-lavender', 'Sky Lavender'),
-        ('sunset-gold', 'Sunset Gold'),
-        ('forest-moss', 'Forest Moss'),
-    ]
-    theme = models.CharField(max_length=40, choices=THEME_CHOICES, default='lavender-peach', blank=True)
+    # Theme field for event colors - no choices constraint for flexibility
+    theme = models.CharField(max_length=40, default='purple', blank=True)
     
     # Term field for filtering courses by semester
     term = models.CharField(max_length=100, blank=True, null=True)  # e.g., "2025 Fall Term", "Fall 2025"
@@ -284,32 +258,8 @@ class UserCalendar(models.Model):
     )
     reference_date = models.DateField(blank=True, null=True)  # Proper date field
     
-    # Theme choices matching CalendarEvent model
-    THEME_CHOICES = [
-        ('lavender-peach', 'Lavender Peach'),
-        ('indigo-sunset', 'Indigo Sunset'),
-        ('cotton-candy', 'Cotton Candy'),
-        ('blue-purple-magenta', 'Blue Purple Magenta'),
-        ('deep-plum-coral', 'Deep Plum Coral'),
-        ('classic-black-white', 'Classic Black White'),
-        ('midnight-ivory', 'Midnight Ivory'),
-        ('cosmic-galaxy', 'Cosmic Galaxy'),
-        ('twilight-sunset', 'Twilight Sunset'),
-        ('midnight-light-blue', 'Midnight to Light Blue'),
-        ('midnight-indigo-blue-cyan', 'Midnight to Indigo to Blue to Cyan'),
-        ('black-deep-bright', 'Black to Deep to Bright Red'),
-        ('green-blue', 'Green Blue'),
-        ('warm-brown', 'Warm Brown'),
-        ('lime-green', 'Lime Green'),
-        ('mint-teal', 'Mint Teal'),
-        ('blue-gradient', 'Blue Gradient'),  # Keep existing default
-        # Newly added themes to match frontend
-        ('peach-mint', 'Peach Mint'),
-        ('sky-lavender', 'Sky Lavender'),
-        ('sunset-gold', 'Sunset Gold'),
-        ('forest-moss', 'Forest Moss'),
-    ]
-    theme = models.CharField(max_length=50, choices=THEME_CHOICES, default='blue-gradient')
+    # Theme field - no choices constraint for flexibility
+    theme = models.CharField(max_length=50, default='purple', blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Course, isCourseGrouped } from '@/types/course';
 import { CourseCardProps } from '@/types/chat';
 import ProfessorWithRMP from '@/components/ProfessorWithRMP';
@@ -224,13 +225,15 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                         <span>{group.lecture.status === 'Open' ? '🟩' : '🟥'}</span>
                                                                         {group.lecture.status === 'Open' ? 'Open' : 'Closed'}
                                                                     </span>
-                                                                    <div
-                                                                        className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(group.lecture.section)
+                                                                    <motion.div
+                                                                        className={`w-5 h-5 border-2 touch-manipulation rounded-sm ${isPending(group.lecture.section)
                                                                             ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
                                                                             : isSelected(group.lecture.section)
-                                                                                ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
+                                                                                ? 'bg-blue-600 border-blue-600 shadow-lg cursor-pointer'
                                                                                 : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                             }`}
+                                                                        whileTap={{ scale: 0.9 }}
+                                                                        transition={{ duration: 0.12 }}
                                                                         onTouchStart={(e) => {
                                                                             setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
                                                                         }}
@@ -272,7 +275,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                 <span className="text-white text-xs sm:text-xs font-bold">✓</span>
                                                                             </div>
                                                                         )}
-                                                                    </div>
+                                                                    </motion.div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -309,13 +312,15 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                             <span>{lab.status === 'Open' ? '🟩' : '🟥'}</span>
                                                                             {lab.status === 'Open' ? 'Open' : 'Closed'}
                                                                         </span>
-                                                                        <div
-                                                                            className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(lab.section)
+                                                                        <motion.div
+                                                                            className={`w-5 h-5 border-2 touch-manipulation rounded-sm ${isPending(lab.section)
                                                                                 ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
                                                                                 : isSelected(lab.section)
-                                                                                    ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
+                                                                                    ? 'bg-blue-600 border-blue-600 shadow-lg cursor-pointer'
                                                                                     : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                                 }`}
+                                                                            whileTap={{ scale: 0.9 }}
+                                                                            transition={{ duration: 0.12 }}
                                                                             onTouchStart={(e) => {
                                                                                 setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
                                                                             }}
@@ -357,7 +362,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                     <span className="text-white text-xs">✓</span>
                                                                                 </div>
                                                                             )}
-                                                                        </div>
+                                                                        </motion.div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -398,13 +403,15 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                 <span>{tutorial.status === 'Open' ? '🟩' : '🟥'}</span>
                                                                                 {tutorial.status === 'Open' ? 'Open' : 'Closed'}
                                                                             </span>
-                                                                            <div
-                                                                                className={`w-5 h-5 border-2 transition-all duration-200 touch-manipulation rounded-sm ${isPending(tutorial.section)
+                                                                            <motion.div
+                                                                                className={`w-5 h-5 border-2 touch-manipulation rounded-sm ${isPending(tutorial.section)
                                                                                     ? 'border-orange-400 bg-orange-100 animate-pulse cursor-wait'
                                                                                     : isSelected(tutorial.section)
-                                                                                        ? 'bg-blue-600 border-blue-600 shadow-lg transform scale-110 cursor-pointer'
+                                                                                        ? 'bg-blue-600 border-blue-600 shadow-lg cursor-pointer'
                                                                                         : 'border-gray-400 dark:border-gray-500 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                                                                     }`}
+                                                                                whileTap={{ scale: 0.9 }}
+                                                                                transition={{ duration: 0.12 }}
                                                                                 onTouchStart={(e) => {
                                                                                     setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
                                                                                 }}
@@ -446,7 +453,7 @@ const CourseCard = React.memo(function CourseCard({ course, onAddCourse, onSecti
                                                                                         <span className="text-white text-xs">✓</span>
                                                                                     </div>
                                                                                 )}
-                                                                            </div>
+                                                                            </motion.div>
                                                                         </div>
                                                                     </div>
                                                                 </div>

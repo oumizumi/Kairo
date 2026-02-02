@@ -1,5 +1,6 @@
 // Updated DailyCalendar with improved UI - Dec 19 2025
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { format, addWeeks, subWeeks, parseISO, startOfWeek, addDays } from 'date-fns';
 import { ChevronLeft, ChevronRight, Trash2, Calendar, Edit3, X, Sparkles, Plus, Palette, Download, Share2, Clipboard } from 'lucide-react';
 import { APP_CONFIG } from '@/config/app.config';
@@ -1092,11 +1093,23 @@ const MobileEventDetailsModal: React.FC<MobileEventDetailsModalProps> = ({ event
     };
 
     const eventInfo = getEventDisplayInfo(event);
-    const eventTheme = event.theme || 'lavender-peach';
+    const eventTheme = event.theme || 'purple';
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 lg:hidden">
-            <div className="bg-cream dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm mx-4 overflow-hidden">
+        <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+        >
+            <motion.div
+                className="bg-cream dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm mx-4 overflow-hidden"
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.97, y: 10 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+            >
                 {/* Header with gradient background */}
                 <div className={`p-6 text-white relative overflow-hidden`} style={{
                     background: 'rgba(255, 255, 255, 0.6)',
@@ -1191,8 +1204,8 @@ const MobileEventDetailsModal: React.FC<MobileEventDetailsModalProps> = ({ event
                         Close
                     </button>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 };
 
@@ -1241,7 +1254,6 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     const [showAddEventModal, setShowAddEventModal] = useState(false);
     const [showDownloadModal, setShowDownloadModal] = useState(false);
     const [selectedTerm, setSelectedTerm] = useState<string>('All Terms');
-    const [clickedEventKey, setClickedEventKey] = useState<string | null>(null);
 
 
     const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
@@ -1852,7 +1864,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     // Function to get theme style for events - SEMI-TRANSPARENT BACKGROUNDS
     const getEventThemeStyle = (event: Event) => {
         // Use the selected theme from EVENT_THEMES if available
-        const themeName = event.theme || 'lavender-peach';
+        const themeName = event.theme || 'purple';
         const themeConfig = EVENT_THEMES[themeName as keyof typeof EVENT_THEMES];
 
         if (themeConfig) {
@@ -2218,7 +2230,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     professor: newEvent.professor || '',
                     recurrence_pattern: newEvent.recurrence_pattern || 'weekly',
                     reference_date: newEvent.reference_date,
-                    theme: newEvent.theme || 'lavender-peach',
+                    theme: newEvent.theme || 'purple',
                 };
 
                 const createdEvent = await createCalendarEvent(eventData);
@@ -2315,35 +2327,19 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     };
 
     // Mobile event details handlers
-    // Generate a unique key for an event based on its properties
-    const getEventKey = (event: Event): string => {
-        return `${event.title}-${event.startTime}-${event.endTime}-${event.day_of_week || event.start_date || ''}`;
-    };
-
     const handleMobileEventClick = (event: Event) => {
         // Don't allow editing in readOnly mode
         if (readOnly) {
             return;
         }
 
-        // Set clicked event key for animation
-        const eventKey = getEventKey(event);
-        setClickedEventKey(eventKey);
-
-        // Use requestAnimationFrame to ensure the animation renders before opening modal
-        requestAnimationFrame(() => {
-            // Wait for animation to complete (250ms for a visible effect)
-            setTimeout(() => {
-                setClickedEventKey(null);
-                // On mobile, show event details first
-                if (window.innerWidth < 640) {
-                    setMobileEventDetails(event);
-                } else {
-                    // On desktop, directly edit
-                    handleEditEvent(event);
-                }
-            }, 250);
-        });
+        // On mobile, show event details first
+        if (window.innerWidth < 640) {
+            setMobileEventDetails(event);
+        } else {
+            // On desktop, directly edit
+            handleEditEvent(event);
+        }
     };
 
     const handleCloseMobileEventDetails = () => {
@@ -2476,7 +2472,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                 professor: event.professor || '',
                                 recurrence_pattern: event.recurrence_pattern || 'weekly',
                                 reference_date: event.reference_date,
-                                theme: event.theme || 'lavender-peach'
+                                theme: event.theme || 'purple'
                             };
 
                             await createCalendarEvent(eventData);
@@ -2505,7 +2501,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                 professor: event.professor || '',
                                 recurrence_pattern: event.recurrence_pattern || 'weekly',
                                 reference_date: event.reference_date,
-                                theme: event.theme || 'lavender-peach'
+                                theme: event.theme || 'purple'
                             });
                         }
                     });
@@ -2851,8 +2847,6 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
         }
 
         .event-block:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             z-index: 10;
         }
 
@@ -3044,11 +3038,6 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 cursor: pointer;
                 touch-action: manipulation;
                 -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
-                transition: transform 0.1s ease;
-            }
-
-            .event-block:active {
-                transform: scale(0.95);
             }
 
             /* FIXED: Remove any layout shifts */
@@ -3509,8 +3498,6 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             }
 
             .event-block:hover {
-                transform: translateY(-2px) scale(1.02) !important;
-                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
                 z-index: 10 !important;
             }
 
@@ -3546,14 +3533,6 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 background-color: rgba(59, 130, 246, 0.05);
             }
 
-            .event-block {
-                transition: all 0.2s ease;
-            }
-
-            .event-block:hover {
-                transform: translateY(-2px) scale(1.02) !important;
-                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
-            }
         }
 
         /* Animation classes */
@@ -4083,6 +4062,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                         height: '100%'
                                     }}
                                 >
+                                    <AnimatePresence mode="popLayout">
                                     {dayEvents.map((event, eventIndex) => {
                                         const position = getEventPosition(event, dayEvents, eventIndex, screenWidth, dayIndex);
                                         const colorScheme = getEventThemeStyle(event);
@@ -4094,13 +4074,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                             return null;
                                         }
 
-                                        const eventKey = getEventKey(event);
-                                        const isClicked = clickedEventKey === eventKey;
+                                        // Create stable unique key for AnimatePresence
+                                        const stableKey = event.id ? `event-${event.id}` : `${event.title}-${event.startTime}-${event.endTime}-${event.day_of_week || event.start_date || dayIndex}`;
 
                                         return (
-                                            <div
-                                                key={eventIndex}
-                                                className={`absolute rounded-md pointer-events-auto transition-all duration-150 ease-out ${colorScheme.bg} backdrop-blur-md border ${colorScheme.border} shadow-sm dark:shadow-[0_0_4px_rgba(255,255,255,0.05)] z-30 ${readOnly ? 'cursor-default' : `cursor-pointer ${colorScheme.hover} hover:shadow-md dark:hover:shadow-[0_0_8px_rgba(255,255,255,0.1)]`} ${isClicked ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}
+                                            <motion.div
+                                                key={stableKey}
+                                                className={`absolute rounded-md pointer-events-auto ${colorScheme.bg} backdrop-blur-md border ${colorScheme.border} shadow-sm dark:shadow-[0_0_4px_rgba(255,255,255,0.05)] z-30 ${readOnly ? 'cursor-default' : `cursor-pointer ${colorScheme.hover} hover:shadow-md dark:hover:shadow-[0_0_8px_rgba(255,255,255,0.1)]`}`}
                                                 style={{
                                                     top: position.top,
                                                     height: position.height,
@@ -4114,14 +4094,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                                     margin: '0',
                                                     boxSizing: 'border-box',
                                                     overflow: 'hidden',
-                                                    zIndex: isClicked ? 100 : position.zIndex,
-                                                    transform: isClicked ? 'scale(0.9)' : 'scale(1)',
-                                                    opacity: isClicked ? 0.6 : 1,
-                                                    filter: isClicked ? 'brightness(1.1)' : 'none',
+                                                    zIndex: position.zIndex,
                                                 }}
-                                                ref={(el) => {
-                                                    // Element reference for positioning
-                                                }}
+                                                initial={{ opacity: 0, scale: 0.9, y: 15 }}
+                                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                                                whileTap={readOnly ? undefined : { scale: 0.97 }}
+                                                transition={{ duration: 0.25, ease: "easeOut" }}
                                                 onClick={() => handleMobileEventClick(event)}
                                                 onMouseEnter={(e) => handleMouseEnter(event, e)}
                                                 onMouseLeave={handleMouseLeave}
@@ -4182,9 +4161,10 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                                                         </div>
                                                     );
                                                 })()}
-                                            </div>
+                                            </motion.div>
                                         );
                                     })}
+                                    </AnimatePresence>
                                 </div>
                             );
                         })}
@@ -4302,6 +4282,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             )}
 
             {/* Mobile Event Details Modal */}
+            <AnimatePresence>
             {mobileEventDetails && (
                 <MobileEventDetailsModal
                     event={mobileEventDetails}
@@ -4406,6 +4387,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                     } : undefined}
                 />
             )}
+            </AnimatePresence>
 
             {/* Conflicts Modal */}
             <ConflictsModal
@@ -4707,26 +4689,20 @@ const DeleteEventsModal: React.FC<DeleteEventsModalProps> = ({ isOpen, onClose, 
                                             {/* Course Color Indicator */}
                                             <div
                                                 className={`w-5 h-5 rounded-full flex-shrink-0 ${(() => {
-                                                    const themeName = firstEvent.theme || 'lavender-peach';
+                                                    const themeName = firstEvent.theme || 'purple';
                                                     const themeColors: { [key: string]: { bg: string; border: string } } = {
-                                                        'lavender-peach': { bg: 'bg-purple-400/60', border: 'border-purple-400' },
-                                                        'indigo-sunset': { bg: 'bg-indigo-400/60', border: 'border-indigo-400' },
-                                                        'cotton-candy': { bg: 'bg-pink-400/60', border: 'border-pink-400' },
-                                                        'blue-purple-magenta': { bg: 'bg-blue-400/60', border: 'border-blue-400' },
-                                                        'deep-plum-coral': { bg: 'bg-purple-400/60', border: 'border-purple-400' },
-                                                        'classic-black-white': { bg: 'bg-gray-400/60', border: 'border-gray-400' },
-                                                        'midnight-ivory': { bg: 'bg-slate-400/60', border: 'border-slate-400' },
-                                                        'cosmic-galaxy': { bg: 'bg-violet-400/60', border: 'border-violet-400' },
-                                                        'twilight-sunset': { bg: 'bg-violet-400/60', border: 'border-violet-400' },
-                                                        'midnight-light-blue': { bg: 'bg-blue-400/60', border: 'border-blue-400' },
-                                                        'midnight-indigo-blue-cyan': { bg: 'bg-cyan-400/60', border: 'border-cyan-400' },
-                                                        'black-deep-bright': { bg: 'bg-red-400/60', border: 'border-red-400' },
-                                                        'green-blue': { bg: 'bg-emerald-400/60', border: 'border-emerald-400' },
-                                                        'warm-brown': { bg: 'bg-orange-400/60', border: 'border-orange-400' },
-                                                        'lime-green': { bg: 'bg-yellow-400/60', border: 'border-yellow-400' },
-                                                        'mint-teal': { bg: 'bg-sky-400/60', border: 'border-sky-400' }
+                                                        'blue': { bg: 'bg-blue-400/60', border: 'border-blue-400' },
+                                                        'red': { bg: 'bg-red-400/60', border: 'border-red-400' },
+                                                        'green': { bg: 'bg-emerald-400/60', border: 'border-emerald-400' },
+                                                        'purple': { bg: 'bg-purple-400/60', border: 'border-purple-400' },
+                                                        'pink': { bg: 'bg-pink-400/60', border: 'border-pink-400' },
+                                                        'orange': { bg: 'bg-orange-400/60', border: 'border-orange-400' },
+                                                        'amber': { bg: 'bg-amber-400/60', border: 'border-amber-400' },
+                                                        'teal': { bg: 'bg-teal-400/60', border: 'border-teal-400' },
+                                                        'violet': { bg: 'bg-violet-400/60', border: 'border-violet-400' },
+                                                        'slate': { bg: 'bg-slate-400/60', border: 'border-slate-400' }
                                                     };
-                                                    const theme = themeColors[themeName] || themeColors['lavender-peach'];
+                                                    const theme = themeColors[themeName] || themeColors['purple'];
                                                     return `${theme.bg} ${theme.border}`;
                                                 })()}`}
                                             ></div>

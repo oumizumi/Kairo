@@ -621,7 +621,7 @@ class ScheduleService:
                         professor=instructor,
                         location=location,
                         recurrence_pattern='weekly',
-                        theme='midnight-light-blue'
+                        theme='blue'
                     )
                     
                     events_added += 1
