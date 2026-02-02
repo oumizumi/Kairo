@@ -2,14 +2,16 @@ import axios from 'axios';
 
 // Create axios instance with base URL
 // Prefer env value, but fix known misconfigured domains automatically
-declare const process: any;
 const BAD_TO_GOOD_HOST_MAP: Record<string, string> = {
     'https://kairopublic-production.up.railway.app': 'https://kairo-production-6c0a.up.railway.app',
 };
 
-const RAW_ENV_BASE = process?.env?.NEXT_PUBLIC_API_URL as string | undefined;
-// Fallback to localhost for local development
-const DEFAULT_BASE = 'http://localhost:8000';
+// Next.js replaces process.env.NEXT_PUBLIC_* at build time
+const RAW_ENV_BASE = process.env.NEXT_PUBLIC_API_URL;
+// Fallback to Railway production URL, or localhost for local development
+const DEFAULT_BASE = typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+    ? 'http://localhost:8000' 
+    : 'https://kairo-production-6c0a.up.railway.app';
 const NORMALIZED_ENV_BASE = (RAW_ENV_BASE || DEFAULT_BASE).replace(/\/+$/, '');
 const FIXED_BASE = BAD_TO_GOOD_HOST_MAP[NORMALIZED_ENV_BASE] || NORMALIZED_ENV_BASE;
 // Normalize by removing any trailing slash to avoid double slashes in requests
