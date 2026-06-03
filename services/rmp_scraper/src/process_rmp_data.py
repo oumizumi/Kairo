@@ -1,164 +1,90 @@
 #!/usr/bin/env python3
 """
-Process RMP scraper data to match professors and extract their ratings/reviews
+Build professors_rmp_data.json directly from FinalOutput.csv.
+Keys are the professor names as scraped from RMP (First Last).
+Run from services/rmp_scraper/: python src/process_rmp_data.py
 """
 
 import pandas as pd
 import json
-from collections import defaultdict
+from pathlib import Path
 
-def load_original_professors():
-    """Load the original professors who had no RMP data"""
-    try:
-        # Read the names.csv to get original professor list
-        df = pd.read_csv('names.csv')
-        original_profs = df['Name'].tolist()
-        print(f"Found {len(original_profs)} original professors without RMP data")
-        return original_profs
-    except Exception as e:
-        print(f"Error loading original professors: {e}")
-        return []
+RMP_DIR = Path(__file__).parent.parent
+SCRAPED = RMP_DIR / 'FinalOutput.csv'
+NAMES   = RMP_DIR / 'names.csv'
+OUTPUT  = RMP_DIR / 'professors_rmp_data.json'
 
-def load_scraped_data():
-    """Load the scraped RMP data from FinalOutput.csv"""
-    try:
-        df = pd.read_csv('FinalOutput.csv')
-        print(f"Loaded {len(df)} reviews from FinalOutput.csv")
-        return df
-    except Exception as e:
-        print(f"Error loading scraped data: {e}")
-        return pd.DataFrame()
 
-def match_professor_names(original_name, scraped_first, scraped_last):
-    """Match professor names with various formats"""
-    original_clean = original_name.lower().strip()
-    scraped_full = f"{scraped_first} {scraped_last}".lower().strip()
-    
-    # Direct match
-    if original_clean == scraped_full:
-        return True
-    
-    # Check if scraped name is contained in original (handles middle names)
-    if scraped_first.lower() in original_clean and scraped_last.lower() in original_clean:
-        return True
-    
-    # Check reverse order
-    scraped_reverse = f"{scraped_last} {scraped_first}".lower().strip()
-    if original_clean == scraped_reverse:
-        return True
-    
-    return False
+def normalize(s: str) -> str:
+    import unicodedata
+    s = unicodedata.normalize('NFD', s)
+    s = ''.join(c for c in s if unicodedata.category(c) != 'Mn')
+    return s.lower().replace('-', ' ').replace("'", ' ').strip()
 
-def process_professor_data(original_profs, scraped_df):
-    """Process and match professor data"""
-    professor_data = {}
-    unmatched_originals = []
-    
-    for original_name in original_profs:
-        matches = []
-        
-        # Find all reviews for this professor
-        for idx, row in scraped_df.iterrows():
-            if match_professor_names(original_name, str(row['First Name']), str(row['Last Name'])):
-                matches.append(row)
-        
-        if matches:
-            # Calculate aggregated metrics
-            difficulties = [float(x) for x in [m['Avg Difficulty'] for m in matches] if pd.notna(x)]
-            ratings = [float(x) for x in [m['Avg Rating'] for m in matches] if pd.notna(x)]
-            
-            professor_data[original_name] = {
-                'name': original_name,
-                'scraped_name': f"{matches[0]['First Name']} {matches[0]['Last Name']}",
-                'avg_difficulty': round(sum(difficulties) / len(difficulties), 2) if difficulties else None,
-                'avg_rating': round(sum(ratings) / len(ratings), 2) if ratings else None,
-                'department': matches[0]['Department'] if pd.notna(matches[0]['Department']) else 'Not Specified',
-                'total_reviews': len(matches),
-                'reviews': [
-                    {
-                        'comment': str(m['Comment']) if pd.notna(m['Comment']) else '',
-                        'difficulty_rating': m['Difficulty Rating'] if pd.notna(m['Difficulty Rating']) else None,
-                        'clarity_rating': m['Clarity Rating'] if pd.notna(m['Clarity Rating']) else None,
-                        'grade': str(m['Grade']) if pd.notna(m['Grade']) else '',
-                        'rating_tags': str(m['Rating Tags']) if pd.notna(m['Rating Tags']) else ''
-                    }
-                    for m in matches
-                ],
-                'has_rmp_data': True
-            }
-            print(f"✅ Matched: {original_name} -> {len(matches)} reviews")
-        else:
-            unmatched_originals.append(original_name)
-            professor_data[original_name] = {
-                'name': original_name,
-                'scraped_name': None,
-                'avg_difficulty': None,
-                'avg_rating': None,
-                'department': 'Unknown',
-                'total_reviews': 0,
-                'reviews': [],
-                'has_rmp_data': False
-            }
-            print(f"❌ No match: {original_name}")
-    
-    return professor_data, unmatched_originals
-
-def save_results(professor_data, unmatched_originals):
-    """Save the processed results"""
-    
-    # Save complete professor data as JSON
-    with open('professors_rmp_data.json', 'w', encoding='utf-8') as f:
-        json.dump(professor_data, f, indent=2, ensure_ascii=False)
-    
-    # Create summary for Kairo integration
-    kairo_summary = []
-    for name, data in professor_data.items():
-        if data['has_rmp_data']:
-            kairo_summary.append({
-                'name': data['name'],
-                'rmp_rating': data['avg_rating'],
-                'rmp_difficulty': data['avg_difficulty'],
-                'rmp_department': data['department'],
-                'rmp_review_count': data['total_reviews'],
-                'has_rmp_data': True
-            })
-    
-    # Save Kairo-ready summary
-    with open('../frontend/public/professors_rmp_update.json', 'w', encoding='utf-8') as f:
-        json.dump(kairo_summary, f, indent=2, ensure_ascii=False)
-    
-    # Save unmatched professors for manual review
-    with open('unmatched_professors.txt', 'w', encoding='utf-8') as f:
-        f.write("Professors from original list with no RMP matches:\n\n")
-        for name in unmatched_originals:
-            f.write(f"- {name}\n")
-    
-    print(f"\n📊 Results Summary:")
-    print(f"✅ Professors with RMP data: {len([p for p in professor_data.values() if p['has_rmp_data']])}")
-    print(f"❌ Professors without matches: {len(unmatched_originals)}")
-    print(f"📄 Files created:")
-    print(f"   - professors_rmp_data.json (complete data)")
-    print(f"   - ../frontend/public/professors_rmp_update.json (Kairo integration)")
-    print(f"   - unmatched_professors.txt (manual review needed)")
 
 def main():
-    print("🔍 Processing RMP scraper data...")
-    
-    # Load data
-    original_profs = load_original_professors()
-    scraped_df = load_scraped_data()
-    
-    if not original_profs or scraped_df.empty:
-        print("❌ Could not load required data files")
-        return
-    
-    # Process and match
-    professor_data, unmatched_originals = process_professor_data(original_profs, scraped_df)
-    
-    # Save results
-    save_results(professor_data, unmatched_originals)
-    
-    print("\n✅ Processing complete!")
+    df = pd.read_csv(SCRAPED, dtype=str, on_bad_lines='skip')
+    print(f"Loaded {len(df)} rows from FinalOutput.csv")
 
-if __name__ == "__main__":
+    # Build name -> rmp_id lookup from names.csv
+    names_df = pd.read_csv(NAMES, dtype=str)
+    id_lookup: dict[str, str] = {}
+    for _, row in names_df.iterrows():
+        rmp_id = str(row.get('ID', '')).strip()
+        if rmp_id and rmp_id not in ('Not Found', 'Error', 'nan'):
+            full = normalize(str(row['Name']))
+            id_lookup[full] = rmp_id
+            # Also map first+last only (drops middle names/initials)
+            parts = full.split()
+            if len(parts) > 2:
+                short = f"{parts[0]} {parts[-1]}"
+                if short not in id_lookup:
+                    id_lookup[short] = rmp_id
+
+    # Convert numeric columns back
+    for col in ('Avg Rating', 'Avg Difficulty'):
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+
+    result = {}
+    skipped = 0
+
+    for (first, last), group in df.groupby(['First Name', 'Last Name'], sort=True):
+        first = str(first).strip()
+        last  = str(last).strip()
+        name  = f"{first} {last}"
+
+        # Skip obviously garbage entries (single-character or numeric tokens)
+        if len(first) <= 1 or len(last) <= 1:
+            skipped += 1
+            continue
+
+        avg_rating     = group['Avg Rating'].dropna().iloc[0]     if not group['Avg Rating'].dropna().empty     else None
+        avg_difficulty = group['Avg Difficulty'].dropna().iloc[0] if not group['Avg Difficulty'].dropna().empty else None
+        department     = group['Department'].dropna().iloc[0]     if not group['Department'].dropna().empty     else 'Unknown'
+
+        if avg_rating is None:
+            skipped += 1
+            continue
+
+        rmp_id = id_lookup.get(normalize(name))
+
+        result[name] = {
+            'name':           name,
+            'avg_rating':     round(float(avg_rating), 2),
+            'avg_difficulty': round(float(avg_difficulty), 2) if avg_difficulty is not None else None,
+            'department':     str(department),
+            'total_reviews':  len(group),
+            'rmp_id':         rmp_id,
+            'has_rmp_data':   True,
+        }
+
+    print(f"Built {len(result)} professor entries  (skipped {skipped})")
+
+    with open(OUTPUT, 'w', encoding='utf-8') as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+    print(f"Wrote {OUTPUT}")
+    print("Restart Next.js dev server (or wait — route reloads on file change).")
+
+
+if __name__ == '__main__':
     main()

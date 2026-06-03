@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Kairo Scraper Build Script for Render
-echo "🚀 Building Kairo Scraper..."
+# UoSched Scraper Build Script for Render
+echo "🚀 Building UoSched Scraper..."
 
 # Install Node.js dependencies
 echo "📦 Installing Node.js dependencies..."

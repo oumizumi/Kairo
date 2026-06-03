@@ -354,7 +354,7 @@ def main():
     print("   🏷️  /professor_tags_analysis.json - Rating tags")
     print("   📖 /rmp_integration_guide.json - How to use the data")
     
-    print("\n✨ Your Kairo system is now fully updated with RMP data!")
+    print("\n✨ Your UoSched system is now fully updated with RMP data!")
 
 if __name__ == "__main__":
     main()

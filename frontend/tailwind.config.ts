@@ -1,130 +1,42 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-    darkMode: 'class',
-    content: [
-        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/config/**/*.{js,ts,jsx,tsx,mdx}', // include theme definitions so JIT picks dynamic classes
-    ],
-    safelist: [
-        'bg-white',
-        'bg-cream',
-        'bg-cream-50',
-        'bg-cream-100',
-        'bg-cream-200',
-        'dark:bg-black',
-        'text-black',
-        'dark:text-white',
-        // ensure dynamic theme classes are not purged
-        'bg-purple-400/60','bg-indigo-400/60','bg-pink-400/60','bg-blue-400/60','bg-rose-400/60','bg-slate-400/60','bg-neutral-400/60','bg-violet-400/60','bg-amber-400/60','bg-sky-400/60','bg-cyan-400/60','bg-red-400/60','bg-emerald-400/60','bg-orange-400/60','bg-lime-400/60','bg-teal-400/60',
-        'bg-amber-300/60','bg-indigo-300/60','bg-orange-300/60','bg-lime-500/40',
-        'border-white/10',
-        'text-black','dark:text-white',
-        {
-            pattern: /(bg|text|border)-(primary|secondary|dark|light|gray|red|sky|violet|indigo|pink|blue|rose|slate|neutral|amber|cyan|emerald|orange|lime|teal)-(50|100|200|300|400|500|600|700|800|900|950)\/?(10|20|25|30|40|50|60|70|80)?/,
+  darkMode: 'class',
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        garnet: {
+          DEFAULT: '#8f001a',
+          dark: '#6e0014',
         },
-    ],
-    theme: {
-        extend: {
-            screens: {
-                '13inch': '1024px', // Specific breakpoint for 13-inch screens and above
-                // This ensures consistent styling for all 13"+ screens
-            },
-            fontFamily: {
-                'futuristic': ['Zen Dots', 'Orbitron', 'sans-serif'],
-                'sans': ['Inter', 'system-ui', 'sans-serif'],
-                'mono': ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', '"Courier New"', 'monospace'],
-            },
-            colors: {
-                cream: {
-                    DEFAULT: '#fffdf5',
-                    50: '#fffdf5',
-                    100: '#fffbf0',
-                    200: '#fff8e7',
-                    300: '#f0e6d3',
-                },
-                primary: {
-                    50: '#fef2f2',
-                    100: '#fee2e2',
-                    200: '#fecaca',
-                    300: '#fca5a5',
-                    400: '#f87171',
-                    500: '#ef4444',
-                    600: '#dc2626',
-                    700: '#b91c1c',
-                    800: '#991b1b',
-                    900: '#7f1d1d',
-                    950: '#450a0a',
-                },
-                dark: {
-                    bg: '#000000',
-                    card: '#262626',
-                    border: '#404040',
-                },
-                light: {
-                    bg: '#fffdf5',
-                    card: '#fffbf0',
-                    border: '#f0e6d3',
-                }
-            },
-            typography: {
-                DEFAULT: {
-                    css: {
-                        maxWidth: '100ch',
-                        color: 'inherit',
-                        a: {
-                            color: 'inherit',
-                            opacity: 0.75,
-                            fontWeight: '500',
-                            textDecoration: 'underline',
-                            '&:hover': {
-                                opacity: 1,
-                                color: 'var(--tw-prose-links)',
-                            },
-                        },
-                        b: { color: 'inherit' },
-                        strong: { color: 'inherit' },
-                        em: { color: 'inherit' },
-                        h1: { color: 'inherit' },
-                        h2: { color: 'inherit' },
-                        h3: { color: 'inherit' },
-                        h4: { color: 'inherit' },
-                        code: { color: 'inherit' },
-                    },
-                },
-            },
-            keyframes: {
-                shake: {
-                    '0%, 100%': { transform: 'translateX(0)' },
-                    '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-4px)' },
-                    '20%, 40%, 60%, 80%': { transform: 'translateX(4px)' },
-                },
-                fadeIn: {
-                    '0%': { opacity: '0' },
-                    '100%': { opacity: '1' },
-                },
-                fadeInUp: {
-                    '0%': { opacity: '0', transform: 'translateY(10px)' },
-                    '100%': { opacity: '1', transform: 'translateY(0)' },
-                },
-            },
-            animation: {
-                shake: 'shake 0.5s ease-in-out',
-                fadeIn: 'fadeIn 0.3s ease-in-out',
-                fadeInUp: 'fadeInUp 0.4s ease',
-            },
+        polar: '#f2f2f2',
+        charcoal: '#2d2d2c',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+      keyframes: {
+        'block-enter': {
+          '0%':   { opacity: '0', transform: 'translateX(-14px) scale(0.95)' },
+          '100%': { opacity: '1', transform: 'translateX(0) scale(1)' },
         },
+        'block-exit': {
+          '0%':   { opacity: '1', transform: 'translateX(0) scale(1)' },
+          '100%': { opacity: '0', transform: 'translateX(14px) scale(0.95)' },
+        },
+      },
+      animation: {
+        'block-enter': 'block-enter 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+        'block-exit':  'block-exit 180ms cubic-bezier(0.55, 0, 1, 0.45) forwards',
+      },
     },
-    plugins: [
-        require('@tailwindcss/forms'),
-        require('@tailwindcss/typography'),
-        require('tailwind-scrollbar'),
-    ],
-    future: {
-        hoverOnlyWhenSupported: true,
-    },
+  },
+  plugins: [],
 }
 
-export default config 
+export default config

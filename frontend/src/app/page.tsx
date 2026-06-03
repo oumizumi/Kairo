@@ -1,188 +1,76 @@
-"use client";
-
-import Link from 'next/link';
-import Navbar, { TopNavigation } from '@/components/Navbar';
-import Features from '@/components/Features';
-import Footer from '@/components/Footer';
-import TypewriterHeading from '@/components/TypewriterHeading';
-import { useTheme } from '@/components/ThemeProvider';
-
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { APP_CONFIG } from '@/config/app.config';
-import { MessageSquare, User } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle'
 
 export default function Home() {
-  const [currentPhrase, setCurrentPhrase] = useState(0);
-  const [isNavigating, setIsNavigating] = useState(false);
-  const [isChristmas, setIsChristmas] = useState(false);
-  const router = useRouter();
-  const { seasonalTheme } = useTheme();
-
-  const phrases = ["Made by students", "For students"];
-
-  // Check if it's Christmas (December 25th) for automatic Christmas theme - client side only
-  useEffect(() => {
-    const today = new Date();
-    setIsChristmas(today.getMonth() === 11 && today.getDate() === 25); // December 25th
-  }, []);
-
-  const shouldShowChristmasButton = seasonalTheme === 'christmas' || isChristmas;
-
-  // Switching text animation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPhrase((prev) => (prev + 1) % phrases.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [phrases.length]);
-
-
-
-  useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      console.error("NEXT_PUBLIC_API_URL is not defined. Cannot test backend connection.");
-      return;
-    }
-
-    const healthCheckUrl = apiUrl.endsWith('/') ? apiUrl + 'api/health-check/' : apiUrl + '/api/health-check/';
-
-    fetch(healthCheckUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Backend health-check successful:", data);
-      })
-      .catch(error => {
-        console.error("Backend health-check failed:", error);
-      });
-  }, []); // Empty dependency array ensures this runs only once on mount
-
-
-
   return (
-    <main className="font-mono min-h-screen flex flex-col bg-cream dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] transition-colors duration-300">
-      <TopNavigation />
-      <Navbar />
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#111] transition-colors duration-200">
 
-      {/* Hero Section - Light Mode Clean, Dark Mode Refined */}
-      <section className="flex-1 flex items-center py-16 sm:py-24 bg-cream dark:refined-dark-grid square-grid-bg-light relative overflow-hidden min-h-[80vh]">
-        {/* Light Mode: Original clean gradient effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-transparent to-purple-50/60 dark:from-transparent dark:via-transparent dark:to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-cream/80 via-transparent to-transparent dark:from-transparent"></div>
+      {/* minimal top bar — just logo + toggle */}
+      <div className="max-w-6xl mx-auto w-full px-6 pt-6 flex items-center justify-between">
+        <span className="text-[#111] dark:text-white font-bold text-lg tracking-tight">uomap</span>
+        <ThemeToggle />
+      </div>
 
-        {/* Dark Mode: Subtle ambient center glow */}
-        <div className="absolute inset-0 flex items-center justify-center">
-           <div className="w-[700px] h-[700px] bg-gradient-radial from-blue-200/10 via-purple-200/5 to-transparent dark:from-white/6 dark:via-white/[0.03] dark:to-transparent rounded-full blur-2xl"></div>
+      {/* cards */}
+      <main className="flex-1 flex items-center justify-center px-6 py-16">
+        <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <a href="/schedule" className="group bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl p-8 flex flex-col gap-4 border border-black/5 dark:border-white/5 hover:border-[#8f001a]/40 dark:hover:border-[#8f001a]/40 transition-colors">
+            <div className="w-10 h-10 rounded-lg border-2 border-[#8f001a] flex items-center justify-center">
+              <svg className="w-5 h-5 text-[#8f001a]" viewBox="0 0 22 20" fill="currentColor">
+                <rect x="0" y="0"  width="6" height="9"  rx="1.5"/>
+                <rect x="0" y="11" width="6" height="9"  rx="1.5" fillOpacity="0.3"/>
+                <rect x="8" y="0"  width="6" height="4"  rx="1.5" fillOpacity="0.3"/>
+                <rect x="8" y="6"  width="6" height="14" rx="1.5"/>
+                <rect x="16" y="0"  width="6" height="12" rx="1.5" fillOpacity="0.6"/>
+                <rect x="16" y="14" width="6" height="6"  rx="1.5" fillOpacity="0.35"/>
+              </svg>
+            </div>
+            <div>
+              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">Build Your Own Schedule</h2>
+              <p className="text-[#666] dark:text-[#888] text-sm leading-relaxed">
+                Browse every uOttawa section, filter by time and professor, detect conflicts, and export your timetable.
+              </p>
+            </div>
+            <span className="text-sm font-semibold text-[#8f001a] group-hover:underline underline-offset-4 mt-auto">
+              Get started →
+            </span>
+          </a>
+
+          <a href="/opportunities" className="group bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl p-8 flex flex-col gap-4 border border-black/5 dark:border-white/5 hover:border-[#8f001a]/40 dark:hover:border-[#8f001a]/40 transition-colors">
+            <div className="w-10 h-10 rounded-lg border-2 border-[#8f001a] flex items-center justify-center">
+              <svg className="w-5 h-5 text-[#8f001a]" viewBox="0 0 24 24" fill="none">
+                <path d="M3 21 C7 21 8 15 12 13 C16 11 17 6 21 5"
+                  stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeOpacity="0.5"/>
+                <circle cx="3"  cy="21" r="2"    fill="currentColor" fillOpacity="0.4"/>
+                <circle cx="12" cy="13" r="2"    fill="currentColor" fillOpacity="0.7"/>
+                <circle cx="21" cy="5"  r="2.75" fill="currentColor"/>
+              </svg>
+            </div>
+            <div>
+              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">Find Student Opportunities</h2>
+              <p className="text-[#666] dark:text-[#888] text-sm leading-relaxed">
+                Live-updated TA postings, scholarships, and academic opportunities scraped for uOttawa students.
+              </p>
+            </div>
+            <span className="text-sm font-semibold text-[#8f001a] group-hover:underline underline-offset-4 mt-auto">
+              Explore now →
+            </span>
+          </a>
+
         </div>
+      </main>
 
-        {/* Dark Mode: Very subtle corner glows */}
-        <div className="absolute inset-0 hidden dark:block">
-          <div className="absolute top-1/4 left-1/4 w-[320px] h-[320px] bg-gradient-radial from-white/6 to-transparent rounded-full blur-2xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-[240px] h-[240px] bg-gradient-radial from-white/4 to-transparent rounded-full blur-2xl"></div>
+      <footer className="border-t border-black/[0.06] dark:border-white/[0.06] mt-auto">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+          <span className="text-[#aaa] dark:text-[#555] text-xs tracking-wide">Independent · Not affiliated with uOttawa</span>
+          <a href="https://github.com" aria-label="GitHub" className="text-[#666] dark:text-[#888] hover:text-[#111] dark:hover:text-white transition-colors">
+            <svg className="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+            </svg>
+          </a>
         </div>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <TypewriterHeading text="Meet Kairo." />
+      </footer>
 
-          {/* Animated Switching Text */}
-          <div className="mt-3 h-8 sm:h-9 md:h-10 flex items-center justify-center relative" suppressHydrationWarning>
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentPhrase}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{
-                  duration: 0.6,
-                  ease: [0.4, 0, 0.2, 1],
-                  opacity: { duration: 0.3 }
-                }}
-               className="font-mono text-slate-600 dark:text-[rgb(var(--text-secondary))] text-base sm:text-lg md:text-xl font-medium absolute"
-              >
-                {phrases[currentPhrase]}
-              </motion.span>
-            </AnimatePresence>
-          </div>
-
-          <p className="font-mono text-gray-700 dark:text-[rgb(var(--text-primary))] text-base sm:text-lg text-center mt-4 px-2 font-medium">
-            The AI-powered platform transforming university productivity and academic success.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mt-6 text-sm">
-            <span className="font-mono px-3 py-1 bg-blue-100 dark:bg-blue-600/15 dark:border dark:border-blue-500/30 text-blue-800 dark:text-blue-200 rounded-full font-medium">Smart Scheduling</span>
-            <span className="font-mono px-3 py-1 bg-purple-100 dark:bg-purple-600/15 dark:border dark:border-purple-500/30 text-purple-800 dark:text-purple-200 rounded-full font-medium">AI Assistant</span>
-            <span className="font-mono px-3 py-1 bg-green-100 dark:bg-green-600/15 dark:border dark:border-green-500/30 text-green-800 dark:text-green-200 rounded-full font-medium">Course Intelligence</span>
-          </div>
-          
-          {/* Get Started Button */}
-          <div className="mt-8 flex justify-center" suppressHydrationWarning>
-            <button
-              onClick={() => {
-                setIsNavigating(true);
-                // Navigate immediately for fast response
-                router.push('/chat/?view=split');
-                
-                // Initialize guest session in background (non-blocking)
-                setTimeout(async () => {
-                  try {
-                    const { guestLogin } = await import('@/lib/api');
-                    await guestLogin();
-                  } catch (err) {
-                    console.warn('Background guest login failed:', err);
-                    // User can still use the app, guest login will happen later if needed
-                  }
-                }, 100);
-              }}
-              disabled={isNavigating}
-              className={`font-mono font-semibold py-3 px-8 rounded-lg shadow-lg transform transition-all duration-200 text-lg relative ${
-                isNavigating 
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : shouldShowChristmasButton
-                    ? 'bg-gradient-to-r from-emerald-600 to-red-600 hover:from-emerald-700 hover:to-red-700 text-white hover:shadow-xl hover:-translate-y-0.5 christmas-glow-button'
-                    : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white hover:shadow-xl hover:-translate-y-0.5'
-              }`}
-              style={shouldShowChristmasButton && !isNavigating ? {
-                boxShadow: `
-                  0 0 20px rgba(16, 185, 129, 0.4),
-                  0 0 40px rgba(220, 38, 38, 0.3),
-                  0 4px 15px rgba(0, 0, 0, 0.2)
-                `,
-                border: '2px solid transparent',
-                backgroundClip: 'padding-box',
-              } : {}}
-            >
-              {/* Christmas sparkle effect */}
-              {shouldShowChristmasButton && !isNavigating && (
-                <>
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-400/20 to-red-400/20 animate-pulse"></div>
-                  <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-emerald-600 to-red-600 opacity-30 blur-sm animate-pulse"></div>
-                </>
-              )}
-              <span className="relative z-10">
-                {isNavigating ? 'Loading...' : 'Get Started'}
-              </span>
-            </button>
-          </div>
-          
-          {/* Guest Mode Info */}
-          <div className="mt-4 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400 font-mono">
-              Try Kairo for free - no signup required
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <Features />
-
-      <Footer />
-      
-
-    </main>
-  );
+    </div>
+  )
 }

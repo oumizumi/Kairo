@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: kairo-scrapers
+    name: uosched-scrapers
     env: node
     plan: starter
     buildCommand: npm ci && npx playwright install chromium && npx playwright install-deps chromium && npm run build

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Kairo Scraper Start Script for Render
-echo "🚀 Starting Kairo Scraper..."
+# UoSched Scraper Start Script for Render
+echo "🚀 Starting UoSched Scraper..."
 
 # Set the port (Render will provide this)
 export PORT=${PORT:-10000}

@@ -1,100 +1,21 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
-import AuthProvider from "@/components/AuthProvider";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import SeasonalEffects from "@/components/SeasonalEffects";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import Providers from '@/components/Providers'
 
-const inter = Inter({ subsets: ["latin"] });
-const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'] })
 
 export const metadata: Metadata = {
-  title: "Kairo - Your AI University Assistant",
-  description: "A private, AI-powered assistant to help you stay organized and ahead at university.",
-  icons: {
-    icon: [
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-  },
-  manifest: '/site.webmanifest',
-};
+  title: 'uomap — University of Ottawa',
+  description: 'Map out your schedule and find student opportunities at uOttawa.',
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={jetbrains.variable}>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" sizes="32x32" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Orbitron:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const savedTheme = localStorage.getItem('kairo-theme');
-                  let theme = savedTheme || 'system';
-                  let actualTheme = 'dark';
-                  
-                  if (theme === 'light') {
-                    actualTheme = 'light';
-                  } else if (theme === 'dark') {
-                    actualTheme = 'dark';
-                  } else if (theme === 'system') {
-                    actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
-                  
-                  document.documentElement.classList.add(actualTheme);
-                } catch (e) {
-                  document.documentElement.classList.add('dark');
-                }
-              })();
-            `,
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var noop = function(){};
-                  var methods = ['log','info','warn','error','debug','trace','group','groupCollapsed','groupEnd','table','time','timeEnd'];
-                  for (var i = 0; i < methods.length; i++) {
-                    if (typeof console !== 'undefined' && console[methods[i]]) {
-                      console[methods[i]] = noop;
-                    }
-                  }
-                } catch (e) { /* ignore */ }
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className={`${inter.className} min-h-screen bg-cream dark:bg-[rgb(var(--background-rgb))] text-black dark:text-[rgb(var(--text-primary))] antialiased`}>
-        <ThemeProvider>
-          <AuthProvider>
-            <main className="flex min-h-screen flex-col">
-              <SeasonalEffects />
-              {children}
-            </main>
-          </AuthProvider>
-        </ThemeProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <Providers>{children}</Providers>
       </body>
     </html>
-  );
+  )
 }

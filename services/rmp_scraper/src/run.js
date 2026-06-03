@@ -1,172 +1,106 @@
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-
-puppeteer.use(StealthPlugin());
-
-const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
 const fs = require('fs');
 const Papa = require('papaparse');
 
+puppeteer.use(StealthPlugin());
+
 const waitTime = 300;
-// 90 WPM typing rate (approximately 133ms delay between characters)
-const typingDelay = 133;
-// enter csv path where './name.csv' is
-const csvPath = './names.csv'
+const csvPath = './names.csv';
+
 const fileContent = fs.readFileSync(csvPath, 'utf8');
-const results = Papa.parse(fileContent, {
-    header: true,
-    dynamicTyping: true,
-    skipEmptyLines: true,
+const parsed = Papa.parse(fileContent, { header: true, dynamicTyping: false, skipEmptyLines: true });
 
-});
-
-const namesArray = results.data.map(row => row.Name);
-const idArray = [];
-
-puppeteer.use(AdblockerPlugin());
-
-// Function to type at 90 WPM rate
-async function typeAtRate(page, selector, text) {
-    await page.focus(selector);
-    for (const char of text) {
-        await page.keyboard.type(char);
-        await page.waitForTimeout(typingDelay);
-    }
+// Resume support: skip names that already have a non-empty, non-"Not Found" ID
+const rows = parsed.data;
+const idMap = {};
+for (const row of rows) {
+  if (row.ID && row.ID !== 'Not Found' && row.ID !== 'Error') {
+    idMap[row.Name] = row.ID;
+  }
 }
 
+const namesArray = rows.map(r => r.Name);
+const idArray = rows.map(r => (r.ID && r.ID !== '') ? r.ID : null);
 
-async function findProfessorID(yourArrayOfNames, universityName, csvName) {
-    const browser = await puppeteer.launch({ headless: false });
-    const page = await browser.newPage();
-    try {
-        await page.goto("https://www.ratemyprofessors.com");
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-        // Handle any popup/modal close buttons
-        const textToFind = 'Close';
-        const [element] = await page.$x(`//*[contains(text(), '${textToFind}')]`);
+function saveCSV() {
+  const updatedData = namesArray.map((name, i) => ({ Name: name, ID: idArray[i] || 'Not Found' }));
+  fs.writeFileSync(csvPath, Papa.unparse(updatedData));
+}
+
+async function findProfessorID(universityName) {
+  const browser = await puppeteer.launch({ headless: false });
+  const page = await browser.newPage();
+
+  try {
+    await page.goto("https://www.ratemyprofessors.com/login", { waitUntil: 'domcontentloaded' });
+    await sleep(2000);
+    await page.type('input[name="email"]', 'ofgharad@gmail.com', { delay: 80 });
+    await page.type('input[name="password"]', 'Ou#17mer*05', { delay: 80 });
+    await page.keyboard.press('Enter');
+    await sleep(3000);
+    console.log('Logged in');
+
+    for (let i = 0; i < namesArray.length; i++) {
+      const name = namesArray[i];
+
+      // Skip already-processed entries
+      if (idArray[i] && idArray[i] !== 'Not Found' && idArray[i] !== 'Error') {
+        console.log(`[${i + 1}/${namesArray.length}] Skipping (already have ID ${idArray[i]}): ${name}`);
+        continue;
+      }
+
+      console.log(`[${i + 1}/${namesArray.length}] Searching: ${name}`);
+
+      const searchUrl = `https://www.ratemyprofessors.com/search/professors?q=${encodeURIComponent(name + ' ' + universityName)}`;
+
+      try {
+        await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 15000 });
+      } catch (navErr) {
+        console.log(`  -> Navigation failed for ${name}: ${navErr.message}`);
+        idArray[i] = 'Not Found';
+        if (i % 10 === 0) saveCSV();
+        continue;
+      }
+
+      await sleep(waitTime);
+
+      try {
+        const [element] = await page.$$('::-p-xpath(//*[contains(text(), "QUALITY")])');
         if (element) {
-            const boundingBox = await element.boundingBox();
-            if (boundingBox) {
-                console.log("Success clicking close button");
-                await page.mouse.click(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
-            } else {
-                console.log(`Couldn't get the bounding box for the element with text: ${textToFind}`);
-            }
+          const boundingBox = await element.boundingBox();
+          if (boundingBox) {
+            await page.mouse.click(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
+            await sleep(800);
+          }
         } else {
-            console.log(`No element found with text: ${textToFind}`);
+          console.log(`  -> No results for: ${name}`);
         }
+      } catch (err) {
+        console.log(`  -> Click error for ${name}: ${err.message}`);
+      }
 
-        // Wait a bit for page to settle
-        await page.waitForTimeout(2000);
+      const url = page.url();
+      const match = url.match(/(\d+)$/);
+      if (match) {
+        idArray[i] = match[0];
+        console.log(`  -> ID: ${match[0]}`);
+      } else {
+        idArray[i] = 'Not Found';
+        console.log(`  -> Not found (url: ${url})`);
+      }
 
-        // Click on "I'd like to look up a professor by name"
-        const professorLookupSelector = 'div.HomepageHero__HeroToggle-rvkinu-3.bTJpbI';
-        try {
-            await page.waitForSelector(professorLookupSelector, { timeout: 10000 });
-            await page.click(professorLookupSelector);
-            console.log('Clicked on "I\'d like to look up a professor by name"');
-            await page.waitForTimeout(2000);
-        } catch (error) {
-            console.log('Professor lookup button not found, continuing with default flow...');
-        }
-        
-        for (let i = 0; i < yourArrayOfNames.length; i++) {
-            const name = yourArrayOfNames[i];
-            await page.waitForTimeout(waitTime);
-            
-            let searchSelector;
-            let searchQuery;
-            
-            if (i === 0) {
-                // First search: use general search and include university name
-                searchSelector = '[aria-label="search"]';
-                searchQuery = `${name} ${universityName}`;
-                console.log(`First search: ${searchQuery}`);
-            } else {
-                // Subsequent searches: use professor name input field
-                searchSelector = 'input[aria-label="search"][placeholder="Professor name"]';
-                searchQuery = `${name} ${universityName}`;
-                console.log(`Professor search: ${searchQuery}`);
-            }
-    
-            // Clear the search field
-            await page.focus(searchSelector);
-            for (let j = 0; j <= 100; j++) {
-                await page.keyboard.press('Backspace');
-            }
-            
-            // Type the search query at 90 WPM
-            await typeAtRate(page, searchSelector, searchQuery);
-            await page.keyboard.press('Enter');
-            await page.waitForTimeout(100);
-            
-            // ... (rest of the loop code)
-            await page.keyboard.press('Enter');
-            await page.waitForTimeout(500);
-            
-            try {
-                const textToFind = 'QUALITY';
-                const [element] = await page.$x(`//*[contains(text(), '${textToFind}')]`);
-            
-                if (element) {
-                    const boundingBox = await element.boundingBox();
-                    if (boundingBox) {
-                        await page.mouse.click(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
-                        
-                    } else {
-                        console.log(`Couldn't get the bounding box for the element with text: ${textToFind}`);
-                    }
-                } else {
-                    console.log(`No element found with text: ${textToFind}`);
-                }
-            } catch (error) {
-                console.error(`Failed to find or simulate a mouse click on the element with text: ${textToFind}`, error);
-            }
-            await page.waitForTimeout(waitTime);
-            // Extract ID from the URL and add to the idArray
-            const url = await page.url();
-            try {
-                const matches = url.match(/(\d+)$/);
-                if (matches && matches[0]) {
-                    idArray.push(matches[0]);
-                    console.log(matches[0]);
-                } else {
-                    console.log(`No ID found in URL ${url}`);
-                    idArray.push("Not Found");
-                }
-            } catch (error) {
-                console.log(`Failed to extract ID from URL ${url}:`, error.message);
-                idArray.push("Error");
-            }
-        }
-
-    } catch (error) {
-        console.error(`An error occurred during processing: ${error.message}`);
-        const updatedData = yourArrayOfNames.map((name, index) => {
-            return {
-                Name: name,
-                ID: idArray[index] || "Not Found"
-            };
-        });
-        const csvContent = Papa.unparse(updatedData);
-        fs.writeFileSync(csvName, csvContent);
-        console.log("Data saved to CSV.");
-
-        throw error;
-    } finally {
-        // Save to CSV if there were no errors during processing
-        const updatedData = yourArrayOfNames.map((name, index) => {
-            return {
-                Name: name,
-                ID: idArray[index] || "Not Found"
-            };
-        });
-        const csvContent = Papa.unparse(updatedData);
-        fs.writeFileSync(csvName, csvContent);
-        console.log("Data saved to CSV.");
-
-        await browser.close();
+      // Save progress every 10 professors
+      if (i % 10 === 0) saveCSV();
     }
+
+  } finally {
+    saveCSV();
+    console.log('Saved to CSV.');
+    await browser.close();
+  }
 }
-// Enter Whatever Path You Want For New Name **Don't Touch `namesArray`**
-findProfessorID(namesArray, "University of Ottawa", csvPath);
+
+findProfessorID("University of Ottawa");

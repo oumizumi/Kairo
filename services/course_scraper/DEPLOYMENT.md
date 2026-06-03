@@ -12,7 +12,7 @@ cd scrapers
 npm run scrape:all-terms
 ```
 - ✅ Scrapes data and saves to `scrapers/data/`
-- ✅ Updates local KaiRoll database
+- ✅ Updates local UoSchedRoll database
 - ❌ Does NOT automatically push to production
 - ❌ Does NOT update frontend/backend directories
 

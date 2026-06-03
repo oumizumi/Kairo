@@ -28,11 +28,13 @@ def clean_professor_name(name):
 
 def extract_professors_from_courses():
     """Extract all professor names from course data files."""
-    project_root = Path(__file__).parent.parent
+    data_dir = Path(__file__).parent.parent.parent / "course_scraper" / "data"
     course_files = [
-        project_root / "frontend/public/all_courses_fall_2025.json",
-        project_root / "frontend/public/all_courses_winter_2026.json", 
-        project_root / "frontend/public/all_courses_spring_summer_2025.json"
+        data_dir / "all_courses_spring_summer_2025.json",
+        data_dir / "all_courses_winter_2026.json",
+        data_dir / "all_courses_spring_summer_2026.json",
+        data_dir / "all_courses_fall_2026.json",
+        data_dir / "all_courses_winter_2027.json",
     ]
     
     professors = set()
@@ -87,21 +89,19 @@ def extract_professors_from_courses():
 
 def get_existing_rmp_professors():
     """Get professors who already have RMP data."""
-    project_root = Path(__file__).parent.parent
-    rmp_file = project_root / "frontend/public/professors_enhanced.json"
-    
+    rmp_file = Path(__file__).parent.parent / "professors_rmp_data.json"
+
     existing_professors = set()
-    
+
     if rmp_file.exists():
         try:
             with open(rmp_file, 'r', encoding='utf-8') as f:
                 rmp_data = json.load(f)
-            
-            for prof in rmp_data:
-                name = prof.get('name', '').strip()
+
+            for name in rmp_data.keys():
                 if name:
                     existing_professors.add(name.lower())
-            
+
             print(f"Found {len(existing_professors)} professors with existing RMP data")
             
         except Exception as e:
@@ -112,7 +112,7 @@ def get_existing_rmp_professors():
     return existing_professors
 
 def main():
-    print("🔍 Extracting professor names for RMP scraping...")
+    print("Extracting professor names for RMP scraping...")
     
     # Extract all professors from course data
     all_professors = extract_professors_from_courses()
@@ -130,14 +130,14 @@ def main():
     print(f"Professors without RMP data: {len(professors_without_rmp)}")
     
     # Save to names.csv
-    output_file = Path(__file__).parent / "names.csv"
+    output_file = Path(__file__).parent.parent / "names.csv"
     with open(output_file, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(['Name'])  # Header
         for name in professors_without_rmp:
             writer.writerow([name])
     
-    print(f"✅ Saved {len(professors_without_rmp)} professor names to: {output_file}")
+    print(f"Saved {len(professors_without_rmp)} professor names to: {output_file}")
     
     # Also create a readable text file
     text_file = output_file.with_suffix('.txt')
@@ -147,7 +147,7 @@ def main():
         for name in professors_without_rmp:
             f.write(f"{name}\n")
     
-    print(f"📝 Also saved readable list to: {text_file}")
+    print(f"Also saved readable list to: {text_file}")
 
 if __name__ == "__main__":
     main()

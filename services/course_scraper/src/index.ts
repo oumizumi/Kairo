@@ -11,7 +11,7 @@ app.use(express.json()); // Middleware to parse JSON bodies (though not strictly
 
 // Root route
 app.get('/', (req: Request, res: Response) => {
-  res.send('Kairo Scraper is running!');
+  res.send('UoSched Scraper is running!');
 });
 
 // Scrape route
@@ -44,5 +44,5 @@ app.get('/api/scrape', async (req: Request, res: Response) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Kairo Scraper server listening at http://localhost:${port}`);
+  console.log(`UoSched Scraper server listening at http://localhost:${port}`);
 });

@@ -61,8 +61,9 @@ interface SearchParams {
 
 // Term mappings
 const TERM_MAPPINGS = {
-    '2025 Fall Term': '2259',
-    '2026 Winter Term': '2261'
+    '2026 Spring/Summer Term': '2265',
+    '2026 Fall Term': '2269',
+    '2027 Winter Term': '2271'
 };
 
 // All available subject codes from uOttawa
@@ -132,20 +133,14 @@ class UOttawaCourseScraper {
      * Initialize the scraper with browser setup
      */
     async initialize(): Promise<void> {
-        console.log(' Initializing uOttawa Course Scraper...');
-
         this.browser = await puppeteer.launch({
-            headless: false, // Keep visible so you can see the scraping
+            headless: false,
             defaultViewport: { width: 1920, height: 1080 },
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
         this.page = await this.browser.newPage();
-
-        // Set user agent to avoid detection
         await this.page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-
-        console.log('✅ Scraper initialized successfully');
     }
 
     /**
@@ -158,23 +153,13 @@ class UOttawaCourseScraper {
         if (this.browser) {
             await this.browser.close();
         }
-        console.log(' Cleanup completed');
     }
 
-    /**
-     * Helper to get the working frame (the one with the form/results)
-     */
     private async getWorkingFrame(): Promise<any> {
         if (!this.page) throw new Error('Page not initialized');
 
-        console.log(' Looking for working frame...');
-        const frames = this.page.frames();
-        console.log(`Found ${frames.length} frames on the page`);
-
-        // Wait a bit for the page to fully load
         await new Promise(resolve => setTimeout(resolve, 3000));
 
-        // Try multiple possible selectors for form elements
         const possibleSelectors = {
             termSelect: [
                 'select[name="CLASS_SRCH_WRK2_STRM$35$"]',
@@ -201,11 +186,7 @@ class UOttawaCourseScraper {
             ]
         };
 
-        for (let i = 0; i < frames.length; i++) {
-            const frame = frames[i];
-            console.log(`Frame ${i}: ${frame.url()}`);
-
-            // Try to find form elements with multiple selector strategies
+        for (const frame of this.page.frames()) {
             for (const termSelector of possibleSelectors.termSelect) {
                 for (const subjectSelector of possibleSelectors.subjectInput) {
                     for (const searchSelector of possibleSelectors.searchButton) {
@@ -213,33 +194,15 @@ class UOttawaCourseScraper {
                             const termSelect = await frame.$(termSelector);
                             const subjectInput = await frame.$(subjectSelector);
                             const searchButton = await frame.$(searchSelector);
-
                             if (termSelect || subjectInput || searchButton) {
-                                console.log(`✅ Found form elements in frame ${i} with selectors:`);
-                                console.log(`   Term: ${termSelector} - ${termSelect ? 'Found' : 'Not found'}`);
-                                console.log(`   Subject: ${subjectSelector} - ${subjectInput ? 'Found' : 'Not found'}`);
-                                console.log(`   Search: ${searchSelector} - ${searchButton ? 'Found' : 'Not found'}`);
-
-                                // Store the working selectors for later use
-                                this.workingSelectors = {
-                                    termSelect: termSelector,
-                                    subjectInput: subjectSelector,
-                                    searchButton: searchSelector
-                                };
-
+                                this.workingSelectors = { termSelect: termSelector, subjectInput: subjectSelector, searchButton: searchSelector };
                                 return frame;
                             }
-                        } catch (error) {
-                            // Continue trying other selectors
-                            continue;
-                        }
+                        } catch { continue; }
                     }
                 }
             }
         }
-
-        // If no frame has the elements, try the main page with the same strategy
-        console.log('🔍 Trying main page for form elements...');
 
         for (const termSelector of possibleSelectors.termSelect) {
             for (const subjectSelector of possibleSelectors.subjectInput) {
@@ -248,64 +211,14 @@ class UOttawaCourseScraper {
                         const termSelect = await this.page.$(termSelector);
                         const subjectInput = await this.page.$(subjectSelector);
                         const searchButton = await this.page.$(searchSelector);
-
                         if (termSelect || subjectInput || searchButton) {
-                            console.log(`✅ Found form elements on main page with selectors:`);
-                            console.log(`   Term: ${termSelector} - ${termSelect ? 'Found' : 'Not found'}`);
-                            console.log(`   Subject: ${subjectSelector} - ${subjectInput ? 'Found' : 'Not found'}`);
-                            console.log(`   Search: ${searchSelector} - ${searchButton ? 'Found' : 'Not found'}`);
-
-                            // Store the working selectors for later use
-                            this.workingSelectors = {
-                                termSelect: termSelector,
-                                subjectInput: subjectSelector,
-                                searchButton: searchSelector
-                            };
-
+                            this.workingSelectors = { termSelect: termSelector, subjectInput: subjectSelector, searchButton: searchSelector };
                             return this.page;
                         }
-                    } catch (error) {
-                        // Continue trying other selectors
-                        continue;
-                    }
+                    } catch { continue; }
                 }
             }
         }
-
-        // If still no elements found, let's debug what's actually on the page
-        console.log('🔍 Debugging: No form elements found, analyzing page structure...');
-
-        const pageContent = await this.page.evaluate(() => {
-            const allSelects = Array.from(document.querySelectorAll('select')).map(select => ({
-                name: select.getAttribute('name'),
-                id: select.getAttribute('id'),
-                className: select.getAttribute('class'),
-                options: Array.from(select.options).map(opt => ({ value: opt.value, text: opt.text }))
-            }));
-
-            const allInputs = Array.from(document.querySelectorAll('input')).map(input => ({
-                name: input.getAttribute('name'),
-                id: input.getAttribute('id'),
-                type: input.getAttribute('type'),
-                className: input.getAttribute('class'),
-                placeholder: input.getAttribute('placeholder')
-            }));
-
-            const allButtons = Array.from(document.querySelectorAll('button, a')).map(btn => ({
-                name: btn.getAttribute('name'),
-                id: btn.getAttribute('id'),
-                type: btn.getAttribute('type'),
-                className: btn.getAttribute('class'),
-                text: btn.textContent?.trim(),
-                tagName: btn.tagName
-            }));
-
-            return { allSelects, allInputs, allButtons };
-        });
-
-        console.log('📋 Available select elements:', pageContent.allSelects);
-        console.log('📋 Available input elements:', pageContent.allInputs);
-        console.log('📋 Available button elements:', pageContent.allButtons);
 
         throw new Error('Could not find working frame - website structure may have changed');
     }
@@ -315,39 +228,25 @@ class UOttawaCourseScraper {
      */
     async searchCourses(params: SearchParams): Promise<UOttawaCourse[]> {
         try {
-            console.log(`🔍 Searching uOttawa courses: ${params.subjectCode || 'All subjects'} for ${params.term}`);
-
             if (!this.page) {
                 throw new Error('Scraper not initialized. Call initialize() first.');
             }
 
-            // Navigate to the course search page
             await this.page.goto(this.baseUrl, { waitUntil: 'networkidle2', timeout: 30000 });
-            console.log('📍 Navigated to uOttawa course search page');
 
-            // Get the working frame
             const frame = await this.getWorkingFrame();
-
-            // Fill out the search form in the frame
             await this.fillFormInFrame(frame, params);
-
-            // Submit the search in the frame
             await this.submitSearchInFrame(frame);
 
-            // Wait a bit for page to load
             await new Promise(resolve => setTimeout(resolve, 3000));
 
-            // Check for 300-section error FIRST before waiting for results
             const has300SectionError = await frame.evaluate(() => {
                 return document.body.innerText.includes('Your search will exceed the maximum limit of 300 sections');
             });
 
             if (has300SectionError) {
-                // 300-section error - do split search
-                console.log(`⚠️ 300-section error detected for ${params.subjectCode || 'all subjects'}. Splitting search...`);
-
                 // First search: courses ≤ 3000
-                console.log(`🔍 Running first search for ${params.subjectCode}: courses ≤ 3000`);
+                console.log(`  split search for ${params.subjectCode} (>300 sections)`);
 
                 // Reload the page to get fresh form
                 await this.page.goto(this.baseUrl, { waitUntil: 'networkidle2', timeout: 30000 });
@@ -508,151 +407,82 @@ class UOttawaCourseScraper {
      * Fill form in a specific frame
      */
     private async fillFormInFrame(frame: any, params: SearchParams): Promise<void> {
-        console.log('📝 Filling form in frame...');
-
-        // Use the working selectors that were found
         const selectors = this.workingSelectors || {
             termSelect: 'select[name="CLASS_SRCH_WRK2_STRM$35$"]',
             subjectInput: 'input[name="SSR_CLSRCH_WRK_SUBJECT$0"]',
             searchButton: 'a[name="CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH"]'
         };
 
-        // Step 1: Select Term
         const termValue = TERM_MAPPINGS[params.term as keyof typeof TERM_MAPPINGS];
         if (!termValue) {
             throw new Error(`Invalid term: ${params.term}. Available terms: ${Object.keys(TERM_MAPPINGS).join(', ')}`);
         }
 
-        console.log(`📅 Selecting term: ${params.term} (value: ${termValue})`);
-
         try {
             await frame.select(selectors.termSelect, termValue);
-            console.log('✅ Term selected successfully');
-        } catch (error) {
-            console.log(`⚠️ Could not select term with selector ${selectors.termSelect}, trying alternative approach...`);
-
-            // Try to find the term select element and click through options
+        } catch {
             const termSelect = await frame.$(selectors.termSelect);
             if (termSelect) {
                 await termSelect.click();
                 await new Promise(resolve => setTimeout(resolve, 500));
-
-                // Try to find and click the option with the correct value
                 const option = await frame.$(`option[value="${termValue}"]`);
-                if (option) {
-                    await option.click();
-                    console.log('✅ Term selected via option click');
-                } else {
-                    console.log(`⚠️ Could not find option with value ${termValue}`);
-                }
-            } else {
-                console.log(`⚠️ Could not find term select element with selector ${selectors.termSelect}`);
+                if (option) await option.click();
             }
         }
 
-        // Wait for form to update
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Step 1.5: UNCHECK "Open Classes Only" checkbox to get both open and closed sections
-        console.log('🔓 Unchecking "Open Classes Only" checkbox...');
+        // Uncheck "Open Classes Only" to get all sections
         try {
             const openOnlyCheckbox = await frame.$('input[name="SSR_CLSRCH_WRK_SSR_OPEN_ONLY$0"]');
             if (openOnlyCheckbox) {
                 const isChecked = await frame.evaluate((checkbox: HTMLInputElement) => checkbox.checked, openOnlyCheckbox);
-                if (isChecked) {
-                    await openOnlyCheckbox.click();
-                    console.log('✅ "Open Classes Only" checkbox unchecked successfully');
-                } else {
-                    console.log('ℹ️ "Open Classes Only" checkbox was already unchecked');
-                }
-            } else {
-                console.log('⚠️ Could not find "Open Classes Only" checkbox');
+                if (isChecked) await openOnlyCheckbox.click();
             }
-        } catch (error) {
-            console.log('⚠️ Error unchecking "Open Classes Only" checkbox:', error);
-        }
+        } catch { /* ignore */ }
 
-        // Wait for checkbox change to be processed
         await new Promise(resolve => setTimeout(resolve, 500));
 
-        // Step 2: Enter Subject Code (if provided)
         if (params.subjectCode) {
-            console.log(`📚 Entering subject code: ${params.subjectCode}`);
-
             try {
-                // Clear the field first
                 await frame.click(selectors.subjectInput, { clickCount: 3 });
                 await frame.type(selectors.subjectInput, params.subjectCode);
-                console.log('✅ Subject code entered successfully');
-            } catch (error) {
-                console.log(`⚠️ Could not enter subject code with selector ${selectors.subjectInput}, trying alternative approach...`);
-
-                // Try alternative input methods
+            } catch {
                 const subjectInput = await frame.$(selectors.subjectInput);
                 if (subjectInput) {
                     await subjectInput.focus();
                     await subjectInput.type(params.subjectCode);
-                    console.log('✅ Subject code entered via focus and type');
-                } else {
-                    console.log(`⚠️ Could not find subject input element with selector ${selectors.subjectInput}`);
                 }
             }
-
-            // Wait for input to be processed
             await new Promise(resolve => setTimeout(resolve, 500));
         }
 
-        // Step 3: Enter Course Number (if provided)
         if (params.courseNumber) {
-            console.log(`🔢 Entering course number: ${params.courseNumber}`);
-
-            // Try to find course number input field
             const courseNumberSelectors = [
                 'input[name="SSR_CLSRCH_WRK_CATALOG_NBR$0"]',
                 'input[name*="CATALOG_NBR"]',
                 'input[id*="CATALOG_NBR"]',
-                'input[name*="course"]',
-                'input[id*="course"]'
             ];
-
-            let courseInputFound = false;
             for (const courseSelector of courseNumberSelectors) {
                 try {
                     const courseInput = await frame.$(courseSelector);
                     if (courseInput) {
                         await courseInput.click({ clickCount: 3 });
                         await courseInput.type(params.courseNumber);
-                        console.log(`✅ Course number entered with selector ${courseSelector}`);
-                        courseInputFound = true;
                         break;
                     }
-                } catch (error) {
-                    continue;
-                }
-            }
-
-            if (!courseInputFound) {
-                console.log('⚠️ Could not find course number input field');
+                } catch { continue; }
             }
         }
-
-        console.log('✅ Search form filled successfully');
     }
 
-    /**
-     * Submit the search form in a specific frame
-     */
     private async submitSearchInFrame(frame: any): Promise<void> {
-        console.log('🔍 Submitting search in frame...');
-
-        // Use the working selectors that were found
         const selectors = this.workingSelectors || {
             termSelect: 'select[name="CLASS_SRCH_WRK2_STRM$35$"]',
             subjectInput: 'input[name="SSR_CLSRCH_WRK_SUBJECT$0"]',
             searchButton: 'a[name="CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH"]'
         };
 
-        // Try multiple strategies to find and click the search button
         const searchButtonSelectors = [
             selectors.searchButton,
             'a[name*="CLASS_SRCH"]',
@@ -660,126 +490,44 @@ class UOttawaCourseScraper {
             'input[type="submit"]',
             'button[type="submit"]',
             'input[value*="Search"]',
-            'button:contains("Search")',
-            'a:contains("Search")',
-            'input[value*="search"]',
-            'button:contains("search")',
-            'a:contains("search")'
         ];
 
-        let searchButtonFound = false;
         for (const buttonSelector of searchButtonSelectors) {
             try {
                 const searchButton = await frame.$(buttonSelector);
                 if (searchButton) {
-                    console.log(`✅ Found search button with selector: ${buttonSelector}`);
-
-                    // Try to click the button
                     try {
                         await searchButton.click();
-                        console.log('✅ Search button clicked successfully');
-                        searchButtonFound = true;
-                        break;
-                    } catch (clickError) {
-                        console.log(`⚠️ Could not click button with selector ${buttonSelector}, trying alternative...`);
-
-                        // Try alternative click methods
-                        try {
-                            await frame.evaluate((selector: string) => {
-                                const button = document.querySelector(selector) as HTMLElement;
-                                if (button) {
-                                    button.click();
-                                    return true;
-                                }
-                                return false;
-                            }, buttonSelector);
-                            console.log('✅ Search button clicked via evaluate');
-                            searchButtonFound = true;
-                            break;
-                        } catch (evalError) {
-                            console.log(`⚠️ Could not click via evaluate with selector ${buttonSelector}`);
-                            continue;
-                        }
+                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        return;
+                    } catch {
+                        await frame.evaluate((selector: string) => {
+                            const button = document.querySelector(selector) as HTMLElement;
+                            if (button) button.click();
+                        }, buttonSelector);
+                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        return;
                     }
                 }
-            } catch (error) {
-                continue;
-            }
+            } catch { continue; }
         }
 
-        if (!searchButtonFound) {
-            console.log('❌ Search button not found!');
-
-            // List all anchor elements to find the correct search button
-            const anchors = await frame.evaluate(() => {
-                return Array.from(document.querySelectorAll('a, button, input[type="submit"]')).map(anchor => ({
-                    name: anchor.getAttribute('name'),
-                    id: anchor.getAttribute('id'),
-                    text: anchor.textContent?.trim() || anchor.getAttribute('value') || '',
-                    onclick: anchor.getAttribute('onclick'),
-                    tagName: anchor.tagName,
-                    type: anchor.getAttribute('type')
-                }));
-            });
-            console.log('📋 Available button elements:', anchors);
-
-            // Try to find any element that might be a search button
-            for (const anchor of anchors) {
-                if (anchor.text.toLowerCase().includes('search') ||
-                    anchor.name?.toLowerCase().includes('search') ||
-                    anchor.id?.toLowerCase().includes('search')) {
-                    console.log(`🔍 Potential search button found: ${anchor.tagName} - ${anchor.text} (name: ${anchor.name}, id: ${anchor.id})`);
-                }
-            }
-
-            throw new Error('Search button not found');
-        }
-
-        // Wait for some loading indicator or a short delay
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        console.log('✅ Search submitted in frame');
+        throw new Error('Search button not found');
     }
 
     /**
      * Extract course results from the results page in a frame
      */
     private async extractCourseResultsFromFrame(frame: any, params: SearchParams): Promise<UOttawaCourse[]> {
-        console.log('📋 Extracting course results from frame...');
-
         // Wait for results to load
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // Debug: Check what's actually on the page
-        console.log('🔍 Debugging page content...');
-        const pageContent = await frame.evaluate(() => {
-            const bodyText = document.body.innerText;
-            const tables = Array.from(document.querySelectorAll('table'));
-            const tableInfo = tables.map((table, index) => ({
-                index,
-                rows: table.querySelectorAll('tr').length,
-                hasCourseData: table.innerText.includes('Section') || table.innerText.includes('Days') || table.innerText.includes('Instructor'),
-                sampleText: table.innerText.substring(0, 200) + '...'
-            }));
-            return {
-                bodyText: bodyText.substring(0, 500) + '...',
-                tableCount: tables.length,
-                tableInfo,
-                hasNoResults: bodyText.includes('No classes found') || bodyText.includes('no classes were found'),
-                hasError: bodyText.includes('error') || bodyText.includes('Error'),
-                hasResults: bodyText.includes('The following classes match') || bodyText.includes('Search Results')
-            };
-        });
-
-        console.log('📄 Page content summary:', pageContent);
-
-        // Check if results are found
         const noResultsText = await frame.evaluate(() => {
             const bodyText = document.body.innerText;
             return bodyText.includes('No classes found') || bodyText.includes('no classes were found');
         });
 
         if (noResultsText) {
-            console.log('ℹ️ No courses found for the search criteria');
             return [];
         }
 
@@ -826,31 +574,25 @@ class UOttawaCourseScraper {
 
             const courseData: any[] = [];
 
-            // Find course headers in PeopleSoft structure
-            const courseHeaders = Array.from(document.querySelectorAll('td.PAGROUPBOXLABELLEVEL1'));
-            console.log(`Found ${courseHeaders.length} course headers`);
+            // Find course headers (class changed from PAGROUPBOXLABELLEVEL1 to PSGROUPBOXLABEL in 2026)
+            let courseHeaders = Array.from(document.querySelectorAll('td.PSGROUPBOXLABEL'));
+            if (courseHeaders.length === 0) {
+                courseHeaders = Array.from(document.querySelectorAll('td.PAGROUPBOXLABELLEVEL1'));
+            }
 
             for (const header of courseHeaders) {
                 const headerText = header.textContent?.trim() || '';
 
-                // Parse course code and title from header (e.g., "ITI 1100 - Digital Systems I" or "APA 46111 - Internat/expérience clinique")
                 const courseMatch = headerText.match(/([A-Z]{2,4}\s+\d{4,})\s*-\s*(.+)/);
-                if (!courseMatch) {
-                    console.log('Skipping invalid header:', headerText);
-                    continue;
-                }
+                if (!courseMatch) continue;
 
                 const currentCourseCode = courseMatch[1].trim();
                 const rawCourseTitle = courseMatch[2].trim();
                 const currentCourseTitle = decodeUTF8(rawCourseTitle);
                 const currentSubjectCode = currentCourseCode.split(' ')[0];
 
-                console.log(`Processing course: ${currentCourseCode} - ${currentCourseTitle}`);
-
-                // Find the main course table that immediately follows this header
                 let courseTable = header.closest('table');
                 if (!courseTable) {
-                    // Try to find the next table after the header
                     let nextElement = header.parentElement as HTMLElement | null;
                     while (nextElement && !nextElement.querySelector('table.PSLEVEL1GRIDNBONBO')) {
                         nextElement = nextElement.nextElementSibling as HTMLElement | null;
@@ -858,14 +600,9 @@ class UOttawaCourseScraper {
                     courseTable = nextElement?.querySelector('table.PSLEVEL1GRIDNBONBO') || null;
                 }
 
-                if (!courseTable) {
-                    console.log('No course table found for this header');
-                    continue;
-                }
+                if (!courseTable) continue;
 
-                // Process only the data rows in THIS specific table
                 const dataRows = Array.from(courseTable.querySelectorAll('tr[id*="trSSR_CLSRCH_MTG1"]'));
-                console.log(`Found ${dataRows.length} section rows for ${currentCourseCode}`);
 
                 for (const row of dataRows) {
                     try {
@@ -999,7 +736,6 @@ class UOttawaCourseScraper {
                             }
                         }
 
-                        console.log(`Adding section: ${currentCourseCode} ${sectionCode} - ${combinedTime} - ${instructorLines[0] || 'Staff'}`);
 
                         courseData.push({
                             courseCode: currentCourseCode,
@@ -1026,22 +762,17 @@ class UOttawaCourseScraper {
             return courseData;
         }, params);
 
-        console.log(`📊 Extracted ${courses.length} course sections`);
-
-        // Simple deduplication based on exact matches only
+        // Deduplicate
         const uniqueCourses = [];
         const seenKeys = new Set();
-
         for (const course of courses) {
             const uniqueKey = `${course.courseCode}|${course.section}|${course.time}|${course.instructor}`;
-
             if (!seenKeys.has(uniqueKey)) {
                 seenKeys.add(uniqueKey);
                 uniqueCourses.push(course);
             }
         }
 
-        console.log(`✅ Final count: ${uniqueCourses.length} unique sections`);
         return uniqueCourses;
     }
 
@@ -1087,16 +818,11 @@ class UOttawaCourseScraper {
      * Convert flat course data to grouped structure
      */
     groupCoursesBySection(flatCourses: UOttawaCourse[]): GroupedCourseData {
-        console.log('🔄 Converting flat course data to grouped structure...');
-
         const courseMap = new Map<string, GroupedCourse>();
 
         for (const course of flatCourses) {
-            const courseKey = `${course.courseCode}`;
-
-            // Initialize course if not exists
-            if (!courseMap.has(courseKey)) {
-                courseMap.set(courseKey, {
+            if (!courseMap.has(course.courseCode)) {
+                courseMap.set(course.courseCode, {
                     courseCode: course.courseCode,
                     courseTitle: course.courseTitle,
                     subjectCode: course.subjectCode,
@@ -1105,37 +831,19 @@ class UOttawaCourseScraper {
                 });
             }
 
-            const groupedCourse = courseMap.get(courseKey)!;
-
-            // Parse section code to get group letter and type
-            // Format: "A00-LEC", "A02-LAB", "B00-LEC", "HS00-LEC" etc.
+            const groupedCourse = courseMap.get(course.courseCode)!;
             const sectionMatch = course.section.match(/^([A-Z]+)(\d*)-([A-Z]+)$/);
-            if (!sectionMatch) {
-                console.warn(`⚠️ Could not parse section: ${course.section}`);
-                continue;
-            }
+            if (!sectionMatch) continue;
 
-            const groupLetter = sectionMatch[1]; // "A", "B", "C", "HS", etc.
-            const sectionNumber = sectionMatch[2]; // "00", "01", "02", etc.
-            const sectionType = sectionMatch[3]; // "LEC", "LAB", "TUT", etc.
+            const groupLetter = sectionMatch[1];
+            const sectionType = sectionMatch[3];
 
-            console.log(`Processing: ${course.section} -> Group: ${groupLetter}, Type: ${sectionType}, Course: ${course.courseCode}`);
-
-            // Initialize section group if not exists
             if (!groupedCourse.sectionGroups[groupLetter]) {
-                groupedCourse.sectionGroups[groupLetter] = {
-                    groupId: groupLetter,
-                    labs: [],
-                    tutorials: []
-                };
+                groupedCourse.sectionGroups[groupLetter] = { groupId: groupLetter, labs: [], tutorials: [] };
             }
 
             const sectionGroup = groupedCourse.sectionGroups[groupLetter];
-
-            // Parse meeting dates to get start and end dates
             const { meetingStartDate, meetingEndDate } = this.parseMeetingDates(course.meetingDates);
-
-            // Create section object
             const section: Section = {
                 section: course.section,
                 days: course.days,
@@ -1147,51 +855,22 @@ class UOttawaCourseScraper {
                 status: course.status
             };
 
-            // Categorize section by type
             switch (sectionType) {
                 case 'LEC':
-                    if (sectionGroup.lecture) {
-                        console.warn(`⚠️ Group ${groupLetter} already has a lecture, overwriting: ${sectionGroup.lecture.section} with ${course.section}`);
-                    }
                     sectionGroup.lecture = section;
-                    console.log(`✅ Added lecture ${course.section} to group ${groupLetter}`);
                     break;
                 case 'LAB':
                     sectionGroup.labs.push(section);
-                    console.log(`✅ Added lab ${course.section} to group ${groupLetter}`);
                     break;
-                case 'TUT':
-                case 'TT':
-                case 'SEM':
-                case 'DGD':
+                case 'TUT': case 'TT': case 'SEM': case 'DGD':
                     sectionGroup.tutorials.push(section);
-                    console.log(`✅ Added tutorial ${course.section} to group ${groupLetter}`);
                     break;
                 default:
-                    console.warn(`⚠️ Unknown section type: ${sectionType} for ${course.section}, adding to tutorials`);
                     sectionGroup.tutorials.push(section);
             }
         }
 
-        const courses = Array.from(courseMap.values());
-        console.log(`✅ Grouped ${flatCourses.length} sections into ${courses.length} courses`);
-
-        // Debug: show what we got for each course
-        for (const course of courses) {
-            console.log(`\n📚 ${course.courseCode}:`);
-            for (const [groupId, group] of Object.entries(course.sectionGroups)) {
-                console.log(`  Group ${groupId}:`);
-                if (group.lecture) {
-                    console.log(`    LEC: ${group.lecture.section} - ${group.lecture.instructor}`);
-                } else {
-                    console.log(`    ⚠️ NO LECTURE FOUND!`);
-                }
-                console.log(`    LABs: ${group.labs.length} sections`);
-                console.log(`    TUTs: ${group.tutorials.length} sections`);
-            }
-        }
-
-        return { courses };
+        return { courses: Array.from(courseMap.values()) };
     }
 
     /**
@@ -1312,120 +991,66 @@ function transformToKaiRollFormat(data: GroupedCourseData): any[] {
 
 // Main execution function for ALL TERMS with automatic KaiRoll update
 async function main() {
-    console.log('🚀 uOttawa Course Scraper → KaiRoll Auto-Update');
-    console.log('==================================================');
-    console.log('This will:');
-    console.log('1. 🕷️  Scrape uOttawa courses for each term');
-    console.log('2. 💾  Save to JSON files after each term');
-    console.log('3. 🔄  Update KaiRoll database after each term');
-    console.log('==================================================\n');
-
     const scraper = new UOttawaCourseScraper();
 
     try {
         await scraper.initialize();
 
         const allTerms = Object.keys(TERM_MAPPINGS);
-        console.log(`📅 Will scrape ${allTerms.length} terms: ${allTerms.join(', ')}\n`);
-        console.log(`📚 Will scrape ${SUBJECT_CODES.length} subjects: ${SUBJECT_CODES.join(', ')}\n`);
+        console.log(`Scraping ${allTerms.length} terms, ${SUBJECT_CODES.length} subjects each`);
 
         for (const term of allTerms) {
-            console.log(`\n🎯 Starting comprehensive scrape for: ${term}`);
-            console.log('='.repeat(80));
-
-            const results = {
-                successful: 0,
-                failed: 0,
-                totalCourses: 0,
-                errors: [] as string[]
-            };
+            console.log(`\n--- ${term} ---`);
 
             let allCourses: UOttawaCourse[] = [];
+            const failed: string[] = [];
 
             for (let i = 0; i < SUBJECT_CODES.length; i++) {
                 const subject = SUBJECT_CODES[i];
-                console.log(`\n[${i + 1}/${SUBJECT_CODES.length}] 📚 Scraping subject: ${subject} for ${term}`);
-                console.log('─'.repeat(60));
+                process.stdout.write(`[${i + 1}/${SUBJECT_CODES.length}] ${subject} ... `);
 
                 try {
-                    console.log(`🔄 Starting search for ${subject}...`);
                     const courses = await scraper.searchBySubject(subject, term);
-
-                    if (courses.length > 0) {
-                        console.log(`✅ SUCCESS: Found ${courses.length} ${subject} courses`);
-                        results.successful++;
-                        results.totalCourses += courses.length;
-                        allCourses.push(...courses);
-                    } else {
-                        console.log(`⚠️ No courses found for ${subject}`);
-                        results.successful++; // Still count as successful even if no courses
-                    }
-                    console.log(`✅ Completed search for ${subject}, continuing to next subject...`);
-                } catch (error) {
-                    console.error(`❌ FAILURE: Error searching for ${subject} courses:`, error);
-                    results.failed++;
-                    results.errors.push(subject);
-                    console.log(`🔄 Moving to next subject despite ${subject} failure...`);
+                    allCourses.push(...courses);
+                    process.stdout.write(`${courses.length} sections\n`);
+                } catch (error: any) {
+                    process.stdout.write(`FAILED\n`);
+                    failed.push(subject);
                 }
 
-                // SPEED: Reduced delay from 2000ms to 1000ms
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
 
-            // Generate filename based on term
             let filename = '';
-            if (term.includes('Fall')) {
-                filename = 'all_courses_fall_2025.json';
-            } else if (term.includes('Winter')) {
-                filename = 'all_courses_winter_2026.json';
+            if (term === '2026 Spring/Summer Term') {
+                filename = 'all_courses_spring_summer_2026.json';
+            } else if (term === '2026 Fall Term') {
+                filename = 'all_courses_fall_2026.json';
+            } else if (term === '2027 Winter Term') {
+                filename = 'all_courses_winter_2027.json';
             }
 
-            // Generate and save complete grouped dataset for this term
             const termGroupedData = scraper.groupCoursesBySection(allCourses);
             await scraper.saveGroupedToJson(termGroupedData, filename);
 
-            console.log(`\n🏁 ${term} SCRAPE COMPLETE!`);
-            console.log(`📊 Results: ${results.successful} successful, ${results.failed} failed`);
-            console.log(`📈 Total: ${results.totalCourses} sections → ${termGroupedData.courses.length} grouped courses`);
-            console.log(`💾 Saved as: ${filename}`);
+            console.log(`Saved ${termGroupedData.courses.length} courses to ${filename}`);
+            if (failed.length > 0) console.log(`Failed: ${failed.join(', ')}`);
 
-            if (results.failed > 0) {
-                console.log(`❌ Failed subjects: ${results.errors.join(', ')}`);
-            }
-
-            // 🔄 UPDATE KAIROLL IMMEDIATELY AFTER THIS TERM
-            console.log(`\n🔄 UPDATING KAIROLL FOR ${term}...`);
-            console.log('='.repeat(50));
             try {
                 await updateKaiRollForTerm(term, filename);
-                console.log(`✅ ${term} data updated in KaiRoll!\n`);
             } catch (error) {
-                console.error(`❌ KaiRoll update failed for ${term}, but continuing with next term:`, error);
-                console.log(`⚠️ You may need to manually run: python3 manage.py populate_data\n`);
+                console.error(`KaiRoll update failed for ${term}:`, error);
             }
 
-            // 🔄 SYNC DATA BASED ON ENVIRONMENT
             if (process.env.SYNC_TO_PRODUCTION === 'true') {
-                console.log(`\n🔄 SYNCING LATEST DATA TO ALL LOCATIONS (PRODUCTION MODE)...`);
                 await syncLatestDataToAllLocations(filename);
-                console.log(`✅ Latest data synced to all locations!\n`);
-            } else {
-                console.log(`\n📝 Skipping production sync (set SYNC_TO_PRODUCTION=true to enable)`);
-                console.log(`💡 Data saved locally in scrapers/data/ - use deploy script to push to production\n`);
             }
         }
 
-        console.log('\n🎉 ALL TERMS SCRAPING AND UPDATING COMPLETED!');
-        console.log('📁 All JSON files created and KaiRoll updated for each term');
+        console.log('\nDone.');
 
-        // 🔄 FINAL SYNC BASED ON ENVIRONMENT
         if (process.env.SYNC_TO_PRODUCTION === 'true') {
-            console.log('\n🔄 PERFORMING FINAL SYNC OF ALL LATEST DATA...');
             await syncAllLatestData();
-            console.log('✅ All latest data synced across all systems!');
-        } else {
-            console.log('\n📝 Scraping completed! Data saved locally in scrapers/data/');
-            console.log('💡 To deploy to production, use: npm run deploy:data');
         }
 
         // 🎯 UPDATE FRONTEND DATA BASED ON ENVIRONMENT
@@ -1480,10 +1105,12 @@ async function updateKaiRollForTerm(term: string, filename: string): Promise<voi
         console.log(`🔄 Transforming ${term} to KaiRoll format...`);
 
         let termKey = '';
-        if (term.includes('Fall')) {
-            termKey = 'Fall 2025';
-        } else if (term.includes('Winter')) {
-            termKey = 'Winter 2026';
+        if (term === '2026 Spring/Summer Term') {
+            termKey = 'Spring/Summer 2026';
+        } else if (term === '2026 Fall Term') {
+            termKey = 'Fall 2026';
+        } else if (term === '2027 Winter Term') {
+            termKey = 'Winter 2027';
         }
 
         kairollData[termKey] = transformToKaiRollFormat(termData);

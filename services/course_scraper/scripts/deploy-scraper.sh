@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Deploy Kairo Scraper to Render
-echo "🚀 Deploying Kairo Scraper to Render..."
+# Deploy UoSched Scraper to Render
+echo "🚀 Deploying UoSched Scraper to Render..."
 
 # Check if we're in the right directory
 if [ ! -f "render.yaml" ]; then
@@ -35,10 +35,10 @@ echo "
 5. Click 'Apply'
 
 📋 Service will be available at:
-   https://kairo-scrapers.onrender.com
+   https://uosched-scrapers.onrender.com
 
 🔍 Test endpoint:
-   https://kairo-scrapers.onrender.com/api/scrape?subject=CSI&term=2025%20Fall%20Term
+   https://uosched-scrapers.onrender.com/api/scrape?subject=CSI&term=2025%20Fall%20Term
 
 🚀 Deployment ready!
 " 
