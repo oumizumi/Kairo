@@ -278,6 +278,9 @@ export default function SchedulePage() {
       groupId,
       lecture: group.lecture!,
       color,
+      term: course.term,
+      selectedLabIdx: null,
+      selectedTutIdx: null,
     }])
   }
 

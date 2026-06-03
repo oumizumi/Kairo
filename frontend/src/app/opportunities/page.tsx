@@ -188,7 +188,7 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
     fetch(`/api/ta-jobs/description?url=${encodeURIComponent(p.external_url)}`)
       .then(r => r.json())
       .then(d => setHtml(d.html ?? null))
-      .catch(() => setDescription(null))
+      .catch(() => setHtml(null))
       .finally(() => setDescLoading(false))
   }, [p.external_url])
 
