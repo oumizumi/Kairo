@@ -6,6 +6,7 @@ Extract professor names from course data and create names.csv for RMP scraping.
 import json
 import csv
 import re
+import sys
 from pathlib import Path
 
 def clean_professor_name(name):
@@ -112,22 +113,28 @@ def get_existing_rmp_professors():
     return existing_professors
 
 def main():
+    include_all = '--all' in sys.argv
     print("Extracting professor names for RMP scraping...")
-    
+
     # Extract all professors from course data
     all_professors = extract_professors_from_courses()
     print(f"Total professors found in courses: {len(all_professors)}")
-    
-    # Get professors who already have RMP data
-    existing_rmp = get_existing_rmp_professors()
-    
-    # Find professors without RMP data
-    professors_without_rmp = []
-    for prof in sorted(all_professors):
-        if prof.lower() not in existing_rmp:
-            professors_without_rmp.append(prof)
-    
-    print(f"Professors without RMP data: {len(professors_without_rmp)}")
+
+    if include_all:
+        # Full refresh: scrape everyone (ratings change over time)
+        professors_without_rmp = sorted(all_professors)
+        print(f"--all: including every professor ({len(professors_without_rmp)})")
+    else:
+        # Get professors who already have RMP data
+        existing_rmp = get_existing_rmp_professors()
+
+        # Find professors without RMP data
+        professors_without_rmp = []
+        for prof in sorted(all_professors):
+            if prof.lower() not in existing_rmp:
+                professors_without_rmp.append(prof)
+
+        print(f"Professors without RMP data: {len(professors_without_rmp)}")
     
     # Save to names.csv
     output_file = Path(__file__).parent.parent / "names.csv"

@@ -110,6 +110,10 @@ def fetch_and_write(data_tuple):
         print(f"Failed to fetch data for {index + 1}/{len(base64_ids)}: ID {teacher_id}. Error: {e}")
 
 if __name__ == "__main__":
+    # start fresh — write_to_csv appends, so a stale file would duplicate rows
+    if os.path.isfile("FinalOutput.csv"):
+        os.remove("FinalOutput.csv")
+
     df = pd.read_csv('b64.csv')
     base64_ids = df['base64ID'].to_numpy()
     # base64_ids = ['VGVhY2hlci0yNTIyMjg2']

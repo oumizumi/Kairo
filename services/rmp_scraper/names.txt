@@ -1,4 +1,4 @@
-# Professors without RMP data (1436 total)
+# Professors without RMP data (1503 total)
 # Generated from course data
 
 Aaron King
@@ -13,6 +13,8 @@ Abdellah Chehri
 Abdellah Sebbar
 Abdoulaye Gueye
 Abdulmotaleb El Saddik
+Adam Brown
+Adam Dodek
 Adam Jason Shuhendler
 Adam Mccauley
 Adam Page
@@ -26,6 +28,7 @@ Agnes Bezerra
 Agnieszka Grudniewicz
 Agnès Marie Pierre Ruffat
 Ahmad Jrade
+Ahmed Gomaa
 Ahmed Karmouch
 Ahmed Khalil Ben Ayed
 Ahsan Faraz Ahmed
@@ -57,6 +60,7 @@ Ali Akyol
 Ali Hassan Abbas
 Ali Karime
 Ali Momenimovahed
+Ali Ourdjini
 Alice Anne Zwerling
 Alicia Jennifer Czarnowski
 Aline Germain-Rutherford
@@ -89,6 +93,7 @@ Andrew Sowinski
 Andrew Taylor
 Andrew Vey
 Andrew Wagner
+Andrew Wright
 André Bélanger
 André Laliberté
 André Lecours
@@ -115,13 +120,16 @@ Anne Vallely
 Anne-Françoise Debruche
 Anne-Marie Dumouchel
 Anne-Marie Parent
+Annick Tanguay
 Annie Mercier
+Annie Rochette
 Anthony Noce
 Anthony R Daimsis
 Antoine Côté
 Antoine Laugrand
 Antoine Poirier
 Antoine Sauré
+Antonio Lei
 Aram Kerkonian
 Areej Tayem
 Argiro Kliamenakis
@@ -134,6 +142,7 @@ Arthur Mehta
 Arturo Macchi
 Arya Rahgozar
 Athmane Chelbi
+Audrey Gagnon
 Audrey Giles
 Ayman El-Sawah
 Azzedine Boukerche
@@ -141,6 +150,7 @@ Bailey Church
 Baljit Nagra
 Banafsheh Karamifar
 Bantayehu Shiferaw Chanie
+Barry Schneider
 Bastien Quirion
 Beatriz Delgado Rodriguez
 Benjamin Ferland
@@ -154,6 +164,8 @@ Bertrand Labasse
 Bertrand Tchantcho
 Bhanu Bhakta Acharya
 Bijan Raahemi
+Bishwajit Ghose
+Bo Sun
 Boguslaw Kruczek
 Boqi Chen
 Boussad Berrichi
@@ -163,6 +175,7 @@ Brenda Halabisky
 Brenda Macdougall
 Brendyn Johnson
 Brent Nellis
+Brian Benoit
 Brian Conheady
 Brian Hutton
 Brian Mcneilly Maxwell
@@ -175,6 +188,7 @@ Burak Kantarci
 Bushra Khan
 C. Dawn Stacey
 Caitlin Hart
+Cameron Smith
 Cara Tierney
 Carl Monfils
 Carlos Arturo Cancino
@@ -205,10 +219,12 @@ Chad Normandin
 Chang Hyun Kim
 Changjian Shui
 Chantal Bois
+Charles Brunette
 Charles Collin
 Charles Dabone
 Charles Laplante
 Charles Le Blanc
+Charlotte Karam
 Charlotte Laila Justine Devitre
 Cheikh Bécaye Ndongo
 Chelsea Cox
@@ -265,6 +281,7 @@ Cristina Blanco-Perez
 Cristina Perissinotto
 Cyndy Wylde
 Cynthia Sugars
+Cynthia Westaway
 Cédric Jourde
 Célia Romulus
 Céline Castets-Renard
@@ -292,6 +309,7 @@ Darren Padraic O'Toole
 Darrin Richeson
 Darryl Leroux
 Dave Miranda
+David Bruce
 David Bryce
 David Crick
 David Fewer
@@ -326,6 +344,7 @@ Devin Beauregard
 Devinder Gandhi
 Diana Inkpen
 Diane Gagnon
+Diane Guignard
 Diane Lagace
 Diane Mary Culver
 Diane Patricia Watt
@@ -350,6 +369,7 @@ Dovat Mutimbutimbu
 Edison Jr. Rodrigues Barreto
 Eduardo González Castillo
 Eileen O'Connor
+Ekta Tiwari
 Elaine Beaulieu
 Elaine Sarah Bailey
 Elena L Valenzuela
@@ -363,10 +383,12 @@ Elizabeth Fitzpatrick
 Elizabeth Jane Maltais
 Elizabeth Judge
 Elizabeth Marshman
+Elizabeth Potter
 Elke Doris Reissing
 Elke Winter
 Ellen Freeman
 Emad Gad
+Emelia Quinn
 Emil Aliyev
 Emilia Péch
 Emilie Prieur
@@ -395,6 +417,7 @@ Eugene L. Oscapella
 Eva Hemmer
 Eva Ottawa
 Evan Potter
+Ezgi Pulatsu
 F. Handan Tezel
 Fabien Gagosz
 Fabio Moneta
@@ -415,6 +438,7 @@ Francesca Rondina
 Francesco Gentile
 Francis Desjardins
 Francisco Gonzalez
+Francois Chan
 Francois-Xavier Campbell-Valois
 Franz Newland
 François Charbonneau
@@ -438,6 +462,7 @@ Gabrielle Marie Beaulieu
 Galen Perras
 Gamal Atallah
 Garrick Apollon
+Gary Slater
 Gaston Lillo
 Gaétan Girard
 Gefen Bar-On Santor
@@ -458,9 +483,12 @@ George Psofogiannakis
 George Wells
 Geranda Notten
 Gervais Yamb
+Ghassan Jabbour
 Ghazale Shoghaliniri
 Ghislain Junior Sidie
 Ghislain Otis
+Gideon Brobbey
+Gilles Lamothe
 Gilles Reinhardt
 Giorgia Sulis
 Giorgio Tasca
@@ -490,6 +518,7 @@ Hassan Shahraki
 Hassen Attaya
 Hawre Jalal
 Haylan Hilfi
+Heather Flowers
 Heather Mcleod-Kilmurray
 Heather Murray
 Heather Poole
@@ -497,6 +526,7 @@ Heba Alah Ghadie
 Heba Elsherief
 Hebah Shaker Mejbel
 Heidi Sveistrup
+Helen Abbot
 Henry Schriemer
 Herna Viktor
 Heshel Teitelbaum
@@ -511,10 +541,12 @@ Hugo B. Lafrenière
 Huhua Cao
 Hussein Al Osman
 Hélène Plamondon
+Hélène Pourcelot
 Héritier Raphaël Mesa
 Ian Colman
 Ian Dennis
 Ian Macgregor
+Ibrahim Bechrouri
 Ilham Mekkioui
 Iluju Kiringa
 Iman Hassan
@@ -523,6 +555,7 @@ Inge Alberts
 Irving Gold
 Isaac Nahon-Serfaty
 Isabelle Barsive
+Isabelle Bourgeois
 Isabelle Boutet
 Isabelle Catelas
 Isabelle Giroux
@@ -531,6 +564,7 @@ Isabelle Therrien
 Ismail Afolabi
 Ivan Ivanov
 Ivan Katchanovski
+Ivana Windle
 Ivaylo Kraychev
 Ivy Bourgeault
 J.L. Gilles Le Vasseur
@@ -597,6 +631,7 @@ Jean-Philippe St-Pierre
 Jean-Philippe Thivierge
 Jean-Pierre Couture
 Jean-Sébastien Marier
+Jeanine Leblanc
 Jeffrey Reid
 Jeffrey W. Keillor
 Jeffry Quan
@@ -688,13 +723,16 @@ Kaouthar Lajili-Kobeissi
 Karen Eltis
 Karen Leigh Bouchard
 Karen Patricia Phillips
+Karim Al Ghoul
 Karine Croteau
+Karine Gauvin
 Karine Vanthuyne
 Karl Saidla
 Kasereka Kavwahirehi
 Kate Elizabeth Fletcher
 Katherine Kehoe
 Katherine Moreau
+Kathleen Fraser
 Kathryn Campbell
 Kathryn Trevenen
 Kathy-Sarah Focsanéanu
@@ -711,6 +749,7 @@ Kerri Mullen
 Kevin Brand
 Kevin Kubarych
 Kevin Mcmillan
+Kevin Mongeon
 Kha Linh Nguyen
 Khaled El Emam
 Khalil Habrih
@@ -719,7 +758,9 @@ Kim Lambert
 Kimberley A. Thompson
 Kimberley Nault
 Kimberly Andrews
+Kin Chan
 Kirill Zaynullin
+Klavdiia Tatar
 Komlan Fiodendji
 Kon K. Madut
 Konrad Czechowski
@@ -732,6 +773,7 @@ Krystelle Shaughnessy
 Krystina Brigitte Lewis
 Ksenia Dolgaleva
 Kyle Conway
+Kyle Kirkup
 Kyoung-Han Kim
 Kyra Alexandra Moritz St Pierre
 Lance Ferris
@@ -742,11 +784,13 @@ Laura Sabourin
 Lauren Gillingham
 Laurent Lapierre
 Laurie Chan
+Laurie Weinstein
 Lavagnon Ika
 Lawrence David
 Lazar Ilic
 Leandro Sanchez
 Lefranc Joseph
+Lei Cao
 Leigh Walsh
 Leila Benhadjoudja
 Leila Hamzaoui
@@ -758,6 +802,7 @@ Leslie Albert Walden
 Leslie Sheldon
 Liang Chen
 Ligyana Korki De Candido
+Lili Dao
 Lilia Karnizova
 Lilian Negura
 Lillian Thomsen
@@ -786,6 +831,7 @@ Louis Trudel
 Louis-Charles Sirois
 Louis-Philippe Morin
 Louise Brasseur
+Louise Edmonds
 Louise Y. Bélanger-Hardy
 Louise-Michelle Tansey
 Loïc Beaudry
@@ -865,6 +911,8 @@ Mark Lowes
 Mark Salter
 Mark Toufayan
 Martha Alexandra Vargas Aguirre
+Martin Benjamin
+Martin Bilodeau
 Martin Bluschke
 Martin Bouchard
 Martin Golland
@@ -885,6 +933,7 @@ Matei Radulescu
 Mateja Sajna
 Mathieu Bouchard
 Mathieu De Lafontaine
+Mathieu Landriault
 Mathieu Lavallée-Adam
 Matthew David Archibald
 Matthew Kurtz
@@ -900,6 +949,7 @@ Mayer Alvo
 Mayur Joshi
 Maziar Jafary
 Maïka Sondarjee
+Mehdi Rhaiem
 Mehmet Cakir
 Mehrdad Sabetzadeh
 Melissa A. Fernandez
@@ -988,12 +1038,14 @@ Mythili Rajiva
 Mélanie Houle
 Nabel Sadek
 Nabil Messabia
+Naceur Essaddam
 Nadejda Daskalova
 Nadia Abu-Zahra
 Nadine Louise Wiper
 Nadir A Djerboua
 Najat Firzly
 Najwa Haddad
+Nan Chen
 Nancy A. Samaan
 Nancy Vézina
 Naomi Francis
@@ -1057,6 +1109,8 @@ Palladam Vasudev
 Pamela Hermosilla Luco
 Paola Flocchini
 Paria Shirani
+Parvin Movassat
+Pascal Audet
 Pascal Mcdougall
 Pascal Missie
 Pascale Cornut St-Pierre
@@ -1095,6 +1149,7 @@ Paul Michael Mayer
 Paul Robinson
 Paul Rusnock
 Paul Saurette
+Paul Sylvestre
 Pauline Mckenzie Aucoin
 Pavel Andreev
 Pawel Hawrylak
@@ -1112,6 +1167,7 @@ Philippe Thomas
 Phillip Chipman
 Phuong Mai Anh Tran
 Phyllis Dalley
+Phyllis Rippey
 Pier-Luc Turcotte
 Pierluigi Piovanelli
 Pierre Adel Mattar
@@ -1141,6 +1197,7 @@ Rafal Kulik
 Rafid Mahmood
 Rainier Grutman
 Rajendhran Rajakumar
+Rajendra Gupta
 Rajni Sharma
 Raluca Madalina Balan
 Rambod Behboodi
@@ -1165,6 +1222,7 @@ Riadh Habash
 Riadh Hammami
 Richard Barwell
 Richard Burgess
+Richard Clayman
 Richard Connors
 Richard Dubé
 Richard L. Hébert
@@ -1181,6 +1239,7 @@ Robert Stacey
 Robert Vitulano
 Robert-Falcon Ouellette
 Roberta De Oliveira Soares
+Robin Brown
 Robin Whitehead
 Rocci Luppicini
 Rocif Axel Pueugue Simo
@@ -1213,6 +1272,7 @@ Sachin Maharaj
 Sadjo Paquita
 Saeid Mirzaei Yengejeh
 Sagar Kulkarni
+Sahar Shabani
 Salah Basalamah
 Sam Alvaro
 Samuel Singer
@@ -1242,6 +1302,7 @@ Serine Bairakji
 Seyed Javad Fattahi
 Seyed Navid Mashhadi Moghaddam
 Shahin Basiratzadeh
+Shahryar Moradi
 Shaista Karim Sadrudin Jaffer
 Shannon Bainbridge-Whiteside
 Shantanu Dutta
@@ -1295,6 +1356,7 @@ Steven Hawken
 Steven Joseph Desjardins
 Steven Mckibbin
 Stewart Elgie
+Stuart Fogel
 Stuart Ian Hammond
 Stéphan Larose
 Stéphane Jean Fournier
@@ -1318,12 +1380,14 @@ Syed Ather Akbari
 Sylvain J. Chartier
 Sylvia Rich
 Sylvie Grosjean
+Sylvie Perrier
 Sylvie Rochon
 Syrine Sassi
 Sébastien Savard
 Tamara Kotar
 Tania Zamuner
 Tanvir Quadir
+Tanya Mcdonald
 Tanya Schmah
 Tao Jin
 Taoufik Ben Halima
@@ -1349,6 +1413,7 @@ Thomas Lagace
 Thomas Tran
 Thomas Uchida
 Tiago Duarte
+Tida Goudiaby
 Tiemei Li
 Tien Nguyen
 Timothy Lethbridge
@@ -1380,6 +1445,7 @@ Vern Krishna
 Veronika Huta
 Victor Emerson
 Victor Gervais
+Victoria Burke
 Vida Dujmovic
 Vikram Manjunath
 Vincent Bergeron
@@ -1404,6 +1470,7 @@ William Timothy Walker
 William Van Woensel
 William Walter Ogilvie
 Willow Scobie
+Xinhou Hua
 Xudong Cao
 Yan Campagnolo
 Yannick Benoit

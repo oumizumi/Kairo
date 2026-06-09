@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import WeeklyGrid from './WeeklyGrid'
-import type { AddedSection, Course } from '@/types/course'
+import type { RmpEntry } from './RmpStars'
+import type { AddedSection } from '@/types/course'
 
 function parseLocalDate(s: string): Date {
   const [y, m, d] = s.split('-').map(Number)
@@ -35,18 +36,17 @@ function fmtWeekRange(monday: Date): string {
 
 export default function SchedulePanel({
   addedSections,
-  courses,
   onRemove,
   termStart,
+  rmp,
 }: {
   addedSections: AddedSection[]
-  courses: Course[]
   onRemove: (id: string) => void
   termStart?: string
+  rmp?: Record<string, RmpEntry> | null
 }) {
-  const isEmpty = addedSections.length === 0
   const [weekStart, setWeekStart] = useState(() =>
-    termStart ? parseLocalDate(termStart) : getMondayOfWeek(new Date())
+    termStart ? getMondayOfWeek(parseLocalDate(termStart)) : getMondayOfWeek(new Date())
   )
   const [gridAnim, setGridAnim] = useState<'enter' | 'exit' | null>(null)
   const animTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -56,7 +56,7 @@ export default function SchedulePanel({
     if (animTimer.current) clearTimeout(animTimer.current)
     setGridAnim('exit')
     animTimer.current = setTimeout(() => {
-      setWeekStart(parseLocalDate(termStart))
+      setWeekStart(getMondayOfWeek(parseLocalDate(termStart)))
       setGridAnim('enter')
     }, 190)
     return () => { if (animTimer.current) clearTimeout(animTimer.current) }
@@ -100,17 +100,6 @@ export default function SchedulePanel({
           </button>
         </div>
 
-        {/* Right side */}
-        <div className="flex items-center gap-3">
-          {!isEmpty && (
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#8f001a]/10 text-[#8f001a] tabular-nums">
-              {addedSections.length}
-            </span>
-          )}
-          {!isEmpty && (
-            <span className="text-[10px] text-[#bbb] dark:text-[#555]">Click to remove</span>
-          )}
-        </div>
       </div>
 
       {/* Grid area */}
@@ -127,9 +116,9 @@ export default function SchedulePanel({
         >
           <WeeklyGrid
             addedSections={addedSections}
-            courses={courses}
             onRemove={onRemove}
             weekStart={weekStart}
+            rmp={rmp}
           />
         </div>
       </div>

@@ -31,6 +31,8 @@ export interface AddedSection {
   courseTitle: string
   groupId: string
   lecture: SectionInfo
+  labs: SectionInfo[]
+  tutorials: SectionInfo[]
   color: string
   term: string
   selectedLabIdx: number | null

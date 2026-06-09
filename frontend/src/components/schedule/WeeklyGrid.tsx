@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import type { AddedSection, Course } from '@/types/course'
+import RmpStars, { normalizeName, rmpUrl, type RmpEntry } from './RmpStars'
+import type { AddedSection, SectionInfo } from '@/types/course'
 
 const GRID_START = 7
 const GRID_END = 22
@@ -75,62 +76,37 @@ function parseMeetingDate(s: string | undefined): Date | null {
   return isNaN(d.getTime()) ? null : d
 }
 
-function buildBlocks(addedSections: AddedSection[], courses: Course[]): EventBlock[] {
+function pushSectionBlocks(
+  out: EventBlock[], added: AddedSection, section: SectionInfo, type: string, keyPrefix: string,
+) {
+  for (const b of parseBlocks(section.time)) {
+    out.push({
+      key: `${added.id}-${keyPrefix}-${b.day}-${b.start}`, ...b,
+      courseCode: added.courseCode,
+      courseTitle: added.courseTitle,
+      type,
+      color: added.color,
+      addedId: added.id,
+      instructor: normalizeInstructor(section.instructor),
+      status: section.status ?? 'Unknown',
+      meetingStart: parseMeetingDate(section.meetingStartDate),
+      meetingEnd:   parseMeetingDate(section.meetingEndDate),
+    })
+  }
+}
+
+function buildBlocks(addedSections: AddedSection[]): EventBlock[] {
   const out: EventBlock[] = []
   for (const added of addedSections) {
-    const group = courses.find(c => c.courseCode === added.courseCode)?.sectionGroups[added.groupId]
-    const lec = group?.lecture ?? added.lecture
-    for (const b of parseBlocks(lec.time)) {
-      out.push({
-        key: `${added.id}-lec-${b.day}`, ...b,
-        courseCode: added.courseCode,
-        courseTitle: added.courseTitle,
-        type: 'LEC',
-        color: added.color,
-        addedId: added.id,
-        instructor: normalizeInstructor(lec.instructor),
-        status: lec.status ?? 'Unknown',
-        meetingStart: parseMeetingDate(lec.meetingStartDate),
-        meetingEnd:   parseMeetingDate(lec.meetingEndDate),
-      })
+    pushSectionBlocks(out, added, added.lecture, 'LEC', 'lec')
+
+    const selLab = added.selectedLabIdx !== null ? added.labs[added.selectedLabIdx] : null
+    if (selLab) {
+      pushSectionBlocks(out, added, selLab, selLab.section.includes('DGD') ? 'DGD' : 'LAB', 'lab')
     }
-    if (group) {
-      const selLab = added.selectedLabIdx !== null ? group.labs[added.selectedLabIdx] : null
-      if (selLab) {
-        const kind = selLab.section.includes('DGD') ? 'DGD' : 'LAB'
-        for (const b of parseBlocks(selLab.time)) {
-          out.push({
-            key: `${added.id}-lab-${b.day}-${b.start}`, ...b,
-            courseCode: added.courseCode,
-            courseTitle: added.courseTitle,
-            type: kind,
-            color: added.color,
-            addedId: added.id,
-            instructor: normalizeInstructor(selLab.instructor),
-            status: selLab.status ?? 'Unknown',
-            meetingStart: parseMeetingDate(selLab.meetingStartDate),
-            meetingEnd:   parseMeetingDate(selLab.meetingEndDate),
-          })
-        }
-      }
-      const selTut = added.selectedTutIdx !== null ? group.tutorials[added.selectedTutIdx] : null
-      if (selTut) {
-        const kind = selTut.section.includes('DGD') ? 'DGD' : 'TUT'
-        for (const b of parseBlocks(selTut.time)) {
-          out.push({
-            key: `${added.id}-tut-${b.day}-${b.start}`, ...b,
-            courseCode: added.courseCode,
-            courseTitle: added.courseTitle,
-            type: kind,
-            color: added.color,
-            addedId: added.id,
-            instructor: normalizeInstructor(selTut.instructor),
-            status: selTut.status ?? 'Unknown',
-            meetingStart: parseMeetingDate(selTut.meetingStartDate),
-            meetingEnd:   parseMeetingDate(selTut.meetingEndDate),
-          })
-        }
-      }
+    const selTut = added.selectedTutIdx !== null ? added.tutorials[added.selectedTutIdx] : null
+    if (selTut) {
+      pushSectionBlocks(out, added, selTut, selTut.section.includes('DGD') ? 'DGD' : 'TUT', 'tut')
     }
   }
   return out
@@ -175,14 +151,14 @@ interface TooltipData {
 
 export default function WeeklyGrid({
   addedSections,
-  courses,
   onRemove,
   weekStart,
+  rmp,
 }: {
   addedSections: AddedSection[]
-  courses: Course[]
   onRemove: (id: string) => void
   weekStart?: Date
+  rmp?: Record<string, RmpEntry> | null
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [hourHeight, setHourHeight] = useState(56)
@@ -256,7 +232,7 @@ export default function WeeklyGrid({
 
   const gridHeight = hourHeight * TOTAL_HOURS
   const hourLabels = Array.from({ length: TOTAL_HOURS + 1 }, (_, i) => GRID_START + i)
-  const blocks = buildBlocks(addedSections, courses)
+  const blocks = buildBlocks(addedSections)
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
@@ -370,29 +346,29 @@ export default function WeeklyGrid({
                           onClick={(e) => showTooltip(e, block)}
                           onMouseEnter={(e) => showTooltip(e, block)}
                           onMouseLeave={hideTooltip}
-                          className="absolute left-[2px] right-[2px] rounded overflow-hidden text-left focus:outline-none"
+                          className="absolute left-[3px] right-[3px] rounded-[5px] text-left focus:outline-none transition-[filter] hover:brightness-95 dark:hover:brightness-110"
                           style={{
                             top, height,
-                            backgroundColor: block.color + '55',
+                            backgroundColor: block.color + (isLec ? '4d' : '38'),
                             animation: isLeaving
                               ? 'blockExit 200ms cubic-bezier(0.55,0,1,0.45) forwards'
                               : 'blockEnter 380ms cubic-bezier(0.34,1.56,0.64,1) forwards',
                           }}
                         >
-                          {/* left accent bar */}
-                          <div className="absolute left-0 inset-y-0 w-[3px]" style={{ backgroundColor: block.color }} />
-                          <div className="relative h-full flex flex-col justify-start pl-[9px] pr-2 py-1 gap-[3px]">
+                          {/* solid accent strip, Apple Calendar style */}
+                          <div className="absolute left-0 inset-y-0 w-[4px] rounded-l-[5px]" style={{ backgroundColor: block.color }} />
+                          <div className="relative h-full flex flex-col justify-start pl-[10px] pr-2 py-1.5 gap-[3px]">
                             <span className="text-[11px] font-bold leading-none truncate" style={{ color: block.color }}>
                               {block.courseCode}
+                              {!isLec && (
+                                <span className="ml-1 text-[8px] font-bold tracking-wide uppercase align-middle" style={{ color: block.color, opacity: 0.7 }}>
+                                  {block.type}
+                                </span>
+                              )}
                             </span>
-                            <span className="text-[9.5px] leading-none truncate font-medium" style={{ color: block.color + 'dd' }}>
+                            <span className="text-[9.5px] leading-none truncate font-semibold tabular-nums" style={{ color: block.color, opacity: 0.75 }}>
                               {fmtTime(block.start)} - {fmtTime(block.end)}
                             </span>
-                            {!isLec && (
-                              <span className="text-[8px] leading-none font-semibold tracking-wide uppercase" style={{ color: block.color + 'bb' }}>
-                                {block.type}
-                              </span>
-                            )}
                           </div>
                         </button>
                       )
@@ -454,28 +430,39 @@ export default function WeeklyGrid({
                   </span>
                 </div>
 
-                {/* instructor */}
-                <div className="flex items-center gap-2">
-                  <svg className="w-3 h-3 shrink-0 text-[#bbb] dark:text-[#555]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" />
-                  </svg>
-                  <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc] truncate">
-                    {tooltip.instructor || <span className="text-[#bbb] dark:text-[#555]">TBA</span>}
-                  </span>
-                </div>
+                {/* instructor + rating */}
+                {(() => {
+                  const entry = tooltip.instructor ? rmp?.[normalizeName(tooltip.instructor)] ?? null : null
+                  const url = entry ? rmpUrl(entry) : null
+                  return (
+                    <div className="flex items-start gap-2">
+                      <svg className="w-3 h-3 shrink-0 mt-0.5 text-[#bbb] dark:text-[#555]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" />
+                      </svg>
+                      <div className="flex flex-col gap-1 min-w-0">
+                        {url ? (
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="pointer-events-auto text-[11px] font-medium text-[#333] dark:text-[#ccc] truncate hover:text-[#8f001a] dark:hover:text-[#ff8095] hover:underline underline-offset-2 transition-colors"
+                            title="View on Rate My Professors"
+                          >
+                            {tooltip.instructor}
+                          </a>
+                        ) : (
+                          <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc] truncate">
+                            {tooltip.instructor || <span className="text-[#bbb] dark:text-[#555]">TBA</span>}
+                          </span>
+                        )}
+                        {entry && <RmpStars entry={entry} showCount />}
+                      </div>
+                    </div>
+                  )
+                })()}
 
               </div>
 
-              <button
-                onMouseEnter={() => { if (hideTimer.current) clearTimeout(hideTimer.current) }}
-                onClick={() => handleRemove(tooltip.addedId)}
-                className="pointer-events-auto mt-0.5 text-[10px] font-medium transition-colors text-left"
-                style={{ color: '#dc262699' }}
-                onMouseOver={e => (e.currentTarget.style.color = '#dc2626')}
-                onMouseOut={e => (e.currentTarget.style.color = '#dc262699')}
-              >
-                Remove
-              </button>
             </div>
         </div>,
         document.body
