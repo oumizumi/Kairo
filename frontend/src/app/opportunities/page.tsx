@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import ThemeToggle from '@/components/ThemeToggle'
 
-type Tab    = 'ta' | 'scholarships' | 'other'
+type Tab    = 'ta' | 'scholarships'
 type Sort   = 'posted' | 'deadline' | 'pay'
 type Role   = 'TA' | 'RA' | 'APTPUO' | 'Other'
 type Filter = 'all' | Role
@@ -294,7 +294,6 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
 const TABS: { id: Tab; label: string }[] = [
   { id: 'ta',           label: 'TA Jobs'      },
   { id: 'scholarships', label: 'Scholarships' },
-  { id: 'other',        label: 'Other'        },
 ]
 
 const ROLE_FILTERS: { id: Filter; label: string }[] = [
@@ -467,7 +466,7 @@ export default function OpportunitiesPage() {
           </div>
         )}
 
-        {(tab === 'scholarships' || tab === 'other') && (
+        {tab === 'scholarships' && (
           <div className="text-center py-20">
             <p className="text-[#999] dark:text-[#555] text-sm">Coming soon</p>
           </div>
