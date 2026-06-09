@@ -17,7 +17,7 @@ const DAY_ABBR: Record<string, string> = {
 
 const STATUS_COLOR: Record<string, string> = {
   Open: '#15803d',
-  Closed: '#dc2626',
+  Closed: '#8f001a',
   Waitlist: '#b45309',
   Unknown: '#9ca3af',
 }

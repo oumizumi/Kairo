@@ -19,7 +19,7 @@ const COURSE_COLORS = [
 
 const STATUS_COLOR: Record<string, string> = {
   Open: '#15803d',
-  Closed: '#dc2626',
+  Closed: '#8f001a',
   Waitlist: '#b45309',
   Unknown: '#9ca3af',
 }
@@ -183,7 +183,7 @@ function ComponentBox({
         selected
           ? 'bg-[#8f001a]/[0.07] dark:bg-[#8f001a]/[0.12]'
           : blocked
-          ? 'opacity-55 hover:bg-[#dc2626]/[0.05] dark:hover:bg-[#dc2626]/[0.08]'
+          ? 'opacity-55 hover:bg-[#8f001a]/[0.05] dark:hover:bg-[#8f001a]/[0.08]'
           : 'hover:bg-black/[0.03] dark:hover:bg-white/[0.04]'
       }`}
     >
@@ -200,7 +200,7 @@ function ComponentBox({
         )}
       </span>
       {blocked ? (
-        <span className="ml-auto text-[8px] font-bold text-[#dc2626] uppercase tracking-wide shrink-0">conflict</span>
+        <span className="ml-auto text-[8px] font-bold text-[#8f001a] dark:text-[#ff8095] uppercase tracking-wide shrink-0">conflict</span>
       ) : (
         <span className={`ml-auto w-3.5 h-3.5 rounded-[3px] border-[1.5px] flex items-center justify-center shrink-0 transition-colors ${
           selected
@@ -222,17 +222,17 @@ function ComponentBox({
 function ConflictPopup({ conflict }: { conflict: ConflictInfo }) {
   return (
     <div
-      className="mx-2 my-1 px-3 py-2 rounded-lg bg-[#dc2626]/[0.05] dark:bg-[#dc2626]/[0.09] border border-[#dc2626]/20 flex items-start gap-2"
+      className="mx-2 my-1 px-3 py-2 rounded-lg bg-[#8f001a]/[0.05] dark:bg-[#8f001a]/[0.09] border border-[#8f001a]/20 flex items-start gap-2"
       style={{ animation: 'conflictPop 160ms cubic-bezier(0.34,1.4,0.64,1)' }}
     >
-      <svg className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#dc2626]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+      <svg className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#8f001a] dark:text-[#ff8095]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
         <path strokeLinecap="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
       </svg>
       <div className="flex flex-col gap-0.5 min-w-0">
-        <span className="text-[11px] leading-snug text-[#b91c1c] dark:text-[#f87171]">
+        <span className="text-[11px] leading-snug text-[#8f001a] dark:text-[#ff8095]">
           Conflicts with <span className="font-bold">{conflict.label}</span>
         </span>
-        <span className="text-[10.5px] font-medium tabular-nums text-[#dc2626]/80 dark:text-[#f87171]/80">
+        <span className="text-[10.5px] font-medium tabular-nums text-[#8f001a]/80 dark:text-[#ff8095]/80">
           {conflict.block.day} · {fmtClock(conflict.block.start)} – {fmtClock(conflict.block.end)}
         </span>
       </div>
@@ -363,7 +363,7 @@ function CourseRow({
                       {status}
                     </span>
                     {lecConflict && (
-                      <span className="text-[9px] font-bold text-[#dc2626] uppercase tracking-wide shrink-0">conflict</span>
+                      <span className="text-[9px] font-bold text-[#8f001a] dark:text-[#ff8095] uppercase tracking-wide shrink-0">conflict</span>
                     )}
                   </div>
                   <button
@@ -377,7 +377,7 @@ function CourseRow({
                       isAdded
                         ? 'bg-[#8f001a] border-[#8f001a]'
                         : lecConflict
-                        ? 'border-[#dc2626]/30 hover:border-[#dc2626]/60'
+                        ? 'border-[#8f001a]/30 hover:border-[#8f001a]/60'
                         : 'bg-transparent border-[#ccc] dark:border-[#555] hover:border-[#8f001a]'
                     }`}
                   >

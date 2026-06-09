@@ -38,7 +38,7 @@ function StarRow({ size }: { size: number }) {
 function ratingColor(rating: number): string {
   if (rating >= 3.8) return '#16a34a'
   if (rating >= 2.8) return '#f59e0b'
-  return '#dc2626'
+  return '#8f001a'
 }
 
 export default function RmpStars({ entry, size = 12, showCount = false }: {
