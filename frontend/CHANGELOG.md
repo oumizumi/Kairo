@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0](https://github.com/uomap-uo/uomap/compare/uomap-v0.2.0...uomap-v0.3.0) (2026-06-10)
+
+
+### Features
+
+* add anaytics dashboard ([1dc52dd](https://github.com/uomap-uo/uomap/commit/1dc52dd528efa4af2bebec5644fe3278bf76db94))
+* schedule UI improvements + grades link + bug ([b817333](https://github.com/uomap-uo/uomap/commit/b817333cbf0481227fcf47d70314b5dae2c4bf8f))
+* uogussr start screen redesign + GA4 analytics ([d3c5b73](https://github.com/uomap-uo/uomap/commit/d3c5b7303153be076a12ae98c2230f6c1f8adb23))
+
 ## [0.2.0](https://github.com/uomap-uo/uomap/compare/uomap-v0.1.0...uomap-v0.2.0) (2026-06-10)
 
 
