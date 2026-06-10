@@ -257,6 +257,10 @@ function CourseRow({
   const [popup, setPopup] = useState<{ key: string; conflict: ConflictInfo } | null>(null)
   const popupTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const groupIds = Object.keys(course.sectionGroups)
+
+  useEffect(() => {
+    return () => { if (popupTimer.current) clearTimeout(popupTimer.current) }
+  }, [])
   const addedForCourse = addedSections.filter(a => a.courseCode === course.courseCode)
   const hasAdded = addedForCourse.length > 0
 
@@ -280,6 +284,18 @@ function CourseRow({
           <p className="text-[13px] font-bold text-[#111] dark:text-white tracking-tight">{course.courseCode}</p>
           <p className="text-[12px] text-[#555] dark:text-[#aaa] truncate mt-0.5 leading-snug">{course.courseTitle}</p>
         </div>
+        <a
+          href={`https://uo.grades.zone/course/${course.courseCode.replace(' ', '').toLowerCase()}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={e => e.stopPropagation()}
+          className="inline-flex items-center gap-0.5 text-[10px] font-bold text-[#8f001a] hover:opacity-70 transition-opacity shrink-0"
+        >
+          Grades
+          <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+        </a>
         <svg
           className={`w-4 h-4 text-[#aaa] dark:text-[#666] shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
           fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
@@ -507,9 +523,12 @@ export default function SchedulePage() {
     }
   }, [])
 
-  // query changes are handled by the debounce in handleQuery
+  // when term changes, cancel any pending debounce and fetch immediately
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { fetchCourses(term, query) }, [term, fetchCourses])
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    fetchCourses(term, query)
+  }, [term, fetchCourses])
 
   useEffect(() => {
     fetch('/api/rmp').then(r => r.json()).then(setRmp).catch(() => {})
@@ -600,15 +619,16 @@ export default function SchedulePage() {
     <div className="flex flex-col h-full">
       {/* term tabs */}
       <div className="shrink-0 px-3 pt-4 pb-1">
-        <div className="relative flex p-1 rounded-xl bg-black/[0.05] dark:bg-white/[0.06]">
+        <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#bbb] dark:text-[#555] mb-2 px-0.5">Term</p>
+        <div className="flex gap-1.5">
           {(['summer2026', 'fall2026', 'winter2027'] as const).map(t => (
             <button
               key={t}
               onClick={() => setTerm(t)}
-              className={`relative flex-1 py-2 px-1 text-[11px] font-semibold rounded-lg transition-all duration-150 ${
+              className={`flex-1 py-2 px-1 text-[11px] font-bold rounded-lg border transition-all duration-150 ${
                 term === t
-                  ? 'bg-white dark:bg-[#2a2a2a] text-[#111] dark:text-white shadow-sm'
-                  : 'text-[#888] dark:text-[#666] hover:text-[#333] dark:hover:text-[#aaa]'
+                  ? 'bg-[#8f001a] border-[#8f001a] text-white shadow-sm'
+                  : 'bg-transparent border-[#e5e5e5] dark:border-[#2a2a2a] text-[#888] dark:text-[#666] hover:border-[#8f001a] hover:text-[#8f001a] dark:hover:border-[#8f001a] dark:hover:text-[#8f001a]'
               }`}
             >
               {t === 'summer2026' ? "Summer '26" : t === 'fall2026' ? "Fall '26" : "Winter '27"}
@@ -631,14 +651,20 @@ export default function SchedulePage() {
             placeholder="Search by code or name…"
             value={query}
             onChange={e => handleQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2.5 text-[12px] bg-black/[0.04] dark:bg-white/[0.05] border border-transparent rounded-xl text-[#111] dark:text-white placeholder-[#bbb] dark:placeholder-[#555] focus:outline-none focus:border-[#8f001a]/30 focus:bg-white dark:focus:bg-[#1a1a1a] transition-all"
+            className="w-full pl-9 pr-3 py-2.5 text-[12px] bg-[#f7f7f7] dark:bg-[#1a1a1a] border border-[#e8e8e8] dark:border-[#252525] rounded-xl text-[#111] dark:text-white placeholder-[#bbb] dark:placeholder-[#555] focus:outline-none focus:border-[#8f001a]/40 dark:focus:border-[#8f001a]/40 transition-all"
           />
         </div>
       </div>
 
       {/* added chips */}
       {addedSections.length > 0 && (
-        <div className="px-3 pb-3 shrink-0">
+        <div className="px-3 pb-3 pt-1 shrink-0 border-t border-black/[0.05] dark:border-white/[0.05]">
+          <div className="flex items-center justify-between mb-2 mt-2">
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#bbb] dark:text-[#555] px-0.5">My Schedule</p>
+            <span className="text-[9px] font-bold text-white bg-[#8f001a] px-1.5 py-0.5 rounded-full leading-none">
+              {addedSections.length}
+            </span>
+          </div>
           <div className="flex flex-wrap gap-1.5">
             {addedSections.map(a => (
               <span
@@ -655,9 +681,6 @@ export default function SchedulePage() {
               </span>
             ))}
           </div>
-          <p className="text-[10px] text-[#bbb] dark:text-[#555] mt-2">
-            {addedSections.length} course{addedSections.length !== 1 ? 's' : ''} added
-          </p>
         </div>
       )}
 
@@ -681,14 +704,14 @@ export default function SchedulePage() {
         ) : courses.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 gap-2">
             <svg className="w-8 h-8 text-[#ccc] dark:text-[#444]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8" /><path strokeLinecap="round" d="M21 21l-4.35-4.35" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
             </svg>
             <p className="text-[12px] font-medium text-[#999] dark:text-[#666]">
-              {query ? 'No results' : 'Search for a course'}
+              {query ? `No results for "${query}"` : 'Search for a course'}
             </p>
             {!query && (
               <p className="text-[11px] text-[#bbb] dark:text-[#555] text-center px-6">
-                Try "CSI", "MAT", or "ENG"
+                Try CSI, MAT, ENG, ITI, or CEG
               </p>
             )}
           </div>
@@ -723,12 +746,12 @@ export default function SchedulePage() {
       {/* top bar */}
       <div className="shrink-0 border-b border-black/[0.06] dark:border-white/[0.06]">
         <div className="px-4 h-12 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <a href="/" className="text-[#111] dark:text-white font-bold text-base tracking-tight hover:opacity-60 transition-opacity">
+          <div className="flex items-center gap-2">
+            <a href="/" className="text-[#8f001a] font-bold text-[15px] tracking-tight hover:opacity-70 transition-opacity">
               uomap
             </a>
-            <span className="text-[#e0e0e0] dark:text-[#2e2e2e]">/</span>
-            <span className="text-[13px] font-medium text-[#999] dark:text-[#555]">Schedule</span>
+            <span className="text-[#ddd] dark:text-[#333] font-light text-base">/</span>
+            <span className="text-[13px] font-semibold text-[#555] dark:text-[#666]">Schedule</span>
           </div>
           <ThemeToggle />
         </div>

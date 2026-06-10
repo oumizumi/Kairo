@@ -116,17 +116,46 @@ const CLUSTER_B: FlockBird[] = [
 const SOLO: FlockBird[] = [{ dx: 0, dy: 0, size: 13 }]
 const SOLO_SMALL: FlockBird[] = [{ dx: 0, dy: 0, size: 10 }]
 
+const V_SMALL: FlockBird[] = [
+  { dx: 0,   dy: 0,   size: 13 },
+  { dx: -26, dy: -11, size: 11 },
+  { dx: -54, dy: -22, size: 9  },
+  { dx: -28, dy: 13,  size: 11 },
+  { dx: -58, dy: 25,  size: 9  },
+]
+
+const CLUSTER_C: FlockBird[] = [
+  { dx: 0,   dy: 0,   size: 15 },
+  { dx: -30, dy: -14, size: 13 },
+  { dx: -22, dy: 15,  size: 12 },
+  { dx: -58, dy: 3,   size: 11 },
+  { dx: -46, dy: -20, size: 10 },
+]
+
+const SOLO_MED: FlockBird[] = [{ dx: 0, dy: 0, size: 16 }]
+
 function Birds() {
   return (
     <div className="absolute inset-0 overflow-hidden motion-reduce:hidden">
+      {/* main flocks */}
       <Flock birds={V_LARGE}   top="11%" dur={28} delay={-6} />
+      <Flock birds={V_LARGE}   top="44%" dur={33} delay={-18} reverse baseOpacity={0.6} />
       <Flock birds={V_MEDIUM}  top="22%" dur={38} delay={-19} reverse baseOpacity={0.8} />
+      <Flock birds={V_SMALL}   top="8%"  dur={31} delay={-24} reverse baseOpacity={0.7} />
+      <Flock birds={V_SMALL}   top="35%" dur={41} delay={-36} baseOpacity={0.5} />
+      {/* clusters */}
       <Flock birds={CLUSTER_A} top="30%" dur={46} delay={-31} baseOpacity={0.65} />
       <Flock birds={CLUSTER_B} top="6%"  dur={42} delay={-12} reverse baseOpacity={0.7} />
-      <Flock birds={SOLO}       top="16%" dur={34} delay={-27} baseOpacity={0.7} />
-      <Flock birds={SOLO}       top="38%" dur={52} delay={-44} baseOpacity={0.5} />
+      <Flock birds={CLUSTER_B} top="45%" dur={39} delay={-28} baseOpacity={0.5} />
+      <Flock birds={CLUSTER_C} top="18%" dur={54} delay={-41} reverse baseOpacity={0.6} />
+      {/* solos */}
+      <Flock birds={SOLO}      top="16%" dur={34} delay={-27} baseOpacity={0.7} />
+      <Flock birds={SOLO}      top="38%" dur={52} delay={-44} baseOpacity={0.5} />
+      <Flock birds={SOLO_MED}  top="25%" dur={37} delay={-8}  reverse baseOpacity={0.65} />
+      <Flock birds={SOLO_MED}  top="48%" dur={45} delay={-39} baseOpacity={0.5} />
       <Flock birds={SOLO_SMALL} top="26%" dur={48} delay={-9}  reverse baseOpacity={0.45} />
       <Flock birds={SOLO_SMALL} top="3%"  dur={36} delay={-22} baseOpacity={0.55} />
+      <Flock birds={SOLO_SMALL} top="42%" dur={41} delay={-30} baseOpacity={0.4} />
     </div>
   )
 }

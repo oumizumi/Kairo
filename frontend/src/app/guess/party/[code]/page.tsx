@@ -189,6 +189,7 @@ export default function PartyRoomPage() {
   const [joining, setJoining] = useState(false)
   const [joinError, setJoinError] = useState('')
   const [mapHover, setMapHover] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const hasTriggeredRevealRef = useRef(false)
   const hasAutoSubmittedRef = useRef(false)
@@ -535,9 +536,10 @@ export default function PartyRoomPage() {
 
   if (room.phase === 'lobby') {
     const modeLabel = room.mode === 'duel' ? 'Duel' : room.mode === 'ffa' ? 'Free for All' : 'Duos'
-    const [copied, setCopied] = [false, (_: boolean) => {}]
     const copyCode = () => {
       navigator.clipboard?.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     }
     return (
       <div key="lobby" className="fixed inset-0 overflow-y-auto animate-screen-enter">
@@ -558,11 +560,29 @@ export default function PartyRoomPage() {
           <p className="text-white/70 text-xs sm:text-sm font-bold uppercase tracking-[0.45em] mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">Room code</p>
           <button
             onClick={copyCode}
-            className="w-fit font-mono text-[clamp(48px,9vw,104px)] leading-[0.9] font-extrabold text-white tracking-[0.12em] hover:text-[#ff465f] transition-colors mb-2 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]"
+            className="w-fit font-mono text-[clamp(48px,9vw,104px)] leading-[0.9] font-extrabold tracking-[0.12em] transition-colors mb-2 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]"
+            style={{ color: copied ? '#4ade80' : 'white' }}
           >
             {code}
           </button>
-          <p className="text-white/50 text-xs font-semibold mb-8 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">tap to copy · share with friends</p>
+          <p className="text-white/50 text-xs font-semibold mb-3 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
+            {copied ? 'copied!' : 'tap to copy'}
+          </p>
+          <button
+            onClick={() => {
+              const url = `${window.location.origin}/guess/party/${code}`
+              navigator.clipboard?.writeText(url)
+              setCopied(true)
+              setTimeout(() => setCopied(false), 2000)
+            }}
+            className="mb-8 inline-flex items-center gap-2 bg-white/[0.08] backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-xs font-semibold text-white/60 hover:text-white hover:border-white/30 transition-all"
+          >
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            copy invite link
+          </button>
 
           <div className="w-full max-w-md flex flex-col gap-6 animate-fade-up [animation-delay:120ms]">
 
