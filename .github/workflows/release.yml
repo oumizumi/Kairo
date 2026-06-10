@@ -16,9 +16,17 @@ jobs:
       release_created: ${{ steps.rp.outputs.release_created }}
       tag_name: ${{ steps.rp.outputs.tag_name }}
     steps:
-      - uses: google-github-actions/release-please-action@v4
+      - name: Generate bot token
+        id: bot-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.MY_SEC_KEY }}
+
+      - uses: googleapis/release-please-action@v4
         id: rp
         with:
+          token: ${{ steps.bot-token.outputs.token }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
