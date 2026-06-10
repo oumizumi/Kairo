@@ -14,7 +14,9 @@ uomap as its own route — shared navbar, theme, and design system.
 - **Self-taken photos only.** Screenshotting Google Street View is not allowed by
   its ToS. Our own photos are free, legal, and can cover indoor spots Street View
   doesn't have (tunnels, CRX/STEM hallways, FSS basement).
-- **Leaflet + OpenStreetMap** for the guess map. Free, no API key, no billing.
+- **MapLibre GL + OpenFreeMap vector tiles** for the guess map. Free, no API key,
+  no billing — GPU-rendered vector tiles, so text stays sharp and zoom is smooth
+  (originally Leaflet + raster tiles; swapped for the nicer look and feel).
   Pannellum (or Photo Sphere Viewer) when 360 photos arrive.
 
 ## Photo set
@@ -63,6 +65,18 @@ Images live in `frontend/public/guess/`.
 - Reveal screen: line drawn from guess to actual spot, distance shown, points awarded.
 - After round 5: total score + per-round recap, Play Again button.
 
+### Gameplay feel
+
+- **Pan/zoom on the photo.** Pinch-zoom and drag on the image — hunting details
+  (signs, brick patterns, posters) is the core skill loop. Plain CSS transform
+  zoom is fine for MVP; no library needed.
+- **Timed mode is a real setting, not a future idea.** Pick at game start:
+  30s / 60s / no limit per round. Timer runs out → current pin position is
+  auto-submitted (no pin = 0 points). Time pressure is what makes duels exciting.
+- **Reveal polish.** Animate the map flying from the guess pin to the actual spot,
+  draw the line progressively, count the points up instead of snapping to the
+  final number. The reveal moment is the dopamine — spend effort here.
+
 ### Scoring
 
 Exponential decay on distance, 1000 points max per round (5000 per game):
@@ -82,11 +96,70 @@ punishing past a couple hundred meters.
 
 ### Map bounds
 
-Lock the Leaflet map to the campus area so pins can't go to Gatineau:
+Lock the map to the campus area so pins can't go to Gatineau:
 
 - Center: ~45.4231, -75.6831 (Tabaret)
 - Bounds: roughly 45.4170–45.4290, -75.6920–75.6740 (covers main campus + Lees a stretch)
 - Min zoom 15, max zoom 19.
+
+## Party system
+
+Multiplayer on the same 5 photos each game. Host picks a mode when creating the room.
+
+### 1v1 — duels with health bars
+
+Two players, head-to-head, GeoGuessr Duels style. Both start at **5000 HP**. Each
+round both drop a pin; the round loser takes damage equal to the score gap
+(e.g. 850 vs 620 → loser loses 230 HP). First player to hit 0 HP loses — no fixed
+round count, games end in sudden death. Way more tense than summing 5 rounds.
+
+### Duos (2v2)
+
+Duos vs duos — two teams of two. Teammates see the same photo and each pin
+independently (no shared cursor). Per round, a team's score is the **sum** of both
+players' points. After 5 rounds, the team with the higher combined total wins.
+
+### Free-for-all (up to 5)
+
+2–5 players in one room, everyone competing individually on the same 5 photos.
+Same rules as 1v1, just scaled up — highest individual total after 5 rounds wins.
+Good for friend groups who don't want teams.
+
+| Mode | Players | Win condition |
+|---|---|---|
+| 1v1 | 2 | Reduce opponent to 0 HP (5000 HP, damage = score gap) |
+| Duos | 4 (2 teams of 2) | Higher team score (sum of both teammates) |
+| Free-for-all | 2–5 | Higher individual score |
+
+Invite via shareable room link or code. Room waits until the lobby is full (or host
+starts early once at least 2 are in), then
+everyone plays the same round in sync (all guess → reveal together → next round).
+Needs real-time sync — ship after MVP once a backend (Supabase or similar) is in place.
+
+## Leaderboards
+
+Monthly rankings to give regular players something to chase. Resets on the 1st of
+each month (Eastern time). Needs Supabase (auth + scores table) — ship alongside
+party mode, not in solo MVP.
+
+### What gets ranked
+
+- **Solo** — best single 5-round game score posted that month (one entry per player:
+  only your highest run counts).
+- **Daily challenge** — when daily mode ships, sum of daily challenge scores that
+  month (or best single day — pick one at implementation time; sum rewards consistency).
+- **Party wins** — optional later tab: most 1v1 / FFA wins, or duo team wins.
+
+Show top 10 per category. Player sees their rank even if outside the top 10.
+
+### UX
+
+- `/guess/leaderboard` or a Leaderboard tab on the guess page.
+- Month selector to browse current + past months (archived boards stay viewable).
+- Display name on sign-in (uOttawa email optional later for verified badge).
+
+Submitting a score requires a lightweight account (Supabase auth). Anonymous/local
+solo play stays available without logging in; leaderboard opt-in only.
 
 ## Route & components
 
@@ -97,7 +170,7 @@ frontend/src/data/guess_locations.* - location list
 ```
 
 Keep it one file until there's a real reason to split (per repo conventions).
-Leaflet must be dynamically imported (`next/dynamic`, `ssr: false`) — it touches
+MapLibre must be dynamically imported (`next/dynamic`, `ssr: false`) — it touches
 `window` at import time.
 
 ## Future ideas (post-MVP)
@@ -105,8 +178,13 @@ Leaflet must be dynamically imported (`next/dynamic`, `ssr: false`) — it touch
 - **Daily challenge** — same 5 photos for everyone each day, shareable score
   (Wordle-style emoji-free result grid).
 - **360 panoramas** — upgrade popular spots; `type: 'pano'` + Pannellum viewer.
-- **Leaderboard** — needs a backend or Supabase; skip until there's traffic.
-- **Timed mode** — 30 seconds per round.
+- **Monthly leaderboards** — see Leaderboards section; solo best-run first, daily +
+  party tabs when those modes exist.
+- **Seasonal themes (coming soon)** — Fall, Winter, and Summer photo sets of the
+  same campus. Same locations shot in different seasons (snowed-in Tabaret vs fall
+  leaves), selectable as a theme when starting a game. Add an optional
+  `season?: 'fall' | 'winter' | 'summer'` field to `GuessLocation`; untagged photos
+  stay in the default pool.
 
 ## Build order (MVP)
 

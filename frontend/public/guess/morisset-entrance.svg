@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#44403c"/>
+  <rect x="280" y="200" width="720" height="400" fill="#57534e"/>
+  <rect x="300" y="220" width="680" height="40" fill="#292524"/>
+  <rect x="300" y="300" width="680" height="40" fill="#292524"/>
+  <rect x="300" y="380" width="680" height="40" fill="#292524"/>
+  <rect x="560" y="460" width="160" height="140" fill="#1c1917"/>
+  <text x="640" y="700" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="700" fill="#fafaf9">Placeholder  Morisset entrance</text>
+  <text x="640" y="748" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#a8a29e">swap for real photo (morisset-entrance.webp)</text>
+</svg>

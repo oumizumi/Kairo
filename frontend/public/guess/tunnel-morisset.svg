@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#171717"/>
+  <path d="M0 0 L560 300 L560 500 L0 800 Z" fill="#262626"/>
+  <path d="M1280 0 L720 300 L720 500 L1280 800 Z" fill="#262626"/>
+  <rect x="560" y="300" width="160" height="200" fill="#0a0a0a"/>
+  <rect x="200" y="80" width="120" height="30" fill="#404040"/>
+  <rect x="600" y="120" width="120" height="24" fill="#404040"/>
+  <rect x="980" y="80" width="120" height="30" fill="#404040"/>
+  <text x="640" y="700" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="700" fill="#fafafa">Placeholder  Morisset tunnel</text>
+  <text x="640" y="748" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#a3a3a3">swap for real photo (tunnel-morisset.webp)</text>
+</svg>

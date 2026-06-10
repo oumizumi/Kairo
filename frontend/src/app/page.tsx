@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-[#111] transition-colors duration-200">
 
-      {/* minimal top bar — just logo + toggle */}
+      {/* minimal top bar */}
       <div className="max-w-6xl mx-auto w-full px-6 pt-6 flex items-center justify-between">
         <span className="text-[#111] dark:text-white font-bold text-lg tracking-tight">uomap</span>
         <ThemeToggle />
@@ -12,7 +12,7 @@ export default function Home() {
 
       {/* cards */}
       <main className="flex-1 flex items-center justify-center px-6 py-16">
-        <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
           <a href="/schedule" className="group bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl p-8 flex flex-col gap-4 border border-black/5 dark:border-white/5 hover:border-[#8f001a]/40 dark:hover:border-[#8f001a]/40 transition-colors">
             <div className="w-10 h-10 rounded-lg border-2 border-[#8f001a] flex items-center justify-center">
@@ -33,6 +33,25 @@ export default function Home() {
             </div>
             <span className="text-sm font-semibold text-[#8f001a] group-hover:underline underline-offset-4 mt-auto">
               Get started →
+            </span>
+          </a>
+
+          <a href="/guess" className="group bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl p-8 flex flex-col gap-4 border border-black/5 dark:border-white/5 hover:border-[#8f001a]/40 dark:hover:border-[#8f001a]/40 transition-colors">
+            <div className="w-10 h-10 rounded-lg border-2 border-[#8f001a] flex items-center justify-center">
+              <svg className="w-5 h-5 text-[#8f001a]" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8z"
+                  stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round"/>
+                <circle cx="12" cy="10" r="3" fill="currentColor"/>
+              </svg>
+            </div>
+            <div>
+              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">Play uoguessr</h2>
+              <p className="text-[#666] dark:text-[#888] text-sm leading-relaxed">
+                Guess where on campus each photo was taken. Drop a pin, score points for accuracy, beat your friends.
+              </p>
+            </div>
+            <span className="text-sm font-semibold text-[#8f001a] group-hover:underline underline-offset-4 mt-auto">
+              Play now →
             </span>
           </a>
 

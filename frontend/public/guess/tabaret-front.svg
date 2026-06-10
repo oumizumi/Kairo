@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#3b4252"/>
+  <rect x="340" y="280" width="600" height="320" fill="#4c566a"/>
+  <rect x="380" y="320" width="80" height="280" fill="#2e3440"/>
+  <rect x="500" y="320" width="80" height="280" fill="#2e3440"/>
+  <rect x="620" y="320" width="80" height="280" fill="#2e3440"/>
+  <rect x="740" y="320" width="80" height="280" fill="#2e3440"/>
+  <path d="M320 280 L640 160 L960 280 Z" fill="#434c5e"/>
+  <circle cx="640" cy="120" r="36" fill="#434c5e"/>
+  <text x="640" y="700" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="700" fill="#eceff4">Placeholder  Tabaret front</text>
+  <text x="640" y="748" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#9aa3b2">swap for real photo (tabaret-front.webp)</text>
+</svg>

@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import RmpStars, { normalizeName, rmpUrl, type RmpEntry } from './RmpStars'
 import type { AddedSection, SectionInfo } from '@/types/course'
 
-const GRID_START = 7
+const GRID_START = 8
 const GRID_END = 22
 const TOTAL_HOURS = GRID_END - GRID_START
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
@@ -260,16 +260,16 @@ export default function WeeklyGrid({
             return (
               <div
                 key={day}
-                className="flex-1 py-2.5 flex flex-col items-center justify-center gap-0.5 border-l border-black/[0.07] dark:border-white/[0.07]"
+                className="flex-1 py-3 flex flex-col items-center justify-center gap-1 border-l border-black/[0.07] dark:border-white/[0.07]"
               >
-                <span className={`text-[10px] font-bold tracking-[0.15em] uppercase ${isToday ? 'text-[#8f001a]' : 'text-[#aaa] dark:text-[#555]'}`}>
+                <span className={`text-[11px] font-bold tracking-[0.12em] uppercase ${isToday ? 'text-[#8f001a]' : 'text-[#888] dark:text-[#666]'}`}>
                   {day}
                 </span>
                 {colDate && (
-                  <span className={`text-[11px] font-semibold tabular-nums leading-none ${
+                  <span className={`text-sm font-bold tabular-nums leading-none ${
                     isToday
-                      ? 'w-5 h-5 flex items-center justify-center rounded-full bg-[#8f001a] text-white'
-                      : 'text-[#bbb] dark:text-[#444]'
+                      ? 'w-6 h-6 flex items-center justify-center rounded-full bg-[#8f001a] text-white'
+                      : 'text-[#999] dark:text-[#555]'
                   }`}>
                     {colDate.getDate()}
                   </span>
@@ -280,7 +280,7 @@ export default function WeeklyGrid({
         </div>
 
         {/* Content area */}
-        <div className="relative pt-2 pb-10">
+        <div className="relative pb-10">
 
           {/* Vertical line overlay */}
           <div className="absolute inset-0 pointer-events-none flex" style={{ left: TIME_COL_W }}>
@@ -304,7 +304,7 @@ export default function WeeklyGrid({
                   className="absolute inset-x-0 flex justify-end pr-2.5"
                   style={{ top: (h - GRID_START) * hourHeight }}
                 >
-                  <span className="text-[9px] font-semibold tabular-nums -translate-y-[6px] text-[#bbb] dark:text-[#444] leading-none">
+                  <span className={`text-[10px] font-semibold tabular-nums text-[#aaa] dark:text-[#555] leading-none ${h === GRID_START ? 'translate-y-0' : '-translate-y-[6px]'}`}>
                     {fmtLabel(h)}
                   </span>
                 </div>

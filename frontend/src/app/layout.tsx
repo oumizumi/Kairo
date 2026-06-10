@@ -6,7 +6,7 @@ import Providers from '@/components/Providers'
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'] })
 
 export const metadata: Metadata = {
-  title: 'uomap — University of Ottawa',
+  title: 'uomap | University of Ottawa',
   description: 'Map out your schedule and find student opportunities at uOttawa.',
 }
 

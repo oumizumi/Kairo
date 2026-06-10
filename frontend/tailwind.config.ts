@@ -29,10 +29,15 @@ const config: Config = {
           '0%':   { opacity: '1', transform: 'translateX(0) scale(1)' },
           '100%': { opacity: '0', transform: 'translateX(14px) scale(0.95)' },
         },
+        'hp-drain': {
+          '0%':   { width: 'var(--hp-from)' },
+          '100%': { width: 'var(--hp-to)' },
+        },
       },
       animation: {
         'block-enter': 'block-enter 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
         'block-exit':  'block-exit 180ms cubic-bezier(0.55, 0, 1, 0.45) forwards',
+        'hp-drain':    'hp-drain 1200ms cubic-bezier(0.22, 1, 0.36, 1) forwards',
       },
     },
   },

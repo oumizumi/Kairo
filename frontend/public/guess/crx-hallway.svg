@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#27272a"/>
+  <path d="M0 0 L520 260 L520 540 L0 800 Z" fill="#3f3f46"/>
+  <path d="M1280 0 L760 260 L760 540 L1280 800 Z" fill="#3f3f46"/>
+  <rect x="520" y="260" width="240" height="280" fill="#18181b"/>
+  <rect x="0" y="0" width="1280" height="60" fill="#52525b"/>
+  <rect x="0" y="740" width="1280" height="60" fill="#52525b"/>
+  <text x="640" y="700" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="700" fill="#fafafa">Placeholder  CRX hallway</text>
+  <text x="640" y="160" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#a1a1aa">swap for real photo (crx-hallway.webp)</text>
+</svg>
