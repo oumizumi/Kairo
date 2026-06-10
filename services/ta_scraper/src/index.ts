@@ -2,21 +2,25 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import cron from 'node-cron';
-import { initDb, upsertPosition } from './db';
+import { initDb, upsertPosition, deletePositions } from './db';
 import { scrapeAllTaPositions } from './scraper';
 
 async function runScraper(): Promise<void> {
   console.log(`\n[${new Date().toISOString()}] Starting TA scrape run...`);
   try {
-    const positions = await scrapeAllTaPositions();
+    const { positions, deadIds } = await scrapeAllTaPositions();
 
     let upserted = 0;
     for (const pos of positions) {
       await upsertPosition(pos);
       upserted++;
     }
-
     console.log(`Upserted ${upserted} record(s) into ta_positions.`);
+
+    if (deadIds.length > 0) {
+      await deletePositions(deadIds);
+      console.log(`Deleted ${deadIds.length} removed/dead posting(s).`);
+    }
   } catch (err) {
     console.error('Scraper run failed:', err);
   }

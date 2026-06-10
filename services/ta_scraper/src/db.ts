@@ -52,3 +52,12 @@ export async function upsertPosition(pos: TaPosition): Promise<void> {
 
   if (error) throw new Error(`Upsert failed for ${pos.job_req_id}: ${error.message}`);
 }
+
+export async function deletePositions(ids: string[]): Promise<void> {
+  if (ids.length === 0) return;
+  const { error } = await supabase
+    .from('ta_positions')
+    .delete()
+    .in('job_req_id', ids);
+  if (error) throw new Error(`Delete failed: ${error.message}`);
+}

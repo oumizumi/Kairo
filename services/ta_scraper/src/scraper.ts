@@ -75,8 +75,9 @@ function buildPublicUrl(externalPath: string): string {
   return `https://uottawa.wd3.myworkdayjobs.com/en-US/uOttawa_External_Career_Site${externalPath}`;
 }
 
-async function scrapeByTerm(searchText: string): Promise<TaPosition[]> {
+async function scrapeByTerm(searchText: string): Promise<{ positions: TaPosition[]; deadIds: string[] }> {
   const positions: TaPosition[] = [];
+  const deadIds:   string[]     = [];
   let offset = 0;
   let total  = Infinity;
 
@@ -99,12 +100,25 @@ async function scrapeByTerm(searchText: string): Promise<TaPosition[]> {
       try {
         const detail = await fetchDetail(job.externalPath);
         const info = detail.jobPostingInfo ?? detail;
-        const descriptionHtml: string = info.jobDescription ?? '';
 
+        // Workday sometimes returns 200 with an error/empty body for removed postings
+        if (!info || info.error || info.status === 'NOT_FOUND') {
+          console.log(`  dead  ${job.title} [${jobId}]`);
+          deadIds.push(jobId);
+          continue;
+        }
+
+        const descriptionHtml: string = info.jobDescription ?? '';
         parsed = parseJobDescription(descriptionHtml);
         console.log(`  ok  ${job.title} [${jobId}]`);
       } catch (err) {
-        console.error(`  skip  ${job.externalPath}: ${(err as Error).message}`);
+        const msg = (err as Error).message;
+        if (/HTTP 404|HTTP 410/.test(msg)) {
+          console.log(`  dead  ${job.title} [${jobId}]`);
+          deadIds.push(jobId);
+          continue;
+        }
+        console.error(`  err  ${job.externalPath}: ${msg}`);
         parsed = {
           course_code: null, faculty: null, supervisor: null,
           hourly_rate: null, total_hours: null,
@@ -127,23 +141,31 @@ async function scrapeByTerm(searchText: string): Promise<TaPosition[]> {
     offset += page.jobPostings.length;
   }
 
-  return positions;
+  return { positions, deadIds };
 }
 
-export async function scrapeAllTaPositions(): Promise<TaPosition[]> {
-  const seen = new Set<string>();
-  const all:  TaPosition[] = [];
+export async function scrapeAllTaPositions(): Promise<{ positions: TaPosition[]; deadIds: string[] }> {
+  const seenPos  = new Set<string>();
+  const seenDead = new Set<string>();
+  const all:      TaPosition[] = [];
+  const dead:     string[]     = [];
 
   for (const term of SEARCH_TERMS) {
-    const results = await scrapeByTerm(term);
-    for (const pos of results) {
-      if (!seen.has(pos.job_req_id)) {
-        seen.add(pos.job_req_id);
+    const { positions, deadIds } = await scrapeByTerm(term);
+    for (const pos of positions) {
+      if (!seenPos.has(pos.job_req_id)) {
+        seenPos.add(pos.job_req_id);
         all.push(pos);
+      }
+    }
+    for (const id of deadIds) {
+      if (!seenDead.has(id)) {
+        seenDead.add(id);
+        dead.push(id);
       }
     }
   }
 
-  console.log(`\nScraped ${all.length} unique position(s) across ${SEARCH_TERMS.length} search term(s).`);
-  return all;
+  console.log(`\nScraped ${all.length} unique position(s), ${dead.length} dead/removed.`);
+  return { positions: all, deadIds: dead };
 }

@@ -6,7 +6,7 @@ import ThemeToggle from '@/components/ThemeToggle'
 type Tab    = 'ta' | 'scholarships'
 type Sort   = 'posted' | 'deadline' | 'pay'
 type Role   = 'TA' | 'RA' | 'APTPUO' | 'Other'
-type Filter = 'all' | Role
+type Filter = 'all' | 'TA' | 'RA'
 
 interface TaPosition {
   job_req_id:      string
@@ -34,24 +34,94 @@ function parseTitle(raw: string): { displayTitle: string; role: Role } {
       : raw
     return { displayTitle, role: 'APTPUO' }
   }
-  if (/^teaching assistant\s*[-–—]/i.test(raw)) {
-    return {
-      displayTitle: raw.replace(/^teaching assistant\s*[-–—]\s*/i, '').trim(),
-      role: 'TA',
-    }
+  if (/teaching\s+assistant/i.test(raw)) {
+    return { displayTitle: cleanTitle(raw), role: 'TA' }
   }
-  if (/^research assistant\s*[-–—]/i.test(raw)) {
-    return {
-      displayTitle: raw.replace(/^research assistant\s*[-–—]\s*/i, '').trim(),
-      role: 'RA',
-    }
+  if (/research\s+assistant/i.test(raw)) {
+    return { displayTitle: cleanTitle(raw), role: 'RA' }
   }
   return { displayTitle: raw, role: 'Other' }
 }
 
 function codeFromTitle(raw: string): string | null {
   const m = raw.match(/\b([A-Z]{2,4})\s*(\d{4}[A-Z]?)\b/)
+  if (!m || m[1] === 'CUPE') return null
+  return `${m[1]} ${m[2]}`
+}
+
+// Strip CUPE prefix, term, and role label — keep only the meaningful part
+function cleanTitle(raw: string): string {
+  const m = raw.match(/(?:teaching|research)\s+assistant\s*[-–—:]\s*(.+)$/i)
+  if (m && m[1].trim()) {
+    const after = m[1]
+      .replace(/^(?:Spring[-\/]Summer|Fall|Winter|Summer|Spring)(?:\s*[&\/]\s*\w+)?\s+\d{4}\s*[-–—:]\s*/i, '')
+      .trim()
+    return after || m[1].trim()
+  }
+  return raw
+    .replace(/^\d+\s*:?\s*/, '')
+    .replace(/^CUPE\s*[-:]\s*/i, '')
+    .replace(/^(?:Spring[-\/]Summer|Fall|Winter|Summer|Spring)(?:\s*[&\/]\s*\w+)?\s+\d{4}\s*[-–—:]\s*/i, '')
+    .trim() || raw
+}
+
+// Extract just the faculty/school name — strip "Unit:..." Workday metadata suffix
+function cleanFaculty(raw: string | null): string | null {
+  if (!raw) return null
+  const cleaned = raw.replace(/\s*Unit:.*/i, '').replace(/\s*Job\s+Classification:.*/i, '').trim()
+  return cleaned || null
+}
+
+// Extract term from title (e.g. "Fall 2026", "Spring/Summer 2026")
+function termFromTitle(raw: string): string | null {
+  const m = raw.match(/\b(Fall|Winter|Summer|Spring[-\/]Summer|Spring)\s+(\d{4})\b/i)
   return m ? `${m[1]} ${m[2]}` : null
+}
+
+// Extract hours from title like "130h"
+function hoursFromTitle(raw: string): number | null {
+  const m = raw.match(/\b(\d+)\s*h\b/i)
+  return m ? parseInt(m[1]) : null
+}
+
+// Trim Workday form HTML down to just the Requirements/qualifications section,
+// cutting off the metadata fields at the top and the boilerplate at the bottom.
+function extractDescription(raw: string): string {
+  const lower = raw.toLowerCase()
+
+  const startMarkers = [
+    'requirements and nature of work',
+    'exigences et nature du travail',
+  ]
+  const endMarkers = [
+    'additional information',
+    'all university of ottawa employees',
+  ]
+
+  let startIdx = -1
+  for (const marker of startMarkers) {
+    const i = lower.indexOf(marker)
+    if (i !== -1) {
+      startIdx = raw.lastIndexOf('<', i)
+      if (startIdx === -1) startIdx = i
+      break
+    }
+  }
+
+  if (startIdx === -1) return raw
+
+  let endIdx = raw.length
+  for (const marker of endMarkers) {
+    const i = lower.indexOf(marker, startIdx)
+    if (i !== -1) {
+      const tagStart = raw.lastIndexOf('<', i)
+      endIdx = tagStart !== -1 ? tagStart : i
+      break
+    }
+  }
+
+  const result = raw.slice(startIdx, endIdx).trim()
+  return result.length > 30 ? result : raw
 }
 
 // Hide dates that are clearly stale (old boilerplate years in job descriptions)
@@ -105,38 +175,50 @@ function RoleBadge({ role }: { role: Role }) {
 function TaCard({ p, onClick }: { p: TaPosition; onClick: () => void }) {
   const { displayTitle, role } = parseTitle(p.title)
   const courseCode = p.course_code ?? codeFromTitle(p.title)
-  const pay        = formatPay(p.hourly_rate, p.total_hours)
+  const faculty    = cleanFaculty(p.faculty)
+  const hours      = p.total_hours ?? hoursFromTitle(p.title)
+  const pay        = formatPay(p.hourly_rate, hours)
   const workPeriod = [validDate(p.work_start_date), validDate(p.work_end_date)].filter(Boolean).join(' – ') || null
+  const term       = workPeriod ? null : termFromTitle(p.title)
+  const postedText = validDate(p.end_date)
+    ? `Closes ${p.end_date}`
+    : p.posted_on
+      ? (p.posted_on.toLowerCase().startsWith('posted') ? p.posted_on : `Posted ${p.posted_on}`)
+      : ''
 
   return (
     <div
       onClick={onClick}
       className="group bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl p-5 flex flex-col gap-2.5 border border-black/5 dark:border-white/5 hover:border-[#8f001a]/30 dark:hover:border-[#8f001a]/30 transition-colors cursor-pointer"
     >
-      <div className="flex items-center justify-between gap-2">
-        {courseCode ? <CourseBadge code={courseCode} /> : <span />}
-        <RoleBadge role={role} />
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <div className="flex items-center gap-2">
+          <RoleBadge role={role} />
+          {courseCode && <CourseBadge code={courseCode} />}
+        </div>
+        {(term || p.language) && (
+          <div className="flex items-center gap-1.5 shrink-0">
+            {term && (
+              <span className="text-xs text-[#888] dark:text-[#666]">{term}</span>
+            )}
+            {p.language && (
+              <span className="text-xs text-[#999] dark:text-[#666] border border-black/10 dark:border-white/10 px-1.5 py-0.5 rounded">
+                {p.language}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       <h3 className="text-sm font-semibold text-[#111] dark:text-white leading-snug line-clamp-2 group-hover:text-[#8f001a] dark:group-hover:text-[#c0001f] transition-colors">
         {displayTitle}
       </h3>
 
-      {(p.faculty || p.language) && (
-        <div className="flex items-center gap-2 flex-wrap">
-          {p.faculty && (
-            <span className="text-xs text-[#666] dark:text-[#888] truncate max-w-[220px]">{p.faculty}</span>
-          )}
-          {p.language && (
-            <span className="text-xs text-[#999] dark:text-[#666] border border-black/10 dark:border-white/10 px-1.5 rounded shrink-0">
-              {p.language}
-            </span>
-          )}
+      {(faculty || p.supervisor) && (
+        <div className="flex flex-col gap-0.5">
+          {faculty && <span className="text-xs text-[#666] dark:text-[#888]">{faculty}</span>}
+          {p.supervisor && <span className="text-xs text-[#999] dark:text-[#666]">{p.supervisor}</span>}
         </div>
-      )}
-
-      {p.supervisor && (
-        <p className="text-xs text-[#888] dark:text-[#666]">{p.supervisor}</p>
       )}
 
       {pay && (
@@ -148,9 +230,7 @@ function TaCard({ p, onClick }: { p: TaPosition; onClick: () => void }) {
       )}
 
       <div className="mt-auto pt-2.5 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between gap-2">
-        <span className="text-xs text-[#aaa] dark:text-[#555] truncate">
-          {validDate(p.end_date) ? `Closes ${p.end_date}` : p.posted_on ? `Posted ${p.posted_on}` : ''}
-        </span>
+        <span className="text-xs text-[#aaa] dark:text-[#555] truncate">{postedText}</span>
         <span className="text-xs text-[#8f001a] font-medium shrink-0">View details →</span>
       </div>
     </div>
@@ -181,13 +261,20 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
 
   const { displayTitle, role } = parseTitle(p.title)
   const courseCode = p.course_code ?? codeFromTitle(p.title)
-  const pay        = formatPay(p.hourly_rate, p.total_hours)
+  const faculty    = cleanFaculty(p.faculty)
+  const hours      = p.total_hours ?? hoursFromTitle(p.title)
+  const pay        = formatPay(p.hourly_rate, hours)
   const workPeriod = [validDate(p.work_start_date), validDate(p.work_end_date)].filter(Boolean).join(' – ') || null
+  const postedText = validDate(p.end_date)
+    ? `Closes ${p.end_date}`
+    : p.posted_on
+      ? (p.posted_on.toLowerCase().startsWith('posted') ? p.posted_on : `Posted ${p.posted_on}`)
+      : ''
 
   useEffect(() => {
     fetch(`/api/ta-jobs/description?url=${encodeURIComponent(p.external_url)}`)
       .then(r => r.json())
-      .then(d => setHtml(d.html ?? null))
+      .then(d => setHtml(d.html ? extractDescription(d.html) : null))
       .catch(() => setHtml(null))
       .finally(() => setDescLoading(false))
   }, [p.external_url])
@@ -227,8 +314,8 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
               )}
             </div>
             <h2 className="text-base font-bold text-[#111] dark:text-white leading-snug">{displayTitle}</h2>
-            {p.faculty && (
-              <p className="text-sm text-[#666] dark:text-[#888] mt-0.5">{p.faculty}</p>
+            {faculty && (
+              <p className="text-sm text-[#666] dark:text-[#888] mt-0.5">{faculty}</p>
             )}
           </div>
           <button
@@ -264,7 +351,7 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
             </div>
           ) : html ? (
             <div
-              className="text-sm text-[#333] dark:text-[#ccc] leading-relaxed [&_p]:mb-2 [&_ul]:pl-5 [&_ul]:list-disc [&_li]:mb-1 [&_ol]:pl-5 [&_ol]:list-decimal [&_strong]:font-semibold [&_b]:font-semibold [&_h1]:text-base [&_h1]:font-bold [&_h1]:mb-2 [&_h2]:text-sm [&_h2]:font-bold [&_h2]:mb-1.5 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:mb-1 [&_table]:mb-3 [&_td]:pr-4 [&_td]:py-0.5 [&_td]:align-top [&_tr]:border-b [&_tr]:border-black/[0.04] dark:[&_tr]:border-white/[0.04]"
+              className="text-sm text-[#333] dark:text-[#ccc] leading-relaxed [&_p]:mb-2 [&_ul]:pl-5 [&_ul]:list-disc [&_ul]:mb-3 [&_li]:mb-1 [&_ol]:pl-5 [&_ol]:list-decimal [&_ol]:mb-3 [&_strong]:font-semibold [&_b]:font-semibold [&_h1]:text-base [&_h1]:font-bold [&_h1]:mb-2 [&_h2]:text-sm [&_h2]:font-bold [&_h2]:mb-1.5 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:mb-1 [&_p:has(strong)]:mt-3 [&_p:has(b)]:mt-3 [&_table]:w-full [&_table]:mb-4 [&_td]:pr-4 [&_td]:py-1 [&_td]:align-top [&_td:first-child]:text-[#888] [&_td:first-child]:dark:text-[#666] [&_td:first-child]:w-48 [&_td:first-child]:shrink-0 [&_tr]:border-b [&_tr]:border-black/[0.04] dark:[&_tr]:border-white/[0.04]"
               dangerouslySetInnerHTML={{ __html: html }}
             />
           ) : (
@@ -274,9 +361,7 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
 
         {/* footer */}
         <div className="px-6 py-4 border-t border-black/[0.07] dark:border-white/[0.07] flex items-center justify-between gap-3">
-          <span className="text-xs text-[#aaa] dark:text-[#555]">
-            {validDate(p.end_date) ? `Closes ${p.end_date}` : p.posted_on ? `Posted ${p.posted_on}` : ''}
-          </span>
+          <span className="text-xs text-[#aaa] dark:text-[#555]">{postedText}</span>
           <a
             href={p.external_url}
             target="_blank"
@@ -297,10 +382,9 @@ const TABS: { id: Tab; label: string }[] = [
 ]
 
 const ROLE_FILTERS: { id: Filter; label: string }[] = [
-  { id: 'all',    label: 'All'            },
-  { id: 'TA',     label: 'Teaching Asst'  },
-  { id: 'RA',     label: 'Research Asst'  },
-  { id: 'APTPUO', label: 'Part-time Prof' },
+  { id: 'all', label: 'All'           },
+  { id: 'TA',  label: 'Teaching Asst' },
+  { id: 'RA',  label: 'Research Asst' },
 ]
 
 export default function OpportunitiesPage() {
@@ -323,7 +407,10 @@ export default function OpportunitiesPage() {
   }, [])
 
   const filtered = useMemo(() => {
-    let list = [...positions]
+    let list = positions.filter(p => {
+      const r = parseTitle(p.title).role
+      return r === 'TA' || r === 'RA'
+    })
 
     if (roleFilter !== 'all') {
       list = list.filter(p => parseTitle(p.title).role === roleFilter)

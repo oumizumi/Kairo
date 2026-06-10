@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+export const dynamic = 'force-dynamic'
 
 // Supabase anon key requires a public read policy on ta_positions:
 //   CREATE POLICY "public read" ON ta_positions FOR SELECT USING (true);
@@ -14,6 +13,9 @@ const COLS = [
 ].join(',')
 
 export async function GET(_req: NextRequest) {
+  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     return NextResponse.json({ positions: [] })
   }
@@ -30,7 +32,7 @@ export async function GET(_req: NextRequest) {
         apikey: SUPABASE_KEY,
         Authorization: `Bearer ${SUPABASE_KEY}`,
       },
-      next: { revalidate: 300 },
+      cache: 'no-store',
     })
 
     if (!res.ok) {
