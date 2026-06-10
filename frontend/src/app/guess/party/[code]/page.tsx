@@ -4,14 +4,14 @@ export const dynamic = 'force-dynamic'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import dynamic from 'next/dynamic'
+import dynamicImport from 'next/dynamic'
 import { supabase } from '@/lib/supabase'
 import { GUESS_LOCATIONS } from '@/data/guess_locations'
 import type { MapPoint } from '@/components/guess/GuessMap'
 import type { PlayerPin } from '@/components/guess/PartyGuessMap'
 import type { PartyGuess, PartyPlayer, PartyRoom } from '@/types/party'
 
-const PartyGuessMap = dynamic(() => import('@/components/guess/PartyGuessMap'), {
+const PartyGuessMap = dynamicImport(() => import('@/components/guess/PartyGuessMap'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center bg-[#1a1a1a]">
