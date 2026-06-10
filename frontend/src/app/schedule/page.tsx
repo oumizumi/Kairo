@@ -501,9 +501,17 @@ export default function SchedulePage() {
   const [loading, setLoading] = useState(false)
   const [conflict, setConflict] = useState<string | null>(null)
   const [rmp, setRmp] = useState<Record<string, RmpEntry> | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
   const colorRef = useRef(0)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const conflictTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const showConflict = (msg: string) => {
     setConflict(msg)
@@ -524,10 +532,11 @@ export default function SchedulePage() {
   }, [])
 
   // when term changes, cancel any pending debounce and fetch immediately
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // query is intentionally excluded — changes are handled by the debounce in handleQuery
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
     fetchCourses(term, query)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [term, fetchCourses])
 
   useEffect(() => {
@@ -620,18 +629,23 @@ export default function SchedulePage() {
       {/* term tabs */}
       <div className="shrink-0 px-3 pt-4 pb-1">
         <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#bbb] dark:text-[#555] mb-2 px-0.5">Term</p>
-        <div className="flex gap-1.5">
+        <div className="flex p-1 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl gap-0.5">
           {(['summer2026', 'fall2026', 'winter2027'] as const).map(t => (
             <button
               key={t}
               onClick={() => setTerm(t)}
-              className={`flex-1 py-2 px-1 text-[11px] font-bold rounded-lg border transition-all duration-150 ${
+              className={`flex-1 py-2 rounded-lg text-[11px] font-bold transition-all duration-200 ${
                 term === t
-                  ? 'bg-[#8f001a] border-[#8f001a] text-white shadow-sm'
-                  : 'bg-transparent border-[#e5e5e5] dark:border-[#2a2a2a] text-[#888] dark:text-[#666] hover:border-[#8f001a] hover:text-[#8f001a] dark:hover:border-[#8f001a] dark:hover:text-[#8f001a]'
+                  ? 'bg-white dark:bg-[#2a2a2a] text-[#8f001a] shadow-sm'
+                  : 'text-[#aaa] dark:text-[#555] hover:text-[#666] dark:hover:text-[#888]'
               }`}
             >
-              {t === 'summer2026' ? "Summer '26" : t === 'fall2026' ? "Fall '26" : "Winter '27"}
+              <span className="block md:hidden">
+                {t === 'summer2026' ? "Sum" : t === 'fall2026' ? "Fall" : "Win"}
+              </span>
+              <span className="hidden md:block">
+                {t === 'summer2026' ? "Summer '26" : t === 'fall2026' ? "Fall '26" : "Winter '27"}
+              </span>
             </button>
           ))}
         </div>
@@ -757,10 +771,10 @@ export default function SchedulePage() {
         </div>
       </div>
 
-      {/* Main content: search left + schedule right */}
-      <div className="flex-1 overflow-hidden flex">
+      {/* Main content: stacked on mobile, side-by-side on md+ */}
+      <div className="flex-1 overflow-hidden flex flex-col md:flex-row">
         {/* Search panel */}
-        <div className="w-[300px] md:w-[360px] lg:w-[440px] xl:w-[540px] 2xl:w-[640px] shrink-0 border-r border-black/[0.06] dark:border-white/[0.06] flex flex-col overflow-hidden">
+        <div className="h-[40%] md:h-auto w-full md:w-[360px] lg:w-[440px] xl:w-[540px] 2xl:w-[640px] shrink-0 border-b md:border-b-0 md:border-r border-black/[0.06] dark:border-white/[0.06] flex flex-col overflow-hidden">
           {searchPanel}
         </div>
         {/* Schedule grid */}

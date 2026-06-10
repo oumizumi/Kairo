@@ -34,16 +34,25 @@ function fmtWeekRange(monday: Date): string {
   return `${mo} - ${fr}`
 }
 
+function fmtWeekRangeCompact(monday: Date): string {
+  const friday = new Date(monday)
+  friday.setDate(monday.getDate() + 4)
+  const mo = monday.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  return `${mo}–${friday.getDate()}`
+}
+
 export default function SchedulePanel({
   addedSections,
   onRemove,
   termStart,
   rmp,
+  compact,
 }: {
   addedSections: AddedSection[]
   onRemove: (id: string) => void
   termStart?: string
   rmp?: Record<string, RmpEntry> | null
+  compact?: boolean
 }) {
   const [weekStart, setWeekStart] = useState(() =>
     termStart ? getMondayOfWeek(parseLocalDate(termStart)) : getMondayOfWeek(new Date())
@@ -87,8 +96,8 @@ export default function SchedulePanel({
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <span className="text-[11px] font-semibold text-[#555] dark:text-[#888] tabular-nums min-w-[140px] text-center">
-            {fmtWeekRange(weekStart)}
+          <span className="text-[11px] font-semibold text-[#555] dark:text-[#888] tabular-nums text-center">
+            {compact ? fmtWeekRangeCompact(weekStart) : fmtWeekRange(weekStart)}
           </span>
           <button
             onClick={() => setWeekStart(w => addWeeks(w, 1))}
@@ -119,6 +128,7 @@ export default function SchedulePanel({
             onRemove={onRemove}
             weekStart={weekStart}
             rmp={rmp}
+            compact={compact}
           />
         </div>
       </div>

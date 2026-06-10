@@ -9,7 +9,7 @@ const GRID_START = 8
 const GRID_END = 22
 const TOTAL_HOURS = GRID_END - GRID_START
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-const TIME_COL_W = 52
+const timeColW = 52
 
 const DAY_ABBR: Record<string, string> = {
   Mo: 'Mon', Tu: 'Tue', We: 'Wed', Th: 'Thu', Fr: 'Fri',
@@ -154,12 +154,15 @@ export default function WeeklyGrid({
   onRemove,
   weekStart,
   rmp,
+  compact,
 }: {
   addedSections: AddedSection[]
   onRemove: (id: string) => void
   weekStart?: Date
   rmp?: Record<string, RmpEntry> | null
+  compact?: boolean
 }) {
+  const timeColW = compact ? 36 : 52
   const scrollRef = useRef<HTMLDivElement>(null)
   const [hourHeight, setHourHeight] = useState(56)
   const [tooltip, setTooltip] = useState<TooltipData | null>(null)
@@ -253,7 +256,7 @@ export default function WeeklyGrid({
 
         {/* Sticky day headers */}
         <div className="sticky top-0 z-10 flex border-b border-black/[0.07] dark:border-white/[0.07] bg-white dark:bg-[#111111]">
-          <div className="shrink-0 border-r border-black/[0.07] dark:border-white/[0.07]" style={{ width: TIME_COL_W }} />
+          <div className="shrink-0 border-r border-black/[0.07] dark:border-white/[0.07]" style={{ width: timeColW }} />
           {DAYS.map((day, di) => {
             const colDate = weekStart ? new Date(weekStart.getTime() + di * 86400000) : null
             const isToday = colDate ? colDate.getTime() === today.getTime() : false
@@ -262,13 +265,13 @@ export default function WeeklyGrid({
                 key={day}
                 className="flex-1 py-3 flex flex-col items-center justify-center gap-1 border-l border-black/[0.07] dark:border-white/[0.07]"
               >
-                <span className={`text-[11px] font-bold tracking-[0.12em] uppercase ${isToday ? 'text-[#8f001a]' : 'text-[#888] dark:text-[#666]'}`}>
-                  {day}
+                <span className={`${compact ? 'text-[8px]' : 'text-[11px]'} font-bold tracking-[0.08em] uppercase ${isToday ? 'text-[#8f001a]' : 'text-[#888] dark:text-[#666]'}`}>
+                  {compact ? day.slice(0, 2) : day}
                 </span>
                 {colDate && (
-                  <span className={`text-sm font-bold tabular-nums leading-none ${
+                  <span className={`${compact ? 'text-xs' : 'text-sm'} font-bold tabular-nums leading-none ${
                     isToday
-                      ? 'w-6 h-6 flex items-center justify-center rounded-full bg-[#8f001a] text-white'
+                      ? 'w-5 h-5 flex items-center justify-center rounded-full bg-[#8f001a] text-white'
                       : 'text-[#999] dark:text-[#555]'
                   }`}>
                     {colDate.getDate()}
@@ -283,29 +286,29 @@ export default function WeeklyGrid({
         <div className="relative pb-10">
 
           {/* Vertical line overlay */}
-          <div className="absolute inset-0 pointer-events-none flex" style={{ left: TIME_COL_W }}>
+          <div className="absolute inset-0 pointer-events-none flex" style={{ left: timeColW }}>
             {DAYS.map((day) => (
               <div key={day} className="flex-1 h-full border-l border-black/[0.07] dark:border-white/[0.07]" />
             ))}
           </div>
           <div
             className="absolute inset-y-0 pointer-events-none border-r border-black/[0.07] dark:border-white/[0.07]"
-            style={{ left: TIME_COL_W }}
+            style={{ left: timeColW }}
           />
 
           {/* Grid rows */}
           <div className="flex" style={{ height: gridHeight }}>
 
             {/* Time labels */}
-            <div className="shrink-0 relative select-none pointer-events-none" style={{ width: TIME_COL_W }}>
+            <div className="shrink-0 relative select-none pointer-events-none" style={{ width: timeColW }}>
               {hourLabels.map(h => (
                 <div
                   key={h}
                   className="absolute inset-x-0 flex justify-end pr-2.5"
                   style={{ top: (h - GRID_START) * hourHeight }}
                 >
-                  <span className={`text-[10px] font-semibold tabular-nums text-[#aaa] dark:text-[#555] leading-none ${h === GRID_START ? 'translate-y-0' : '-translate-y-[6px]'}`}>
-                    {fmtLabel(h)}
+                  <span className={`${compact ? 'text-[8px]' : 'text-[10px]'} font-semibold tabular-nums text-[#aaa] dark:text-[#555] leading-none ${h === GRID_START ? 'translate-y-0' : '-translate-y-[6px]'}`}>
+                    {compact ? (h > 12 ? `${h-12}p` : `${h}a`) : fmtLabel(h)}
                   </span>
                 </div>
               ))}
@@ -358,17 +361,19 @@ export default function WeeklyGrid({
                           {/* solid accent strip, Apple Calendar style */}
                           <div className="absolute left-0 inset-y-0 w-[4px] rounded-l-[5px]" style={{ backgroundColor: block.color }} />
                           <div className="relative h-full flex flex-col justify-start pl-[10px] pr-2 py-1.5 gap-[3px]">
-                            <span className="text-[11px] font-bold leading-none truncate" style={{ color: block.color }}>
+                            <span className={`${compact ? 'text-[8px]' : 'text-[11px]'} font-bold leading-none truncate`} style={{ color: block.color }}>
                               {block.courseCode}
                               {!isLec && (
-                                <span className="ml-1 text-[8px] font-bold tracking-wide uppercase align-middle" style={{ color: block.color, opacity: 0.7 }}>
+                                <span className={`ml-0.5 ${compact ? 'text-[6px]' : 'text-[8px]'} font-bold tracking-wide uppercase align-middle`} style={{ color: block.color, opacity: 0.7 }}>
                                   {block.type}
                                 </span>
                               )}
                             </span>
-                            <span className="text-[9.5px] leading-none truncate font-semibold tabular-nums" style={{ color: block.color, opacity: 0.75 }}>
-                              {fmtTime(block.start)} - {fmtTime(block.end)}
-                            </span>
+                            {!compact && (
+                              <span className="text-[9.5px] leading-none truncate font-semibold tabular-nums" style={{ color: block.color, opacity: 0.75 }}>
+                                {fmtTime(block.start)} - {fmtTime(block.end)}
+                              </span>
+                            )}
                           </div>
                         </button>
                       )
