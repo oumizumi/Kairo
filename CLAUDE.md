@@ -87,7 +87,7 @@ Served from `services/course_scraper/data/`. Loaded by Next.js API routes at run
         }
       }
       units?: string            // "3" (only in complete.json)
-      description?: string      // (only in complete.json)
+      description?: string      // (only in uh complete.json)
     }
   ]
 }
