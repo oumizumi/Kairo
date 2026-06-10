@@ -3,7 +3,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import type { Course } from '@/types/course'
 
-const DATA_DIR = join(process.cwd(), '..', 'services', 'course_scraper', 'data')
+const DATA_DIR = join(process.cwd(), 'data')
 
 const TERM_FILES: Record<string, string> = {
   summer2026: 'all_courses_spring_summer_2026.json',

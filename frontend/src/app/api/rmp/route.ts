@@ -9,7 +9,7 @@ export interface RmpEntry {
   rmp_id?: string
 }
 
-const RMP_FILE = join(process.cwd(), '..', 'services', 'rmp_scraper', 'professors_rmp_data.json')
+const RMP_FILE = join(process.cwd(), 'data', 'professors_rmp_data.json')
 
 let cache: Record<string, RmpEntry> | null = null
 let cacheMtime = 0
