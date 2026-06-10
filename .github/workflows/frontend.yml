@@ -50,7 +50,7 @@ jobs:
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.MY_SEC_KEY }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Post build status
         if: always() && github.event_name == 'pull_request'
@@ -103,7 +103,7 @@ jobs:
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.MY_SEC_KEY }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Post preview URL
         uses: actions/github-script@v7
