@@ -37,7 +37,7 @@ jobs:
         run: npm install -g netlify-cli
 
       - name: Build
-        run: netlify build
+        run: netlify build --no-cache
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
