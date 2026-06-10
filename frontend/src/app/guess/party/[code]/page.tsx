@@ -10,6 +10,7 @@ import { GUESS_LOCATIONS } from '@/data/guess_locations'
 import type { MapPoint } from '@/components/guess/GuessMap'
 import type { PlayerPin } from '@/components/guess/PartyGuessMap'
 import type { PartyGuess, PartyPlayer, PartyRoom } from '@/types/party'
+import GuessBackdrop from '@/components/guess/GuessBackdrop'
 
 const PartyGuessMap = dynamicImport(() => import('@/components/guess/PartyGuessMap'), {
   ssr: false,
@@ -474,17 +475,19 @@ export default function PartyRoomPage() {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-[#0a0a0a] flex items-center justify-center">
-        <span className="text-[#888] text-sm">Loading…</span>
+      <div className="fixed inset-0 flex items-center justify-center">
+        <GuessBackdrop dimmer />
+        <span className="relative z-10 text-white/70 text-sm bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-5 py-2.5">Loading…</span>
       </div>
     )
   }
 
   if (error || !room) {
     return (
-      <div className="fixed inset-0 bg-[#0a0a0a] flex flex-col items-center justify-center gap-4">
-        <p className="text-white font-bold text-lg">{error ?? 'Room not found'}</p>
-        <a href="/guess/party" className="text-[#d4254a] text-sm font-semibold hover:underline">Back to party</a>
+      <div className="fixed inset-0 flex flex-col items-center justify-center gap-4">
+        <GuessBackdrop dimmer />
+        <p className="relative z-10 text-white font-bold text-lg [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">{error ?? 'Room not found'}</p>
+        <a href="/guess/party" className="relative z-10 text-[#ff465f] text-sm font-semibold hover:underline">Back to party</a>
       </div>
     )
   }
@@ -494,16 +497,18 @@ export default function PartyRoomPage() {
   if (!hasJoined) {
     if (room.phase !== 'lobby') {
       return (
-        <div className="fixed inset-0 bg-[#0a0a0a] flex flex-col items-center justify-center gap-4">
-          <p className="text-white font-bold text-lg">Game already in progress</p>
-          <a href="/guess/party" className="text-[#d4254a] text-sm font-semibold hover:underline">Back to party</a>
+        <div className="fixed inset-0 flex flex-col items-center justify-center gap-4">
+          <GuessBackdrop dimmer />
+          <p className="relative z-10 text-white font-bold text-lg [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">Game already in progress</p>
+          <a href="/guess/party" className="relative z-10 text-[#ff465f] text-sm font-semibold hover:underline">Back to party</a>
         </div>
       )
     }
     return (
-      <div className="fixed inset-0 bg-[#0a0a0a] flex items-center justify-center px-6">
-        <div className="w-full max-w-sm bg-white/[0.04] border border-white/10 rounded-2xl p-6 flex flex-col gap-4">
-          <p className="text-white font-bold text-lg text-center">Join room <span className="font-mono text-[#d4254a]">{code}</span></p>
+      <div key="join" className="fixed inset-0 flex items-center justify-center px-6 animate-screen-enter">
+        <GuessBackdrop />
+        <div className="relative z-10 w-full max-w-sm bg-black/45 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_24px_60px_rgba(0,0,0,0.4)] animate-fade-up">
+          <p className="text-white font-bold text-lg text-center">Join room <span className="font-mono text-[#ff465f]">{code}</span></p>
           <input
             type="text"
             maxLength={24}
@@ -511,9 +516,9 @@ export default function PartyRoomPage() {
             value={joinName}
             onChange={e => { setJoinName(e.target.value); setJoinError('') }}
             onKeyDown={e => e.key === 'Enter' && joinDirectly()}
-            className="w-full bg-white/[0.06] border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm outline-none focus:border-[#d4254a] transition-colors"
+            className="w-full bg-white/[0.07] border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm outline-none focus:border-[#ff465f] transition-colors"
           />
-          {joinError && <p className="text-[#d4254a] text-sm">{joinError}</p>}
+          {joinError && <p className="text-[#ff465f] text-sm">{joinError}</p>}
           <button
             onClick={joinDirectly}
             disabled={joining}
@@ -535,48 +540,50 @@ export default function PartyRoomPage() {
       navigator.clipboard?.writeText(code)
     }
     return (
-      <div className="fixed inset-0 overflow-y-auto bg-[#0a0a0a]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-5%,rgba(143,0,26,0.28),transparent)] pointer-events-none" />
+      <div key="lobby" className="fixed inset-0 overflow-y-auto animate-screen-enter">
+        <GuessBackdrop />
 
-        <div className="relative max-w-5xl mx-auto px-6 pt-6">
-          <a href="/guess/party" className="text-white/60 hover:text-white font-semibold text-sm transition-colors">← Party</a>
+        <div className="relative z-10 max-w-5xl mx-auto px-6 pt-6">
+          <a
+            href="/guess/party"
+            className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-sm font-semibold text-white/80 hover:text-white hover:border-white/30 transition-all"
+          >
+            ← Party
+          </a>
         </div>
 
-        <main className="relative flex flex-col items-center px-6 pb-16 pt-10 min-h-[calc(100vh-72px)]">
+        <main className="relative z-10 min-h-screen flex flex-col items-center px-6 pt-[10vh] pb-16">
 
           {/* code hero */}
-          <p className="text-white/35 text-xs font-bold uppercase tracking-[0.3em] mb-3">Room code</p>
+          <p className="text-white/70 text-xs sm:text-sm font-bold uppercase tracking-[0.45em] mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">Room code</p>
           <button
             onClick={copyCode}
-            className="font-mono text-6xl sm:text-7xl font-extrabold text-white tracking-[0.15em] hover:text-[#d4254a] transition-colors mb-2"
+            className="w-fit font-mono text-[clamp(48px,9vw,104px)] leading-[0.9] font-extrabold text-white tracking-[0.12em] hover:text-[#ff465f] transition-colors mb-2 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]"
           >
             {code}
           </button>
-          <p className="text-white/25 text-xs mb-10">tap to copy · share with friends</p>
+          <p className="text-white/50 text-xs font-semibold mb-8 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">tap to copy · share with friends</p>
 
-          <div className="w-full max-w-sm flex flex-col gap-6">
+          <div className="w-full max-w-md flex flex-col gap-6 animate-fade-up [animation-delay:120ms]">
 
             {/* room info */}
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-xs font-bold text-[#d4254a]/80 border border-[#d4254a]/25 bg-[#8f001a]/15 rounded-full px-3 py-1">{modeLabel}</span>
-              <span className="text-xs text-white/30">{ROUNDS_PER_GAME} rounds</span>
-              <span className="text-xs text-white/30">{room.timer_setting ? `${room.timer_setting}s` : 'no timer'}</span>
+            <div className="flex items-center gap-3 flex-wrap justify-center">
+              <span className="text-xs font-extrabold uppercase tracking-wide text-white border-2 border-[#ff465f] bg-[#8f001a]/50 backdrop-blur-sm rounded-full px-4 py-1.5">{modeLabel}</span>
+              <span className="text-xs font-extrabold uppercase tracking-wide text-white/60 border-2 border-white/25 bg-black/25 backdrop-blur-sm rounded-full px-4 py-1.5">{ROUNDS_PER_GAME} rounds</span>
+              <span className="text-xs font-extrabold uppercase tracking-wide text-white/60 border-2 border-white/25 bg-black/25 backdrop-blur-sm rounded-full px-4 py-1.5">{room.timer_setting ? `${room.timer_setting}s` : 'no timer'}</span>
             </div>
 
             {/* players */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col divide-y divide-white/15">
               {players.map((p, i) => (
-                <div key={p.id} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.07]">
-                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: PARTY_COLORS[i % PARTY_COLORS.length] }} />
-                  <span className="flex-1 text-sm font-semibold text-white truncate">{p.display_name}</span>
+                <div key={p.id} className="flex items-center gap-3 py-3">
+                  <span className="w-3 h-3 rounded-full shrink-0 shadow-[0_0_10px_rgba(0,0,0,0.5)]" style={{ background: PARTY_COLORS[i % PARTY_COLORS.length] }} />
+                  <span className="flex-1 text-base font-extrabold italic text-white truncate [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{p.display_name}</span>
                   {p.id === room.host_player_id && (
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">host</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">host</span>
                   )}
-                  {p.id === myPlayerId && p.id !== room.host_player_id && (
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#d4254a]/60">you</span>
-                  )}
-                  {p.id === myPlayerId && p.id === room.host_player_id && (
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#d4254a]/60">you</span>
+                  {p.id === myPlayerId && (
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#ff465f] [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">you</span>
                   )}
                   {room.mode === 'duos' && isHost && (
                     <div className="flex gap-1.5">
@@ -586,8 +593,8 @@ export default function PartyRoomPage() {
                           onClick={() => assignTeam(p.id, t)}
                           className={`text-xs font-bold px-2 py-0.5 rounded border transition-all ${
                             p.team === t
-                              ? 'bg-[#8f001a]/30 border-[#d4254a]/60 text-[#d4254a]'
-                              : 'border-white/15 text-white/35 hover:border-white/30 hover:text-white/60'
+                              ? 'bg-[#8f001a]/40 border-[#ff465f]/60 text-[#ff465f]'
+                              : 'border-white/15 text-white/40 hover:border-white/35 hover:text-white/70'
                           }`}
                         >
                           T{t}
@@ -604,22 +611,24 @@ export default function PartyRoomPage() {
 
             {/* status / start */}
             {isHost ? (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 items-center">
                 {!canStart && (
-                  <p className="text-white/30 text-xs text-center">
-                    Waiting for {minPlayers - players.length} more player{minPlayers - players.length !== 1 ? 's' : ''}
+                  <p className="text-white/55 text-xs font-semibold text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
+                    Waiting for {minPlayers - players.length} more player{minPlayers - players.length !== 1 ? 's' : ''}…
                   </p>
                 )}
                 <button
                   onClick={startGame}
                   disabled={!canStart}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-sm tracking-wide hover:from-[#a30020] hover:to-[#cc0024] transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_8px_28px_rgba(143,0,26,0.4)]"
+                  className="group w-fit py-1 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  Start Game
+                  <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 drop-shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
+                    Start →
+                  </span>
                 </button>
               </div>
             ) : (
-              <p className="text-white/30 text-xs text-center">Waiting for host to start</p>
+              <p className="text-white/55 text-xs font-semibold text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">Waiting for host to start…</p>
             )}
 
           </div>
@@ -634,10 +643,13 @@ export default function PartyRoomPage() {
     const sorted = [...players].sort((a, b) => totalPoints(b.id) - totalPoints(a.id))
 
     return (
-      <div className="fixed inset-0 overflow-y-auto bg-[#0a0a0a]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_-10%,rgba(143,0,26,0.35),transparent)] pointer-events-none" />
-        <main className="relative flex flex-col items-center px-6 py-16 min-h-screen justify-center">
-          <p className="text-[#d4254a] font-bold text-sm tracking-[0.3em] uppercase mb-4">Game Over</p>
+      <div key="done" className="fixed inset-0 overflow-y-auto animate-screen-enter">
+        <GuessBackdrop dimmer />
+        <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-16">
+          <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-2 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">The end</p>
+          <h2 className="text-[clamp(44px,7vw,84px)] leading-[0.9] font-extrabold italic uppercase tracking-[-0.03em] text-white mb-8 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]">
+            Game over
+          </h2>
 
           {/* Duel result */}
           {room.mode === 'duel' && players.length === 2 && (() => {
@@ -646,8 +658,8 @@ export default function PartyRoomPage() {
             const loser = winner.id === p1.id ? p2 : p1
             const winnerColor = playerColorMap.get(winner.id) ?? PARTY_COLORS[0]
             return (
-              <div className="w-full max-w-md mb-8">
-                <p className="text-center text-2xl font-extrabold text-white mb-6">
+              <div className="w-full max-w-md mb-8 animate-fade-up [animation-delay:120ms]">
+                <p className="text-3xl font-extrabold italic uppercase tracking-tight text-white mb-6 text-center [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
                   <span style={{ color: winnerColor }}>{winner.display_name}</span> wins!
                 </p>
                 {[winner, loser].map((p, i) => (
@@ -665,9 +677,9 @@ export default function PartyRoomPage() {
 
           {/* Duos result */}
           {room.mode === 'duos' && (
-            <div className="w-full max-w-md mb-8">
+            <div className="w-full max-w-md mb-8 animate-fade-up [animation-delay:120ms]">
               {[1, 2].map(team => (
-                <div key={team} className="bg-white/[0.04] border border-white/10 rounded-xl p-4 mb-3">
+                <div key={team} className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-4 mb-3 shadow-[0_16px_40px_rgba(0,0,0,0.35)]">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-bold text-white">Team {team}</span>
                     <span className="text-lg font-extrabold text-white tabular-nums">{teamTotal(team).toLocaleString()}</span>
@@ -686,33 +698,31 @@ export default function PartyRoomPage() {
 
           {/* FFA leaderboard */}
           {room.mode === 'ffa' && (
-            <div className="w-full max-w-md mb-8 flex flex-col gap-2">
+            <div className="w-full max-w-md mb-8 flex flex-col divide-y divide-white/15 animate-fade-up [animation-delay:120ms]">
               {sorted.map((p, i) => (
-                <div key={p.id} className="bg-white/[0.04] border border-white/10 rounded-xl px-5 py-3 flex items-center gap-3">
-                  <span className="text-lg font-extrabold text-white/40 w-7 text-center tabular-nums">#{i + 1}</span>
-                  <span className="w-3 h-3 rounded-full shrink-0" style={{ background: playerColorMap.get(p.id) ?? PARTY_COLORS[i] }} />
-                  <span className="flex-1 text-sm font-semibold text-white">{p.display_name}{p.id === myPlayerId ? ' (you)' : ''}</span>
-                  <span className="text-sm font-extrabold text-white tabular-nums">{totalPoints(p.id).toLocaleString()}</span>
+                <div key={p.id} className="flex items-center gap-3 py-3">
+                  <span className="text-xl font-extrabold italic text-white/40 w-9 tabular-nums [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">#{i + 1}</span>
+                  <span className="w-3 h-3 rounded-full shrink-0 shadow-[0_0_10px_rgba(0,0,0,0.5)]" style={{ background: playerColorMap.get(p.id) ?? PARTY_COLORS[i] }} />
+                  <span className="flex-1 text-base font-extrabold italic text-white truncate [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{p.display_name}{p.id === myPlayerId ? ' (you)' : ''}</span>
+                  <span className="text-base font-extrabold text-white tabular-nums [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{totalPoints(p.id).toLocaleString()}</span>
                 </div>
               ))}
             </div>
           )}
 
-          <div className="flex gap-3 w-full max-w-md">
+          <div className="flex flex-col items-center gap-1 animate-fade-up [animation-delay:180ms]">
             {isHost && (
-              <button
-                onClick={playAgain}
-                className="flex-1 py-4 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-base hover:from-[#a30020] hover:to-[#cc0024] transition-all shadow-[0_8px_28px_rgba(143,0,26,0.4)]"
-              >
-                Play Again
+              <button onClick={playAgain} className="group py-1">
+                <span className="block text-center text-3xl sm:text-4xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
+                  Play again
+                </span>
               </button>
             )}
-            {!isHost && <p className="text-[#888] text-sm self-center">Waiting for host to start a new game…</p>}
-            <a
-              href="/guess/party"
-              className="flex-1 py-4 rounded-xl border-2 border-white/15 text-white/70 font-bold text-base text-center hover:border-white/40 hover:text-white transition-all"
-            >
-              Back to Party
+            {!isHost && <p className="text-white/55 text-sm font-semibold mb-2 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">Waiting for host to start a new game…</p>}
+            <a href="/guess/party" className="group py-1">
+              <span className="block text-center text-3xl sm:text-4xl font-extrabold italic uppercase tracking-tight text-white/60 group-hover:text-white group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
+                Back to party
+              </span>
             </a>
           </div>
         </main>
@@ -739,7 +749,7 @@ export default function PartyRoomPage() {
   const hasMyGuess = roundGuesses.some(g => g.player_id === myPlayerId)
 
   return (
-    <div className="fixed inset-0 bg-[#0a0a0a] overflow-hidden">
+    <div key="game" className="fixed inset-0 bg-[#0a0a0a] overflow-hidden animate-screen-enter">
       {/* full-screen photo */}
       <div className={`absolute inset-0 ${isReveal ? 'pointer-events-none' : ''}`}>
         {currentLocation && <PhotoViewer src={currentLocation.image} resetKey={room.round_index} />}

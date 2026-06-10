@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { GUESS_LOCATIONS, type GuessLocation } from '@/data/guess_locations'
 import type { MapPoint } from '@/components/guess/GuessMap'
 
@@ -344,118 +345,70 @@ export default function GuessPage() {
   // ---------- start screen ----------
   if (phase === 'start') {
     return (
-      <div className="fixed inset-0 overflow-y-auto bg-[#0a0a0a]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-5%,rgba(143,0,26,0.38),transparent)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_90%_105%,rgba(143,0,26,0.15),transparent)] pointer-events-none" />
-
-        <div className="relative max-w-5xl mx-auto px-6 pt-6">
+      <div key="start" className="fixed inset-0 overflow-y-auto animate-screen-enter">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 pt-6">
           {soloConfig ? (
             <button
               onClick={() => setSoloConfig(false)}
-              className="text-white/60 hover:text-white font-semibold text-sm transition-colors"
+              className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-sm font-semibold text-white/80 hover:text-white hover:border-white/30 transition-all"
             >
               ← back
             </button>
           ) : (
-            <a href="/" className="text-white/60 hover:text-white font-semibold text-sm transition-colors">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-sm font-semibold text-white/80 hover:text-white hover:border-white/30 transition-all"
+            >
               ← uomap
-            </a>
+            </Link>
           )}
         </div>
 
-        <main className="relative flex flex-col items-center justify-center px-6 pb-16 pt-10 min-h-[calc(100vh-80px)]">
-          <p className="text-[#d4254a] font-bold text-xs tracking-[0.35em] uppercase mb-4">
+        <p className="absolute z-10 bottom-7 right-8 hidden sm:block text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
+          uomap presents
+        </p>
+
+        <main className="relative z-10 min-h-screen flex flex-col items-center px-6 pt-[11vh] pb-16">
+          <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">
             University of Ottawa
           </p>
-          <h1 className="text-7xl sm:text-8xl font-extrabold text-white tracking-tight mb-12">
-            uo<span className="text-[#d4254a]">guessr</span>
+          <h1 className="text-[clamp(58px,10vw,120px)] leading-[0.85] font-extrabold italic uppercase tracking-[-0.04em] text-white mb-4 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]">
+            UO<span className="text-[#ff465f]">GUESSR</span>
           </h1>
+          <p className="text-white/65 text-base sm:text-lg font-medium mb-12 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up [animation-delay:120ms]">
+            Can you find your way around uOttawa?
+          </p>
 
           {!soloConfig ? (
-            /* mode cards */
-            <div className="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Solo */}
-              <button
-                onClick={() => setSoloConfig(true)}
-                className="group text-left bg-white/[0.035] border border-white/[0.08] hover:border-[#d4254a]/50 hover:bg-[#8f001a]/[0.12] rounded-2xl p-7 flex flex-col gap-5 transition-all duration-200"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#8f001a]/25 border border-[#d4254a]/25 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-[#d4254a]" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8z" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round"/>
-                    <circle cx="12" cy="10" r="3" fill="currentColor"/>
-                  </svg>
-                </div>
-
-                <div>
-                  <p className="text-white font-extrabold text-xl mb-2">Solo</p>
-                  <p className="text-white/45 text-sm leading-relaxed">
-                    5 rounds, one photo each. Drop your pin and score up to 1,000 points per round based on accuracy.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2 flex-wrap">
-                  {['5 rounds', '5,000 pts max', 'campus only'].map(c => (
-                    <span key={c} className="text-[11px] font-semibold text-white/30 border border-white/[0.1] rounded-full px-2.5 py-1">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-
-                <span className="text-sm font-bold text-[#d4254a] group-hover:underline underline-offset-4 mt-auto">
-                  Play solo →
+            /* main menu */
+            <nav className="flex flex-col items-center gap-2 animate-fade-up [animation-delay:180ms]">
+              <button onClick={() => setSoloConfig(true)} className="group py-1">
+                <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-white/70 group-hover:text-white group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
+                  Solo
                 </span>
               </button>
-
-              {/* Party */}
-              <a
-                href="/guess/party"
-                className="group text-left bg-white/[0.035] border border-white/[0.08] hover:border-[#d4254a]/50 hover:bg-[#8f001a]/[0.12] rounded-2xl p-7 flex flex-col gap-5 transition-all duration-200"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#8f001a]/25 border border-[#d4254a]/25 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-[#d4254a]" viewBox="0 0 24 24" fill="none">
-                    <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.75"/>
-                    <path d="M3 20c0-3.31 2.69-6 6-6" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
-                    <circle cx="17" cy="8" r="3" stroke="currentColor" strokeWidth="1.75" strokeOpacity="0.5"/>
-                    <path d="M21 20c0-3.31-2.69-6-6-6" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeOpacity="0.5"/>
-                  </svg>
-                </div>
-
-                <div>
-                  <p className="text-white font-extrabold text-xl mb-2">Party</p>
-                  <p className="text-white/45 text-sm leading-relaxed">
-                    Play live with friends. 1v1 duels with HP bars, free-for-all, or 2v2 team battles.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2 flex-wrap">
-                  {['2–5 players', 'real-time', '3 modes'].map(c => (
-                    <span key={c} className="text-[11px] font-semibold text-white/30 border border-white/[0.1] rounded-full px-2.5 py-1">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-
-                <span className="text-sm font-bold text-[#d4254a] group-hover:underline underline-offset-4 mt-auto">
-                  Create or join →
+              <Link href="/guess/party" className="group py-1">
+                <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-white/70 group-hover:text-white group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
+                  Party
                 </span>
-              </a>
-            </div>
+              </Link>
+            </nav>
           ) : (
             /* solo timer config */
-            <div className="w-full max-w-xs flex flex-col items-center gap-8">
-              <div className="w-full">
-                <p className="text-xs font-bold uppercase tracking-widest text-white/35 mb-4 text-center">
+            <div className="flex flex-col items-center gap-7 animate-fade-up">
+              <div className="flex flex-col items-center">
+                <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/55 mb-4 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
                   Time per round
                 </p>
-                <div className="grid grid-cols-3 gap-2.5">
+                <div className="flex gap-2.5">
                   {([30, 60, null] as TimerSetting[]).map((t) => (
                     <button
                       key={String(t)}
                       onClick={() => setTimerSetting(t)}
-                      className={`py-3.5 rounded-xl text-sm font-bold border-2 transition-all ${
+                      className={`px-7 py-3 rounded-full text-sm font-extrabold uppercase tracking-wide border-2 backdrop-blur-sm transition-all ${
                         timerSetting === t
-                          ? 'border-[#d4254a] text-white bg-[#8f001a]/30 shadow-[0_0_28px_rgba(143,0,26,0.45)]'
-                          : 'border-white/[0.09] text-white/45 hover:border-white/25 hover:text-white/75'
+                          ? 'border-[#ff465f] text-white bg-[#8f001a]/50 shadow-[0_0_28px_rgba(143,0,26,0.55)]'
+                          : 'border-white/25 text-white/60 bg-black/25 hover:border-white/50 hover:text-white'
                       }`}
                     >
                       {t === null ? 'None' : `${t}s`}
@@ -464,11 +417,10 @@ export default function GuessPage() {
                 </div>
               </div>
 
-              <button
-                onClick={startGame}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-lg tracking-wide hover:from-[#a30020] hover:to-[#cc0024] transition-all shadow-[0_8px_36px_rgba(143,0,26,0.55)] hover:shadow-[0_10px_44px_rgba(143,0,26,0.7)] hover:-translate-y-0.5"
-              >
-                PLAY
+              <button onClick={startGame} className="group py-1">
+                <span className="block text-center text-5xl sm:text-6xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 drop-shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
+                  Start →
+                </span>
               </button>
             </div>
           )}
@@ -480,29 +432,29 @@ export default function GuessPage() {
   // ---------- end screen ----------
   if (phase === 'done') {
     return (
-      <div className="fixed inset-0 overflow-y-auto bg-[#0a0a0a]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_-10%,rgba(143,0,26,0.35),transparent)] pointer-events-none" />
+      <div key="done" className="fixed inset-0 overflow-y-auto animate-screen-enter">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/30 to-black/10 pointer-events-none z-0" />
 
-        <main className="relative flex flex-col items-center px-6 py-16 min-h-screen justify-center">
-          <p className="text-[#d4254a] font-bold text-sm tracking-[0.3em] uppercase mb-4">
-            Game over
+        <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-16">
+          <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">
+            Final score
           </p>
-          <p className="text-7xl sm:text-8xl font-extrabold text-white tabular-nums tracking-tight mb-2">
+          <p className="text-[clamp(64px,10vw,120px)] leading-[0.9] font-extrabold italic text-white tabular-nums tracking-[-0.03em] mb-2 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]">
             {displayTotal.toLocaleString()}
           </p>
-          <p className="text-[#888] text-sm mb-8">
+          <p className="text-white/55 text-sm font-semibold mb-8 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] animate-fade-up [animation-delay:120ms]">
             out of {(rounds.length * MAX_POINTS).toLocaleString()} points
           </p>
 
-          <div className="w-full max-w-lg mb-10">
+          <div className="w-full max-w-lg mb-10 animate-fade-up [animation-delay:160ms]">
             <ScoreBar points={totalScore} max={rounds.length * MAX_POINTS} delayMs={300} />
           </div>
 
-          <div className="w-full max-w-lg flex flex-col gap-2.5 mb-10">
+          <div className="w-full max-w-lg flex flex-col gap-2.5 mb-10 animate-fade-up [animation-delay:200ms]">
             {results.map((r, i) => (
               <div
                 key={r.location.id}
-                className="bg-white/[0.04] border border-white/10 rounded-xl px-5 py-4 backdrop-blur"
+                className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl px-5 py-4 shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
               >
                 <div className="flex items-center justify-between mb-2.5">
                   <div className="flex items-center gap-3 min-w-0">
@@ -532,19 +484,17 @@ export default function GuessPage() {
             ))}
           </div>
 
-          <div className="flex gap-3 w-full max-w-lg">
-            <button
-              onClick={startGame}
-              className="flex-1 py-4 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-base hover:from-[#a30020] hover:to-[#cc0024] transition-all shadow-[0_8px_32px_rgba(143,0,26,0.5)]"
-            >
-              Play again
+          <div className="flex flex-col items-center gap-1 animate-fade-up [animation-delay:240ms]">
+            <button onClick={startGame} className="group py-1">
+              <span className="block text-center text-3xl sm:text-4xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
+                Play again
+              </span>
             </button>
-            <a
-              href="/"
-              className="flex-1 py-4 rounded-xl border-2 border-white/15 text-white/70 font-bold text-base text-center hover:border-white/40 hover:text-white transition-all"
-            >
-              Back home
-            </a>
+            <Link href="/" className="group py-1">
+              <span className="block text-center text-3xl sm:text-4xl font-extrabold italic uppercase tracking-tight text-white/60 group-hover:text-white group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
+                Back home
+              </span>
+            </Link>
           </div>
         </main>
       </div>
@@ -555,7 +505,7 @@ export default function GuessPage() {
   const isReveal = phase === 'reveal'
 
   return (
-    <div className="fixed inset-0 bg-[#0a0a0a] overflow-hidden">
+    <div key="game" className="fixed inset-0 bg-[#0a0a0a] overflow-hidden animate-screen-enter">
       {/* full-screen photo */}
       <div className={`absolute inset-0 ${isReveal ? 'pointer-events-none' : ''}`}>
         {current && <PhotoViewer src={current.image} resetKey={roundIndex} />}
@@ -563,12 +513,12 @@ export default function GuessPage() {
 
       {/* top HUD */}
       <div className="absolute top-0 inset-x-0 p-3 sm:p-4 flex items-start justify-between gap-3 pointer-events-none z-[1100]">
-        <a
+        <Link
           href="/"
           className="pointer-events-auto bg-black/60 backdrop-blur border border-white/15 rounded-full px-4 py-2 text-sm font-bold text-white hover:bg-black/80 transition-colors shadow-lg"
         >
           uo<span className="text-[#d4254a]">guessr</span>
-        </a>
+        </Link>
 
         <div className="flex items-center gap-2 sm:gap-3">
           {timerSetting !== null && !isReveal && (

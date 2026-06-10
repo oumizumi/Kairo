@@ -1,7 +1,5 @@
 'use client'
 
-export const dynamic = 'force-dynamic'
-
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
@@ -98,72 +96,78 @@ export default function PartyPage() {
   const selectedMode = MODES.find(m => m.value === mode)!
 
   return (
-    <div className="fixed inset-0 overflow-y-auto bg-[#0a0a0a]">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-5%,rgba(143,0,26,0.32),transparent)] pointer-events-none" />
-
-      <div className="relative max-w-5xl mx-auto px-6 pt-6">
-        <a href="/guess" className="text-white/60 hover:text-white font-semibold text-sm transition-colors">
+    <div className="fixed inset-0 overflow-y-auto">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-6">
+        <a
+          href="/guess"
+          className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-sm font-semibold text-white/80 hover:text-white hover:border-white/30 transition-all"
+        >
           ← uoguessr
         </a>
       </div>
 
-      <main className="relative flex flex-col items-center justify-center px-6 pb-16 pt-10 min-h-[calc(100vh-72px)]">
-        <p className="text-[#d4254a] font-bold text-xs tracking-[0.35em] uppercase mb-4">Multiplayer</p>
-        <h1 className="text-6xl sm:text-7xl font-extrabold text-white tracking-tight mb-10">
+      <main className="relative z-10 min-h-screen flex flex-col items-center px-6 pt-[11vh] pb-16">
+        <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">
+          Multiplayer
+        </p>
+        <h1 className="text-[clamp(58px,10vw,120px)] leading-[0.85] font-extrabold italic uppercase tracking-[-0.04em] text-white mb-10 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]">
           Party
         </h1>
 
-        <div className="w-full max-w-sm flex flex-col gap-6">
+        <div className="w-full max-w-md flex flex-col gap-7 animate-fade-up [animation-delay:120ms]">
 
           {/* tab toggle */}
-          <div className="flex bg-white/[0.05] rounded-xl p-1">
+          <div className="flex gap-7 justify-center">
             {(['create', 'join'] as const).map(t => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${
-                  tab === t
-                    ? 'bg-white/10 text-white'
-                    : 'text-white/35 hover:text-white/60'
+                className={`relative pb-2 text-xl font-extrabold italic uppercase tracking-tight transition-colors [text-shadow:0_2px_12px_rgba(0,0,0,0.8)] ${
+                  tab === t ? 'text-white' : 'text-white/40 hover:text-white/70'
                 }`}
               >
                 {t === 'create' ? 'New Room' : 'Join Room'}
+                <span
+                  className={`absolute bottom-0 left-0 h-[3px] rounded-full bg-[#ff465f] transition-all duration-300 ${
+                    tab === t ? 'w-full' : 'w-0'
+                  }`}
+                />
               </button>
             ))}
           </div>
 
           {tab === 'create' ? (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
               {/* mode */}
               <div className="flex flex-col gap-2">
-                <div className="grid grid-cols-3 gap-2">
+                <div className="flex gap-2.5 flex-wrap justify-center">
                   {MODES.map(m => (
                     <button
                       key={m.value}
                       onClick={() => setMode(m.value)}
-                      className={`py-2.5 rounded-xl text-sm font-bold border-2 transition-all ${
+                      className={`px-6 py-2.5 rounded-full text-sm font-extrabold uppercase tracking-wide border-2 backdrop-blur-sm transition-all ${
                         mode === m.value
-                          ? 'border-[#d4254a] text-white bg-[#8f001a]/25'
-                          : 'border-white/[0.09] text-white/40 hover:border-white/20 hover:text-white/70'
+                          ? 'border-[#ff465f] text-white bg-[#8f001a]/50 shadow-[0_0_24px_rgba(143,0,26,0.5)]'
+                          : 'border-white/25 text-white/60 bg-black/25 hover:border-white/50 hover:text-white'
                       }`}
                     >
                       {m.label}
                     </button>
                   ))}
                 </div>
-                <p className="text-xs text-white/35 text-center">{selectedMode.desc}</p>
+                <p className="text-xs font-semibold text-white/50 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{selectedMode.desc}</p>
               </div>
 
               {/* timer */}
-              <div className="grid grid-cols-3 gap-2">
+              <div className="flex gap-2.5 flex-wrap justify-center">
                 {([30, 60, null] as (number | null)[]).map(t => (
                   <button
                     key={String(t)}
                     onClick={() => setTimer(t)}
-                    className={`py-2.5 rounded-xl text-sm font-bold border-2 transition-all ${
+                    className={`px-6 py-2.5 rounded-full text-sm font-extrabold uppercase tracking-wide border-2 backdrop-blur-sm transition-all ${
                       timer === t
-                        ? 'border-[#d4254a] text-white bg-[#8f001a]/25'
-                        : 'border-white/[0.09] text-white/40 hover:border-white/20 hover:text-white/70'
+                        ? 'border-[#ff465f] text-white bg-[#8f001a]/50 shadow-[0_0_24px_rgba(143,0,26,0.5)]'
+                        : 'border-white/25 text-white/60 bg-black/25 hover:border-white/50 hover:text-white'
                     }`}
                   >
                     {t === null ? 'No limit' : `${t}s`}
@@ -176,42 +180,44 @@ export default function PartyPage() {
                 <input
                   type="text"
                   maxLength={24}
-                  placeholder="Your name"
+                  placeholder="YOUR NAME"
                   value={createName}
                   onChange={e => { setCreateName(e.target.value); setCreateError('') }}
                   onKeyDown={e => e.key === 'Enter' && createRoom()}
-                  className={`w-full bg-white/[0.05] border rounded-xl px-4 py-3 text-white placeholder-white/25 text-sm outline-none transition-colors ${
-                    createError ? 'border-[#d4254a]/70 bg-[#d4254a]/[0.04]' : 'border-white/[0.1] focus:border-[#d4254a]/70'
+                  className={`w-full bg-transparent border-0 border-b-2 rounded-none px-1 py-2.5 text-lg font-extrabold italic tracking-wide text-white text-center placeholder-white/30 outline-none transition-colors [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] ${
+                    createError ? 'border-[#ff465f]' : 'border-white/25 focus:border-[#ff465f]'
                   }`}
                 />
                 {createError && (
-                  <p className="text-[#d4254a] text-xs font-semibold px-1">{createError}</p>
+                  <p className="text-[#ff465f] text-xs font-bold px-1 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{createError}</p>
                 )}
               </div>
 
               <button
                 onClick={createRoom}
                 disabled={creating}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-sm tracking-wide hover:from-[#a30020] hover:to-[#cc0024] transition-all disabled:opacity-50 shadow-[0_8px_28px_rgba(143,0,26,0.4)]"
+                className="group w-fit mx-auto py-1 disabled:opacity-50"
               >
-                {creating ? 'Creating…' : 'Create Room'}
+                <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 drop-shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
+                  {creating ? 'Creating…' : 'Create →'}
+                </span>
               </button>
             </div>
           ) : (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-1.5">
                 <input
                   type="text"
                   maxLength={6}
-                  placeholder="Room code"
+                  placeholder="ROOM CODE"
                   value={joinCode}
                   onChange={e => { setJoinCode(e.target.value.toUpperCase()); setJoinError('') }}
-                  className={`w-full bg-white/[0.05] border rounded-xl px-4 py-3 text-white placeholder-white/25 text-sm font-mono font-bold tracking-[0.25em] uppercase outline-none transition-colors ${
-                    joinError && joinError.toLowerCase().includes('code') ? 'border-[#d4254a]/70 bg-[#d4254a]/[0.04]' : 'border-white/[0.1] focus:border-[#d4254a]/70'
+                  className={`w-full bg-transparent border-0 border-b-2 rounded-none px-1 py-2.5 text-2xl font-mono font-extrabold tracking-[0.3em] uppercase text-white text-center placeholder-white/30 placeholder:text-lg placeholder:tracking-[0.15em] outline-none transition-colors [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] ${
+                    joinError && joinError.toLowerCase().includes('code') ? 'border-[#ff465f]' : 'border-white/25 focus:border-[#ff465f]'
                   }`}
                 />
                 {joinError && joinError.toLowerCase().includes('code') && (
-                  <p className="text-[#d4254a] text-xs font-semibold px-1">{joinError}</p>
+                  <p className="text-[#ff465f] text-xs font-bold px-1 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{joinError}</p>
                 )}
               </div>
 
@@ -219,29 +225,31 @@ export default function PartyPage() {
                 <input
                   type="text"
                   maxLength={24}
-                  placeholder="Your name"
+                  placeholder="YOUR NAME"
                   value={joinName}
                   onChange={e => { setJoinName(e.target.value); setJoinError('') }}
                   onKeyDown={e => e.key === 'Enter' && joinRoom()}
-                  className={`w-full bg-white/[0.05] border rounded-xl px-4 py-3 text-white placeholder-white/25 text-sm outline-none transition-colors ${
-                    joinError && joinError.toLowerCase().includes('name') ? 'border-[#d4254a]/70 bg-[#d4254a]/[0.04]' : 'border-white/[0.1] focus:border-[#d4254a]/70'
+                  className={`w-full bg-transparent border-0 border-b-2 rounded-none px-1 py-2.5 text-lg font-extrabold italic tracking-wide text-white text-center placeholder-white/30 outline-none transition-colors [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] ${
+                    joinError && joinError.toLowerCase().includes('name') ? 'border-[#ff465f]' : 'border-white/25 focus:border-[#ff465f]'
                   }`}
                 />
                 {joinError && joinError.toLowerCase().includes('name') && (
-                  <p className="text-[#d4254a] text-xs font-semibold px-1">{joinError}</p>
+                  <p className="text-[#ff465f] text-xs font-bold px-1 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{joinError}</p>
                 )}
               </div>
 
               {joinError && !joinError.toLowerCase().includes('code') && !joinError.toLowerCase().includes('name') && (
-                <p className="text-[#d4254a] text-xs font-semibold px-1">{joinError}</p>
+                <p className="text-[#ff465f] text-xs font-bold px-1 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{joinError}</p>
               )}
 
               <button
                 onClick={joinRoom}
                 disabled={joining}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-sm tracking-wide hover:from-[#a30020] hover:to-[#cc0024] transition-all disabled:opacity-50 shadow-[0_8px_28px_rgba(143,0,26,0.4)]"
+                className="group w-fit mx-auto py-1 disabled:opacity-50"
               >
-                {joining ? 'Joining…' : 'Join Room'}
+                <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 drop-shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
+                  {joining ? 'Joining…' : 'Join →'}
+                </span>
               </button>
             </div>
           )}
