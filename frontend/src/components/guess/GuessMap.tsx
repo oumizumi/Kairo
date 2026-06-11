@@ -1,42 +1,18 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
-// MapLibre zoom levels run ~1 lower than Leaflet's (512px vector tiles)
 const CAMPUS_CENTER: [number, number] = [-75.6831, 45.4231]
 const CAMPUS_MAX_BOUNDS: [[number, number], [number, number]] = [
   [-75.6956, 45.4146],
   [-75.6704, 45.4314],
 ]
 
-const esriTiles = (service: string) => [
-  `https://server.arcgisonline.com/ArcGIS/rest/services/${service}/MapServer/tile/{z}/{y}/{x}`,
-]
-
-// Esri World Imagery + label/road overlays, hybrid satellite, free, no API key
-const SATELLITE_STYLE: maplibregl.StyleSpecification = {
-  version: 8,
-  sources: {
-    imagery: {
-      type: 'raster',
-      tiles: esriTiles('World_Imagery'),
-      tileSize: 256,
-      maxzoom: 19,
-      attribution: 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>',
-    },
-    roads: { type: 'raster', tiles: esriTiles('Reference/World_Transportation'), tileSize: 256, maxzoom: 19 },
-    places: { type: 'raster', tiles: esriTiles('Reference/World_Boundaries_and_Places'), tileSize: 256, maxzoom: 19 },
-  },
-  layers: [
-    { id: 'imagery', type: 'raster', source: 'imagery' },
-    { id: 'roads', type: 'raster', source: 'roads' },
-    { id: 'places', type: 'raster', source: 'places' },
-  ],
-}
-
-const CLEAN_STYLE = 'https://tiles.openfreemap.org/styles/bright'
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? ''
+const SATELLITE_STYLE = 'mapbox://styles/mapbox/satellite-streets-v12'
+const CLEAN_STYLE = 'mapbox://styles/mapbox/streets-v12'
 
 export interface MapPoint {
   lat: number
@@ -63,9 +39,9 @@ interface GuessMapProps {
 
 export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<maplibregl.Map | null>(null)
-  const guessMarkerRef = useRef<maplibregl.Marker | null>(null)
-  const actualMarkerRef = useRef<maplibregl.Marker | null>(null)
+  const mapRef = useRef<mapboxgl.Map | null>(null)
+  const guessMarkerRef = useRef<mapboxgl.Marker | null>(null)
+  const actualMarkerRef = useRef<mapboxgl.Marker | null>(null)
   const lineCoordsRef = useRef<[number, number][]>([])
   const [satellite, setSatellite] = useState(true)
 
@@ -78,7 +54,7 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
   }, [phase, onPick])
 
   // line source/layer must be re-added after every style change
-  const ensureLineLayer = (map: maplibregl.Map) => {
+  const ensureLineLayer = (map: mapboxgl.Map) => {
     if (map.getSource('guess-line')) return
     map.addSource('guess-line', { type: 'geojson', data: lineGeoJSON(lineCoordsRef.current) })
     map.addLayer({
@@ -92,13 +68,14 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
   const setLine = (coords: [number, number][]) => {
     lineCoordsRef.current = coords
     const map = mapRef.current
-    const src = map?.getSource('guess-line') as maplibregl.GeoJSONSource | undefined
+    const src = map?.getSource('guess-line') as mapboxgl.GeoJSONSource | undefined
     src?.setData(lineGeoJSON(coords))
   }
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
-    const map = new maplibregl.Map({
+    mapboxgl.accessToken = MAPBOX_TOKEN
+    const map = new mapboxgl.Map({
       container: containerRef.current,
       style: SATELLITE_STYLE,
       center: CAMPUS_CENTER,
@@ -106,20 +83,23 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
       minZoom: 14,
       maxZoom: 19,
       maxBounds: CAMPUS_MAX_BOUNDS,
-      attributionControl: { compact: true },
     })
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left')
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left')
     map.touchPitch.disable()
     map.dragRotate.disable()
 
-    map.on('load', () => ensureLineLayer(map))
+    map.on('load', () => { map.resize(); ensureLineLayer(map) })
     map.on('click', (e) => {
       if (phaseRef.current !== 'playing') return
       onPickRef.current({ lat: e.lngLat.lat, lng: e.lngLat.lng })
     })
     mapRef.current = map
 
+    const ro = new ResizeObserver(() => map.resize())
+    if (containerRef.current) ro.observe(containerRef.current)
+
     return () => {
+      ro.disconnect()
       map.remove()
       mapRef.current = null
       guessMarkerRef.current = null
@@ -145,7 +125,7 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
       if (guessMarkerRef.current) {
         guessMarkerRef.current.setLngLat([guess.lng, guess.lat])
       } else {
-        guessMarkerRef.current = new maplibregl.Marker({ element: pinElement('#8f001a', 100), anchor: 'bottom' })
+        guessMarkerRef.current = new mapboxgl.Marker({ element: pinElement('#8f001a', 100), anchor: 'bottom' })
           .setLngLat([guess.lng, guess.lat])
           .addTo(map)
       }
@@ -161,7 +141,7 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
     if (!map) return
 
     if (phase === 'reveal' && actual) {
-      actualMarkerRef.current = new maplibregl.Marker({ element: pinElement('#111111', 200), anchor: 'bottom' })
+      actualMarkerRef.current = new mapboxgl.Marker({ element: pinElement('#111111', 200), anchor: 'bottom' })
         .setLngLat([actual.lng, actual.lat])
         .addTo(map)
 
@@ -175,7 +155,7 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
           return
         }
 
-        const bounds = new maplibregl.LngLatBounds([guess.lng, guess.lat], [guess.lng, guess.lat])
+        const bounds = new mapboxgl.LngLatBounds([guess.lng, guess.lat], [guess.lng, guess.lat])
         bounds.extend([actual.lng, actual.lat])
         map.fitBounds(bounds, { padding: 90, duration: 900, maxZoom: 17 })
 
@@ -211,7 +191,6 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
 
   return (
     <div className="relative w-full h-full">
-      {/* maplibre css forces position:relative on this element, size it explicitly, don't use inset */}
       <div ref={containerRef} className="w-full h-full" />
       <button
         onClick={toggleStyle}

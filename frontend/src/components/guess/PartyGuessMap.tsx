@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 import type { MapPoint } from './GuessMap'
 
 const CAMPUS_CENTER: [number, number] = [-75.6831, 45.4231]
@@ -11,31 +11,9 @@ const CAMPUS_MAX_BOUNDS: [[number, number], [number, number]] = [
   [-75.6704, 45.4314],
 ]
 
-const esriTiles = (service: string) => [
-  `https://server.arcgisonline.com/ArcGIS/rest/services/${service}/MapServer/tile/{z}/{y}/{x}`,
-]
-
-const SATELLITE_STYLE: maplibregl.StyleSpecification = {
-  version: 8,
-  sources: {
-    imagery: {
-      type: 'raster',
-      tiles: esriTiles('World_Imagery'),
-      tileSize: 256,
-      maxzoom: 19,
-      attribution: 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>',
-    },
-    roads: { type: 'raster', tiles: esriTiles('Reference/World_Transportation'), tileSize: 256, maxzoom: 19 },
-    places: { type: 'raster', tiles: esriTiles('Reference/World_Boundaries_and_Places'), tileSize: 256, maxzoom: 19 },
-  },
-  layers: [
-    { id: 'imagery', type: 'raster', source: 'imagery' },
-    { id: 'roads', type: 'raster', source: 'roads' },
-    { id: 'places', type: 'raster', source: 'places' },
-  ],
-}
-
-const CLEAN_STYLE = 'https://tiles.openfreemap.org/styles/bright'
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? ''
+const SATELLITE_STYLE = 'mapbox://styles/mapbox/satellite-streets-v12'
+const CLEAN_STYLE = 'mapbox://styles/mapbox/streets-v12'
 
 export interface PlayerPin {
   playerId: string
@@ -74,9 +52,9 @@ function labeledPinElement(color: string, name: string, zIndex: number) {
 
 export default function PartyGuessMap({ phase, playerPins, actual, onPick }: PartyGuessMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<maplibregl.Map | null>(null)
-  const playerMarkersRef = useRef<Map<string, maplibregl.Marker>>(new Map())
-  const actualMarkerRef = useRef<maplibregl.Marker | null>(null)
+  const mapRef = useRef<mapboxgl.Map | null>(null)
+  const playerMarkersRef = useRef<Map<string, mapboxgl.Marker>>(new Map())
+  const actualMarkerRef = useRef<mapboxgl.Marker | null>(null)
   const playerSourcesRef = useRef<Set<string>>(new Set())
   const [satellite, setSatellite] = useState(true)
 
@@ -89,7 +67,7 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
     playerPinsRef.current = playerPins
   }, [phase, onPick, playerPins])
 
-  const ensurePlayerLineLayer = (map: maplibregl.Map, playerId: string, color: string) => {
+  const ensurePlayerLineLayer = (map: mapboxgl.Map, playerId: string, color: string) => {
     const sourceId = `guess-line-${playerId}`
     if (map.getSource(sourceId)) return
     map.addSource(sourceId, { type: 'geojson', data: lineGeoJSON([]) })
@@ -102,7 +80,7 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
     playerSourcesRef.current.add(playerId)
   }
 
-  const removeAllPlayerLines = (map: maplibregl.Map) => {
+  const removeAllPlayerLines = (map: mapboxgl.Map) => {
     for (const playerId of playerSourcesRef.current) {
       const sourceId = `guess-line-${playerId}`
       if (map.getLayer(sourceId)) map.removeLayer(sourceId)
@@ -114,7 +92,8 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
   // init map
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
-    const map = new maplibregl.Map({
+    mapboxgl.accessToken = MAPBOX_TOKEN
+    const map = new mapboxgl.Map({
       container: containerRef.current,
       style: SATELLITE_STYLE,
       center: CAMPUS_CENTER,
@@ -122,17 +101,22 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
       minZoom: 14,
       maxZoom: 19,
       maxBounds: CAMPUS_MAX_BOUNDS,
-      attributionControl: { compact: true },
     })
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left')
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left')
     map.touchPitch.disable()
     map.dragRotate.disable()
+    map.on('load', () => map.resize())
     map.on('click', (e) => {
       if (phaseRef.current !== 'playing') return
       onPickRef.current({ lat: e.lngLat.lat, lng: e.lngLat.lng })
     })
     mapRef.current = map
+
+    const ro = new ResizeObserver(() => map.resize())
+    if (containerRef.current) ro.observe(containerRef.current)
+
     return () => {
+      ro.disconnect()
       const markers = playerMarkersRef.current
       map.remove()
       mapRef.current = null
@@ -173,7 +157,7 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
           const el = phase === 'reveal'
             ? labeledPinElement(pin.color, pin.displayName, 100)
             : pinElement(pin.color, 100)
-          const marker = new maplibregl.Marker({ element: el, anchor: 'bottom' })
+          const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
             .setLngLat([pin.guess.lng, pin.guess.lat])
             .addTo(map)
           playerMarkersRef.current.set(pin.playerId, marker)
@@ -203,7 +187,7 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
 
     if (phase === 'reveal' && actual) {
       if (!actualMarkerRef.current) {
-        actualMarkerRef.current = new maplibregl.Marker({ element: pinElement('#111111', 200), anchor: 'bottom' })
+        actualMarkerRef.current = new mapboxgl.Marker({ element: pinElement('#111111', 200), anchor: 'bottom' })
           .setLngLat([actual.lng, actual.lat])
           .addTo(map)
       }
@@ -217,7 +201,7 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
         if (pinsWithGuess.length === 0) {
           map.flyTo({ center: [actual.lng, actual.lat], zoom: 16, duration: 900 })
         } else {
-          const bounds = new maplibregl.LngLatBounds()
+          const bounds = new mapboxgl.LngLatBounds()
           bounds.extend([actual.lng, actual.lat])
           for (const pin of pinsWithGuess) {
             bounds.extend([pin.guess!.lng, pin.guess!.lat])
@@ -238,7 +222,7 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
             if (!map.getSource(`guess-line-${pin.playerId}`)) {
               ensurePlayerLineLayer(map, pin.playerId, pin.color)
             }
-            const src = map.getSource(`guess-line-${pin.playerId}`) as maplibregl.GeoJSONSource | undefined
+            const src = map.getSource(`guess-line-${pin.playerId}`) as mapboxgl.GeoJSONSource | undefined
             src?.setData(lineGeoJSON([
               [pin.guess.lng, pin.guess.lat],
               [
