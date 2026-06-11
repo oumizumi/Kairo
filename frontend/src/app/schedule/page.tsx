@@ -2,7 +2,9 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import ThemeToggle from '@/components/ThemeToggle'
+import LanguageToggle from '@/components/LanguageToggle'
 import SchedulePanel from '@/components/schedule/SchedulePanel'
+import { useLanguage } from '@/contexts/LanguageContext'
 import RmpStars, { normalizeName, rmpUrl, type RmpEntry } from '@/components/schedule/RmpStars'
 import type { Course, SectionInfo, AddedSection } from '@/types/course'
 
@@ -172,6 +174,7 @@ function ComponentBox({
   onToggle: () => void
   onConflictClick: (c: ConflictInfo) => void
 }) {
+  const { t } = useLanguage()
   const kind = sectionKind(section, fallbackKind)
   const line = timeLines(section.time)[0]
   const blocked = conflict !== null && !selected
@@ -200,7 +203,7 @@ function ComponentBox({
         )}
       </span>
       {blocked ? (
-        <span className="ml-auto text-[8px] font-bold text-[#8f001a] dark:text-[#ff8095] uppercase tracking-wide shrink-0">conflict</span>
+        <span className="ml-auto text-[8px] font-bold text-[#8f001a] dark:text-[#ff8095] uppercase tracking-wide shrink-0">{t('schedule.conflict.label')}</span>
       ) : (
         <span className={`ml-auto w-3.5 h-3.5 rounded-[3px] border-[1.5px] flex items-center justify-center shrink-0 transition-colors ${
           selected
@@ -220,6 +223,7 @@ function ComponentBox({
 
 // Small inline popup explaining what a conflicting row collides with
 function ConflictPopup({ conflict }: { conflict: ConflictInfo }) {
+  const { t } = useLanguage()
   return (
     <div
       className="mx-2 my-1 px-3 py-2 rounded-lg bg-[#8f001a]/[0.05] dark:bg-[#8f001a]/[0.09] border border-[#8f001a]/20 flex items-start gap-2"
@@ -230,7 +234,7 @@ function ConflictPopup({ conflict }: { conflict: ConflictInfo }) {
       </svg>
       <div className="flex flex-col gap-0.5 min-w-0">
         <span className="text-[11px] leading-snug text-[#8f001a] dark:text-[#ff8095]">
-          Conflicts with <span className="font-bold">{conflict.label}</span>
+          {t('schedule.conflict.with', { label: conflict.label })}
         </span>
         <span className="text-[10.5px] font-medium tabular-nums text-[#8f001a]/80 dark:text-[#ff8095]/80">
           {conflict.block.day} · {fmtClock(conflict.block.start)} – {fmtClock(conflict.block.end)}
@@ -253,6 +257,7 @@ function CourseRow({
   onSelectLab: (id: string, idx: number | null) => void
   onSelectTut: (id: string, idx: number | null) => void
 }) {
+  const { t } = useLanguage()
   const [open, setOpen] = useState(false)
   const [popup, setPopup] = useState<{ key: string; conflict: ConflictInfo } | null>(null)
   const popupTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -291,7 +296,7 @@ function CourseRow({
           onClick={e => e.stopPropagation()}
           className="inline-flex items-center gap-0.5 text-[10px] font-bold text-[#8f001a] hover:opacity-70 transition-opacity shrink-0"
         >
-          Grades
+          {t('schedule.grades')}
           <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
           </svg>
@@ -379,7 +384,7 @@ function CourseRow({
                       {status}
                     </span>
                     {lecConflict && (
-                      <span className="text-[9px] font-bold text-[#8f001a] dark:text-[#ff8095] uppercase tracking-wide shrink-0">conflict</span>
+                      <span className="text-[9px] font-bold text-[#8f001a] dark:text-[#ff8095] uppercase tracking-wide shrink-0">{t('schedule.conflict.label')}</span>
                     )}
                   </div>
                   <button
@@ -478,7 +483,7 @@ function CourseRow({
                       </div>
                     )}
                     {isAdded && group.labs.length > 0 && added!.selectedLabIdx === null && (
-                      <p className="px-2 pt-0.5 text-[10px] text-[#b45309] font-medium">Pick a lab section</p>
+                      <p className="px-2 pt-0.5 text-[10px] text-[#b45309] font-medium">{t('schedule.pickLab')}</p>
                     )}
                   </div>
                 )}
@@ -494,6 +499,7 @@ function CourseRow({
 // ─── main page ────────────────────────────────────────────────────────────────
 
 export default function SchedulePage() {
+  const { t } = useLanguage()
   const [term, setTerm] = useState<'summer2026' | 'fall2026' | 'winter2027'>('fall2026')
   const [query, setQuery] = useState('')
   const [courses, setCourses] = useState<Course[]>([])
@@ -559,7 +565,7 @@ export default function SchedulePage() {
 
     for (const existing of addedSections) {
       if (blocksOverlap(newBlocks, chosenBlocks(existing))) {
-        showConflict(`Conflicts with ${existing.courseCode}`)
+        showConflict(t('schedule.conflict.with', { label: existing.courseCode }))
         return
       }
     }
@@ -597,7 +603,7 @@ export default function SchedulePage() {
       const own = [...sectionBlocks(target.lecture)]
       if (target.selectedTutIdx !== null) own.push(...sectionBlocks(target.tutorials[target.selectedTutIdx]))
       if (blocksOverlap(labBlocks, [...others, ...own])) {
-        showConflict(`${sectionNum(target.labs[idx])} conflicts with your schedule`)
+        showConflict(t('schedule.conflict.section', { section: sectionNum(target.labs[idx]) }))
         return
       }
     }
@@ -615,7 +621,7 @@ export default function SchedulePage() {
       const own = [...sectionBlocks(target.lecture)]
       if (target.selectedLabIdx !== null) own.push(...sectionBlocks(target.labs[target.selectedLabIdx]))
       if (blocksOverlap(tutBlocks, [...others, ...own])) {
-        showConflict(`${sectionNum(target.tutorials[idx])} conflicts with your schedule`)
+        showConflict(t('schedule.conflict.section', { section: sectionNum(target.tutorials[idx]) }))
         return
       }
     }
@@ -628,23 +634,23 @@ export default function SchedulePage() {
     <div className="flex flex-col h-full">
       {/* term tabs */}
       <div className="shrink-0 px-3 pt-4 pb-1">
-        <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#bbb] dark:text-[#555] mb-2 px-0.5">Term</p>
+        <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#bbb] dark:text-[#555] mb-2 px-0.5">{t('schedule.term.label')}</p>
         <div className="flex p-1 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl gap-0.5">
-          {(['summer2026', 'fall2026', 'winter2027'] as const).map(t => (
+          {(['summer2026', 'fall2026', 'winter2027'] as const).map(tk => (
             <button
-              key={t}
-              onClick={() => setTerm(t)}
+              key={tk}
+              onClick={() => setTerm(tk)}
               className={`flex-1 py-2 rounded-lg text-[11px] font-bold transition-all duration-200 ${
-                term === t
+                term === tk
                   ? 'bg-white dark:bg-[#2a2a2a] text-[#8f001a] shadow-sm'
                   : 'text-[#aaa] dark:text-[#555] hover:text-[#666] dark:hover:text-[#888]'
               }`}
             >
               <span className="block md:hidden">
-                {t === 'summer2026' ? "Sum" : t === 'fall2026' ? "Fall" : "Win"}
+                {tk === 'summer2026' ? t('schedule.term.summer.short') : tk === 'fall2026' ? t('schedule.term.fall.short') : t('schedule.term.winter.short')}
               </span>
               <span className="hidden md:block">
-                {t === 'summer2026' ? "Summer '26" : t === 'fall2026' ? "Fall '26" : "Winter '27"}
+                {tk === 'summer2026' ? t('schedule.term.summer') : tk === 'fall2026' ? t('schedule.term.fall') : t('schedule.term.winter')}
               </span>
             </button>
           ))}
@@ -662,7 +668,7 @@ export default function SchedulePage() {
           </svg>
           <input
             type="text"
-            placeholder="Search by code or name…"
+            placeholder={t('schedule.search.placeholder')}
             value={query}
             onChange={e => handleQuery(e.target.value)}
             className="w-full pl-9 pr-3 py-2.5 text-[12px] bg-[#f7f7f7] dark:bg-[#1a1a1a] border border-[#e8e8e8] dark:border-[#252525] rounded-xl text-[#111] dark:text-white placeholder-[#bbb] dark:placeholder-[#555] focus:outline-none focus:border-[#8f001a]/40 dark:focus:border-[#8f001a]/40 transition-all"
@@ -674,7 +680,7 @@ export default function SchedulePage() {
       {addedSections.length > 0 && (
         <div className="px-3 pb-3 pt-1 shrink-0 border-t border-black/[0.05] dark:border-white/[0.05]">
           <div className="flex items-center justify-between mb-2 mt-2">
-            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#bbb] dark:text-[#555] px-0.5">My Schedule</p>
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#bbb] dark:text-[#555] px-0.5">{t('schedule.mySchedule')}</p>
             <span className="text-[9px] font-bold text-white bg-[#8f001a] px-1.5 py-0.5 rounded-full leading-none">
               {addedSections.length}
             </span>
@@ -713,7 +719,7 @@ export default function SchedulePage() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <div className="w-5 h-5 border-2 border-[#8f001a] border-t-transparent rounded-full animate-spin" />
-            <p className="text-[11px] text-[#999] dark:text-[#666]">Loading courses…</p>
+            <p className="text-[11px] text-[#999] dark:text-[#666]">{t('schedule.loading')}</p>
           </div>
         ) : courses.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 gap-2">
@@ -721,11 +727,11 @@ export default function SchedulePage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
             </svg>
             <p className="text-[12px] font-medium text-[#999] dark:text-[#666]">
-              {query ? `No results for "${query}"` : 'Search for a course'}
+              {query ? t('schedule.noResults', { query }) : t('schedule.empty')}
             </p>
             {!query && (
               <p className="text-[11px] text-[#bbb] dark:text-[#555] text-center px-6">
-                Try CSI, MAT, ENG, ITI, or CEG
+                {t('schedule.hint')}
               </p>
             )}
           </div>
@@ -765,9 +771,12 @@ export default function SchedulePage() {
               uomap
             </a>
             <span className="text-[#ddd] dark:text-[#333] font-light text-base">/</span>
-            <span className="text-[13px] font-semibold text-[#555] dark:text-[#666]">Schedule</span>
+            <span className="text-[13px] font-semibold text-[#555] dark:text-[#666]">{t('schedule.breadcrumb')}</span>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </div>
 

@@ -11,6 +11,8 @@ import type { MapPoint } from '@/components/guess/GuessMap'
 import type { PlayerPin } from '@/components/guess/PartyGuessMap'
 import type { PartyGuess, PartyPlayer, PartyRoom } from '@/types/party'
 import GuessBackdrop from '@/components/guess/GuessBackdrop'
+import LanguageToggle from '@/components/LanguageToggle'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const PartyGuessMap = dynamicImport(() => import('@/components/guess/PartyGuessMap'), {
   ssr: false,
@@ -160,17 +162,19 @@ function HpBar({ hp, maxHp, color }: { hp: number; maxHp: number; color: string 
 
 // Round scores banner row
 function ScoreRow({ name, points, distance, color }: { name: string; points: number; distance: number | null; color: string }) {
+  const { t } = useLanguage()
   return (
     <div className="flex items-center gap-3 py-2">
       <span className="w-3 h-3 rounded-full shrink-0" style={{ background: color }} />
       <span className="flex-1 text-sm font-semibold text-white truncate">{name}</span>
-      <span className="text-xs text-white/50 shrink-0">{distance !== null ? formatDistance(distance) : 'no pin'}</span>
+      <span className="text-xs text-white/50 shrink-0">{distance !== null ? formatDistance(distance) : t('room.noPin')}</span>
       <span className="text-sm font-extrabold text-white tabular-nums shrink-0 w-14 text-right">{points.toLocaleString()}</span>
     </div>
   )
 }
 
 export default function PartyRoomPage() {
+  const { t } = useLanguage()
   const params = useParams()
   const router = useRouter()
   const code = ((params.code as string) ?? '').toUpperCase()
@@ -446,8 +450,8 @@ export default function PartyRoomPage() {
 
   // join from direct URL
   const joinDirectly = async () => {
-    if (!joinName.trim()) { setJoinError('Enter your name'); return }
-    if (!room || room.phase !== 'lobby') { setJoinError('Game already started'); return }
+    if (!joinName.trim()) { setJoinError(t('room.error.enterName')); return }
+    if (!room || room.phase !== 'lobby') { setJoinError(t('room.error.gameStarted')); return }
     setJoining(true)
     await supabase.from('party_players').upsert({
       id: myPlayerId,
@@ -478,7 +482,7 @@ export default function PartyRoomPage() {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
         <GuessBackdrop dimmer />
-        <span className="relative z-10 text-white/70 text-sm bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-5 py-2.5">Loading…</span>
+        <span className="relative z-10 text-white/70 text-sm bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-5 py-2.5">{t('room.loading')}</span>
       </div>
     )
   }
@@ -487,8 +491,8 @@ export default function PartyRoomPage() {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-center gap-4">
         <GuessBackdrop dimmer />
-        <p className="relative z-10 text-white font-bold text-lg [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">{error ?? 'Room not found'}</p>
-        <a href="/guess/party" className="relative z-10 text-[#ff465f] text-sm font-semibold hover:underline">Back to party</a>
+        <p className="relative z-10 text-white font-bold text-lg [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">{error ?? t('room.error.notFound')}</p>
+        <a href="/guess/party" className="relative z-10 text-[#ff465f] text-sm font-semibold hover:underline">{t('room.backToParty')}</a>
       </div>
     )
   }
@@ -500,20 +504,23 @@ export default function PartyRoomPage() {
       return (
         <div className="fixed inset-0 flex flex-col items-center justify-center gap-4">
           <GuessBackdrop dimmer />
-          <p className="relative z-10 text-white font-bold text-lg [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">Game already in progress</p>
-          <a href="/guess/party" className="relative z-10 text-[#ff465f] text-sm font-semibold hover:underline">Back to party</a>
+          <p className="relative z-10 text-white font-bold text-lg [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">{t('party.error.inProgress')}</p>
+          <a href="/guess/party" className="relative z-10 text-[#ff465f] text-sm font-semibold hover:underline">{t('room.backToParty')}</a>
         </div>
       )
     }
     return (
       <div key="join" className="fixed inset-0 flex items-center justify-center px-6 animate-screen-enter">
         <GuessBackdrop />
+        <div className="absolute top-6 right-6 z-20">
+          <LanguageToggle variant="dark" />
+        </div>
         <div className="relative z-10 w-full max-w-sm bg-black/45 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_24px_60px_rgba(0,0,0,0.4)] animate-fade-up">
-          <p className="text-white font-bold text-lg text-center">Join room <span className="font-mono text-[#ff465f]">{code}</span></p>
+          <p className="text-white font-bold text-lg text-center">{t('room.joinRoom', { code })}</p>
           <input
             type="text"
             maxLength={24}
-            placeholder="Display name"
+            placeholder={t('room.displayName')}
             value={joinName}
             onChange={e => { setJoinName(e.target.value); setJoinError('') }}
             onKeyDown={e => e.key === 'Enter' && joinDirectly()}
@@ -525,7 +532,7 @@ export default function PartyRoomPage() {
             disabled={joining}
             className="w-full py-3 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-sm disabled:opacity-50"
           >
-            {joining ? 'Joining…' : 'Join'}
+            {joining ? t('room.joiningGame') : t('room.joinGame')}
           </button>
         </div>
       </div>
@@ -535,7 +542,7 @@ export default function PartyRoomPage() {
   // ── lobby ────────────────────────────────────────────────────────────────
 
   if (room.phase === 'lobby') {
-    const modeLabel = room.mode === 'duel' ? 'Duel' : room.mode === 'ffa' ? 'Free for All' : 'Duos'
+    const modeLabel = room.mode === 'duel' ? t('room.modeLabel.duel') : room.mode === 'ffa' ? t('room.modeLabel.ffa') : t('room.modeLabel.duos')
     const copyCode = () => {
       navigator.clipboard?.writeText(code)
       setCopied(true)
@@ -545,19 +552,22 @@ export default function PartyRoomPage() {
       <div key="lobby" className="fixed inset-0 overflow-y-auto animate-screen-enter">
         <GuessBackdrop />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 pt-6">
-          <a
-            href="/guess/party"
-            className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-sm font-semibold text-white/80 hover:text-white hover:border-white/30 transition-all"
-          >
-            ← Party
-          </a>
+        <div className="relative z-20 max-w-5xl mx-auto px-6 pt-6">
+          <div className="flex items-center gap-3">
+            <a
+              href="/guess/party"
+              className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-sm font-semibold text-white/80 hover:text-white hover:border-white/30 transition-all"
+            >
+              {t('room.backParty')}
+            </a>
+            <LanguageToggle variant="dark" />
+          </div>
         </div>
 
         <main className="relative z-10 min-h-screen flex flex-col items-center px-6 pt-[10vh] pb-16">
 
           {/* code hero */}
-          <p className="text-white/70 text-xs sm:text-sm font-bold uppercase tracking-[0.45em] mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">Room code</p>
+          <p className="text-white/70 text-xs sm:text-sm font-bold uppercase tracking-[0.45em] mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">{t('room.roomCode')}</p>
           <button
             onClick={copyCode}
             className="w-fit font-mono text-[clamp(48px,9vw,104px)] leading-[0.9] font-extrabold tracking-[0.12em] transition-colors mb-2 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]"
@@ -566,7 +576,7 @@ export default function PartyRoomPage() {
             {code}
           </button>
           <p className="text-white/50 text-xs font-semibold mb-3 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
-            {copied ? 'copied!' : 'tap to copy'}
+            {copied ? t('room.copied') : t('room.tapToCopy')}
           </p>
           <button
             onClick={() => {
@@ -581,7 +591,7 @@ export default function PartyRoomPage() {
               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
               <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
             </svg>
-            copy invite link
+            {t('room.copyLink')}
           </button>
 
           <div className="w-full max-w-md flex flex-col gap-6 animate-fade-up [animation-delay:120ms]">
@@ -589,8 +599,8 @@ export default function PartyRoomPage() {
             {/* room info */}
             <div className="flex items-center gap-3 flex-wrap justify-center">
               <span className="text-xs font-extrabold uppercase tracking-wide text-white border-2 border-[#ff465f] bg-[#8f001a]/50 backdrop-blur-sm rounded-full px-4 py-1.5">{modeLabel}</span>
-              <span className="text-xs font-extrabold uppercase tracking-wide text-white/60 border-2 border-white/25 bg-black/25 backdrop-blur-sm rounded-full px-4 py-1.5">{ROUNDS_PER_GAME} rounds</span>
-              <span className="text-xs font-extrabold uppercase tracking-wide text-white/60 border-2 border-white/25 bg-black/25 backdrop-blur-sm rounded-full px-4 py-1.5">{room.timer_setting ? `${room.timer_setting}s` : 'no timer'}</span>
+              <span className="text-xs font-extrabold uppercase tracking-wide text-white/60 border-2 border-white/25 bg-black/25 backdrop-blur-sm rounded-full px-4 py-1.5">{t('room.rounds', { n: ROUNDS_PER_GAME })}</span>
+              <span className="text-xs font-extrabold uppercase tracking-wide text-white/60 border-2 border-white/25 bg-black/25 backdrop-blur-sm rounded-full px-4 py-1.5">{room.timer_setting ? `${room.timer_setting}s` : t('room.noTimer')}</span>
             </div>
 
             {/* players */}
@@ -600,30 +610,30 @@ export default function PartyRoomPage() {
                   <span className="w-3 h-3 rounded-full shrink-0 shadow-[0_0_10px_rgba(0,0,0,0.5)]" style={{ background: PARTY_COLORS[i % PARTY_COLORS.length] }} />
                   <span className="flex-1 text-base font-extrabold italic text-white truncate [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{p.display_name}</span>
                   {p.id === room.host_player_id && (
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">host</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{t('room.host')}</span>
                   )}
                   {p.id === myPlayerId && (
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#ff465f] [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">you</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#ff465f] [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{t('room.you')}</span>
                   )}
                   {room.mode === 'duos' && isHost && (
                     <div className="flex gap-1.5">
-                      {[1, 2].map(t => (
+                      {[1, 2].map(tn => (
                         <button
-                          key={t}
-                          onClick={() => assignTeam(p.id, t)}
+                          key={tn}
+                          onClick={() => assignTeam(p.id, tn)}
                           className={`text-xs font-bold px-2 py-0.5 rounded border transition-all ${
-                            p.team === t
+                            p.team === tn
                               ? 'bg-[#8f001a]/40 border-[#ff465f]/60 text-[#ff465f]'
                               : 'border-white/15 text-white/40 hover:border-white/35 hover:text-white/70'
                           }`}
                         >
-                          T{t}
+                          T{tn}
                         </button>
                       ))}
                     </div>
                   )}
                   {room.mode === 'duos' && !isHost && p.team && (
-                    <span className="text-xs text-white/30">Team {p.team}</span>
+                    <span className="text-xs text-white/30">{t('room.team', { n: p.team })}</span>
                   )}
                 </div>
               ))}
@@ -634,7 +644,9 @@ export default function PartyRoomPage() {
               <div className="flex flex-col gap-2 items-center">
                 {!canStart && (
                   <p className="text-white/55 text-xs font-semibold text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
-                    Waiting for {minPlayers - players.length} more player{minPlayers - players.length !== 1 ? 's' : ''}…
+                    {(minPlayers - players.length) === 1
+                      ? t('room.waitingMoreOne')
+                      : t('room.waitingMoreMany', { n: minPlayers - players.length })}
                   </p>
                 )}
                 <button
@@ -643,12 +655,12 @@ export default function PartyRoomPage() {
                   className="group w-fit py-1 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 drop-shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
-                    Start →
+                    {t('room.start')}
                   </span>
                 </button>
               </div>
             ) : (
-              <p className="text-white/55 text-xs font-semibold text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">Waiting for host to start…</p>
+              <p className="text-white/55 text-xs font-semibold text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{t('room.waitingHost')}</p>
             )}
 
           </div>
@@ -665,10 +677,13 @@ export default function PartyRoomPage() {
     return (
       <div key="done" className="fixed inset-0 overflow-y-auto animate-screen-enter">
         <GuessBackdrop dimmer />
+        <div className="relative z-20 max-w-5xl mx-auto px-6 pt-6 flex justify-end">
+          <LanguageToggle variant="dark" />
+        </div>
         <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-16">
-          <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-2 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">The end</p>
+          <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-2 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">{t('room.theEnd')}</p>
           <h2 className="text-[clamp(44px,7vw,84px)] leading-[0.9] font-extrabold italic uppercase tracking-[-0.03em] text-white mb-8 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]">
-            Game over
+            {t('room.gameOver')}
           </h2>
 
           {/* Duel result */}
@@ -680,12 +695,12 @@ export default function PartyRoomPage() {
             return (
               <div className="w-full max-w-md mb-8 animate-fade-up [animation-delay:120ms]">
                 <p className="text-3xl font-extrabold italic uppercase tracking-tight text-white mb-6 text-center [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
-                  <span style={{ color: winnerColor }}>{winner.display_name}</span> wins!
+                  <span style={{ color: winnerColor }}>{winner.display_name}</span>{t('room.wins', { name: '' })}
                 </p>
                 {[winner, loser].map((p, i) => (
                   <div key={p.id} className="mb-4">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-sm font-bold text-white">{p.display_name}{p.id === myPlayerId ? ' (you)' : ''}</span>
+                      <span className="text-sm font-bold text-white">{p.display_name}{p.id === myPlayerId ? ` (${t('room.you')})` : ''}</span>
                       <span className="text-xs text-white/50 tabular-nums">{Math.max(0, p.hp ?? 0)} / {DUEL_STARTING_HP} HP</span>
                     </div>
                     <HpBar hp={Math.max(0, p.hp ?? 0)} maxHp={DUEL_STARTING_HP} color={playerColorMap.get(p.id) ?? PARTY_COLORS[i]} />
@@ -701,7 +716,7 @@ export default function PartyRoomPage() {
               {[1, 2].map(team => (
                 <div key={team} className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-4 mb-3 shadow-[0_16px_40px_rgba(0,0,0,0.35)]">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-bold text-white">Team {team}</span>
+                    <span className="text-sm font-bold text-white">{t('room.team', { n: team })}</span>
                     <span className="text-lg font-extrabold text-white tabular-nums">{teamTotal(team).toLocaleString()}</span>
                   </div>
                   {players.filter(p => p.team === team).map((p, i) => (
@@ -723,7 +738,7 @@ export default function PartyRoomPage() {
                 <div key={p.id} className="flex items-center gap-3 py-3">
                   <span className="text-xl font-extrabold italic text-white/40 w-9 tabular-nums [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">#{i + 1}</span>
                   <span className="w-3 h-3 rounded-full shrink-0 shadow-[0_0_10px_rgba(0,0,0,0.5)]" style={{ background: playerColorMap.get(p.id) ?? PARTY_COLORS[i] }} />
-                  <span className="flex-1 text-base font-extrabold italic text-white truncate [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{p.display_name}{p.id === myPlayerId ? ' (you)' : ''}</span>
+                  <span className="flex-1 text-base font-extrabold italic text-white truncate [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{p.display_name}{p.id === myPlayerId ? ` (${t('room.you')})` : ''}</span>
                   <span className="text-base font-extrabold text-white tabular-nums [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{totalPoints(p.id).toLocaleString()}</span>
                 </div>
               ))}
@@ -734,14 +749,14 @@ export default function PartyRoomPage() {
             {isHost && (
               <button onClick={playAgain} className="group py-1">
                 <span className="block text-center text-3xl sm:text-4xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
-                  Play again
+                  {t('room.playAgain')}
                 </span>
               </button>
             )}
-            {!isHost && <p className="text-white/55 text-sm font-semibold mb-2 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">Waiting for host to start a new game…</p>}
+            {!isHost && <p className="text-white/55 text-sm font-semibold mb-2 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{t('room.waitingNewGame')}</p>}
             <a href="/guess/party" className="group py-1">
               <span className="block text-center text-3xl sm:text-4xl font-extrabold italic uppercase tracking-tight text-white/60 group-hover:text-white group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
-                Back to party
+                {t('room.backToParty')}
               </span>
             </a>
           </div>
@@ -790,11 +805,11 @@ export default function PartyRoomPage() {
           )}
           <div className="bg-black/60 backdrop-blur border border-white/15 rounded-2xl shadow-lg flex divide-x divide-white/15">
             <div className="px-4 sm:px-5 py-2 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">Round</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">{t('room.round')}</p>
               <p className="text-sm font-extrabold text-white tabular-nums">{room.round_index + 1} / {room.round_location_ids.length}</p>
             </div>
             <div className="px-4 sm:px-5 py-2 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">Players</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">{t('room.players')}</p>
               <p className="text-sm font-extrabold text-white tabular-nums">{roundGuesses.length} / {players.length}</p>
             </div>
           </div>
@@ -852,7 +867,7 @@ export default function PartyRoomPage() {
                   : 'bg-black/60 backdrop-blur border border-white/15 text-white/40 cursor-not-allowed'
             }`}
           >
-            {hasMyGuess ? 'GUESS LOCKED IN' : myGuess ? 'GUESS' : 'PLACE YOUR PIN ON THE MAP'}
+            {hasMyGuess ? t('room.guessLockedIn') : myGuess ? t('guess.guess') : t('guess.placePin')}
           </button>
         )}
       </div>
@@ -861,7 +876,7 @@ export default function PartyRoomPage() {
       {isReveal && (
         <div className="absolute bottom-0 inset-x-0 z-[1100] flex justify-center px-4 pb-6 pointer-events-none">
           <div className="pointer-events-auto w-full max-w-xl bg-[#111]/95 backdrop-blur-xl border border-white/15 rounded-2xl shadow-2xl px-6 sm:px-8 py-5 animate-block-enter">
-            <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-[#d4254a] mb-3">Round {room.round_index + 1} results</p>
+            <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-[#d4254a] mb-3">{t('room.roundResults', { n: room.round_index + 1 })}</p>
 
             {/* duel HP bars on reveal */}
             {room.mode === 'duel' && players.length === 2 && (
@@ -885,7 +900,7 @@ export default function PartyRoomPage() {
                 return (
                   <ScoreRow
                     key={p.id}
-                    name={p.display_name + (p.id === myPlayerId ? ' (you)' : '')}
+                    name={p.display_name + (p.id === myPlayerId ? ` (${t('room.you')})` : '')}
                     points={g?.points ?? 0}
                     distance={g?.distance_m ?? null}
                     color={playerColorMap.get(p.id) ?? PARTY_COLORS[0]}
@@ -897,13 +912,13 @@ export default function PartyRoomPage() {
             {/* duos team scores */}
             {room.mode === 'duos' && (
               <div className="flex gap-3 mb-4">
-                {[1, 2].map(t => {
+                {[1, 2].map(tn => {
                   const teamRoundPts = players
-                    .filter(p => p.team === t)
+                    .filter(p => p.team === tn)
                     .reduce((sum, p) => sum + (roundGuesses.find(g => g.player_id === p.id)?.points ?? 0), 0)
                   return (
-                    <div key={t} className="flex-1 bg-white/[0.04] rounded-lg px-3 py-2 text-center">
-                      <p className="text-xs text-white/40 font-bold uppercase tracking-widest">Team {t}</p>
+                    <div key={tn} className="flex-1 bg-white/[0.04] rounded-lg px-3 py-2 text-center">
+                      <p className="text-xs text-white/40 font-bold uppercase tracking-widest">{t('room.team', { n: tn })}</p>
                       <p className="text-lg font-extrabold text-white tabular-nums">{teamRoundPts.toLocaleString()}</p>
                     </div>
                   )
@@ -916,10 +931,10 @@ export default function PartyRoomPage() {
                 onClick={nextRound}
                 className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-sm tracking-wide hover:from-[#a30020] hover:to-[#cc0024] transition-all shadow-[0_8px_28px_rgba(143,0,26,0.55)]"
               >
-                {isLastRound ? 'VIEW RESULTS' : 'NEXT ROUND'}
+                {isLastRound ? t('guess.viewResults') : t('guess.nextRound')}
               </button>
             ) : (
-              <p className="text-center text-[#888] text-sm">Waiting for host…</p>
+              <p className="text-center text-[#888] text-sm">{t('room.waitingForHost')}</p>
             )}
           </div>
         </div>

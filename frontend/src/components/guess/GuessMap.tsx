@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const CAMPUS_CENTER: [number, number] = [-75.6831, 45.4231]
 const CAMPUS_MAX_BOUNDS: [[number, number], [number, number]] = [
@@ -38,6 +39,7 @@ interface GuessMapProps {
 }
 
 export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps) {
+  const { t } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const guessMarkerRef = useRef<mapboxgl.Marker | null>(null)
@@ -95,17 +97,26 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
     })
     mapRef.current = map
 
-    const ro = new ResizeObserver(() => map.resize())
+    let resizeRaf = 0
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(resizeRaf)
+      let frames = 0
+      const tick = () => {
+        map.resize()
+        if (++frames < 25) resizeRaf = requestAnimationFrame(tick)
+      }
+      resizeRaf = requestAnimationFrame(tick)
+    })
     if (containerRef.current) ro.observe(containerRef.current)
 
     return () => {
       ro.disconnect()
+      cancelAnimationFrame(resizeRaf)
       map.remove()
       mapRef.current = null
       guessMarkerRef.current = null
       actualMarkerRef.current = null
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const toggleStyle = () => {
@@ -145,7 +156,8 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
         .setLngLat([actual.lng, actual.lat])
         .addTo(map)
 
-      // wait for the container to finish expanding to full screen before flying
+      map.resize()
+
       let raf = 0
       const timeout = setTimeout(() => {
         map.resize()
@@ -186,7 +198,6 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
       setLine([])
       map.jumpTo({ center: CAMPUS_CENTER, zoom: 15 })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, actual, guess])
 
   return (
@@ -196,7 +207,7 @@ export default function GuessMap({ phase, guess, actual, onPick }: GuessMapProps
         onClick={toggleStyle}
         className="absolute top-3 right-3 z-10 rounded-md border border-black/15 bg-white px-3 py-1.5 text-xs font-medium text-[#111111] shadow-md hover:bg-[#f5f5f5]"
       >
-        {satellite ? 'Map' : 'Satellite'}
+        {satellite ? t('guess.mapToggle.map') : t('guess.mapToggle.satellite')}
       </button>
     </div>
   )

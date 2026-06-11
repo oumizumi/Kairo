@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { GUESS_LOCATIONS, type GuessLocation } from '@/data/guess_locations'
 import type { MapPoint } from '@/components/guess/GuessMap'
+import LanguageToggle from '@/components/LanguageToggle'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 // MapLibre touches window at import time, must skip SSR
 const GuessMap = dynamic(() => import('@/components/guess/GuessMap'), {
@@ -57,12 +59,12 @@ function formatDistance(m: number) {
   return m >= 1000 ? `${(m / 1000).toFixed(2)} km` : `${Math.round(m)} m`
 }
 
-function resultLabel(points: number) {
-  if (points >= 950) return 'Perfect!'
-  if (points >= 700) return 'Impressive!'
-  if (points >= 400) return 'Nice one!'
-  if (points >= 100) return 'Getting warmer…'
-  return 'Were you even on campus?'
+function resultLabelKey(points: number): 'guess.result.perfect' | 'guess.result.impressive' | 'guess.result.nice' | 'guess.result.warmer' | 'guess.result.far' {
+  if (points >= 950) return 'guess.result.perfect'
+  if (points >= 700) return 'guess.result.impressive'
+  if (points >= 400) return 'guess.result.nice'
+  if (points >= 100) return 'guess.result.warmer'
+  return 'guess.result.far'
 }
 
 // full-screen pan/zoom photo: wheel + drag + pinch + buttons, double-click to reset
@@ -227,6 +229,7 @@ function ScoreBar({ points, max, delayMs = 0 }: { points: number; max: number; d
 }
 
 export default function GuessPage() {
+  const { t } = useLanguage()
   const [phase, setPhase] = useState<Phase>('start')
   const [soloConfig, setSoloConfig] = useState(false)
   const [timerSetting, setTimerSetting] = useState<TimerSetting>(null)
@@ -346,13 +349,13 @@ export default function GuessPage() {
   if (phase === 'start') {
     return (
       <div key="start" className="fixed inset-0 overflow-y-auto animate-screen-enter">
-        <div className="relative z-10 max-w-5xl mx-auto px-6 pt-6">
+        <div className="relative z-20 max-w-5xl mx-auto px-6 pt-6 flex items-center justify-between">
           {soloConfig ? (
             <button
               onClick={() => setSoloConfig(false)}
               className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-sm font-semibold text-white/80 hover:text-white hover:border-white/30 transition-all"
             >
-              ← back
+              {t('guess.back')}
             </button>
           ) : (
             <Link
@@ -362,21 +365,22 @@ export default function GuessPage() {
               ← uomap
             </Link>
           )}
+          <LanguageToggle variant="dark" />
         </div>
 
         <p className="absolute z-10 bottom-7 right-8 hidden sm:block text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
-          uomap presents
+          {t('guess.uomapPresents')}
         </p>
 
         <main className="relative z-10 min-h-screen flex flex-col items-center px-6 pt-[11vh] pb-16">
           <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">
-            University of Ottawa
+            {t('guess.uottawa')}
           </p>
           <h1 className="text-[clamp(58px,10vw,120px)] leading-[0.85] font-extrabold italic uppercase tracking-[-0.04em] text-white mb-4 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]">
             UO<span className="text-[#ff465f]">GUESSR</span>
           </h1>
           <p className="text-white/65 text-base sm:text-lg font-medium mb-12 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up [animation-delay:120ms]">
-            Can you find your way around uOttawa?
+            {t('guess.tagline')}
           </p>
 
           {!soloConfig ? (
@@ -384,12 +388,12 @@ export default function GuessPage() {
             <nav className="flex flex-col items-center gap-2 animate-fade-up [animation-delay:180ms]">
               <button onClick={() => setSoloConfig(true)} className="group py-1">
                 <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-white/70 group-hover:text-white group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
-                  Solo
+                  {t('guess.solo')}
                 </span>
               </button>
               <Link href="/guess/party" className="group py-1">
                 <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-white/70 group-hover:text-white group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
-                  Party
+                  {t('guess.party')}
                 </span>
               </Link>
             </nav>
@@ -398,20 +402,20 @@ export default function GuessPage() {
             <div className="flex flex-col items-center gap-7 animate-fade-up">
               <div className="flex flex-col items-center">
                 <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/55 mb-4 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
-                  Time per round
+                  {t('guess.timePerRound')}
                 </p>
                 <div className="flex gap-2.5">
-                  {([30, 60, null] as TimerSetting[]).map((t) => (
+                  {([30, 60, null] as TimerSetting[]).map((ts) => (
                     <button
-                      key={String(t)}
-                      onClick={() => setTimerSetting(t)}
+                      key={String(ts)}
+                      onClick={() => setTimerSetting(ts)}
                       className={`px-7 py-3 rounded-full text-sm font-extrabold uppercase tracking-wide border-2 backdrop-blur-sm transition-all ${
-                        timerSetting === t
+                        timerSetting === ts
                           ? 'border-[#ff465f] text-white bg-[#8f001a]/50 shadow-[0_0_28px_rgba(143,0,26,0.55)]'
                           : 'border-white/25 text-white/60 bg-black/25 hover:border-white/50 hover:text-white'
                       }`}
                     >
-                      {t === null ? 'None' : `${t}s`}
+                      {ts === null ? t('guess.noTimer') : `${ts}s`}
                     </button>
                   ))}
                 </div>
@@ -419,7 +423,7 @@ export default function GuessPage() {
 
               <button onClick={startGame} className="group py-1">
                 <span className="block text-center text-5xl sm:text-6xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 drop-shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
-                  Start →
+                  {t('guess.start')}
                 </span>
               </button>
             </div>
@@ -434,16 +438,19 @@ export default function GuessPage() {
     return (
       <div key="done" className="fixed inset-0 overflow-y-auto animate-screen-enter">
         <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/30 to-black/10 pointer-events-none z-0" />
+        <div className="relative z-20 max-w-5xl mx-auto px-6 pt-6 flex justify-end">
+          <LanguageToggle variant="dark" />
+        </div>
 
         <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-16">
           <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">
-            Final score
+            {t('guess.finalScore')}
           </p>
           <p className="text-[clamp(64px,10vw,120px)] leading-[0.9] font-extrabold italic text-white tabular-nums tracking-[-0.03em] mb-2 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]">
             {displayTotal.toLocaleString()}
           </p>
           <p className="text-white/55 text-sm font-semibold mb-8 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] animate-fade-up [animation-delay:120ms]">
-            out of {(rounds.length * MAX_POINTS).toLocaleString()} points
+            {t('guess.outOf', { max: (rounds.length * MAX_POINTS).toLocaleString() })}
           </p>
 
           <div className="w-full max-w-lg mb-10 animate-fade-up [animation-delay:160ms]">
@@ -477,7 +484,7 @@ export default function GuessPage() {
                     <ScoreBar points={r.points} max={MAX_POINTS} delayMs={400 + i * 150} />
                   </div>
                   <span className="text-xs text-white/40 tabular-nums shrink-0 w-20 text-right">
-                    {r.distance !== null ? formatDistance(r.distance) : 'no guess'}
+                    {r.distance !== null ? formatDistance(r.distance) : t('guess.noGuess')}
                   </span>
                 </div>
               </div>
@@ -487,12 +494,12 @@ export default function GuessPage() {
           <div className="flex flex-col items-center gap-1 animate-fade-up [animation-delay:240ms]">
             <button onClick={startGame} className="group py-1">
               <span className="block text-center text-3xl sm:text-4xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
-                Play again
+                {t('guess.playAgain')}
               </span>
             </button>
             <Link href="/" className="group py-1">
               <span className="block text-center text-3xl sm:text-4xl font-extrabold italic uppercase tracking-tight text-white/60 group-hover:text-white group-hover:scale-105 transition-all duration-200 [text-shadow:0_4px_24px_rgba(0,0,0,0.75)]">
-                Back home
+                {t('guess.backHome')}
               </span>
             </Link>
           </div>
@@ -513,12 +520,17 @@ export default function GuessPage() {
 
       {/* top HUD */}
       <div className="absolute top-0 inset-x-0 p-3 sm:p-4 flex items-start justify-between gap-3 pointer-events-none z-[1100]">
-        <Link
-          href="/"
-          className="pointer-events-auto bg-black/60 backdrop-blur border border-white/15 rounded-full px-4 py-2 text-sm font-bold text-white hover:bg-black/80 transition-colors shadow-lg"
-        >
-          uo<span className="text-[#d4254a]">guessr</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/"
+            className="pointer-events-auto bg-black/60 backdrop-blur border border-white/15 rounded-full px-4 py-2 text-sm font-bold text-white hover:bg-black/80 transition-colors shadow-lg"
+          >
+            uo<span className="text-[#d4254a]">guessr</span>
+          </Link>
+          <div className="pointer-events-auto">
+            <LanguageToggle variant="dark" />
+          </div>
+        </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
           {timerSetting !== null && !isReveal && (
@@ -542,13 +554,13 @@ export default function GuessPage() {
 
           <div className="bg-black/60 backdrop-blur border border-white/15 rounded-2xl shadow-lg flex divide-x divide-white/15">
             <div className="px-4 sm:px-5 py-2 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">Round</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">{t('guess.round')}</p>
               <p className="text-sm font-extrabold text-white tabular-nums">
                 {roundIndex + 1} / {rounds.length}
               </p>
             </div>
             <div className="px-4 sm:px-5 py-2 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">Score</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">{t('guess.score')}</p>
               <p className="text-sm font-extrabold text-white tabular-nums">
                 {totalScore.toLocaleString()}
               </p>
@@ -571,19 +583,24 @@ export default function GuessPage() {
           className={
             isReveal
               ? 'w-full h-full'
-              : `rounded-xl overflow-hidden border-2 shadow-2xl transition-all duration-300 ease-out ${
+              : `relative rounded-xl overflow-hidden border-2 shadow-2xl transition-all duration-300 ease-out ${
                   mapHover || guess
                     ? 'sm:w-[520px] h-64 sm:h-[380px] border-white/30 opacity-100'
                     : 'sm:w-80 h-48 sm:h-56 border-white/15 opacity-80'
                 }`
           }
         >
-          <GuessMap
-            phase={isReveal ? 'reveal' : 'playing'}
-            guess={guess}
-            actual={isReveal && current ? { lat: current.lat, lng: current.lng } : null}
-            onPick={setGuess}
-          />
+          {/* On desktop: map is always the full hover size, centered inside the clipping container.
+              The container animates its visible region — Mapbox never resizes during the transition.
+              On mobile: map fills the container normally (height-only change, negligible). */}
+          <div className={isReveal ? 'w-full h-full' : 'w-full h-full sm:absolute sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-[520px] sm:h-[380px]'}>
+            <GuessMap
+              phase={isReveal ? 'reveal' : 'playing'}
+              guess={guess}
+              actual={isReveal && current ? { lat: current.lat, lng: current.lng } : null}
+              onPick={setGuess}
+            />
+          </div>
         </div>
 
         {!isReveal && (
@@ -596,7 +613,7 @@ export default function GuessPage() {
                 : 'bg-black/60 backdrop-blur border border-white/15 text-white/40 cursor-not-allowed'
             }`}
           >
-            {guess ? 'GUESS' : 'PLACE YOUR PIN ON THE MAP'}
+            {guess ? t('guess.guess') : t('guess.placePin')}
           </button>
         )}
       </div>
@@ -606,7 +623,7 @@ export default function GuessPage() {
         <div className="absolute bottom-0 inset-x-0 z-[1100] flex justify-center px-4 pb-6 pointer-events-none">
           <div className="pointer-events-auto w-full max-w-xl bg-[#111]/95 backdrop-blur-xl border border-white/15 rounded-2xl shadow-2xl px-6 sm:px-10 py-6 animate-block-enter">
             <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-[#d4254a] mb-1">
-              {lastResult.guess ? resultLabel(lastResult.points) : 'Time ran out'}
+              {lastResult.guess ? t(resultLabelKey(lastResult.points)) : t('guess.timeRanOut')}
             </p>
             <p className="text-center text-5xl font-extrabold text-white tabular-nums mb-4">
               {displayPoints.toLocaleString()}
@@ -618,22 +635,16 @@ export default function GuessPage() {
             </div>
 
             <p className="text-center text-sm text-white/60 mb-5">
-              {lastResult.distance !== null ? (
-                <>
-                  Your guess was{' '}
-                  <span className="font-bold text-white">{formatDistance(lastResult.distance)}</span>{' '}
-                  from the correct location
-                </>
-              ) : (
-                'No pin placed, 0 points this round'
-              )}
+              {lastResult.distance !== null
+                ? t('guess.distanceFrom', { dist: formatDistance(lastResult.distance) })
+                : t('guess.noPin')}
             </p>
 
             <button
               onClick={nextRound}
               className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#8f001a] to-[#b3001f] text-white font-extrabold text-sm tracking-wide hover:from-[#a30020] hover:to-[#cc0024] transition-all shadow-[0_8px_28px_rgba(143,0,26,0.55)]"
             >
-              {roundIndex + 1 >= rounds.length ? 'VIEW RESULTS' : 'NEXT ROUND'}
+              {roundIndex + 1 >= rounds.length ? t('guess.viewResults') : t('guess.nextRound')}
             </button>
           </div>
         </div>

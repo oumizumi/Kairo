@@ -1,13 +1,22 @@
+'use client'
+
 import ThemeToggle from '@/components/ThemeToggle'
+import LanguageToggle from '@/components/LanguageToggle'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Home() {
+  const { t } = useLanguage()
+
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-[#111] transition-colors duration-200">
 
       {/* minimal top bar */}
       <div className="max-w-6xl mx-auto w-full px-6 pt-6 flex items-center justify-between">
         <span className="text-[#111] dark:text-white font-bold text-lg tracking-tight">uomap</span>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
       </div>
 
       {/* cards */}
@@ -26,13 +35,13 @@ export default function Home() {
               </svg>
             </div>
             <div>
-              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">Build Your Own Schedule</h2>
+              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">{t('home.schedule.title')}</h2>
               <p className="text-[#666] dark:text-[#888] text-sm leading-relaxed">
-                Browse every uOttawa section, filter by time and professor, detect conflicts, and export your timetable.
+                {t('home.schedule.desc')}
               </p>
             </div>
             <span className="text-sm font-semibold text-[#8f001a] group-hover:underline underline-offset-4 mt-auto">
-              Get started →
+              {t('home.schedule.cta')}
             </span>
           </a>
 
@@ -45,13 +54,13 @@ export default function Home() {
               </svg>
             </div>
             <div>
-              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">Play uoguessr</h2>
+              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">{t('home.guess.title')}</h2>
               <p className="text-[#666] dark:text-[#888] text-sm leading-relaxed">
-                Guess where on campus each photo was taken. Drop a pin, score points for accuracy, beat your friends.
+                {t('home.guess.desc')}
               </p>
             </div>
             <span className="text-sm font-semibold text-[#8f001a] group-hover:underline underline-offset-4 mt-auto">
-              Play now →
+              {t('home.guess.cta')}
             </span>
           </a>
 
@@ -66,13 +75,13 @@ export default function Home() {
               </svg>
             </div>
             <div>
-              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">Find Student Opportunities</h2>
+              <h2 className="font-bold text-[#111] dark:text-white mb-1.5">{t('home.opps.title')}</h2>
               <p className="text-[#666] dark:text-[#888] text-sm leading-relaxed">
-                Live-updated TA postings, scholarships, and academic opportunities scraped for uOttawa students.
+                {t('home.opps.desc')}
               </p>
             </div>
             <span className="text-sm font-semibold text-[#8f001a] group-hover:underline underline-offset-4 mt-auto">
-              Explore now →
+              {t('home.opps.cta')}
             </span>
           </a>
 
@@ -80,13 +89,19 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-black/[0.06] dark:border-white/[0.06] mt-auto">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
-          <span className="text-[#aaa] dark:text-[#555] text-xs tracking-wide">Independent · Not affiliated with uOttawa</span>
-          <a href="https://github.com" aria-label="GitHub" className="text-[#666] dark:text-[#888] hover:text-[#111] dark:hover:text-white transition-colors">
-            <svg className="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
-            </svg>
-          </a>
+        <div className="max-w-6xl mx-auto px-6 pt-6 pb-16 flex flex-col items-center gap-3 text-center">
+          <span className="text-[#aaa] dark:text-[#555] text-sm tracking-wide">{t('nav.independent')}</span>
+          <div className="flex items-center gap-2 text-sm text-[#aaa] dark:text-[#555]">
+            <a href="https://github.com/uomap-uo/uomap" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 font-semibold text-[#111] dark:text-white hover:text-[#8f001a] dark:hover:text-[#ff465f] transition-colors">
+              GitHub
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <span>{t('nav.maintainedBy')}</span>
+            <a href="https://www.linkedin.com/in/oumzumi/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 font-semibold text-[#111] dark:text-white hover:text-[#0a66c2] transition-colors">
+              Oumer Gharad
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
         </div>
       </footer>
 

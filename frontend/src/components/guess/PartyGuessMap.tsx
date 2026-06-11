@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { MapPoint } from './GuessMap'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const CAMPUS_CENTER: [number, number] = [-75.6831, 45.4231]
 const CAMPUS_MAX_BOUNDS: [[number, number], [number, number]] = [
@@ -51,6 +52,7 @@ function labeledPinElement(color: string, name: string, zIndex: number) {
 }
 
 export default function PartyGuessMap({ phase, playerPins, actual, onPick }: PartyGuessMapProps) {
+  const { t } = useLanguage()
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const playerMarkersRef = useRef<Map<string, mapboxgl.Marker>>(new Map())
@@ -112,18 +114,27 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
     })
     mapRef.current = map
 
-    const ro = new ResizeObserver(() => map.resize())
+    let resizeRaf = 0
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(resizeRaf)
+      let frames = 0
+      const tick = () => {
+        map.resize()
+        if (++frames < 25) resizeRaf = requestAnimationFrame(tick)
+      }
+      resizeRaf = requestAnimationFrame(tick)
+    })
     if (containerRef.current) ro.observe(containerRef.current)
 
+    const markers = playerMarkersRef.current
     return () => {
       ro.disconnect()
-      const markers = playerMarkersRef.current
+      cancelAnimationFrame(resizeRaf)
       map.remove()
       mapRef.current = null
       markers.clear()
       actualMarkerRef.current = null
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const toggleStyle = () => {
@@ -249,7 +260,6 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
       if (map.isStyleLoaded()) removeAllPlayerLines(map)
       map.jumpTo({ center: CAMPUS_CENTER, zoom: 15 })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, actual])
 
   return (
@@ -259,7 +269,7 @@ export default function PartyGuessMap({ phase, playerPins, actual, onPick }: Par
         onClick={toggleStyle}
         className="absolute top-3 right-3 z-10 rounded-md border border-black/15 bg-white px-3 py-1.5 text-xs font-medium text-[#111111] shadow-md hover:bg-[#f5f5f5]"
       >
-        {satellite ? 'Map' : 'Satellite'}
+        {satellite ? t('guess.mapToggle.map') : t('guess.mapToggle.satellite')}
       </button>
     </div>
   )

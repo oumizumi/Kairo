@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import ThemeToggle from '@/components/ThemeToggle'
+import LanguageToggle from '@/components/LanguageToggle'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 type Tab    = 'ta' | 'scholarships'
 type Sort   = 'posted' | 'deadline' | 'pay'
@@ -147,11 +149,11 @@ const ROLE_CLS: Record<Role, string> = {
   Other:  'bg-[#f3f4f6] dark:bg-[#1f2937] text-[#6b7280] dark:text-[#9ca3af]',
 }
 
-const ROLE_LABEL: Record<Role, string> = {
-  TA:     'Teaching Asst',
-  RA:     'Research Asst',
-  APTPUO: 'Part-time Prof',
-  Other:  'Staff',
+const ROLE_LABEL_KEY: Record<Role, 'opps.role.ta' | 'opps.role.ra' | 'opps.role.aptpuo' | 'opps.role.other'> = {
+  TA:     'opps.role.ta',
+  RA:     'opps.role.ra',
+  APTPUO: 'opps.role.aptpuo',
+  Other:  'opps.role.other',
 }
 
 // helpers
@@ -165,14 +167,16 @@ function CourseBadge({ code }: { code: string }) {
 }
 
 function RoleBadge({ role }: { role: Role }) {
+  const { t } = useLanguage()
   return (
     <span className={`text-xs font-medium px-2 py-0.5 rounded-md shrink-0 ${ROLE_CLS[role]}`}>
-      {ROLE_LABEL[role]}
+      {t(ROLE_LABEL_KEY[role])}
     </span>
   )
 }
 
 function TaCard({ p, onClick }: { p: TaPosition; onClick: () => void }) {
+  const { t } = useLanguage()
   const { displayTitle, role } = parseTitle(p.title)
   const courseCode = p.course_code ?? codeFromTitle(p.title)
   const faculty    = cleanFaculty(p.faculty)
@@ -231,7 +235,7 @@ function TaCard({ p, onClick }: { p: TaPosition; onClick: () => void }) {
 
       <div className="mt-auto pt-2.5 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between gap-2">
         <span className="text-xs text-[#aaa] dark:text-[#555] truncate">{postedText}</span>
-        <span className="text-xs text-[#8f001a] font-medium shrink-0">View details →</span>
+        <span className="text-xs text-[#8f001a] font-medium shrink-0">{t('opps.viewDetails')}</span>
       </div>
     </div>
   )
@@ -256,6 +260,7 @@ function SkeletonCard() {
 }
 
 function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }) {
+  const { t } = useLanguage()
   const [html, setHtml] = useState<string | null>(null)
   const [descLoading, setDescLoading] = useState(true)
 
@@ -333,7 +338,7 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
               <span className="text-sm font-semibold text-[#111] dark:text-[#eee]">{pay}</span>
             )}
             {p.supervisor && (
-              <span className="text-sm text-[#666] dark:text-[#888]">Supervisor: {p.supervisor}</span>
+              <span className="text-sm text-[#666] dark:text-[#888]">{t('opps.supervisor', { name: p.supervisor })}</span>
             )}
             {workPeriod && (
               <span className="text-sm text-[#666] dark:text-[#888]">{workPeriod}</span>
@@ -349,13 +354,13 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
                 <div key={i} className="h-4 bg-black/5 dark:bg-white/5 rounded" style={{ width: `${w * 100}%` }} />
               ))}
             </div>
-          ) : html ? (
+          ) : html !== null ? (
             <div
               className="text-sm text-[#333] dark:text-[#ccc] leading-relaxed [&_p]:mb-2 [&_ul]:pl-5 [&_ul]:list-disc [&_ul]:mb-3 [&_li]:mb-1 [&_ol]:pl-5 [&_ol]:list-decimal [&_ol]:mb-3 [&_strong]:font-semibold [&_b]:font-semibold [&_h1]:text-base [&_h1]:font-bold [&_h1]:mb-2 [&_h2]:text-sm [&_h2]:font-bold [&_h2]:mb-1.5 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:mb-1 [&_p:has(strong)]:mt-3 [&_p:has(b)]:mt-3 [&_table]:w-full [&_table]:mb-4 [&_td]:pr-4 [&_td]:py-1 [&_td]:align-top [&_td:first-child]:text-[#888] [&_td:first-child]:dark:text-[#666] [&_td:first-child]:w-48 [&_td:first-child]:shrink-0 [&_tr]:border-b [&_tr]:border-black/[0.04] dark:[&_tr]:border-white/[0.04]"
               dangerouslySetInnerHTML={{ __html: html }}
             />
           ) : (
-            <p className="text-sm text-[#aaa] dark:text-[#555]">No description available.</p>
+            <p className="text-sm text-[#aaa] dark:text-[#555]">{t('opps.noDescription')}</p>
           )}
         </div>
 
@@ -368,7 +373,7 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
             rel="noopener noreferrer"
             className="text-sm font-semibold text-[#8f001a] hover:underline underline-offset-4"
           >
-            Apply on Workday →
+            {t('opps.applyWorkday')}
           </a>
         </div>
       </div>
@@ -388,6 +393,7 @@ const ROLE_FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function OpportunitiesPage() {
+  const { t } = useLanguage()
   const [tab,        setTab]        = useState<Tab>('ta')
   const [positions,  setPositions]  = useState<TaPosition[]>([])
   const [loading,    setLoading]    = useState(true)
@@ -451,33 +457,36 @@ export default function OpportunitiesPage() {
 
       <div className="max-w-6xl mx-auto w-full px-6 pt-6 flex items-center justify-between">
         <a href="/" className="text-[#111] dark:text-white font-bold text-lg tracking-tight">uomap</a>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
       </div>
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-10">
 
         <div className="mb-8 flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-2xl font-bold text-[#111] dark:text-white mb-1">Student Opportunities</h1>
-            <p className="text-[#666] dark:text-[#888] text-sm">Live-updated listings for uOttawa students</p>
+            <h1 className="text-2xl font-bold text-[#111] dark:text-white mb-1">{t('opps.title')}</h1>
+            <p className="text-[#666] dark:text-[#888] text-sm">{t('opps.subtitle')}</p>
           </div>
           {lastUpdated && (
-            <span className="text-xs text-[#aaa] dark:text-[#555]">Updated {lastUpdated}</span>
+            <span className="text-xs text-[#aaa] dark:text-[#555]">{t('opps.updated', { date: lastUpdated })}</span>
           )}
         </div>
 
         <div className="flex gap-1 border-b border-black/10 dark:border-white/10 mb-6">
-          {TABS.map(t => (
+          {TABS.map(tab_ => (
             <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
+              key={tab_.id}
+              onClick={() => setTab(tab_.id)}
               className={`px-4 py-2.5 text-sm font-medium -mb-px border-b-2 transition-colors ${
-                tab === t.id
+                tab === tab_.id
                   ? 'border-[#8f001a] text-[#8f001a]'
                   : 'border-transparent text-[#666] dark:text-[#888] hover:text-[#111] dark:hover:text-white'
               }`}
             >
-              {t.label}
+              {tab_.id === 'ta' ? t('opps.taJobs') : t('opps.scholarships')}
             </button>
           ))}
         </div>
@@ -487,7 +496,7 @@ export default function OpportunitiesPage() {
             <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <input
                 type="text"
-                placeholder="Search by course, faculty, or professor..."
+                placeholder={t('opps.search.placeholder')}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 className="flex-1 px-4 py-2.5 text-sm bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 rounded-lg text-[#111] dark:text-white placeholder-[#999] dark:placeholder-[#555] focus:outline-none focus:border-[#8f001a]/40 dark:focus:border-[#8f001a]/40 transition-colors"
@@ -497,9 +506,9 @@ export default function OpportunitiesPage() {
                 onChange={e => setSort(e.target.value as Sort)}
                 className="px-3 py-2.5 text-sm bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 rounded-lg text-[#111] dark:text-white focus:outline-none focus:border-[#8f001a]/40 dark:focus:border-[#8f001a]/40 transition-colors cursor-pointer"
               >
-                <option value="posted">Most Recent</option>
-                <option value="deadline">By Deadline</option>
-                <option value="pay">By Pay Rate</option>
+                <option value="posted">{t('opps.sort.recent')}</option>
+                <option value="deadline">{t('opps.sort.deadline')}</option>
+                <option value="pay">{t('opps.sort.pay')}</option>
               </select>
             </div>
 
@@ -514,15 +523,15 @@ export default function OpportunitiesPage() {
                       : 'bg-transparent text-[#666] dark:text-[#888] border-black/10 dark:border-white/10 hover:text-[#111] dark:hover:text-white hover:border-black/20 dark:hover:border-white/20'
                   }`}
                 >
-                  {f.label}
+                  {f.id === 'all' ? t('opps.filter.all') : f.id === 'TA' ? t('opps.filter.ta') : t('opps.filter.ra')}
                 </button>
               ))}
             </div>
 
             {!loading && (
               <p className="text-xs text-[#aaa] dark:text-[#555] mb-4">
-                {filtered.length} {filtered.length === 1 ? 'position' : 'positions'}
-                {query ? ' matching' : ''}
+                {filtered.length} {t(filtered.length === 1 ? 'opps.positionSingular' : 'opps.positionPlural')}
+                {query ? ' ' + t('opps.matching') : ''}
               </p>
             )}
 
@@ -534,10 +543,10 @@ export default function OpportunitiesPage() {
 
             {!loading && filtered.length === 0 && (
               <div className="text-center py-20">
-                <p className="text-[#999] dark:text-[#555] text-sm">No positions found</p>
+                <p className="text-[#999] dark:text-[#555] text-sm">{t('opps.noPositions')}</p>
                 {positions.length === 0 && (
                   <p className="text-[#bbb] dark:text-[#444] text-xs mt-1.5">
-                    The scraper may not have run yet, or a Supabase read policy is needed.
+                    {t('opps.scraperNote')}
                   </p>
                 )}
               </div>
@@ -555,7 +564,7 @@ export default function OpportunitiesPage() {
 
         {tab === 'scholarships' && (
           <div className="text-center py-20">
-            <p className="text-[#999] dark:text-[#555] text-sm">Coming soon</p>
+            <p className="text-[#999] dark:text-[#555] text-sm">{t('opps.comingSoon')}</p>
           </div>
         )}
 
@@ -563,7 +572,7 @@ export default function OpportunitiesPage() {
 
       <footer className="border-t border-black/[0.06] dark:border-white/[0.06] mt-auto">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
-          <span className="text-[#aaa] dark:text-[#555] text-xs tracking-wide">Independent · Not affiliated with uOttawa</span>
+          <span className="text-[#aaa] dark:text-[#555] text-xs tracking-wide">{t('nav.independent')}</span>
           <a href="https://github.com" aria-label="GitHub" className="text-[#666] dark:text-[#888] hover:text-[#111] dark:hover:text-white transition-colors">
             <svg className="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>

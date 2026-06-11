@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import type { PartyMode } from '@/types/party'
+import LanguageToggle from '@/components/LanguageToggle'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 
@@ -20,13 +22,14 @@ function getOrCreatePlayerId(): string {
   return id
 }
 
-const MODES: { value: PartyMode; label: string; desc: string }[] = [
-  { value: 'duel', label: 'Duel',    desc: '1v1, HP bars. First to zero loses.' },
-  { value: 'ffa',  label: 'FFA',     desc: '2 to 5 players. Most points wins.' },
-  { value: 'duos', label: 'Duos',    desc: '2v2 teams. Combined score wins.' },
+const MODES: { value: PartyMode; labelKey: 'party.mode.duel' | 'party.mode.ffa' | 'party.mode.duos'; descKey: 'party.mode.duelDesc' | 'party.mode.ffaDesc' | 'party.mode.duosDesc' }[] = [
+  { value: 'duel', labelKey: 'party.mode.duel', descKey: 'party.mode.duelDesc' },
+  { value: 'ffa',  labelKey: 'party.mode.ffa',  descKey: 'party.mode.ffaDesc'  },
+  { value: 'duos', labelKey: 'party.mode.duos', descKey: 'party.mode.duosDesc' },
 ]
 
 export default function PartyPage() {
+  const { t } = useLanguage()
   const router = useRouter()
   const [tab, setTab] = useState<'create' | 'join'>('create')
 
@@ -40,9 +43,15 @@ export default function PartyPage() {
   const [joinName, setJoinName] = useState('')
   const [joining, setJoining] = useState(false)
   const [joinError, setJoinError] = useState('')
+  const [joinErrorField, setJoinErrorField] = useState<'code' | 'name' | 'other' | null>(null)
+
+  const setJoinErr = (msg: string, field: 'code' | 'name' | 'other') => {
+    setJoinError(msg)
+    setJoinErrorField(field)
+  }
 
   const createRoom = async () => {
-    if (!createName.trim()) { setCreateError('Enter your name'); return }
+    if (!createName.trim()) { setCreateError(t('party.error.enterName')); return }
     setCreating(true)
     setCreateError('')
     const playerId = getOrCreatePlayerId()
@@ -54,7 +63,7 @@ export default function PartyPage() {
       })
       if (roomErr) {
         if (roomErr.code === '23505') continue
-        setCreateError('Failed to create room.')
+        setCreateError(t('party.error.notFound'))
         setCreating(false)
         return
       }
@@ -66,24 +75,25 @@ export default function PartyPage() {
       router.push(`/guess/party/${code}`)
       return
     }
-    setCreateError('Could not generate a unique code.')
+    setCreateError(t('party.error.enterCode'))
     setCreating(false)
   }
 
   const joinRoom = async () => {
     const code = joinCode.trim().toUpperCase()
-    if (code.length !== 6) { setJoinError('Enter a 6-character code'); return }
-    if (!joinName.trim()) { setJoinError('Enter your name'); return }
+    if (code.length !== 6) { setJoinErr(t('party.error.enterCode'), 'code'); return }
+    if (!joinName.trim()) { setJoinErr(t('party.error.enterName'), 'name'); return }
     setJoining(true)
     setJoinError('')
+    setJoinErrorField(null)
     const playerId = getOrCreatePlayerId()
     const { data: room, error } = await supabase.from('party_rooms').select('*').eq('id', code).single()
-    if (error || !room) { setJoinError('Room not found'); setJoining(false); return }
-    if (room.phase !== 'lobby') { setJoinError('Game already in progress'); setJoining(false); return }
+    if (error || !room) { setJoinErr(t('party.error.notFound'), 'other'); setJoining(false); return }
+    if (room.phase !== 'lobby') { setJoinErr(t('party.error.inProgress'), 'other'); setJoining(false); return }
     const { data: existing } = await supabase.from('party_players').select('id').eq('room_id', code)
     const max = room.mode === 'duel' ? 2 : room.mode === 'duos' ? 4 : 5
     if ((existing?.length ?? 0) >= max && !(existing ?? []).some((p: { id: string }) => p.id === playerId)) {
-      setJoinError('Room is full'); setJoining(false); return
+      setJoinErr(t('party.error.full'), 'other'); setJoining(false); return
     }
     await supabase.from('party_players').upsert({
       id: playerId, room_id: code,
@@ -93,22 +103,23 @@ export default function PartyPage() {
     router.push(`/guess/party/${code}`)
   }
 
-  const selectedMode = MODES.find(m => m.value === mode)!
+  const selectedModeEntry = MODES.find(m => m.value === mode)!
 
   return (
     <div className="fixed inset-0 overflow-y-auto">
-      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-6">
+      <div className="relative z-20 max-w-5xl mx-auto px-6 pt-6 flex items-center justify-between">
         <a
           href="/guess"
           className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 text-sm font-semibold text-white/80 hover:text-white hover:border-white/30 transition-all"
         >
-          ← uoguessr
+          {t('party.backGuess')}
         </a>
+        <LanguageToggle variant="dark" />
       </div>
 
       <main className="relative z-10 min-h-screen flex flex-col items-center px-6 pt-[11vh] pb-16">
         <p className="text-white/70 font-bold text-xs sm:text-sm tracking-[0.45em] uppercase mb-3 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] animate-fade-up">
-          Multiplayer
+          {t('party.multiplayer')}
         </p>
         <h1 className="text-[clamp(58px,10vw,120px)] leading-[0.85] font-extrabold italic uppercase tracking-[-0.04em] text-white mb-10 text-center drop-shadow-[0_10px_44px_rgba(0,0,0,0.7)] animate-fade-up [animation-delay:60ms]">
           Party
@@ -118,18 +129,18 @@ export default function PartyPage() {
 
           {/* tab toggle */}
           <div className="flex gap-7 justify-center">
-            {(['create', 'join'] as const).map(t => (
+            {(['create', 'join'] as const).map(tabKey => (
               <button
-                key={t}
-                onClick={() => setTab(t)}
+                key={tabKey}
+                onClick={() => setTab(tabKey)}
                 className={`relative pb-2 text-xl font-extrabold italic uppercase tracking-tight transition-colors [text-shadow:0_2px_12px_rgba(0,0,0,0.8)] ${
-                  tab === t ? 'text-white' : 'text-white/40 hover:text-white/70'
+                  tab === tabKey ? 'text-white' : 'text-white/40 hover:text-white/70'
                 }`}
               >
-                {t === 'create' ? 'New Room' : 'Join Room'}
+                {tabKey === 'create' ? t('party.newRoom') : t('party.joinRoom')}
                 <span
                   className={`absolute bottom-0 left-0 h-[3px] rounded-full bg-[#ff465f] transition-all duration-300 ${
-                    tab === t ? 'w-full' : 'w-0'
+                    tab === tabKey ? 'w-full' : 'w-0'
                   }`}
                 />
               </button>
@@ -151,26 +162,26 @@ export default function PartyPage() {
                           : 'border-white/25 text-white/60 bg-black/25 hover:border-white/50 hover:text-white'
                       }`}
                     >
-                      {m.label}
+                      {t(m.labelKey)}
                     </button>
                   ))}
                 </div>
-                <p className="text-xs font-semibold text-white/50 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{selectedMode.desc}</p>
+                <p className="text-xs font-semibold text-white/50 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{t(selectedModeEntry.descKey)}</p>
               </div>
 
               {/* timer */}
               <div className="flex gap-2.5 flex-wrap justify-center">
-                {([30, 60, null] as (number | null)[]).map(t => (
+                {([30, 60, null] as (number | null)[]).map(ts => (
                   <button
-                    key={String(t)}
-                    onClick={() => setTimer(t)}
+                    key={String(ts)}
+                    onClick={() => setTimer(ts)}
                     className={`px-6 py-2.5 rounded-full text-sm font-extrabold uppercase tracking-wide border-2 backdrop-blur-sm transition-all ${
-                      timer === t
+                      timer === ts
                         ? 'border-[#ff465f] text-white bg-[#8f001a]/50 shadow-[0_0_24px_rgba(143,0,26,0.5)]'
                         : 'border-white/25 text-white/60 bg-black/25 hover:border-white/50 hover:text-white'
                     }`}
                   >
-                    {t === null ? 'No limit' : `${t}s`}
+                    {ts === null ? t('party.noLimit') : `${ts}s`}
                   </button>
                 ))}
               </div>
@@ -180,7 +191,7 @@ export default function PartyPage() {
                 <input
                   type="text"
                   maxLength={24}
-                  placeholder="YOUR NAME"
+                  placeholder={t('party.namePlaceholder')}
                   value={createName}
                   onChange={e => { setCreateName(e.target.value); setCreateError('') }}
                   onKeyDown={e => e.key === 'Enter' && createRoom()}
@@ -199,7 +210,7 @@ export default function PartyPage() {
                 className="group w-fit mx-auto py-1 disabled:opacity-50"
               >
                 <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 drop-shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
-                  {creating ? 'Creating…' : 'Create →'}
+                  {creating ? t('party.creating') : t('party.create')}
                 </span>
               </button>
             </div>
@@ -209,14 +220,14 @@ export default function PartyPage() {
                 <input
                   type="text"
                   maxLength={6}
-                  placeholder="ROOM CODE"
+                  placeholder={t('party.codePlaceholder')}
                   value={joinCode}
-                  onChange={e => { setJoinCode(e.target.value.toUpperCase()); setJoinError('') }}
+                  onChange={e => { setJoinCode(e.target.value.toUpperCase()); setJoinError(''); setJoinErrorField(null) }}
                   className={`w-full bg-transparent border-0 border-b-2 rounded-none px-1 py-2.5 text-2xl font-mono font-extrabold tracking-[0.3em] uppercase text-white text-center placeholder-white/30 placeholder:text-lg placeholder:tracking-[0.15em] outline-none transition-colors [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] ${
-                    joinError && joinError.toLowerCase().includes('code') ? 'border-[#ff465f]' : 'border-white/25 focus:border-[#ff465f]'
+                    joinErrorField === 'code' ? 'border-[#ff465f]' : 'border-white/25 focus:border-[#ff465f]'
                   }`}
                 />
-                {joinError && joinError.toLowerCase().includes('code') && (
+                {joinErrorField === 'code' && (
                   <p className="text-[#ff465f] text-xs font-bold px-1 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{joinError}</p>
                 )}
               </div>
@@ -225,20 +236,20 @@ export default function PartyPage() {
                 <input
                   type="text"
                   maxLength={24}
-                  placeholder="YOUR NAME"
+                  placeholder={t('party.namePlaceholder')}
                   value={joinName}
-                  onChange={e => { setJoinName(e.target.value); setJoinError('') }}
+                  onChange={e => { setJoinName(e.target.value); setJoinError(''); setJoinErrorField(null) }}
                   onKeyDown={e => e.key === 'Enter' && joinRoom()}
                   className={`w-full bg-transparent border-0 border-b-2 rounded-none px-1 py-2.5 text-lg font-extrabold italic tracking-wide text-white text-center placeholder-white/30 outline-none transition-colors [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] ${
-                    joinError && joinError.toLowerCase().includes('name') ? 'border-[#ff465f]' : 'border-white/25 focus:border-[#ff465f]'
+                    joinErrorField === 'name' ? 'border-[#ff465f]' : 'border-white/25 focus:border-[#ff465f]'
                   }`}
                 />
-                {joinError && joinError.toLowerCase().includes('name') && (
+                {joinErrorField === 'name' && (
                   <p className="text-[#ff465f] text-xs font-bold px-1 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{joinError}</p>
                 )}
               </div>
 
-              {joinError && !joinError.toLowerCase().includes('code') && !joinError.toLowerCase().includes('name') && (
+              {joinError && joinErrorField === 'other' && (
                 <p className="text-[#ff465f] text-xs font-bold px-1 text-center [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">{joinError}</p>
               )}
 
@@ -248,7 +259,7 @@ export default function PartyPage() {
                 className="group w-fit mx-auto py-1 disabled:opacity-50"
               >
                 <span className="block text-center text-4xl sm:text-5xl font-extrabold italic uppercase tracking-tight text-[#ff465f] group-hover:scale-105 transition-all duration-200 drop-shadow-[0_6px_28px_rgba(0,0,0,0.7)]">
-                  {joining ? 'Joining…' : 'Join →'}
+                  {joining ? t('party.joining') : t('party.join')}
                 </span>
               </button>
             </div>
