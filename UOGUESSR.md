@@ -19,7 +19,7 @@ uomap as its own route — shared navbar, theme, and design system.
   (originally Leaflet + raster tiles; swapped for the nicer look and feel).
   Pannellum (or Photo Sphere Viewer) when 360 photos arrive.
 
-## Photo set
+## Photo setdfdffsfsfd
 
 | Stage | Count | Notes |
 |---|---|---|
