@@ -1,5 +1,10 @@
 'use client'
 
+import Rain from './Rain'
+import Snow from './Snow'
+import Thunder from './Thunder'
+import { useWeather } from '@/contexts/WeatherContext'
+
 // wing-up and wing-down silhouettes, same path structure so the browser can morph between them
 const WINGS_UP =
   'M0 1.5 C4 0.2, 7.5 1.5, 10 5 C12.5 1.5, 16 0.2, 20 1.5 C16 2.8, 13 4.2, 10 7.2 C7 4.2, 4 2.8, 0 1.5 Z'
@@ -161,6 +166,8 @@ function Birds() {
 }
 
 export default function GuessBackdrop({ dimmer = false }: { dimmer?: boolean }) {
+  const { isRaining, isSnowing, isStorming } = useWeather()
+
   return (
     <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -176,6 +183,9 @@ export default function GuessBackdrop({ dimmer = false }: { dimmer?: boolean }) 
             : 'from-black/55 via-black/25 to-black/70'
         }`}
       />
+      {isRaining && <Rain />}
+      {isSnowing && <Snow />}
+      {isStorming && <Thunder />}
       <Birds />
     </div>
   )

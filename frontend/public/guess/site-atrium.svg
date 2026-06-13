@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
-  <rect width="1280" height="800" fill="#312e2b"/>
-  <rect x="160" y="160" width="960" height="440" fill="#45413c"/>
-  <line x1="160" y1="160" x2="1120" y2="600" stroke="#2a2724" stroke-width="10"/>
-  <line x1="1120" y1="160" x2="160" y2="600" stroke="#2a2724" stroke-width="10"/>
-  <rect x="540" y="280" width="200" height="200" fill="#26231f"/>
-  <text x="640" y="700" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="700" fill="#f5f5f4">Placeholder  SITE atrium</text>
-  <text x="640" y="748" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#a8a29e">swap for real photo (site-atrium.webp)</text>
-</svg>

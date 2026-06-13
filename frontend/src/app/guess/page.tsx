@@ -7,6 +7,7 @@ import { GUESS_LOCATIONS, type GuessLocation } from '@/data/guess_locations'
 import type { MapPoint } from '@/components/guess/GuessMap'
 import LanguageToggle from '@/components/LanguageToggle'
 import { useLanguage } from '@/contexts/LanguageContext'
+import WeatherDebugToggle from '@/components/guess/WeatherDebugToggle'
 
 // MapLibre touches window at import time, must skip SSR
 const GuessMap = dynamic(() => import('@/components/guess/GuessMap'), {
@@ -365,7 +366,10 @@ export default function GuessPage() {
               ← uomap
             </Link>
           )}
-          <LanguageToggle variant="dark" />
+          <div className="flex items-center gap-2">
+            <WeatherDebugToggle />
+            <LanguageToggle variant="dark" />
+          </div>
         </div>
 
         <p className="absolute z-10 bottom-7 right-8 hidden sm:block text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
@@ -527,7 +531,8 @@ export default function GuessPage() {
           >
             uo<span className="text-[#d4254a]">guessr</span>
           </Link>
-          <div className="pointer-events-auto">
+          <div className="pointer-events-auto flex items-center gap-2">
+            <WeatherDebugToggle />
             <LanguageToggle variant="dark" />
           </div>
         </div>

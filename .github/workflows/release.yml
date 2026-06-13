@@ -33,6 +33,7 @@ jobs:
   deploy:
     name: Deploy to Netlify (production)
     needs: release-please
+    if: needs.release-please.outputs.release_created
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
