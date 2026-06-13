@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/uomap-uo/uomap/compare/uomap-v0.3.0...uomap-v0.4.0) (2026-06-11)
+
+
+### Features
+
+* migrate uoguessr maps from MapLibre to Mapbox GL JS ([e25ff50](https://github.com/uomap-uo/uomap/commit/e25ff50839ffb82bc521446630a98266e85c623a))
+* mobile layout for schedule + UI polish ([120147d](https://github.com/uomap-uo/uomap/commit/120147d64472fb0fd5920a7db6166ebaf261a281))
+
 ## [0.3.0](https://github.com/uomap-uo/uomap/compare/uomap-v0.2.0...uomap-v0.3.0) (2026-06-10)
 
 
