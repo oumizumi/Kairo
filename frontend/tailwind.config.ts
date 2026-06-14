@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 
 const config: Config = {
   darkMode: 'class',
@@ -10,6 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        accent: 'rgb(var(--accent-rgb) / <alpha-value>)',
         garnet: {
           DEFAULT: '#8f001a',
           dark: '#6e0014',
@@ -66,7 +68,11 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant('fall', 'html.fall &')
+    }),
+  ],
 }
 
 export default config

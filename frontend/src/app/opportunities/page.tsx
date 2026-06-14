@@ -143,10 +143,10 @@ function formatPay(rate: number | null, hours: number | null): string | null {
 }
 
 const ROLE_CLS: Record<Role, string> = {
-  TA:     'bg-[#f0fdf4] dark:bg-[#052e16] text-[#166534] dark:text-[#86efac]',
-  RA:     'bg-[#fdf4ff] dark:bg-[#2e1a3a] text-[#7c3aed] dark:text-[#c4b5fd]',
-  APTPUO: 'bg-[#eff6ff] dark:bg-[#0f1f4a] text-[#1e40af] dark:text-[#93c5fd]',
-  Other:  'bg-[#f3f4f6] dark:bg-[#1f2937] text-[#6b7280] dark:text-[#9ca3af]',
+  TA:     'bg-[#f0fdf4] dark:bg-[#052e16] fall:bg-[#f0fdf4] text-[#166534] dark:text-[#86efac] fall:text-[#166534]',
+  RA:     'bg-[#fdf4ff] dark:bg-[#2e1a3a] fall:bg-[#fdf4ff] text-[#7c3aed] dark:text-[#c4b5fd] fall:text-[#7c3aed]',
+  APTPUO: 'bg-[#eff6ff] dark:bg-[#0f1f4a] fall:bg-[#eff6ff] text-[#1e40af] dark:text-[#93c5fd] fall:text-[#1e40af]',
+  Other:  'bg-[#f3f4f6] dark:bg-[#1f2937] fall:bg-[#f3f4f6] text-[#6b7280] dark:text-[#9ca3af] fall:text-[#6b7280]',
 }
 
 const ROLE_LABEL_KEY: Record<Role, 'opps.role.ta' | 'opps.role.ra' | 'opps.role.aptpuo' | 'opps.role.other'> = {
@@ -160,7 +160,7 @@ const ROLE_LABEL_KEY: Record<Role, 'opps.role.ta' | 'opps.role.ra' | 'opps.role.
 
 function CourseBadge({ code }: { code: string }) {
   return (
-    <span className="text-xs font-semibold px-2 py-0.5 rounded-md text-[#8f001a] bg-[#8f001a]/[0.08] dark:bg-[#8f001a]/[0.15]">
+    <span className="text-xs font-semibold px-2 py-0.5 rounded-md text-accent bg-accent/[0.08] dark:bg-accent/[0.15] fall:bg-accent/[0.08]">
       {code}
     </span>
   )
@@ -193,7 +193,7 @@ function TaCard({ p, onClick }: { p: TaPosition; onClick: () => void }) {
   return (
     <div
       onClick={onClick}
-      className="group bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl p-5 flex flex-col gap-2.5 border border-black/5 dark:border-white/5 hover:border-[#8f001a]/30 dark:hover:border-[#8f001a]/30 transition-colors cursor-pointer"
+      className="group bg-[#f5f5f5] dark:bg-[#1a1a1a] fall:bg-[#F5E6CC] rounded-xl p-5 flex flex-col gap-2.5 border border-black/5 dark:border-white/5 fall:border-black/[0.06] hover:border-accent/30 dark:hover:border-accent/30 transition-colors cursor-pointer"
     >
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2">
@@ -203,10 +203,10 @@ function TaCard({ p, onClick }: { p: TaPosition; onClick: () => void }) {
         {(term || p.language) && (
           <div className="flex items-center gap-1.5 shrink-0">
             {term && (
-              <span className="text-xs text-[#888] dark:text-[#666]">{term}</span>
+              <span className="text-xs text-[#888] dark:text-[#666] fall:text-[#9A7050]">{term}</span>
             )}
             {p.language && (
-              <span className="text-xs text-[#999] dark:text-[#666] border border-black/10 dark:border-white/10 px-1.5 py-0.5 rounded">
+              <span className="text-xs text-[#999] dark:text-[#666] fall:text-[#9A7050] border border-black/10 dark:border-white/10 fall:border-black/10 px-1.5 py-0.5 rounded">
                 {p.language}
               </span>
             )}
@@ -214,28 +214,28 @@ function TaCard({ p, onClick }: { p: TaPosition; onClick: () => void }) {
         )}
       </div>
 
-      <h3 className="text-sm font-semibold text-[#111] dark:text-white leading-snug line-clamp-2 group-hover:text-[#8f001a] dark:group-hover:text-[#c0001f] transition-colors">
+      <h3 className="text-sm font-semibold text-[#111] dark:text-white fall:text-[#1C0F05] leading-snug line-clamp-2 group-hover:text-accent dark:group-hover:text-[#c0001f] fall:group-hover:text-accent transition-colors">
         {displayTitle}
       </h3>
 
       {(faculty || p.supervisor) && (
         <div className="flex flex-col gap-0.5">
-          {faculty && <span className="text-xs text-[#666] dark:text-[#888]">{faculty}</span>}
-          {p.supervisor && <span className="text-xs text-[#999] dark:text-[#666]">{p.supervisor}</span>}
+          {faculty && <span className="text-xs text-[#666] dark:text-[#888] fall:text-[#9A7050]">{faculty}</span>}
+          {p.supervisor && <span className="text-xs text-[#999] dark:text-[#666] fall:text-[#9A7050]">{p.supervisor}</span>}
         </div>
       )}
 
       {pay && (
-        <p className="text-sm font-semibold text-[#111] dark:text-[#eee]">{pay}</p>
+        <p className="text-sm font-semibold text-[#111] dark:text-[#eee] fall:text-[#1C0F05]">{pay}</p>
       )}
 
       {workPeriod && (
-        <p className="text-xs text-[#999] dark:text-[#666]">{workPeriod}</p>
+        <p className="text-xs text-[#999] dark:text-[#666] fall:text-[#9A7050]">{workPeriod}</p>
       )}
 
-      <div className="mt-auto pt-2.5 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between gap-2">
-        <span className="text-xs text-[#aaa] dark:text-[#555] truncate">{postedText}</span>
-        <span className="text-xs text-[#8f001a] font-medium shrink-0">{t('opps.viewDetails')}</span>
+      <div className="mt-auto pt-2.5 border-t border-black/[0.06] dark:border-white/[0.06] fall:border-black/[0.06] flex items-center justify-between gap-2">
+        <span className="text-xs text-[#aaa] dark:text-[#555] fall:text-[#A07840] truncate">{postedText}</span>
+        <span className="text-xs text-accent font-medium shrink-0">{t('opps.viewDetails')}</span>
       </div>
     </div>
   )
@@ -243,17 +243,17 @@ function TaCard({ p, onClick }: { p: TaPosition; onClick: () => void }) {
 
 function SkeletonCard() {
   return (
-    <div className="bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded-xl p-5 border border-black/5 dark:border-white/5 animate-pulse flex flex-col gap-2.5">
+    <div className="bg-[#f5f5f5] dark:bg-[#1a1a1a] fall:bg-[#F5E6CC] rounded-xl p-5 border border-black/5 dark:border-white/5 fall:border-black/[0.06] animate-pulse flex flex-col gap-2.5">
       <div className="flex justify-between">
-        <div className="h-5 bg-black/5 dark:bg-white/5 rounded-md w-16" />
-        <div className="h-5 bg-black/5 dark:bg-white/5 rounded-md w-24" />
+        <div className="h-5 bg-black/5 dark:bg-white/5 fall:bg-black/5 rounded-md w-16" />
+        <div className="h-5 bg-black/5 dark:bg-white/5 fall:bg-black/5 rounded-md w-24" />
       </div>
-      <div className="h-4 bg-black/5 dark:bg-white/5 rounded w-4/5" />
-      <div className="h-4 bg-black/5 dark:bg-white/5 rounded w-2/5" />
-      <div className="h-5 bg-black/5 dark:bg-white/5 rounded w-28 mt-1" />
-      <div className="mt-auto pt-2.5 border-t border-black/[0.04] dark:border-white/[0.04] flex justify-between">
-        <div className="h-3.5 bg-black/5 dark:bg-white/5 rounded w-28" />
-        <div className="h-3.5 bg-black/5 dark:bg-white/5 rounded w-16" />
+      <div className="h-4 bg-black/5 dark:bg-white/5 fall:bg-black/5 rounded w-4/5" />
+      <div className="h-4 bg-black/5 dark:bg-white/5 fall:bg-black/5 rounded w-2/5" />
+      <div className="h-5 bg-black/5 dark:bg-white/5 fall:bg-black/5 rounded w-28 mt-1" />
+      <div className="mt-auto pt-2.5 border-t border-black/[0.04] dark:border-white/[0.04] fall:border-black/[0.04] flex justify-between">
+        <div className="h-3.5 bg-black/5 dark:bg-white/5 fall:bg-black/5 rounded w-28" />
+        <div className="h-3.5 bg-black/5 dark:bg-white/5 fall:bg-black/5 rounded w-16" />
       </div>
     </div>
   )
@@ -299,33 +299,33 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 fall:bg-black/40"
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-[#1a1a1a] rounded-xl w-full max-w-2xl max-h-[88vh] flex flex-col border border-black/10 dark:border-white/10 shadow-xl"
+        className="bg-white dark:bg-[#1a1a1a] fall:bg-[#FDF4E3] rounded-xl w-full max-w-2xl max-h-[88vh] flex flex-col border border-black/10 dark:border-white/10 fall:border-black/10 shadow-xl"
         onClick={e => e.stopPropagation()}
       >
         {/* header */}
-        <div className="px-6 pt-5 pb-4 border-b border-black/[0.07] dark:border-white/[0.07] flex items-start gap-4">
+        <div className="px-6 pt-5 pb-4 border-b border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07] flex items-start gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2 flex-wrap">
               {courseCode && <CourseBadge code={courseCode} />}
               <RoleBadge role={role} />
               {p.language && (
-                <span className="text-xs text-[#999] dark:text-[#666] border border-black/10 dark:border-white/10 px-1.5 py-0.5 rounded">
+                <span className="text-xs text-[#999] dark:text-[#666] fall:text-[#9A7050] border border-black/10 dark:border-white/10 fall:border-black/10 px-1.5 py-0.5 rounded">
                   {p.language}
                 </span>
               )}
             </div>
-            <h2 className="text-base font-bold text-[#111] dark:text-white leading-snug">{displayTitle}</h2>
+            <h2 className="text-base font-bold text-[#111] dark:text-white fall:text-[#1C0F05] leading-snug">{displayTitle}</h2>
             {faculty && (
-              <p className="text-sm text-[#666] dark:text-[#888] mt-0.5">{faculty}</p>
+              <p className="text-sm text-[#666] dark:text-[#888] fall:text-[#9A7050] mt-0.5">{faculty}</p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-md text-[#666] dark:text-[#888] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-colors text-base leading-none"
+            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-md text-[#666] dark:text-[#888] fall:text-[#9A7050] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] fall:hover:bg-black/[0.06] transition-colors text-base leading-none"
           >
             ✕
           </button>
@@ -333,15 +333,15 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
 
         {/* meta strip */}
         {(pay || p.supervisor || workPeriod) && (
-          <div className="px-6 py-3 border-b border-black/[0.07] dark:border-white/[0.07] flex flex-wrap gap-x-5 gap-y-1">
+          <div className="px-6 py-3 border-b border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07] flex flex-wrap gap-x-5 gap-y-1">
             {pay && (
-              <span className="text-sm font-semibold text-[#111] dark:text-[#eee]">{pay}</span>
+              <span className="text-sm font-semibold text-[#111] dark:text-[#eee] fall:text-[#1C0F05]">{pay}</span>
             )}
             {p.supervisor && (
-              <span className="text-sm text-[#666] dark:text-[#888]">{t('opps.supervisor', { name: p.supervisor })}</span>
+              <span className="text-sm text-[#666] dark:text-[#888] fall:text-[#9A7050]">{t('opps.supervisor', { name: p.supervisor })}</span>
             )}
             {workPeriod && (
-              <span className="text-sm text-[#666] dark:text-[#888]">{workPeriod}</span>
+              <span className="text-sm text-[#666] dark:text-[#888] fall:text-[#9A7050]">{workPeriod}</span>
             )}
           </div>
         )}
@@ -351,27 +351,27 @@ function DescriptionModal({ p, onClose }: { p: TaPosition; onClose: () => void }
           {descLoading ? (
             <div className="space-y-2.5 animate-pulse">
               {[1, 0.8, 0.9, 0.6, 0.85, 0.7, 0.95].map((w, i) => (
-                <div key={i} className="h-4 bg-black/5 dark:bg-white/5 rounded" style={{ width: `${w * 100}%` }} />
+                <div key={i} className="h-4 bg-black/5 dark:bg-white/5 fall:bg-black/5 rounded" style={{ width: `${w * 100}%` }} />
               ))}
             </div>
           ) : html !== null ? (
             <div
-              className="text-sm text-[#333] dark:text-[#ccc] leading-relaxed [&_p]:mb-2 [&_ul]:pl-5 [&_ul]:list-disc [&_ul]:mb-3 [&_li]:mb-1 [&_ol]:pl-5 [&_ol]:list-decimal [&_ol]:mb-3 [&_strong]:font-semibold [&_b]:font-semibold [&_h1]:text-base [&_h1]:font-bold [&_h1]:mb-2 [&_h2]:text-sm [&_h2]:font-bold [&_h2]:mb-1.5 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:mb-1 [&_p:has(strong)]:mt-3 [&_p:has(b)]:mt-3 [&_table]:w-full [&_table]:mb-4 [&_td]:pr-4 [&_td]:py-1 [&_td]:align-top [&_td:first-child]:text-[#888] [&_td:first-child]:dark:text-[#666] [&_td:first-child]:w-48 [&_td:first-child]:shrink-0 [&_tr]:border-b [&_tr]:border-black/[0.04] dark:[&_tr]:border-white/[0.04]"
+              className="text-sm text-[#333] dark:text-[#ccc] fall:text-[#4A2E12] leading-relaxed [&_p]:mb-2 [&_ul]:pl-5 [&_ul]:list-disc [&_ul]:mb-3 [&_li]:mb-1 [&_ol]:pl-5 [&_ol]:list-decimal [&_ol]:mb-3 [&_strong]:font-semibold [&_b]:font-semibold [&_h1]:text-base [&_h1]:font-bold [&_h1]:mb-2 [&_h2]:text-sm [&_h2]:font-bold [&_h2]:mb-1.5 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:mb-1 [&_p:has(strong)]:mt-3 [&_p:has(b)]:mt-3 [&_table]:w-full [&_table]:mb-4 [&_td]:pr-4 [&_td]:py-1 [&_td]:align-top [&_td:first-child]:text-[#888] [&_td:first-child]:dark:text-[#666] [&_td:first-child]:fall:text-[#9A7050] [&_td:first-child]:w-48 [&_td:first-child]:shrink-0 [&_tr]:border-b [&_tr]:border-black/[0.04] dark:[&_tr]:border-white/[0.04] fall:[&_tr]:border-black/[0.04]"
               dangerouslySetInnerHTML={{ __html: html }}
             />
           ) : (
-            <p className="text-sm text-[#aaa] dark:text-[#555]">{t('opps.noDescription')}</p>
+            <p className="text-sm text-[#aaa] dark:text-[#555] fall:text-[#A07840]">{t('opps.noDescription')}</p>
           )}
         </div>
 
         {/* footer */}
-        <div className="px-6 py-4 border-t border-black/[0.07] dark:border-white/[0.07] flex items-center justify-between gap-3">
-          <span className="text-xs text-[#aaa] dark:text-[#555]">{postedText}</span>
+        <div className="px-6 py-4 border-t border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07] flex items-center justify-between gap-3">
+          <span className="text-xs text-[#aaa] dark:text-[#555] fall:text-[#A07840]">{postedText}</span>
           <a
             href={p.external_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-semibold text-[#8f001a] hover:underline underline-offset-4"
+            className="text-sm font-semibold text-accent hover:underline underline-offset-4"
           >
             {t('opps.applyWorkday')}
           </a>
@@ -453,10 +453,10 @@ export default function OpportunitiesPage() {
     : null
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-[#111] transition-colors duration-200">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#111] fall:bg-[#FDF4E3] transition-colors duration-200">
 
       <div className="max-w-6xl mx-auto w-full px-6 pt-6 flex items-center justify-between">
-        <a href="/" className="text-[#111] dark:text-white font-bold text-lg tracking-tight">uomap</a>
+        <a href="/" className="text-[#111] dark:text-white fall:text-[#1C0F05] font-bold text-lg tracking-tight">uomap</a>
         <div className="flex items-center gap-2">
           <LanguageToggle />
           <ThemeToggle />
@@ -467,23 +467,23 @@ export default function OpportunitiesPage() {
 
         <div className="mb-8 flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-2xl font-bold text-[#111] dark:text-white mb-1">{t('opps.title')}</h1>
-            <p className="text-[#666] dark:text-[#888] text-sm">{t('opps.subtitle')}</p>
+            <h1 className="text-2xl font-bold text-[#111] dark:text-white fall:text-[#1C0F05] mb-1">{t('opps.title')}</h1>
+            <p className="text-[#666] dark:text-[#888] fall:text-[#9A7050] text-sm">{t('opps.subtitle')}</p>
           </div>
           {lastUpdated && (
-            <span className="text-xs text-[#aaa] dark:text-[#555]">{t('opps.updated', { date: lastUpdated })}</span>
+            <span className="text-xs text-[#aaa] dark:text-[#555] fall:text-[#A07840]">{t('opps.updated', { date: lastUpdated })}</span>
           )}
         </div>
 
-        <div className="flex gap-1 border-b border-black/10 dark:border-white/10 mb-6">
+        <div className="flex gap-1 border-b border-black/10 dark:border-white/10 fall:border-black/10 mb-6">
           {TABS.map(tab_ => (
             <button
               key={tab_.id}
               onClick={() => setTab(tab_.id)}
               className={`px-4 py-2.5 text-sm font-medium -mb-px border-b-2 transition-colors ${
                 tab === tab_.id
-                  ? 'border-[#8f001a] text-[#8f001a]'
-                  : 'border-transparent text-[#666] dark:text-[#888] hover:text-[#111] dark:hover:text-white'
+                  ? 'border-accent text-accent'
+                  : 'border-transparent text-[#666] dark:text-[#888] fall:text-[#9A7050] hover:text-[#111] dark:hover:text-white fall:hover:text-[#1C0F05]'
               }`}
             >
               {tab_.id === 'ta' ? t('opps.taJobs') : t('opps.scholarships')}
@@ -499,12 +499,12 @@ export default function OpportunitiesPage() {
                 placeholder={t('opps.search.placeholder')}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                className="flex-1 px-4 py-2.5 text-sm bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 rounded-lg text-[#111] dark:text-white placeholder-[#999] dark:placeholder-[#555] focus:outline-none focus:border-[#8f001a]/40 dark:focus:border-[#8f001a]/40 transition-colors"
+                className="flex-1 px-4 py-2.5 text-sm bg-[#f5f5f5] dark:bg-[#1a1a1a] fall:bg-[#F5E6CC] border border-black/10 dark:border-white/10 fall:border-black/10 rounded-lg text-[#111] dark:text-white fall:text-[#1C0F05] placeholder-[#999] dark:placeholder-[#555] fall:placeholder-[#C4A06A] focus:outline-none focus:border-accent/40 dark:focus:border-accent/40 fall:focus:border-accent/40 transition-colors"
               />
               <select
                 value={sort}
                 onChange={e => setSort(e.target.value as Sort)}
-                className="px-3 py-2.5 text-sm bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 rounded-lg text-[#111] dark:text-white focus:outline-none focus:border-[#8f001a]/40 dark:focus:border-[#8f001a]/40 transition-colors cursor-pointer"
+                className="px-3 py-2.5 text-sm bg-[#f5f5f5] dark:bg-[#1a1a1a] fall:bg-[#F5E6CC] border border-black/10 dark:border-white/10 fall:border-black/10 rounded-lg text-[#111] dark:text-white fall:text-[#1C0F05] focus:outline-none focus:border-accent/40 dark:focus:border-accent/40 fall:focus:border-accent/40 transition-colors cursor-pointer"
               >
                 <option value="posted">{t('opps.sort.recent')}</option>
                 <option value="deadline">{t('opps.sort.deadline')}</option>
@@ -519,8 +519,8 @@ export default function OpportunitiesPage() {
                   onClick={() => setRoleFilter(f.id)}
                   className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors border ${
                     roleFilter === f.id
-                      ? 'bg-[#111] dark:bg-white text-white dark:text-[#111] border-[#111] dark:border-white'
-                      : 'bg-transparent text-[#666] dark:text-[#888] border-black/10 dark:border-white/10 hover:text-[#111] dark:hover:text-white hover:border-black/20 dark:hover:border-white/20'
+                      ? 'bg-[#111] dark:bg-white fall:bg-accent text-white dark:text-[#111] fall:text-white border-[#111] dark:border-white fall:border-accent'
+                      : 'bg-transparent text-[#666] dark:text-[#888] fall:text-[#9A7050] border-black/10 dark:border-white/10 fall:border-black/10 hover:text-[#111] dark:hover:text-white fall:hover:text-[#1C0F05] hover:border-black/20 dark:hover:border-white/20 fall:hover:border-black/20'
                   }`}
                 >
                   {f.id === 'all' ? t('opps.filter.all') : f.id === 'TA' ? t('opps.filter.ta') : t('opps.filter.ra')}
@@ -529,7 +529,7 @@ export default function OpportunitiesPage() {
             </div>
 
             {!loading && (
-              <p className="text-xs text-[#aaa] dark:text-[#555] mb-4">
+              <p className="text-xs text-[#aaa] dark:text-[#555] fall:text-[#A07840] mb-4">
                 {filtered.length} {t(filtered.length === 1 ? 'opps.positionSingular' : 'opps.positionPlural')}
                 {query ? ' ' + t('opps.matching') : ''}
               </p>
@@ -543,9 +543,9 @@ export default function OpportunitiesPage() {
 
             {!loading && filtered.length === 0 && (
               <div className="text-center py-20">
-                <p className="text-[#999] dark:text-[#555] text-sm">{t('opps.noPositions')}</p>
+                <p className="text-[#999] dark:text-[#555] fall:text-[#9A7050] text-sm">{t('opps.noPositions')}</p>
                 {positions.length === 0 && (
-                  <p className="text-[#bbb] dark:text-[#444] text-xs mt-1.5">
+                  <p className="text-[#bbb] dark:text-[#444] fall:text-[#C4A06A] text-xs mt-1.5">
                     {t('opps.scraperNote')}
                   </p>
                 )}
@@ -564,16 +564,16 @@ export default function OpportunitiesPage() {
 
         {tab === 'scholarships' && (
           <div className="text-center py-20">
-            <p className="text-[#999] dark:text-[#555] text-sm">{t('opps.comingSoon')}</p>
+            <p className="text-[#999] dark:text-[#555] fall:text-[#9A7050] text-sm">{t('opps.comingSoon')}</p>
           </div>
         )}
 
       </main>
 
-      <footer className="border-t border-black/[0.06] dark:border-white/[0.06] mt-auto">
+      <footer className="border-t border-black/[0.06] dark:border-white/[0.06] fall:border-black/[0.06] mt-auto">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
-          <span className="text-[#aaa] dark:text-[#555] text-xs tracking-wide">{t('nav.independent')}</span>
-          <a href="https://github.com" aria-label="GitHub" className="text-[#666] dark:text-[#888] hover:text-[#111] dark:hover:text-white transition-colors">
+          <span className="text-[#aaa] dark:text-[#555] fall:text-[#A07840] text-xs tracking-wide">{t('nav.independent')}</span>
+          <a href="https://github.com" aria-label="GitHub" className="text-[#666] dark:text-[#888] fall:text-[#9A7050] hover:text-[#111] dark:hover:text-white fall:hover:text-[#1C0F05] transition-colors">
             <svg className="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
             </svg>

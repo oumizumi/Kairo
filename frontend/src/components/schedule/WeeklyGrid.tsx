@@ -255,24 +255,24 @@ export default function WeeklyGrid({
       <div ref={scrollRef} className="h-full overflow-y-auto" style={{ overflowX: 'clip' }}>
 
         {/* Sticky day headers */}
-        <div className="sticky top-0 z-10 flex border-b border-black/[0.07] dark:border-white/[0.07] bg-white dark:bg-[#111111]">
-          <div className="shrink-0 border-r border-black/[0.07] dark:border-white/[0.07]" style={{ width: timeColW }} />
+        <div className="sticky top-0 z-10 flex border-b border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07] bg-white dark:bg-[#111111] fall:bg-[#FDF4E3]">
+          <div className="shrink-0 border-r border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07]" style={{ width: timeColW }} />
           {DAYS.map((day, di) => {
             const colDate = weekStart ? new Date(weekStart.getTime() + di * 86400000) : null
             const isToday = colDate ? colDate.getTime() === today.getTime() : false
             return (
               <div
                 key={day}
-                className="flex-1 py-3 flex flex-col items-center justify-center gap-1 border-l border-black/[0.07] dark:border-white/[0.07]"
+                className="flex-1 py-3 flex flex-col items-center justify-center gap-1 border-l border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07]"
               >
-                <span className={`${compact ? 'text-[8px]' : 'text-[11px]'} font-bold tracking-[0.08em] uppercase ${isToday ? 'text-[#8f001a]' : 'text-[#888] dark:text-[#666]'}`}>
+                <span className={`${compact ? 'text-[8px]' : 'text-[11px]'} font-bold tracking-[0.08em] uppercase ${isToday ? 'text-accent' : 'text-[#888] dark:text-[#666] fall:text-[#9A7050]'}`}>
                   {compact ? day.slice(0, 2) : day}
                 </span>
                 {colDate && (
                   <span className={`${compact ? 'text-xs' : 'text-sm'} font-bold tabular-nums leading-none ${
                     isToday
-                      ? 'w-5 h-5 flex items-center justify-center rounded-full bg-[#8f001a] text-white'
-                      : 'text-[#999] dark:text-[#555]'
+                      ? 'w-5 h-5 flex items-center justify-center rounded-full bg-accent text-white'
+                      : 'text-[#999] dark:text-[#555] fall:text-[#9A7050]'
                   }`}>
                     {colDate.getDate()}
                   </span>
@@ -288,11 +288,11 @@ export default function WeeklyGrid({
           {/* Vertical line overlay */}
           <div className="absolute inset-0 pointer-events-none flex" style={{ left: timeColW }}>
             {DAYS.map((day) => (
-              <div key={day} className="flex-1 h-full border-l border-black/[0.07] dark:border-white/[0.07]" />
+              <div key={day} className="flex-1 h-full border-l border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07]" />
             ))}
           </div>
           <div
-            className="absolute inset-y-0 pointer-events-none border-r border-black/[0.07] dark:border-white/[0.07]"
+            className="absolute inset-y-0 pointer-events-none border-r border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07]"
             style={{ left: timeColW }}
           />
 
@@ -307,7 +307,7 @@ export default function WeeklyGrid({
                   className="absolute inset-x-0 flex justify-end pr-2.5"
                   style={{ top: (h - GRID_START) * hourHeight }}
                 >
-                  <span className={`${compact ? 'text-[8px]' : 'text-[10px]'} font-semibold tabular-nums text-[#aaa] dark:text-[#555] leading-none ${h === GRID_START ? 'translate-y-0' : '-translate-y-[6px]'}`}>
+                  <span className={`${compact ? 'text-[8px]' : 'text-[10px]'} font-semibold tabular-nums text-[#aaa] dark:text-[#555] fall:text-[#A07840] leading-none ${h === GRID_START ? 'translate-y-0' : '-translate-y-[6px]'}`}>
                     {compact ? (h > 12 ? `${h-12}p` : `${h}a`) : fmtLabel(h)}
                   </span>
                 </div>
@@ -400,11 +400,11 @@ export default function WeeklyGrid({
             transformOrigin: tooltip.flipX ? 'right top' : 'left top',
           }}
         >
-          <div className="bg-white dark:bg-[#1c1c1c] rounded-xl shadow-xl border border-black/[0.08] dark:border-white/[0.09] p-3 flex flex-col gap-2">
+          <div className="bg-white dark:bg-[#1c1c1c] fall:bg-[#F5E6CC] rounded-xl shadow-xl border border-black/[0.08] dark:border-white/[0.09] fall:border-black/[0.08] p-3 flex flex-col gap-2">
 
               {/* course code + type + status */}
               <div className="flex items-baseline gap-2">
-                <span className="text-[13px] font-bold text-[#111] dark:text-white leading-none">
+                <span className="text-[13px] font-bold text-[#111] dark:text-white fall:text-[#1C0F05] leading-none">
                   {tooltip.courseCode}
                 </span>
                 <span className="text-[10px] font-semibold font-mono" style={{ color: tooltip.color }}>
@@ -419,18 +419,18 @@ export default function WeeklyGrid({
               </div>
 
               {/* course title */}
-              <p className="text-[11px] text-[#555] dark:text-[#aaa] leading-snug line-clamp-2">
+              <p className="text-[11px] text-[#555] dark:text-[#aaa] fall:text-[#7A5030] leading-snug line-clamp-2">
                 {tooltip.courseTitle}
               </p>
 
-              <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-2 flex flex-col gap-1.5">
+              <div className="border-t border-black/[0.06] dark:border-white/[0.06] fall:border-black/[0.06] pt-2 flex flex-col gap-1.5">
 
                 {/* time */}
                 <div className="flex items-center gap-2">
-                  <svg className="w-3 h-3 shrink-0 text-[#bbb] dark:text-[#555]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <svg className="w-3 h-3 shrink-0 text-[#bbb] dark:text-[#555] fall:text-[#C4A06A]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="10" /><path strokeLinecap="round" d="M12 6v6l4 2" />
                   </svg>
-                  <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc]">
+                  <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc] fall:text-[#4A2E12]">
                     {fmtTime(tooltip.startH)} - {fmtTime(tooltip.endH)}
                   </span>
                 </div>
@@ -450,14 +450,14 @@ export default function WeeklyGrid({
                             href={url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="pointer-events-auto text-[11px] font-medium text-[#333] dark:text-[#ccc] truncate hover:text-[#8f001a] dark:hover:text-[#ff8095] hover:underline underline-offset-2 transition-colors"
+                            className="pointer-events-auto text-[11px] font-medium text-[#333] dark:text-[#ccc] fall:text-[#4A2E12] truncate hover:text-accent dark:hover:text-[#ff8095] fall:hover:text-accent hover:underline underline-offset-2 transition-colors"
                             title="View on Rate My Professors"
                           >
                             {tooltip.instructor}
                           </a>
                         ) : (
                           <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc] truncate">
-                            {tooltip.instructor || <span className="text-[#bbb] dark:text-[#555]">TBA</span>}
+                            {tooltip.instructor || <span className="text-[#bbb] dark:text-[#555] fall:text-[#C4A06A]">TBA</span>}
                           </span>
                         )}
                         {entry && <RmpStars entry={entry} showCount />}
