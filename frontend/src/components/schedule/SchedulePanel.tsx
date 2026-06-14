@@ -84,24 +84,24 @@ export default function SchedulePanel({
         }
       `}</style>
       {/* Header */}
-      <div className="shrink-0 h-[49px] flex items-center justify-between px-4 border-b border-black/[0.06] dark:border-white/[0.06]">
+      <div className="shrink-0 h-[49px] flex items-center justify-between px-4 border-b border-black/[0.06] dark:border-white/[0.06] fall:border-black/[0.06]">
 
         {/* Week navigation */}
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => setWeekStart(w => addWeeks(w, -1))}
-            className="w-6 h-6 flex items-center justify-center rounded-lg text-[#999] dark:text-[#666] hover:text-[#111] dark:hover:text-white hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-colors"
+            className="w-6 h-6 flex items-center justify-center rounded-lg text-[#999] dark:text-[#666] fall:text-[#9A7050] hover:text-[#111] dark:hover:text-white fall:hover:text-[#1C0F05] hover:bg-black/[0.05] dark:hover:bg-white/[0.05] fall:hover:bg-black/[0.05] transition-colors"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <span className="text-[11px] font-semibold text-[#555] dark:text-[#888] tabular-nums text-center">
+          <span className="text-[11px] font-semibold text-[#555] dark:text-[#888] fall:text-[#7A5030] tabular-nums text-center">
             {compact ? fmtWeekRangeCompact(weekStart) : fmtWeekRange(weekStart)}
           </span>
           <button
             onClick={() => setWeekStart(w => addWeeks(w, 1))}
-            className="w-6 h-6 flex items-center justify-center rounded-lg text-[#999] dark:text-[#666] hover:text-[#111] dark:hover:text-white hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-colors"
+            className="w-6 h-6 flex items-center justify-center rounded-lg text-[#999] dark:text-[#666] fall:text-[#9A7050] hover:text-[#111] dark:hover:text-white fall:hover:text-[#1C0F05] hover:bg-black/[0.05] dark:hover:bg-white/[0.05] fall:hover:bg-black/[0.05] transition-colors"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

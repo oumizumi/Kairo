@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --accent-rgb: 143 0 26;
+}
+
+html.fall {
+  --accent-rgb: 196 80 26;
+}

@@ -55,7 +55,7 @@ export default function RmpStars({ entry, size = 12, showCount = false }: {
       className="inline-flex items-center gap-1.5 px-1.5 py-[3px] rounded-md"
       style={{ backgroundColor: color + '14' }}
     >
-      <span className="relative inline-block leading-none text-[#d4d4d4] dark:text-[#3f3f3f]">
+      <span className="relative inline-block leading-none text-[#d4d4d4] dark:text-[#3f3f3f] fall:text-[#D4A96A]">
         <StarRow size={size} />
         <span className="absolute inset-0 overflow-hidden" style={{ width: `${pct}%`, color }}>
           <StarRow size={size} />
@@ -65,7 +65,7 @@ export default function RmpStars({ entry, size = 12, showCount = false }: {
         {entry.avg_rating.toFixed(1)}
       </span>
       {showCount && entry.total_reviews > 0 && (
-        <span className="text-[10px] font-medium text-[#999] dark:text-[#777] tabular-nums leading-none">
+        <span className="text-[10px] font-medium text-[#999] dark:text-[#777] fall:text-[#9A7050] tabular-nums leading-none">
           ({entry.total_reviews})
         </span>
       )}
