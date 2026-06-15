@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/uomap-uo/uomap/compare/uomap-v0.4.0...uomap-v0.5.0) (2026-06-15)
+
+
+### Features
+
+* add fall theme ([#37](https://github.com/uomap-uo/uomap/issues/37)) ([b0f5ced](https://github.com/uomap-uo/uomap/commit/b0f5cedce9fa2393b26dbd7e15d46b5ce5829db6))
+* added live weather to uoguessr ([dcbb5d0](https://github.com/uomap-uo/uomap/commit/dcbb5d025823f517f6e27d2724991fa2020fb4d0))
+
 ## [0.4.0](https://github.com/uomap-uo/uomap/compare/uomap-v0.3.0...uomap-v0.4.0) (2026-06-11)
 
 
