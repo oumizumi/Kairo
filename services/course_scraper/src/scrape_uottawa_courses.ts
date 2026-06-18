@@ -232,7 +232,7 @@ class UOttawaCourseScraper {
                 throw new Error('Scraper not initialized. Call initialize() first.');
             }
 
-            await this.page.goto(this.baseUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+            await this.page.goto(this.baseUrl, { waitUntil: 'networkidle2', timeout: 60000 });
 
             const frame = await this.getWorkingFrame();
             await this.fillFormInFrame(frame, params);
@@ -249,7 +249,7 @@ class UOttawaCourseScraper {
                 console.log(`  split search for ${params.subjectCode} (>300 sections)`);
 
                 // Reload the page to get fresh form
-                await this.page.goto(this.baseUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+                await this.page.goto(this.baseUrl, { waitUntil: 'networkidle2', timeout: 60000 });
                 const frame1 = await this.getWorkingFrame();
 
                 // Fill form with course number ≤ 3000
@@ -268,14 +268,14 @@ class UOttawaCourseScraper {
 
                 console.log('🔍 Submitting split search 1 (≤3000)...');
                 await this.submitSearchInFrame(frame1);
-                await frame1.waitForSelector('table, .PSLEVEL1GRID, .PSLEVEL1GRIDNBONBO, tr[bgcolor], tr:has(.PSEDITBOX_DISPONLY), tr:has(.PABOLDTEXT)', { timeout: 30000 });
+                await frame1.waitForSelector('table, .PSLEVEL1GRID, .PSLEVEL1GRIDNBONBO, tr[bgcolor], tr:has(.PSEDITBOX_DISPONLY), tr:has(.PABOLDTEXT)', { timeout: 60000 });
                 const results1 = await this.extractCourseResultsFromFrame(frame1, { ...params, courseNumber: '≤3000' });
 
                 // Second search: courses ≥ 3001
                 console.log(`🔍 Running second search for ${params.subjectCode}: courses ≥ 3001`);
 
                 // Reload the page again for fresh form
-                await this.page.goto(this.baseUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+                await this.page.goto(this.baseUrl, { waitUntil: 'networkidle2', timeout: 60000 });
                 const frame2 = await this.getWorkingFrame();
 
                 // Fill form with course number ≥ 3001
@@ -294,7 +294,7 @@ class UOttawaCourseScraper {
 
                 console.log('🔍 Submitting split search 2 (≥3001)...');
                 await this.submitSearchInFrame(frame2);
-                await frame2.waitForSelector('table, .PSLEVEL1GRID, .PSLEVEL1GRIDNBONBO, tr[bgcolor], tr:has(.PSEDITBOX_DISPONLY), tr:has(.PABOLDTEXT)', { timeout: 30000 });
+                await frame2.waitForSelector('table, .PSLEVEL1GRID, .PSLEVEL1GRIDNBONBO, tr[bgcolor], tr:has(.PSEDITBOX_DISPONLY), tr:has(.PABOLDTEXT)', { timeout: 60000 });
                 const results2 = await this.extractCourseResultsFromFrame(frame2, { ...params, courseNumber: '≥3001' });
 
                 // Merge and deduplicate results
@@ -312,7 +312,7 @@ class UOttawaCourseScraper {
                 return deduped;
             } else {
                 // No error - wait for results and extract normally
-                await frame.waitForSelector('table, .PSLEVEL1GRID, .PSLEVEL1GRIDNBONBO, tr[bgcolor], tr:has(.PSEDITBOX_DISPONLY), tr:has(.PABOLDTEXT)', { timeout: 30000 });
+                await frame.waitForSelector('table, .PSLEVEL1GRID, .PSLEVEL1GRIDNBONBO, tr[bgcolor], tr:has(.PSEDITBOX_DISPONLY), tr:has(.PABOLDTEXT)', { timeout: 60000 });
 
                 // Extract course results from the frame
                 const courses = await this.extractCourseResultsFromFrame(frame, params);
@@ -1009,11 +1009,22 @@ async function main() {
                 const subject = SUBJECT_CODES[i];
                 process.stdout.write(`[${i + 1}/${SUBJECT_CODES.length}] ${subject} ... `);
 
-                try {
-                    const courses = await scraper.searchBySubject(subject, term);
-                    allCourses.push(...courses);
-                    process.stdout.write(`${courses.length} sections\n`);
-                } catch (error: any) {
+                let success = false;
+                for (let attempt = 1; attempt <= 3; attempt++) {
+                    try {
+                        const courses = await scraper.searchBySubject(subject, term);
+                        allCourses.push(...courses);
+                        process.stdout.write(`${courses.length} sections\n`);
+                        success = true;
+                        break;
+                    } catch (error: any) {
+                        if (attempt < 3) {
+                            process.stdout.write(`retry ${attempt}... `);
+                            await new Promise(resolve => setTimeout(resolve, 3000));
+                        }
+                    }
+                }
+                if (!success) {
                     process.stdout.write(`FAILED\n`);
                     failed.push(subject);
                 }

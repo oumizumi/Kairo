@@ -847,7 +847,7 @@
               "meetingDates": "2026-05-26 - 2026-07-24",
               "meetingStartDate": "2026-05-26",
               "meetingEndDate": "2026-07-24",
-              "status": "Closed"
+              "status": "Open"
             },
             {
               "section": "X03-DGD",
@@ -2900,7 +2900,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -3402,7 +3402,7 @@
               "meetingDates": "2026-06-22 - 2026-07-31",
               "meetingStartDate": "2026-06-22",
               "meetingEndDate": "2026-07-31",
-              "status": "Closed"
+              "status": "Open"
             }
           ]
         }
@@ -6386,6 +6386,24 @@
               "status": "Closed"
             }
           ]
+        },
+        "B": {
+          "groupId": "B",
+          "labs": [],
+          "tutorials": [
+            {
+              "section": "B00-SEM",
+              "days": [
+                "N/A"
+              ],
+              "time": "N/A 00:00 - 00:00",
+              "instructor": "Jing Wang",
+              "meetingDates": "2026-05-01 - 2026-08-31",
+              "meetingStartDate": "2026-05-01",
+              "meetingEndDate": "2026-08-31",
+              "status": "Closed"
+            }
+          ]
         }
       }
     },
@@ -6486,7 +6504,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -6563,7 +6581,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -6928,7 +6946,7 @@
               "meetingDates": "2026-05-04 - 2026-07-24",
               "meetingStartDate": "2026-05-04",
               "meetingEndDate": "2026-07-24",
-              "status": "Closed"
+              "status": "Open"
             },
             {
               "section": "Z02-LAB",
@@ -7833,7 +7851,7 @@
             "meetingDates": "2026-08-04 - 2026-08-04",
             "meetingStartDate": "2026-08-04",
             "meetingEndDate": "2026-08-04",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -7855,7 +7873,7 @@
               "We"
             ],
             "time": "Mo 16:00 - 18:50, We 16:00 - 18:50",
-            "instructor": "Staff",
+            "instructor": "Dardia Garcelle Joseph",
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
@@ -8006,7 +8024,7 @@
               "meetingDates": "2026-05-01 - 2026-08-31",
               "meetingStartDate": "2026-05-01",
               "meetingEndDate": "2026-08-31",
-              "status": "Open"
+              "status": "Closed"
             }
           ]
         }
@@ -9201,7 +9219,7 @@
               "meetingDates": "2026-08-10 - 2026-08-15",
               "meetingStartDate": "2026-08-10",
               "meetingEndDate": "2026-08-15",
-              "status": "Open"
+              "status": "Closed"
             }
           ]
         }
@@ -9278,7 +9296,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -9430,7 +9448,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -9532,7 +9550,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -11503,7 +11521,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -12244,7 +12262,7 @@
               "meetingDates": "2026-06-08 - 2026-07-09",
               "meetingStartDate": "2026-06-08",
               "meetingEndDate": "2026-07-09",
-              "status": "Closed"
+              "status": "Open"
             }
           ],
           "tutorials": [],
@@ -12260,7 +12278,7 @@
             "meetingDates": "2026-06-08 - 2026-07-09",
             "meetingStartDate": "2026-06-08",
             "meetingEndDate": "2026-07-09",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -12314,7 +12332,7 @@
               "meetingDates": "2026-06-11 - 2026-07-20",
               "meetingStartDate": "2026-06-11",
               "meetingEndDate": "2026-07-20",
-              "status": "Closed"
+              "status": "Open"
             }
           ]
         }
@@ -12340,7 +12358,7 @@
               "meetingDates": "2026-05-01 - 2026-08-31",
               "meetingStartDate": "2026-05-01",
               "meetingEndDate": "2026-08-31",
-              "status": "Closed"
+              "status": "Open"
             }
           ]
         },
@@ -12354,7 +12372,7 @@
                 "Fr"
               ],
               "time": "Fr 09:00 - 16:20",
-              "instructor": "Staff",
+              "instructor": "Rose Martini",
               "meetingDates": "2026-06-05 - 2026-06-05",
               "meetingStartDate": "2026-06-05",
               "meetingEndDate": "2026-06-05",
@@ -12433,7 +12451,7 @@
                 "Fr"
               ],
               "time": "Fr 09:00 - 16:20",
-              "instructor": "Staff",
+              "instructor": "Rose Martini",
               "meetingDates": "2026-06-05 - 2026-06-05",
               "meetingStartDate": "2026-06-05",
               "meetingEndDate": "2026-06-05",
@@ -14929,7 +14947,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -15243,7 +15261,7 @@
                 "N/A"
               ],
               "time": "N/A 00:00 - 00:00",
-              "instructor": "Staff",
+              "instructor": "Jason Steffener",
               "meetingDates": "2026-05-01 - 2026-08-31",
               "meetingStartDate": "2026-05-01",
               "meetingEndDate": "2026-08-31",
@@ -16010,7 +16028,7 @@
               "meetingDates": "2026-07-13 - 2026-08-21",
               "meetingStartDate": "2026-07-13",
               "meetingEndDate": "2026-08-21",
-              "status": "Open"
+              "status": "Closed"
             },
             {
               "section": "Y02-DGD",
@@ -16036,7 +16054,7 @@
             "meetingDates": "2026-07-13 - 2026-08-21",
             "meetingStartDate": "2026-07-13",
             "meetingEndDate": "2026-08-21",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -19976,7 +19994,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -22301,7 +22319,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -22371,7 +22389,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -22475,7 +22493,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Open"
+            "status": "Closed"
           }
         }
       }
@@ -22755,7 +22773,7 @@
               "We"
             ],
             "time": "Mo 09:00 - 11:50, We 09:00 - 11:50",
-            "instructor": "Staff",
+            "instructor": "Falk Litane Petegou",
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
@@ -23185,7 +23203,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -23434,7 +23452,7 @@
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
-            "status": "Closed"
+            "status": "Open"
           }
         }
       }
@@ -23863,24 +23881,6 @@
             ],
             "time": "We 17:00 - 19:50, Fr 12:00 - 14:50",
             "instructor": "Rajni Sharma",
-            "meetingDates": "2026-06-22 - 2026-07-31",
-            "meetingStartDate": "2026-06-22",
-            "meetingEndDate": "2026-07-31",
-            "status": "Open"
-          }
-        },
-        "P": {
-          "groupId": "P",
-          "labs": [],
-          "tutorials": [],
-          "lecture": {
-            "section": "P00-LEC",
-            "days": [
-              "Mo",
-              "We"
-            ],
-            "time": "Mo 14:30 - 17:20, We 11:30 - 14:20",
-            "instructor": "Staff",
             "meetingDates": "2026-06-22 - 2026-07-31",
             "meetingStartDate": "2026-06-22",
             "meetingEndDate": "2026-07-31",
@@ -25614,7 +25614,7 @@
                 "N/A"
               ],
               "time": "N/A 00:00 - 00:00",
-              "instructor": "Staff",
+              "instructor": "Elizabeth Marshman",
               "meetingDates": "2026-05-04 - 2026-06-12",
               "meetingStartDate": "2026-05-04",
               "meetingEndDate": "2026-06-12",

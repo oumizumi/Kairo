@@ -38334,5 +38334,3333 @@
     "units": 3,
     "department": "TSO",
     "professors": []
+  },
+  {
+    "code": "AHL 4170",
+    "title": "Harnessing Interdisciplinary Thinking: Knowledge for Insight & Application",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AMM 5123",
+    "title": "Microstructure and Properties of Materials",
+    "description": "",
+    "units": 3,
+    "department": "AMM",
+    "professors": []
+  },
+  {
+    "code": "CSI 5188",
+    "title": "Trusted Computing and Emerging Attacks",
+    "description": "",
+    "units": 3,
+    "department": "CSI",
+    "professors": []
+  },
+  {
+    "code": "CSI 5352",
+    "title": "Internet Measurement and Security",
+    "description": "",
+    "units": 3,
+    "department": "CSI",
+    "professors": []
+  },
+  {
+    "code": "DCL 5343",
+    "title": "Environmental Law Internship (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "DCL",
+    "professors": []
+  },
+  {
+    "code": "ELG 5170",
+    "title": "Information Theory",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6101",
+    "title": "Simulation and Modelling",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6121",
+    "title": "Computer Communication",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6153",
+    "title": "Stochastic Processes",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6168",
+    "title": "Wireless Communication Systems Engineering",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6302",
+    "title": "Renewable and Distributed Energy Resource Technologies",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6305",
+    "title": "Electric Motor Drives",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6344",
+    "title": "Neural Networks for High-Speed /High Frequency Circuit Design",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6358",
+    "title": "Advanced Methods for Simulation of Large-Scale Circuits and Systems",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5125",
+    "title": "Advanced Dynamics",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5305",
+    "title": "Uninhabited Aircraft Systems Design",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5327",
+    "title": "Nonlinear Systems Analysis & Controls",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5341",
+    "title": "Turbomachinery",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5486",
+    "title": "Special Topics an Mechanical and Aerospace Engineering",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MUS 43151",
+    "title": "Topics in Music Technology (Part 1 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "MUS",
+    "professors": []
+  },
+  {
+    "code": "ADM 3395",
+    "title": "Telfer Innovation Sprint II",
+    "description": "",
+    "units": 3,
+    "department": "ADM",
+    "professors": []
+  },
+  {
+    "code": "AHL 1302",
+    "title": "Social Impact in Global Perspective (+2 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 1702",
+    "title": "Impact social dans une perspective globale (+2 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 2111",
+    "title": "Introduction to Animal Studies II: Fieldwork (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 2511",
+    "title": "Initiation aux études animales II: cours de terrain (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 3100",
+    "title": "Special Topics - Interdisciplinary study in the Arts (+2 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 3156",
+    "title": "Meditation: Theory and Practice",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 3300",
+    "title": "Creativity and Innovation (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 3500",
+    "title": "Thèmes choisis en Études interdisciplinaires en Arts (+2 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 3556",
+    "title": "Méditation : théorie et pratique",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 3580",
+    "title": "Vieillir en pleine conscience",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 4100",
+    "title": "Seminar in Interdisciplinary Study in the Arts",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 4500",
+    "title": "Séminaire en études interdisciplinaires en arts (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 4710",
+    "title": "Laboratoire en entrepreneuriat et innovation sociale",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "AHL 5300",
+    "title": "Creativity and Innovation (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "AHL",
+    "professors": []
+  },
+  {
+    "code": "ALG 1500",
+    "title": "Carte routière à la culture des pays de langue allemande",
+    "description": "",
+    "units": 3,
+    "department": "ALG",
+    "professors": []
+  },
+  {
+    "code": "ALG 1902",
+    "title": "Elementary German II",
+    "description": "",
+    "units": 3,
+    "department": "ALG",
+    "professors": []
+  },
+  {
+    "code": "ALG 2902",
+    "title": "Intermediate German II",
+    "description": "",
+    "units": 3,
+    "department": "ALG",
+    "professors": []
+  },
+  {
+    "code": "ALG 3330",
+    "title": "Cinema in the German Speaking Countries",
+    "description": "",
+    "units": 3,
+    "department": "ALG",
+    "professors": []
+  },
+  {
+    "code": "ALG 3902",
+    "title": "Advanced German II",
+    "description": "",
+    "units": 3,
+    "department": "ALG",
+    "professors": []
+  },
+  {
+    "code": "AMM 5119",
+    "title": "Fracture Mechanics",
+    "description": "",
+    "units": 3,
+    "department": "AMM",
+    "professors": []
+  },
+  {
+    "code": "AMM 5345",
+    "title": "Surfaces and Coatings",
+    "description": "",
+    "units": 3,
+    "department": "AMM",
+    "professors": []
+  },
+  {
+    "code": "AMT 3102",
+    "title": "Administration of Artistic and Cultural Organizations II",
+    "description": "",
+    "units": 3,
+    "department": "AMT",
+    "professors": []
+  },
+  {
+    "code": "AMT 3502",
+    "title": "Gestion des organismes artistiques et culturels II",
+    "description": "",
+    "units": 3,
+    "department": "AMT",
+    "professors": []
+  },
+  {
+    "code": "ANP 1107",
+    "title": "Human Anatomy and Physiology III",
+    "description": "",
+    "units": 3,
+    "department": "ANP",
+    "professors": []
+  },
+  {
+    "code": "ANP 1115",
+    "title": "Essentials of Human Anatomy and Physiology II",
+    "description": "",
+    "units": 3,
+    "department": "ANP",
+    "professors": []
+  },
+  {
+    "code": "ANP 1507",
+    "title": "Anatomie humaine et physiologie III",
+    "description": "",
+    "units": 3,
+    "department": "ANP",
+    "professors": []
+  },
+  {
+    "code": "ANP 1515",
+    "title": "Principes d’anatomie et de physiologie humaines II",
+    "description": "",
+    "units": 3,
+    "department": "ANP",
+    "professors": []
+  },
+  {
+    "code": "ANT 2126",
+    "title": "Anthropology and Indigenous Peoples (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 21263",
+    "title": "Anthropology and Indigenous Peoples (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 2128",
+    "title": "Anthropology for the 21st Century",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 2129",
+    "title": "Anthropology of Cities",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 2526",
+    "title": "Anthropologie et peuples autochtones",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 2528",
+    "title": "Anthropologie pour le 21e siècle",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 2529",
+    "title": "Anthropologie de la ville",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 3133",
+    "title": "Medical Anthropology",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 3142",
+    "title": "Ethnographer's Magic: Reading and Writing Anthropology",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 3326",
+    "title": "Indigenous Resurgences in a Globalized World",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 3342",
+    "title": "Anthropology of Africa",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 3531",
+    "title": "Capitalisme et ethnographies de la mondialisation",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 3540",
+    "title": "Cultures, sociétés et identité",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 3542",
+    "title": "La magie de l'ethnographe: lire et écrire l'anthropologie",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 4135",
+    "title": "Food and Food Systems",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 4301",
+    "title": "Advanced Research Methods in Anthropology",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 4537",
+    "title": "Anthropologie historique",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 4701",
+    "title": "Méthodes de recherche avancées en anthropologie",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 6106",
+    "title": "Ethnographic Research II",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 6122",
+    "title": "Environmental Anthropology",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 6150",
+    "title": "Methodology and Research Proposal in Anthropology",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 6503",
+    "title": "Questions autour de la notion de «culture» en anthropologie",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 6506",
+    "title": "Recherche ethnographique II",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 6550",
+    "title": "Méthodologie et problématique (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 8501",
+    "title": "Séminaire avancé de recherche en anthropologie (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "ANT 95002",
+    "title": "Séminaire de développement professionnel en anthropologie (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "ANT",
+    "professors": []
+  },
+  {
+    "code": "APA 1122",
+    "title": "Physical Activity in a Global Health Perspective",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 1522",
+    "title": "L'activité physique dans une perspective de santé mondiale",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 1702",
+    "title": "Sociologie du sport et de l'activité physique au Canada",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2114",
+    "title": "Biomechanical Analysis of Human Movement",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2180",
+    "title": "Research Methods in Human Kinetics",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2301",
+    "title": "Exercise Physiology I",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2312",
+    "title": "Physiology of Physical Activity",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2314",
+    "title": "Laboratory Techniques in Exercise Physiology and Biomechanics",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2514",
+    "title": "Analyse biomécanique du mouvement humain",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2580",
+    "title": "Méthodes de recherche en sciences de l'activité physique",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2701",
+    "title": "Physiologie de l'exercice I",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2712",
+    "title": "Physiologie de l'activité physique",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 2714",
+    "title": "Techniques de laboratoire en physiologie de l'exercice et en biomécanique",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3111",
+    "title": "Physical Education Methods: Intervention, Observation and Experimentation",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3113",
+    "title": "Management of Sporting Events and Festivals",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3119",
+    "title": "Coaching Training Methods",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3120",
+    "title": "Psychomotor Behavior Laboratory",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3124",
+    "title": "Diet and Physical Activity",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3125",
+    "title": "Prevention and Care of Athletic Injuries",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3131",
+    "title": "Physical Ergonomics",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3301",
+    "title": "Ethics in Sport, Physical Activity and Health in Canada",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3324",
+    "title": "Techniques and Strategies in Sport",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3511",
+    "title": "Méthodes en éducation physique : intervention, observation et expérimentation",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3518",
+    "title": "Loisir, sport et développement communautaire",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3520",
+    "title": "Laboratoire de psychomotricité",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3522",
+    "title": "Activité physique et santé",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3524",
+    "title": "Alimentation et activité physique",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3525",
+    "title": "Prévention et soins des blessures sportives",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3530",
+    "title": "Performance motrice et vieillissement",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3531",
+    "title": "Ergonomie physique",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3550",
+    "title": "Contrôle neural du mouvement humain",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 3701",
+    "title": "Éthique du sport, de l’activité physique et de la santé au Canada",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4118",
+    "title": "Biomechanical Basis of Injury",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4119",
+    "title": "International Sport Management Perspectives",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4120",
+    "title": "Sport and Physical Activity in Aging Populations",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4125",
+    "title": "Muscle Physiology",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4160",
+    "title": "Fitness Testing and Exercise Prescription",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 42002",
+    "title": "Research Project (Part 2 of 2) (+3 combined)",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 42112",
+    "title": "Internship/Clinical Experience (Part 2 of 2) (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4318",
+    "title": "Advanced Sports Analytics",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4512",
+    "title": "Économie politique du sport et de l'activité physique",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4518",
+    "title": "Fondements biomécaniques des blessures",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4519",
+    "title": "Perspectives internationales en gestion du sport",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4560",
+    "title": "Évaluation de la condition physique et prescription d'exercice",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 46002",
+    "title": "Projet de recherche (Partie 2 de 2) (+3 combined)",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 46112",
+    "title": "Internat/expérience clinique (Partie 2 de 2) (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 4720",
+    "title": "Principes de coaching avancés : Préparation globale dans un sport",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 5110",
+    "title": "Mental Skills Training Programs and Tools",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 5111",
+    "title": "Sport Event Management",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 5112",
+    "title": "International Sport Management",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 5306",
+    "title": "Ethics and Values in Sport, Performance, and Physical Activity Contexts",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 5307",
+    "title": "Legal Issues and Risk Management in Sport",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 5318",
+    "title": "Financial Management of Sport and Physical Activity",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 5319",
+    "title": "Essential Competencies for Mental Performance Consultants",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 5941",
+    "title": "Internship Analysis and Integration: Mental Performance Consulting",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 6100",
+    "title": "Qualitative Data Analysis in Sport, Physical Activity and Health",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 6101",
+    "title": "Quantitative Data Analysis in Sport, Physical Activity and Health",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 6102",
+    "title": "Selected Topics in Sport, Physical Activity and Health: Physiological Studies (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 6110",
+    "title": "Selected Topics in Sport, Physical Activity and Health: Management",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "APA 7304",
+    "title": "Advanced Exercise Metabolism and Physiology (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "APA",
+    "professors": []
+  },
+  {
+    "code": "API 5126",
+    "title": "Microeconomics for Public Policy",
+    "description": "",
+    "units": 3,
+    "department": "API",
+    "professors": []
+  },
+  {
+    "code": "API 5135",
+    "title": "Ethics and Moral Reasoning for Public and International Affairs",
+    "description": "",
+    "units": 3,
+    "department": "API",
+    "professors": []
+  },
+  {
+    "code": "API 5136",
+    "title": "Research Methods for Public Policy",
+    "description": "",
+    "units": 3,
+    "department": "API",
+    "professors": []
+  },
+  {
+    "code": "API 5526",
+    "title": "Microéconomie pour politiques publiques",
+    "description": "",
+    "units": 3,
+    "department": "API",
+    "professors": []
+  },
+  {
+    "code": "API 5535",
+    "title": "Éthique et Philosophie morale en affaires publiques et internationales",
+    "description": "",
+    "units": 3,
+    "department": "API",
+    "professors": []
+  },
+  {
+    "code": "API 5536",
+    "title": "Méthodes de recherche en politiques publiques",
+    "description": "",
+    "units": 3,
+    "department": "API",
+    "professors": []
+  },
+  {
+    "code": "API 6732",
+    "title": "Commerce international",
+    "description": "",
+    "units": 3,
+    "department": "API",
+    "professors": []
+  },
+  {
+    "code": "ASE 5103",
+    "title": "Anatomy III: Anatomy of the Head, Neck & Thorax",
+    "description": "",
+    "units": 3,
+    "department": "ASE",
+    "professors": []
+  },
+  {
+    "code": "ASE 5106",
+    "title": "Applied Anatomy II",
+    "description": "",
+    "units": 3,
+    "department": "ASE",
+    "professors": []
+  },
+  {
+    "code": "ASE 5107",
+    "title": "Histology and Embryology",
+    "description": "",
+    "units": 3,
+    "department": "ASE",
+    "professors": []
+  },
+  {
+    "code": "ASE 5166",
+    "title": "Seminar in Health Professions Education",
+    "description": "",
+    "units": 3,
+    "department": "ASE",
+    "professors": []
+  },
+  {
+    "code": "ASE 59981",
+    "title": "Review and Synthesis in Anatomical Sciences Education (Part 1 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "ASE",
+    "professors": []
+  },
+  {
+    "code": "BCH 2733",
+    "title": "Introduction à la biochimie",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 3120",
+    "title": "General Intermediary Metabolism",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 3125",
+    "title": "Protein Structure and Function",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 3346",
+    "title": "Biochemistry Laboratory II",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 3520",
+    "title": "Métabolisme intermédiaire général",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 3525",
+    "title": "Structure et fonctions des protéines",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 3746",
+    "title": "Laboratoire de biochimie II",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4116",
+    "title": "Analytical Biochemistry (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4122",
+    "title": "Structural Biology of Proteins",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4123",
+    "title": "Pathological Biochemistry",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4124",
+    "title": "Carbohydrates and Glycobiology (+2 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4125",
+    "title": "Cellular Regulation and Control",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4172",
+    "title": "Topics in Biotechnology",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4188",
+    "title": "Synthetic Biology",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4522",
+    "title": "Biologie structurale des protéines",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 4525",
+    "title": "Contrôle et régulation cellulaires",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 49322",
+    "title": "Biochemistry Seminar (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 5103",
+    "title": "Seminar in Biomanufacturing and Commercialization (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 8102",
+    "title": "Selected Topics in Protein Structure and Function",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 8103",
+    "title": "Advanced Topics in Gene Expression and Protein Synthesis (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 8104",
+    "title": "Advanced Topics in Cell Regulation",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 8105",
+    "title": "Advanced Topics in Molecular Biology of Human Diseases",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 8107",
+    "title": "Advanced Topics in Lipid Metabolism and Disease (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 8120",
+    "title": "ADVANCED TOPICS IN IMMUNOMETABOLISM (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BCH 8165",
+    "title": "Special Topics in Biochemistry",
+    "description": "",
+    "units": 3,
+    "department": "BCH",
+    "professors": []
+  },
+  {
+    "code": "BIM 40092",
+    "title": "Research Project - Biomedical Science (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "BIM",
+    "professors": []
+  },
+  {
+    "code": "BIM 4103",
+    "title": "Selected Topics in Biomedical Science",
+    "description": "",
+    "units": 3,
+    "department": "BIM",
+    "professors": []
+  },
+  {
+    "code": "BIM 4316",
+    "title": "Modern Bioanalytical Chemistry (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BIM",
+    "professors": []
+  },
+  {
+    "code": "BIM 4515",
+    "title": "Thèmes choisis en génétique moléculaire (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BIM",
+    "professors": []
+  },
+  {
+    "code": "BIM 4921",
+    "title": "Seminar II Developing and Communicating Science",
+    "description": "",
+    "units": 3,
+    "department": "BIM",
+    "professors": []
+  },
+  {
+    "code": "BMG 5304",
+    "title": "Interactive Networked Systems and Telemedicine",
+    "description": "",
+    "units": 3,
+    "department": "BMG",
+    "professors": []
+  },
+  {
+    "code": "BMG 5305",
+    "title": "Pattern Classification and Experiment Design",
+    "description": "",
+    "units": 3,
+    "department": "BMG",
+    "professors": []
+  },
+  {
+    "code": "BNF 5104",
+    "title": "Bioinformatics Laboratory (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BNF",
+    "professors": []
+  },
+  {
+    "code": "BNF 5504",
+    "title": "Laboratoire de bioinformatique (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BNF",
+    "professors": []
+  },
+  {
+    "code": "BNF 6100",
+    "title": "MSc Seminar",
+    "description": "",
+    "units": 3,
+    "department": "BNF",
+    "professors": []
+  },
+  {
+    "code": "BPS 1501",
+    "title": "Médicaments 101",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 2510",
+    "title": "Introduction aux sciences biopharmaceutiques",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 4102",
+    "title": "Pharmaceuticals: Federal and International Regulations",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 4103",
+    "title": "Selected Topics in Biopharmaceutical Science (+2 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 4104",
+    "title": "Bioinformatics Laboratory (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 4121",
+    "title": "Biosynthesis and Natural Product Derived Medicines",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 4126",
+    "title": "Synthetic and Medicinal Chemistry Laboratory (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 4129",
+    "title": "Advanced Chemical Biology",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 4504",
+    "title": "Laboratoire de bioinformatique (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 4526",
+    "title": "Laboratoire de chimie médicinale et synthèse organique (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "BPS 49002",
+    "title": "Seminar (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "BPS",
+    "professors": []
+  },
+  {
+    "code": "CHM 8329",
+    "title": "Medicinal Chemistry",
+    "description": "",
+    "units": 3,
+    "department": "CHM",
+    "professors": []
+  },
+  {
+    "code": "CHM 8365",
+    "title": "Communication in Chemistry",
+    "description": "",
+    "units": 3,
+    "department": "CHM",
+    "professors": []
+  },
+  {
+    "code": "CLI 3106",
+    "title": "Obstetrics and Gynecology",
+    "description": "",
+    "units": 3,
+    "department": "CLI",
+    "professors": []
+  },
+  {
+    "code": "CML 11012",
+    "title": "Legal Foundations: Research, Strategy, Analysis  (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 11022",
+    "title": "Contracts (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 11032",
+    "title": "Criminal Law and Procedure (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 1106",
+    "title": "Dispute Resolution and Professional Responsibility",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 11072",
+    "title": "Torts (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 11082",
+    "title": "Property (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 11102",
+    "title": "Orientation to the Canadian Legal System (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 11162",
+    "title": "Introduction to Public and Constitutional Law (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 12032",
+    "title": "Criminal Law and Procedure (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 12062",
+    "title": "Introduction to Public and Constitutional Law (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 12072",
+    "title": "Torts (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 1307",
+    "title": "Law, Reconciliation and Decolonization",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 1506",
+    "title": "Introduction à la résolution des différends",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 1508",
+    "title": "Droit des biens",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 16022",
+    "title": "Les contrats (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 16072",
+    "title": "Délits civils (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 16112",
+    "title": "Compétences et habiletés juridiques (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 1613",
+    "title": "Droit constitutionnel I",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 1702",
+    "title": "Délits civils et responsabilité extracontractuelle II",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2101",
+    "title": "Appellate Advocacy",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2118",
+    "title": "The Law of Democracy",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2184",
+    "title": "Access to Justice Practicum (Level I, Enhanced)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2303",
+    "title": "Landlord and Tenant",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2311",
+    "title": "Mortgages",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2314",
+    "title": "Constitutional Litigation",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2321",
+    "title": "Alternative Dispute Resolution Processes",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2584",
+    "title": "Accès à la justice stage (niveau I, avancé) (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CML 2703",
+    "title": "Propriétaires et locataires",
+    "description": "",
+    "units": 3,
+    "department": "CML",
+    "professors": []
+  },
+  {
+    "code": "CMN 2130",
+    "title": "Interpersonal Communication",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 2132",
+    "title": "Non-Verbal Communication",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 2135",
+    "title": "Public Speaking",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 2167",
+    "title": "Video I",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 2168",
+    "title": "Globalization and Communication",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 2181",
+    "title": "Intercultural Communication",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 2530",
+    "title": "Communication interpersonnelle",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 2567",
+    "title": "Vidéo I",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 2570",
+    "title": "Nouveaux médias",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 3152",
+    "title": "Journalism Ethics",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 3174",
+    "title": "Advertising Techniques",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 3533",
+    "title": "Politique et médias (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 3538",
+    "title": "Communication dans les groupes",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 3552",
+    "title": "Éthique et déontologie du journalisme",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4101",
+    "title": "Storytelling, Narration and Organization",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4144",
+    "title": "Advanced Public Relations Seminar",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4160",
+    "title": "Digital Social Research",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4166",
+    "title": "Audience Research",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4168",
+    "title": "Communication and International Development",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4185",
+    "title": "Political Economy of the Media",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4501",
+    "title": "Storytelling, narration et organisation",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4505",
+    "title": "Éthique et société de l'information",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4515",
+    "title": "Médias et radiodiffusion publique",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4544",
+    "title": "Séminaire avancé en relations publiques",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4548",
+    "title": "Communication dans les organismes gouvernementaux",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 4585",
+    "title": "Économie politique des médias",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5110",
+    "title": "Social History of Communication Technologies",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5115",
+    "title": "Communication Ethics",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5120",
+    "title": "Public Communication Campaigns: Theories and Applications",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5133",
+    "title": "Health Communication Theories",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5135",
+    "title": "Communication Management",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5142",
+    "title": "Risk and Crisis Communication",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5160",
+    "title": "Political Uses of Media",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5505",
+    "title": "Enjeux contemporains en communication",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5533",
+    "title": "Théories de la communication et de la santé",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5541",
+    "title": "Communication gouvernementale",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5542",
+    "title": "Communication de crise et du risque",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5555",
+    "title": "Recherches avancées sur les médias traditionnels et ceux en émergence",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5570",
+    "title": "Communication internationale",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 5590",
+    "title": "Médias, identité et diversité",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 8130",
+    "title": "Special Topics in Media Studies (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 8502",
+    "title": "Méthodes de recherche II",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CMN 8531",
+    "title": "Thèmes choisis en communication organisationnelle (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "CMN",
+    "professors": []
+  },
+  {
+    "code": "CSI 5177",
+    "title": "Advanced Machine Learning",
+    "description": "",
+    "units": 3,
+    "department": "CSI",
+    "professors": []
+  },
+  {
+    "code": "CSI 5312",
+    "title": "Distributed Operating Systems",
+    "description": "",
+    "units": 3,
+    "department": "CSI",
+    "professors": []
+  },
+  {
+    "code": "CSI 5345",
+    "title": "Internet of Things (IoT) Security",
+    "description": "",
+    "units": 3,
+    "department": "CSI",
+    "professors": []
+  },
+  {
+    "code": "CSI 5351",
+    "title": "Quantum Communications and Networking",
+    "description": "",
+    "units": 3,
+    "department": "CSI",
+    "professors": []
+  },
+  {
+    "code": "DCL 5112",
+    "title": "Clinical Activity - International Trade and Foreign Investment Law I",
+    "description": "",
+    "units": 3,
+    "department": "DCL",
+    "professors": []
+  },
+  {
+    "code": "DCL 5512",
+    "title": "Activité clinique en droit du commerce et des investissements internationaux I",
+    "description": "",
+    "units": 3,
+    "department": "DCL",
+    "professors": []
+  },
+  {
+    "code": "DCL 5602",
+    "title": "Thèmes choisis en droit du commerce international et investissements étrangers (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "DCL",
+    "professors": []
+  },
+  {
+    "code": "DCL 6130",
+    "title": "National Security Law (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "DCL",
+    "professors": []
+  },
+  {
+    "code": "ELG 6102",
+    "title": "Pattern Classification and Experiment Design",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6162",
+    "title": "Digital Signal Processing",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6301",
+    "title": "Silicon Photonics",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6315",
+    "title": "Model-Driven Security Engineering",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6341",
+    "title": "Signal Integrity in High-Speed Designs: Modeling and Analysis",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6342",
+    "title": "Introduction to Electronic Design Automation Algorithms and Techniques",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6367",
+    "title": "Fundamentals of Antenna Engineering",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "ELG 6372",
+    "title": "Principles of Photonics",
+    "description": "",
+    "units": 3,
+    "department": "ELG",
+    "professors": []
+  },
+  {
+    "code": "EVG 7001",
+    "title": "Topics in Environmental Engineering",
+    "description": "",
+    "units": 3,
+    "department": "EVG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5300",
+    "title": "Fundamentals of Fluid Dynamics",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5329",
+    "title": "Space Robotics",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5350",
+    "title": "Advanced Vibration Analysis",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5376",
+    "title": "Special Topics in Mechanical and Aerospace Engineering",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MCG 5483",
+    "title": "Fundamentals of Combustion",
+    "description": "",
+    "units": 3,
+    "department": "MCG",
+    "professors": []
+  },
+  {
+    "code": "MHA 5150",
+    "title": "Managing Finance in Health Systems",
+    "description": "",
+    "units": 3,
+    "department": "MHA",
+    "professors": []
+  },
+  {
+    "code": "MHA 5158",
+    "title": "Digital Health Innovation & Transformation",
+    "description": "",
+    "units": 3,
+    "department": "MHA",
+    "professors": []
+  },
+  {
+    "code": "NSG 1171",
+    "title": "Health Assessment",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 1172",
+    "title": "Diverse Populations and Health",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 1373",
+    "title": "Laboratory II",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 1571",
+    "title": "Évaluation de la santé",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 1572",
+    "title": "Populations diverses et santé",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 1773",
+    "title": "Laboratoire II",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 2313",
+    "title": "Introduction to Nursing Practice (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 2713",
+    "title": "Introduction à la pratique des soins infirmiers",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 3103",
+    "title": "Theory in Nursing",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 3503",
+    "title": "Les fondements de la discipline infirmière",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 3507",
+    "title": "Soins des enfants axés sur la famille : Maladies aiguës et chroniques",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 3511",
+    "title": "Soins infirmiers en périnatalité auprès de la famille",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 3701",
+    "title": "Recherche en sciences infirmières",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 3707",
+    "title": "Stage clinique touchant les soins aux enfants, axés sur la famille - maladies aiguës et chroniques",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 3711",
+    "title": "Stage clinique en périnatalité",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 4101",
+    "title": "History of Canadian Nursing, 1850-1975",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 4134",
+    "title": "Political and Economic Contexts of Health Care",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 4245",
+    "title": "Practicum: Consolidation",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 4501",
+    "title": "Histoire des soins infirmiers canadiens - 1850 à 1975",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 4534",
+    "title": "Contexte politique et économique des soins de santé",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 4645",
+    "title": "Stage de consolidation",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 5216",
+    "title": "Practicum: Advanced Nursing Practice in Health Care (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 53602",
+    "title": "Roles and Responsibilities of the Nurse Practitioner (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 5375",
+    "title": "Advanced Health Assessment and Diagnosis II",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 5385",
+    "title": "Therapeutics Interventions II",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 5616",
+    "title": "Stage : Soins infirmiers de niveau avancé en soins de santé (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 57502",
+    "title": "Physiopathologie pour infirmières et infirmiers praticiens (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 57602",
+    "title": "Rôles et responsabilités des infirmières et infirmiers praticiens (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 5775",
+    "title": "Formation avancée en évaluation de la santé et diagnostic II",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 5785",
+    "title": "Interventions thérapeutiques II",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 6140",
+    "title": "Qualitative Research in Nursing and Health Sciences (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 6160",
+    "title": "Policy, Political Action and Change in Health Care (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 64012",
+    "title": "Clinical Project in Advanced Nursing Practice (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 6540",
+    "title": "Recherche qualitative en sciences infirmières et en sciences de la santé (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 68012",
+    "title": "Projet clinique en pratique des soins infirmiers de niveau avancé (Partie 2 de 2) (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 71102",
+    "title": "Doctoral Seminar (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 7304",
+    "title": "Quantitative Research in Nursing and Health Sciences",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 75102",
+    "title": "Séminaire doctoral (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "NSG 7704",
+    "title": "Recherche quantitative en sciences infirmières et en sciences de la santé",
+    "description": "",
+    "units": 3,
+    "department": "NSG",
+    "professors": []
+  },
+  {
+    "code": "PHY 3320",
+    "title": "Electromagnetic Theory",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 3355",
+    "title": "Statistical Thermodynamics",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 3720",
+    "title": "Théorie électromagnétique",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 3755",
+    "title": "Thermodynamique statistique",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 3904",
+    "title": "Physics and Applied Physics Laboratory II",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 40062",
+    "title": "Physics Research Project (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 4140",
+    "title": "Computational Physics: Deterministic Methods (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 4322",
+    "title": "Biological Physics (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 4346",
+    "title": "General Relativity",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 4370",
+    "title": "Quantum Mechanics",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 4375",
+    "title": "Atomic, Molecular and Optical Physics",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5112",
+    "title": "Physics of Medical Imaging",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5130",
+    "title": "Experimental Characterization Techniques in Materials Science, Physics, Chemistry, and Mineralogy",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5318",
+    "title": "Modern Optics",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5322",
+    "title": "Biological Physics (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5331",
+    "title": "Fiber Optics Fundamentals and Applications",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5340",
+    "title": "Computational Physics: Deterministic Methods (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5361",
+    "title": "Nonlinear Dynamics in the Natural Sciences",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5389",
+    "title": "Quantum Theory of Light",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 5967",
+    "title": "Elementary Particle Physics",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 8166",
+    "title": "Advanced Topics in Particle Physics Phenomenology",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHY 8172",
+    "title": "Relativistic Quantum Mechanics",
+    "description": "",
+    "units": 3,
+    "department": "PHY",
+    "professors": []
+  },
+  {
+    "code": "PHS 3342",
+    "title": "Physiological Regulation of Intake, Distribution, Protection and Elimination",
+    "description": "",
+    "units": 3,
+    "department": "PHS",
+    "professors": []
+  },
+  {
+    "code": "PHS 3742",
+    "title": "Régulation physiologique de l’absorption, de la distribution, de la protection et de l’élimination.",
+    "description": "",
+    "units": 3,
+    "department": "PHS",
+    "professors": []
+  },
+  {
+    "code": "PHT 5621",
+    "title": "Douleur, agents physiques et modalités thérapeutiques",
+    "description": "",
+    "units": 3,
+    "department": "PHT",
+    "professors": []
+  },
+  {
+    "code": "PHT 5622",
+    "title": "Fondements de la pratique au niveau du système musculo-squelettique",
+    "description": "",
+    "units": 3,
+    "department": "PHT",
+    "professors": []
+  },
+  {
+    "code": "PHT 5623",
+    "title": "Évaluation, diagnostic et intervention au niveau du système musculo-squelettique",
+    "description": "",
+    "units": 3,
+    "department": "PHT",
+    "professors": []
+  },
+  {
+    "code": "PHT 59012",
+    "title": "WORK TERM I (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "PHT",
+    "professors": []
+  },
+  {
+    "code": "PHT 6903",
+    "title": "Stage III",
+    "description": "",
+    "units": 3,
+    "department": "PHT",
+    "professors": []
+  },
+  {
+    "code": "PHT 6904",
+    "title": "Stage IV",
+    "description": "",
+    "units": 3,
+    "department": "PHT",
+    "professors": []
+  },
+  {
+    "code": "PHT 6905",
+    "title": "Stage V",
+    "description": "",
+    "units": 3,
+    "department": "PHT",
+    "professors": []
+  },
+  {
+    "code": "POL 2508",
+    "title": "Pensée politique moderne I",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3109",
+    "title": "Nationalism",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3116",
+    "title": "Politics and Culture",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3141",
+    "title": "Conservatism and Neoconservatism",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3144",
+    "title": "Comparative Politics: Africa",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3145",
+    "title": "Comparative Politics: Latin America",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3178",
+    "title": "Canadian Foreign Policy and North American Relations",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3179",
+    "title": "International Organizations and Global Governance",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3506",
+    "title": "Le totalitarisme et l'autoritarisme",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3513",
+    "title": "Migration, mobilité, frontières et citoyenneté",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3533",
+    "title": "Politique et médias (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3535",
+    "title": "Politique et francophonie en Ontario",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3537",
+    "title": "Le libéralisme",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3559",
+    "title": "Politique des peuples autochtones au Canada",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3562",
+    "title": "Violence politique",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3577",
+    "title": "Politique, mouvements sociaux et mondialisation",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3579",
+    "title": "Organisations internationales et gouvernance mondiale",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 3581",
+    "title": "Politique internationale et comparée des peuples autochtones",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4108",
+    "title": "French Political Thought",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4163",
+    "title": "Sexual and Gender Diversity Politics",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4180",
+    "title": "Feminist Political Thought",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4184",
+    "title": "Democratization and Authoritarianism",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4190",
+    "title": "Global Environmental Politics",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4192",
+    "title": "Selected Topics in International Political Economy and or Global Governance",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4300",
+    "title": "Selected Topic in Political Science",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4376",
+    "title": "Politics and Morality",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4377",
+    "title": "Post-Marxism and Critical Theories",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4527",
+    "title": "Politique étrangère états-unienne",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4534",
+    "title": "Politique, droit et constitution au Canada",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4541",
+    "title": "Politique comparée : États-Unis",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4542",
+    "title": "Politiques et questions éthiques",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4562",
+    "title": "Politique de la santé au Canada",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4565",
+    "title": "Pensée politique et sociale au Québec",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4576",
+    "title": "Économie politique internationale",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4594",
+    "title": "Gouvernance autochtone au Canada (+1 combined)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4710",
+    "title": "Séminaire de synthèse en pensée politique",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4720",
+    "title": "Séminaire de synthèse en politique canadienne",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 4778",
+    "title": "Politique comparée : Chine",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 7102",
+    "title": "Selected Topics in International Relations",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 7104",
+    "title": "Selected Topics in Canadian, Quebec and Indigenous Politics",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 7135",
+    "title": "Advanced Quantitative Methods",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 73662",
+    "title": "Thesis Proposal Design (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 7504",
+    "title": "Thèmes choisis en politique canadienne, québécoise et autochtone",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 7508",
+    "title": "Transformations sociales et idéologies",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 7512",
+    "title": "Sécurité et conflits : Enjeux contemporains",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 77662",
+    "title": "Préparation du projet de thèse (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 92002",
+    "title": "Theories and Issues in International Relations (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 92182",
+    "title": "Theories and Issues in Comparative Politics (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 92192",
+    "title": "Theories and Issues in Canadian, Quebec and Indigenous Politics (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 92202",
+    "title": "Theories and Issues in Political Thought (Part 2 of 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 96002",
+    "title": "Théories et enjeux en relations internationales (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 96182",
+    "title": "Théories et enjeux en politique comparée (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 96192",
+    "title": "Théories et enjeux en politique canadienne, québécoise et autochtone  (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 96202",
+    "title": "Théories et enjeux en pensée politique (Partie 2 de 2)",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POL 9710",
+    "title": "Examen de synthèse du domaine majeur",
+    "description": "",
+    "units": 3,
+    "department": "POL",
+    "professors": []
+  },
+  {
+    "code": "POP 8930",
+    "title": "Population Health Interventions",
+    "description": "",
+    "units": 3,
+    "department": "POP",
+    "professors": []
   }
 ]

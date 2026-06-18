@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import RmpStars, { normalizeName, rmpUrl, type RmpEntry } from './RmpStars'
 import type { AddedSection, SectionInfo } from '@/types/course'
@@ -8,11 +8,15 @@ import type { AddedSection, SectionInfo } from '@/types/course'
 const GRID_START = 8
 const GRID_END = 22
 const TOTAL_HOURS = GRID_END - GRID_START
-const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-const timeColW = 52
+const DAYS_BASE = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
 
 const DAY_ABBR: Record<string, string> = {
-  Mo: 'Mon', Tu: 'Tue', We: 'Wed', Th: 'Thu', Fr: 'Fri',
+  Mo: 'Mon', Tu: 'Tue', We: 'Wed', Th: 'Thu', Fr: 'Fri', Sa: 'Sat',
+}
+
+// Mon=0 … Sat=5 offset from weekStart (Monday)
+const DAY_OFFSET: Record<string, number> = {
+  Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5,
 }
 
 const STATUS_COLOR: Record<string, string> = {
@@ -99,7 +103,6 @@ function buildBlocks(addedSections: AddedSection[]): EventBlock[] {
   const out: EventBlock[] = []
   for (const added of addedSections) {
     pushSectionBlocks(out, added, added.lecture, 'LEC', 'lec')
-
     const selLab = added.selectedLabIdx !== null ? added.labs[added.selectedLabIdx] : null
     if (selLab) {
       pushSectionBlocks(out, added, selLab, selLab.section.includes('DGD') ? 'DGD' : 'LAB', 'lab')
@@ -125,12 +128,9 @@ function fmtTime(h: number): string {
   return min === 0 ? `${disp}${suffix}` : `${disp}:${min.toString().padStart(2, '0')}${suffix}`
 }
 
-function gridBg(hh: number): string {
-  return `repeating-linear-gradient(
-    to bottom,
-    rgba(128,128,128,0.13) 0px, rgba(128,128,128,0.13) 1px,
-    transparent 1px, transparent ${hh - 1}px
-  )`
+// percentage of total grid height for a given hour offset
+function pct(hours: number): string {
+  return `${(hours / TOTAL_HOURS) * 100}%`
 }
 
 interface TooltipData {
@@ -163,35 +163,11 @@ export default function WeeklyGrid({
   compact?: boolean
 }) {
   const timeColW = compact ? 36 : 52
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const [hourHeight, setHourHeight] = useState(56)
   const [tooltip, setTooltip] = useState<TooltipData | null>(null)
   const [visible, setVisible] = useState(false)
   const [leavingIds, setLeavingIds] = useState<Set<string>>(new Set())
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const showTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-    const update = () => {
-      const h = el.clientHeight
-      if (h > 0) setHourHeight((h * 1.05) / TOTAL_HOURS)
-    }
-    update()
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
-  // hide tooltip on scroll
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-    const onScroll = () => { setVisible(false); setTooltip(null) }
-    el.addEventListener('scroll', onScroll, { passive: true })
-    return () => el.removeEventListener('scroll', onScroll)
-  }, [])
 
   function showTooltip(e: React.MouseEvent, block: EventBlock) {
     if (hideTimer.current) clearTimeout(hideTimer.current)
@@ -233,9 +209,10 @@ export default function WeeklyGrid({
     }, 190)
   }
 
-  const gridHeight = hourHeight * TOTAL_HOURS
   const hourLabels = Array.from({ length: TOTAL_HOURS + 1 }, (_, i) => GRID_START + i)
   const blocks = buildBlocks(addedSections)
+  const hasSat = blocks.some(b => b.day === 'Sat')
+  const days = hasSat ? [...DAYS_BASE, 'Sat'] : DAYS_BASE
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
@@ -252,13 +229,13 @@ export default function WeeklyGrid({
           100% { opacity: 0; transform: translateX(28px) scaleX(0.88); }
         }
       `}</style>
-      <div ref={scrollRef} className="h-full overflow-y-auto" style={{ overflowX: 'clip' }}>
+      <div className="h-full overflow-hidden flex flex-col" style={{ overflowX: 'clip' }}>
 
-        {/* Sticky day headers */}
-        <div className="sticky top-0 z-10 flex border-b border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07] bg-white dark:bg-[#111111] fall:bg-[#FDF4E3]">
+        {/* Day headers */}
+        <div className="flex shrink-0 border-b border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07] bg-white dark:bg-[#111111] fall:bg-[#FDF4E3]">
           <div className="shrink-0 border-r border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07]" style={{ width: timeColW }} />
-          {DAYS.map((day, di) => {
-            const colDate = weekStart ? new Date(weekStart.getTime() + di * 86400000) : null
+          {days.map((day) => {
+            const colDate = weekStart ? new Date(weekStart.getTime() + DAY_OFFSET[day] * 86400000) : null
             const isToday = colDate ? colDate.getTime() === today.getTime() : false
             return (
               <div
@@ -282,12 +259,12 @@ export default function WeeklyGrid({
           })}
         </div>
 
-        {/* Content area */}
-        <div className="relative pb-10">
+        {/* Grid area — fills all remaining height, no JS measurement needed */}
+        <div className="relative flex-1 overflow-hidden">
 
-          {/* Vertical line overlay */}
+          {/* Vertical column dividers */}
           <div className="absolute inset-0 pointer-events-none flex" style={{ left: timeColW }}>
-            {DAYS.map((day) => (
+            {days.map((day) => (
               <div key={day} className="flex-1 h-full border-l border-black/[0.07] dark:border-white/[0.07] fall:border-black/[0.07]" />
             ))}
           </div>
@@ -296,8 +273,8 @@ export default function WeeklyGrid({
             style={{ left: timeColW }}
           />
 
-          {/* Grid rows */}
-          <div className="flex" style={{ height: gridHeight }}>
+          {/* Grid rows — leaves 20px at bottom so 10pm label isn't clipped */}
+          <div className="flex" style={{ height: 'calc(100% - 20px)' }}>
 
             {/* Time labels */}
             <div className="shrink-0 relative select-none pointer-events-none" style={{ width: timeColW }}>
@@ -305,26 +282,26 @@ export default function WeeklyGrid({
                 <div
                   key={h}
                   className="absolute inset-x-0 flex justify-end pr-2.5"
-                  style={{ top: (h - GRID_START) * hourHeight }}
+                  style={{ top: pct(h - GRID_START) }}
                 >
                   <span className={`${compact ? 'text-[8px]' : 'text-[10px]'} font-semibold tabular-nums text-[#aaa] dark:text-[#555] fall:text-[#A07840] leading-none ${h === GRID_START ? 'translate-y-0' : '-translate-y-[6px]'}`}>
-                    {compact ? (h > 12 ? `${h-12}p` : `${h}a`) : fmtLabel(h)}
+                    {compact ? (h > 12 ? `${h - 12}p` : `${h}a`) : fmtLabel(h)}
                   </span>
                 </div>
               ))}
             </div>
 
-            {/* Day columns */}
+            {/* Day columns — horizontal hour lines */}
             <div
               className="flex-1 flex"
               style={{
-                backgroundImage: gridBg(hourHeight),
-                backgroundSize: `100% ${hourHeight}px`,
-                backgroundPosition: `0 ${hourHeight}px`,
+                backgroundImage: 'linear-gradient(to bottom, rgba(128,128,128,0.13) 1px, transparent 1px)',
+                backgroundSize: `100% ${pct(1)}`,
+                backgroundPosition: `0 ${pct(1)}`,
               }}
             >
-              {DAYS.map((day, di) => {
-                const colDate = weekStart ? new Date(weekStart.getTime() + di * 86400000) : null
+              {days.map((day) => {
+                const colDate = weekStart ? new Date(weekStart.getTime() + DAY_OFFSET[day] * 86400000) : null
                 const dayBlocks = blocks.filter(b => {
                   if (b.day !== day) return false
                   if (!colDate) return true
@@ -338,10 +315,10 @@ export default function WeeklyGrid({
                 return (
                   <div key={day} className="flex-1 relative">
                     {dayBlocks.map(block => {
-                      const top = (block.start - GRID_START) * hourHeight + 2
-                      const height = Math.max((block.end - block.start) * hourHeight - 4, 20)
                       const isLec = block.type === 'LEC'
                       const isLeaving = leavingIds.has(block.addedId)
+                      const topPct = (block.start - GRID_START) / TOTAL_HOURS * 100
+                      const heightPct = (block.end - block.start) / TOTAL_HOURS * 100
 
                       return (
                         <button
@@ -351,14 +328,15 @@ export default function WeeklyGrid({
                           onMouseLeave={hideTooltip}
                           className="absolute left-[3px] right-[3px] rounded-[5px] text-left focus:outline-none transition-[filter] hover:brightness-95 dark:hover:brightness-110"
                           style={{
-                            top, height,
+                            top: `calc(${topPct}% + 2px)`,
+                            height: `calc(${heightPct}% - 4px)`,
+                            minHeight: 18,
                             backgroundColor: block.color + (isLec ? '4d' : '38'),
                             animation: isLeaving
                               ? 'blockExit 200ms cubic-bezier(0.55,0,1,0.45) forwards'
                               : 'blockEnter 380ms cubic-bezier(0.34,1.56,0.64,1) forwards',
                           }}
                         >
-                          {/* solid accent strip, Apple Calendar style */}
                           <div className="absolute left-0 inset-y-0 w-[4px] rounded-l-[5px]" style={{ backgroundColor: block.color }} />
                           <div className="relative h-full flex flex-col justify-start pl-[10px] pr-2 py-1.5 gap-[3px]">
                             <span className={`${compact ? 'text-[8px]' : 'text-[11px]'} font-bold leading-none truncate`} style={{ color: block.color }}>
@@ -402,73 +380,69 @@ export default function WeeklyGrid({
         >
           <div className="bg-white dark:bg-[#1c1c1c] fall:bg-[#F5E6CC] rounded-xl shadow-xl border border-black/[0.08] dark:border-white/[0.09] fall:border-black/[0.08] p-3 flex flex-col gap-2">
 
-              {/* course code + type + status */}
-              <div className="flex items-baseline gap-2">
-                <span className="text-[13px] font-bold text-[#111] dark:text-white fall:text-[#1C0F05] leading-none">
-                  {tooltip.courseCode}
-                </span>
-                <span className="text-[10px] font-semibold font-mono" style={{ color: tooltip.color }}>
-                  {tooltip.type}
-                </span>
-                <span
-                  className="ml-auto text-[10px] font-semibold"
-                  style={{ color: STATUS_COLOR[tooltip.status] ?? STATUS_COLOR.Unknown }}
-                >
-                  {tooltip.status}
+            <div className="flex items-baseline gap-2">
+              <span className="text-[13px] font-bold text-[#111] dark:text-white fall:text-[#1C0F05] leading-none">
+                {tooltip.courseCode}
+              </span>
+              <span className="text-[10px] font-semibold font-mono" style={{ color: tooltip.color }}>
+                {tooltip.type}
+              </span>
+              <span
+                className="ml-auto text-[10px] font-semibold"
+                style={{ color: STATUS_COLOR[tooltip.status] ?? STATUS_COLOR.Unknown }}
+              >
+                {tooltip.status}
+              </span>
+            </div>
+
+            <p className="text-[11px] text-[#555] dark:text-[#aaa] fall:text-[#7A5030] leading-snug line-clamp-2">
+              {tooltip.courseTitle}
+            </p>
+
+            <div className="border-t border-black/[0.06] dark:border-white/[0.06] fall:border-black/[0.06] pt-2 flex flex-col gap-1.5">
+
+              <div className="flex items-center gap-2">
+                <svg className="w-3 h-3 shrink-0 text-[#bbb] dark:text-[#555] fall:text-[#C4A06A]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" /><path strokeLinecap="round" d="M12 6v6l4 2" />
+                </svg>
+                <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc] fall:text-[#4A2E12]">
+                  {fmtTime(tooltip.startH)} - {fmtTime(tooltip.endH)}
                 </span>
               </div>
 
-              {/* course title */}
-              <p className="text-[11px] text-[#555] dark:text-[#aaa] fall:text-[#7A5030] leading-snug line-clamp-2">
-                {tooltip.courseTitle}
-              </p>
-
-              <div className="border-t border-black/[0.06] dark:border-white/[0.06] fall:border-black/[0.06] pt-2 flex flex-col gap-1.5">
-
-                {/* time */}
-                <div className="flex items-center gap-2">
-                  <svg className="w-3 h-3 shrink-0 text-[#bbb] dark:text-[#555] fall:text-[#C4A06A]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" /><path strokeLinecap="round" d="M12 6v6l4 2" />
-                  </svg>
-                  <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc] fall:text-[#4A2E12]">
-                    {fmtTime(tooltip.startH)} - {fmtTime(tooltip.endH)}
-                  </span>
-                </div>
-
-                {/* instructor + rating */}
-                {(() => {
-                  const entry = tooltip.instructor ? rmp?.[normalizeName(tooltip.instructor)] ?? null : null
-                  const url = entry ? rmpUrl(entry) : null
-                  return (
-                    <div className="flex items-start gap-2">
-                      <svg className="w-3 h-3 shrink-0 mt-0.5 text-[#bbb] dark:text-[#555]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                        <path strokeLinecap="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" />
-                      </svg>
-                      <div className="flex flex-col gap-1 min-w-0">
-                        {url ? (
-                          <a
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="pointer-events-auto text-[11px] font-medium text-[#333] dark:text-[#ccc] fall:text-[#4A2E12] truncate hover:text-accent dark:hover:text-[#ff8095] fall:hover:text-accent hover:underline underline-offset-2 transition-colors"
-                            title="View on Rate My Professors"
-                          >
-                            {tooltip.instructor}
-                          </a>
-                        ) : (
-                          <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc] truncate">
-                            {tooltip.instructor || <span className="text-[#bbb] dark:text-[#555] fall:text-[#C4A06A]">TBA</span>}
-                          </span>
-                        )}
-                        {entry && <RmpStars entry={entry} showCount />}
-                      </div>
+              {(() => {
+                const entry = tooltip.instructor ? rmp?.[normalizeName(tooltip.instructor)] ?? null : null
+                const url = entry ? rmpUrl(entry) : null
+                return (
+                  <div className="flex items-start gap-2">
+                    <svg className="w-3 h-3 shrink-0 mt-0.5 text-[#bbb] dark:text-[#555]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <div className="flex flex-col gap-1 min-w-0">
+                      {url ? (
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="pointer-events-auto text-[11px] font-medium text-[#333] dark:text-[#ccc] fall:text-[#4A2E12] truncate hover:text-accent dark:hover:text-[#ff8095] fall:hover:text-accent hover:underline underline-offset-2 transition-colors"
+                          title="View on Rate My Professors"
+                        >
+                          {tooltip.instructor}
+                        </a>
+                      ) : (
+                        <span className="text-[11px] font-medium text-[#333] dark:text-[#ccc] truncate">
+                          {tooltip.instructor || <span className="text-[#bbb] dark:text-[#555] fall:text-[#C4A06A]">TBA</span>}
+                        </span>
+                      )}
+                      {entry && <RmpStars entry={entry} showCount />}
                     </div>
-                  )
-                })()}
-
-              </div>
+                  </div>
+                )
+              })()}
 
             </div>
+
+          </div>
         </div>,
         document.body
       )}
